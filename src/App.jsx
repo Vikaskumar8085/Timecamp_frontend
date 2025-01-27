@@ -16,6 +16,11 @@ const App = () => {
   return (
     <>
       <Routes>
+        {/* auth pages */}
+        <Route index element={<h1>login</h1>} />
+
+        {/* auth pages */}
+
         {/* Admin Pages */}
         <Route path="/admin" element={<Admin />} />
         <Route path="/client" element={<Client />} />
@@ -36,6 +41,3 @@ const App = () => {
 };
 
 export default App;
-
-
-

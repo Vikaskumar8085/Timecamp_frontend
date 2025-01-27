@@ -1,7 +1,20 @@
 import React from "react";
+import PropTypes from "prop-types";
+import "./BreadCrumb.css";
 
-const BreadCrumb = ({pageName}) => {
-  return <>{pageName}</>;
+const Breadcrumb = ({pageName, linkPath}) => {
+  return (
+    <nav className="breadcrumb">
+      <a href={linkPath} className="breadcrumb-link">
+        {pageName}
+      </a>
+    </nav>
+  );
 };
 
-export default React.memo(BreadCrumb);
+Breadcrumb.propTypes = {
+  pageName: PropTypes.string.isRequired,
+  linkPath: PropTypes.string.isRequired,
+};
+
+export default Breadcrumb;
