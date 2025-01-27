@@ -4,4 +4,4 @@ const BreadCrumb = ({pageName}) => {
   return <>{pageName}</>;
 };
 
-export default BreadCrumb;
+export default React.memo(BreadCrumb);
