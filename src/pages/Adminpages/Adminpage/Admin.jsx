@@ -43,7 +43,7 @@ const Admin = () => {
   }, []); // Empty dependency array to fetch data once
 
   //   // If chart data is not yet available
-    if (!chartData) return <div>Loading...</div>;
+  if (!chartData) return <div>Loading...</div>;
 
   return (
     <div>
