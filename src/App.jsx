@@ -1,34 +1,41 @@
-import {useState} from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
-function App() {
-  const [count, setCount] = useState(0);
+import React from "react";
+import {Routes, Route} from "react-router-dom";
+import Nopage from "./pages/ErrorPage/Nopage";
+import Contractor from "./pages/Adminpages/contractorpage/Contractor";
+import Admin from "./pages/Adminpages/Adminpage/Admin";
+import Employee from "./pages/Adminpages/employeepage/Employee";
+import Client from "./pages/Adminpages/clientPage/Client";
+import Project from "./pages/Adminpages/Projectpage/Project";
+import Task from "./pages/Adminpages/TaskPage/Task";
+import Timesheet from "./pages/Adminpages/Timesheetpage/Timesheet";
+import Designation from "./pages/Adminpages/masterPages/Designation";
+import Department from "./pages/Adminpages/masterPages/Department";
+import Roles from "./pages/Adminpages/masterPages/Roles";
 
+const App = () => {
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Routes>
+        {/* Admin Pages */}
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/client" element={<Client />} />
+        <Route path="/employee" element={<Employee />} />
+        <Route path="/contractor" element={<Contractor />} />
+        <Route path="/project" element={<Project />} />
+        <Route path="/task" element={<Task />} />
+        <Route path="/timesheet" element={<Timesheet />} />
+        <Route path="/master/designation" element={<Designation />} />
+        <Route path="/master/department" element={<Department />} />
+        <Route path="/master/roles" element={<Roles />} />
+        {/* Admin pages */}
+
+        <Route path="*" element={<Nopage />} />
+      </Routes>
     </>
   );
-}
+};
 
 export default App;
+
+
+
