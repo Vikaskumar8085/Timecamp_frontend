@@ -11,13 +11,14 @@ import Timesheet from "./pages/Adminpages/Timesheetpage/Timesheet";
 import Designation from "./pages/Adminpages/masterPages/Designation";
 import Department from "./pages/Adminpages/masterPages/Department";
 import Roles from "./pages/Adminpages/masterPages/Roles";
+import Login from "./pages/AuthPages/Login";
 
 const App = () => {
   return (
     <>
       <Routes>
         {/* auth pages */}
-        <Route index element={<h1>login</h1>} />
+        <Route index element={<Login />} />
 
         {/* auth pages */}
 

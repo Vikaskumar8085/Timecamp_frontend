@@ -1,20 +1,27 @@
+import {Link} from "react-router-dom";
 import React from "react";
 import PropTypes from "prop-types";
-import "./BreadCrumb.css";
 
-const Breadcrumb = ({pageName, linkPath}) => {
+const Breadcrumb = ({pageName}) => {
   return (
-    <nav className="breadcrumb">
-      <a href={linkPath} className="breadcrumb-link">
-        {pageName}
-      </a>
-    </nav>
+    <div className="breadcrumb-container">
+      <h2 className="breadcrumb-title">{pageName}</h2>
+
+      <nav>
+        <ol className="breadcrumb-nav">
+          <li>
+            <Link className="breadcrumb-link" to="/dashboard">
+              Dashboard /
+            </Link>
+          </li>
+          <li className="breadcrumb-current">{pageName}</li>
+        </ol>
+      </nav>
+    </div>
   );
 };
 
 Breadcrumb.propTypes = {
   pageName: PropTypes.string.isRequired,
-  linkPath: PropTypes.string.isRequired,
 };
-
-export default Breadcrumb;
+export default React.memo(Breadcrumb);

@@ -1,0 +1,13 @@
+.Card_container {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  overflow: hidden;
+  .Card_Row {
+    background-color: #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 10px;
+    width: 300px;
+  }
+}

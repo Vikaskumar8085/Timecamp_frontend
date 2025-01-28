@@ -1,0 +1,31 @@
+.breadcrumb-container {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  width: 80%;
+  padding: 20px 10px;
+  border-radius: 8px;
+  border: 1px solid #000000;
+  background-color: #f1f1f1;
+  margin: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .breadcrumb-title {
+    text-align: start;
+  }
+  nav {
+    .breadcrumb-nav {
+      display: flex;
+
+      li {
+        list-style-type: none;
+        a {
+          text-decoration: none;
+          color: #000000;
+        }
+      }
+    }
+  }
+}

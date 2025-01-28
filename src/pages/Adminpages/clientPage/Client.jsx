@@ -1,7 +1,8 @@
 import React from "react";
+import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 
 const Client = () => {
-  return <div>Client</div>;
+  return <div><DefaultLayout/></div>;
 };
 
 export default Client;
