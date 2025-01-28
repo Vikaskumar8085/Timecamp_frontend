@@ -133,3 +133,15 @@
 //     </>
 //   );
 // }
+
+import React from "react";
+
+const DefaultLayout = ({children}) => {
+  return (
+    <>
+      <div className="Layout_Wrapper">{children}</div>
+    </>
+  );
+};
+
+export default DefaultLayout;
