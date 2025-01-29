@@ -1,4 +1,5 @@
 @import "./common/index";
+@import "./Auth/index";
 @import "./DeafultLayout/DeafultLayout";
 * {
   margin: 0px;
@@ -14,6 +15,5 @@ h6,
 li,
 a {
   font-size: 1em;
-  font-weight: 800;
   font-family: sans-serif;
 }
