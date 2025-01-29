@@ -8,7 +8,8 @@ import {
   Container,
   Typography,
 } from "@mui/material";
-import {useFormik} from "formik";
+import { useFormik } from "formik";
+import { signupapicall } from "../../ApiServices/Authapiservices";
 
 const validate = (values) => {
   const errors = {};
@@ -46,8 +47,15 @@ const Signup = () => {
       Term: "",
     },
     validate,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async (values) => {
+      try {
+        const response = await signupapicall(values);
+        if(response.success){
+          window.location.href="/"
+        }
+      } catch (error) {
+        console.log(error?.response?.message,"message");
+      }
     },
   });
   return (
@@ -59,7 +67,7 @@ const Signup = () => {
           </Typography>
           <Avatar
             src={formik.values.Photo}
-            sx={{width: 80, height: 80, margin: "auto"}}
+            sx={{ width: 80, height: 80, margin: "auto" }}
           />
           <form onSubmit={formik.handleSubmit}>
             <div className="mb-3">
@@ -132,7 +140,7 @@ const Signup = () => {
                 variant="contained"
                 color="primary"
                 type="submit"
-                sx={{mt: 2}}
+                sx={{ mt: 2 }}
               >
                 Register
               </Button>
