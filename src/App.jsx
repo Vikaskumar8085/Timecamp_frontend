@@ -1,4 +1,4 @@
-import {Routes, Route, useLocation} from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Nopage from "./pages/ErrorPage/Nopage";
 import Contractor from "./pages/Adminpages/contractorpage/Contractor";
 import Admin from "./pages/Adminpages/Adminpage/Admin";
@@ -11,10 +11,9 @@ import Designation from "./pages/Adminpages/masterPages/Designation";
 import Department from "./pages/Adminpages/masterPages/Department";
 import Roles from "./pages/Adminpages/masterPages/Roles";
 import Login from "./pages/AuthPages/Login";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import Loader from "./common/Loader/Loader";
 import Signup from "./pages/AuthPages/Signup";
-import DefaultLayout from "./Layoutcomponents/DefaultLayout/DefaultLayout";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Company from "./pages/Adminpages/Company/Company";
 import Taskupload from "./pages/Adminpages/TaskPage/Taskupload";
@@ -22,10 +21,12 @@ import ProjectUpload from "./pages/Adminpages/Projectpage/ProjectUpload";
 import Activeclient from "./pages/Adminpages/clientPage/Activeclient";
 import Deadclient from "./pages/Adminpages/clientPage/Deadclient";
 import Deactiveclient from "./pages/Adminpages/clientPage/Deactiveclient";
+import ContractorInfo from "./pages/Adminpages/contractorpage/ContractorInfo";
+import Employeeinfo from "./pages/Adminpages/employeepage/Employeeinfo";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
-  const {pathname} = useLocation();
+  const { pathname } = useLocation();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -54,7 +55,9 @@ const App = () => {
         <Route path="/inactive-client" element={<Deactiveclient />} />
         <Route path="/dead-client" element={<Deadclient />} />
         <Route path="/employee" element={<Employee />} />
+        <Route path="/employee-info/:id" element={<Employeeinfo />} />
         <Route path="/contractor" element={<Contractor />} />
+        <Route path="/contractor/:id" element={<ContractorInfo />} />
         <Route path="/project" element={<Project />} />
         <Route path="/project-upload" element={<ProjectUpload />} />
         <Route path="/task" element={<Task />} />
