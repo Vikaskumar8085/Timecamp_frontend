@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
@@ -6,9 +6,44 @@ import {Button} from "@mui/material";
 import TModal from "../../../common/Modal/TModal";
 import ClientForm from "../../../Component/AdminComponents/Client/ClientForm";
 import ClientTable from "../../../Component/AdminComponents/Client/ClientTable";
+import {
+  createclientapicall,
+  fetchclientapicall,
+} from "../../../ApiServices/AdminApiServices/Client";
 
 const Client = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [Isclientdata, setIsclientdata] = useState([]);
+  // fetch client
+
+  const fetchclientfucntion = async () => {
+    try {
+      const response = await fetchclientapicall();
+      console.log(response, "client");
+
+      if (response.success) {
+        setIsclientdata(response.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
+
+  const handleSubmit = async (value) => {
+    try {
+      const response = await createclientapicall(value);
+      if (response.success) {
+        setIsModalOpen(false);
+        fetchclientfucntion();
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchclientfucntion();
+  }, [0]);
 
   return (
     <DefaultLayout>
@@ -32,11 +67,11 @@ const Client = () => {
           setIsModalOpen={setIsModalOpen}
           title={"Add Client"}
         >
-          <ClientForm />
+          <ClientForm handleSubmit={handleSubmit} />
         </TModal>
       ) : null}
 
-      <ClientTable /> 
+      <ClientTable Isclientdata={Isclientdata} />
     </DefaultLayout>
   );
 };

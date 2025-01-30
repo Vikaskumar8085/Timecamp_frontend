@@ -1,9 +1,16 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {useFormik} from "formik";
 import {TextField, Button, Container, Grid} from "@mui/material";
 import "./company.scss";
+import {
+  createcompanyapicall,
+  fetchcompanyapicall,
+} from "../../../ApiServices/Companyapiservices";
+import {useNavigate} from "react-router-dom";
+import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
+import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 
-const CompanyForm = () => {
+const CompanyForm = ({handlesubmit}) => {
   const formik = useFormik({
     initialValues: {
       Company_Name: "",
@@ -54,6 +61,7 @@ const CompanyForm = () => {
     },
     onSubmit: (values) => {
       console.log("Form submitted with values:", values);
+      handlesubmit(values);
     },
   });
 
@@ -180,10 +188,44 @@ const CompanyForm = () => {
 };
 
 const Company = () => {
-  return (
+  const navigate = useNavigate();
+  const [iscompanydata, setIscompanydata] = useState({});
+  console.log(iscompanydata.Company_Id);
+
+  const getcompany = async () => {
+    try {
+      const response = await fetchcompanyapicall();
+      if (response.success) {
+        setIscompanydata(response.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
+
+  // create company
+  const handlesubmit = async (value) => {
+    try {
+      const response = await createcompanyapicall(value);
+      if (response.success) {
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
+
+  useEffect(() => {
+    getcompany();
+  }, [0]);
+  return iscompanydata.Company_Id > 0 ? (
+    <DefaultLayout>
+      <BreadCrumb pageName="Company" />
+    </DefaultLayout>
+  ) : (
     <>
       <div className="comapny_form">
-        <CompanyForm />
+        <CompanyForm handlesubmit={handlesubmit} />
       </div>
     </>
   );

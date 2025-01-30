@@ -9,3 +9,18 @@ export const fetchclientapicall = async () => {
   const response = await apiInstance.get("/v1/admin/fetch-client");
   return response.data;
 };
+
+export const fetchactiveclientapicall = async () => {
+  const response = await apiInstance.get("/v1/admin/fetch-active-client");
+  return response.data;
+};
+
+export const fetchinactiveclientapicall = async () => {
+  const response = await apiInstance.get("/v1/admin/fetch-inactive-client");
+  return response.data;
+};
+
+export const fetchdeadclientapicall = async () => {
+  const response = await apiInstance.get("/v1/admin/fetch-dead-client");
+  return response.data;
+};

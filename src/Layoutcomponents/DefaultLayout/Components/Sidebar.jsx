@@ -30,6 +30,26 @@ const Sidebar = ({isOpen, setIsOpen, isSidebarOpen, setIsSidebarOpen}) => {
           </Link>
         </li>
 
+        {/* active client */}
+
+        <li>
+          <Link to="/active-client" className="menu_item">
+            <FiHome />
+            <span>Active Client</span>
+          </Link>
+        </li>
+        <li>
+          <Link to="/inactive-client" className="menu_item">
+            <FiHome />
+            <span>Inactive Client</span>
+          </Link>
+        </li>
+        <li>
+          <Link to="/dead-client" className="menu_item">
+          <FiHome/>
+          <span>Dead Client</span>
+          </Link>
+        </li>
         <li>
           <Link to="/employee" className="menu_item">
             <FiHome /> <span>Employee</span>

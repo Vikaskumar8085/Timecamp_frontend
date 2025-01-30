@@ -7,9 +7,26 @@ import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import {TextField} from "@mui/material";
 import {useFormik} from "formik";
 import RolesTable from "../../../Component/MasterComponent/Roles/RolesTable";
+import {
+  createrolesapicall,
+  fetchroleapicall,
+} from "../../../ApiServices/MasterApiServices/Roles";
+import apiInstance from "../../../ApiInstance/apiInstance";
 
 const Roles = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [isRoledata, setIsRoledata] = React.useState([]);
+
+  const getroles = async () => {
+    try {
+      const response = await fetchroleapicall();
+      if (response.success) {
+        setIsRoledata(response.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -17,12 +34,21 @@ const Roles = () => {
     },
     onSubmit: async (values) => {
       try {
-        console.log(values, "vluess");
+        const response = await createrolesapicall(values);
+        if (response.success) {
+          setIsModalOpen(false);
+          getroles();
+        }
       } catch (error) {
         console.log(error?.message);
       }
     },
+    // Handle success (e.g., show toast message, navigate, etc.)
   });
+
+  React.useEffect(() => {
+    getroles();
+  }, []);
 
   return (
     <>
@@ -52,6 +78,11 @@ const Roles = () => {
                 variant="outlined"
                 type="text"
                 sx={{width: "100%"}}
+                {...formik.getFieldProps("RoleName")}
+                error={
+                  formik.touched.RoleName && Boolean(formik.errors.RoleName)
+                }
+                helperText={formik.touched.RoleName && formik.errors.RoleName}
               />
               <Button
                 sx={{
@@ -69,7 +100,7 @@ const Roles = () => {
           </TModal>
         ) : null}
 
-        <RolesTable />
+        <RolesTable isRoledata={isRoledata} />
       </DefaultLayout>
     </>
   );

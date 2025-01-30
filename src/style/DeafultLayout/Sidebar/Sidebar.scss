@@ -10,6 +10,7 @@ $text-color: white;
   height: 100vh;
   display: block;
   position: fixed;
+  overflow: auto;
   z-index: 1;
   transition: width 0.3s ease-in-out;
 

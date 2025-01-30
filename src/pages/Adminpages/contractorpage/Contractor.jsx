@@ -7,7 +7,7 @@ import {Button} from "@mui/material";
 const Contractor = () => {
   return (
     <DefaultLayout>
-      <BreadCrumb pageName="Employee" />
+      <BreadCrumb pageName="Contractor" />
 
       <HeaderTab>
         <Button
@@ -18,7 +18,7 @@ const Contractor = () => {
             color: "white",
           }}
         >
-          Add Client
+          Add Contractor
         </Button>
       </HeaderTab>
     </DefaultLayout>

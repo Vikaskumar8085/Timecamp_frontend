@@ -61,7 +61,7 @@
 
 // export default Admin;
 
-import React from "react";
+import React, {useEffect} from "react";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
@@ -69,10 +69,46 @@ import {Button} from "@mui/material";
 import TModal from "../../../common/Modal/TModal";
 import AdminForm from "../../../Component/AdminComponents/Admin/AdminForm";
 import AdminTable from "../../../Component/AdminComponents/Admin/AdminTable";
+import {
+  createadminapicall,
+  fetchadminapicall,
+} from "../../../ApiServices/AdminApiServices/Admin";
 
 const Admin = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [isAdmindata, setIsAdmindata] = React.useState([]);
 
+  // fetch admin
+
+  const fetchadmin = async () => {
+    try {
+      const response = await fetchadminapicall();
+
+      if (response.success) {
+        setIsAdmindata(response.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
+
+  // create admin
+  const handleSubmit = async (value) => {
+    try {
+      const response = await createadminapicall(value);
+
+      if (response.success) {
+        getalladmin();
+        setIsModalOpen(false);
+      }
+    } catch (error) {
+      console.log(error?.message);
+      setIsModalOpen(false);
+    }
+  };
+  useEffect(() => {
+    fetchadmin();
+  }, [0]);
   return (
     <DefaultLayout>
       <BreadCrumb pageName="Admin" />
@@ -94,11 +130,11 @@ const Admin = () => {
           setIsModalOpen={setIsModalOpen}
           title={"Add Admin"}
         >
-          <AdminForm />
+          <AdminForm handleSubmit={handleSubmit} />
         </TModal>
       ) : null}
 
-      <AdminTable />
+      <AdminTable isAdmindata={isAdmindata} />
     </DefaultLayout>
   );
 };

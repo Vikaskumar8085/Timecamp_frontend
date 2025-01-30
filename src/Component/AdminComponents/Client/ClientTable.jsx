@@ -9,43 +9,42 @@ import {
   Paper,
 } from "@mui/material";
 
-const createData = (name, calories, fat, carbs, protein) => {
-  return {name, calories, fat, carbs, protein};
-};
-
-const rows = [
-  createData("Frozen yogurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
-
-function ClientTable() {
+function ClientTable({Isclientdata}) {
   return (
     <TableContainer component={Paper}>
       <Table sx={{minWidth: 650}} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat (g)</TableCell>
-            <TableCell align="right">Carbs (g)</TableCell>
-            <TableCell align="right">Protein (g)</TableCell>
+            <TableCell align="left">ID</TableCell>
+            <TableCell align="left">Company Name</TableCell>
+            <TableCell align="left">Name</TableCell>
+            <TableCell align="left">Email</TableCell>
+            <TableCell align="left">Phone</TableCell>
+            <TableCell align="left">Address</TableCell>
+            <TableCell align="left">Postal Code</TableCell>
+            <TableCell align="left">Gst Number</TableCell>
+            <TableCell align="left">Status</TableCell>
+            <TableCell align="left">Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-            </TableRow>
-          ))}
+          {Isclientdata.length > 0
+            ? Isclientdata.map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell component="th" scope="row">
+                    {index + 1}
+                  </TableCell>
+                  <TableCell align="left">{item.Company_Name}</TableCell>
+                  <TableCell align="left">{item.Client_Name}</TableCell>
+                  <TableCell align="left">{item.Client_Email}</TableCell>
+                  <TableCell align="left">{item.Client_Phone}</TableCell>
+                  <TableCell align="left">{item.Address}</TableCell>
+                  <TableCell align="left">{item.Client_Postal_Code}</TableCell>
+                  <TableCell align="left">{item.GstNumber}</TableCell>
+                  <TableCell align="left">{item.Client_Status}</TableCell>
+                </TableRow>
+              ))
+            : "null"}
         </TableBody>
       </Table>
     </TableContainer>

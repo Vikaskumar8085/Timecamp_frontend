@@ -2,7 +2,7 @@ import React from "react";
 import {TextField, Button, Container, Box} from "@mui/material";
 import {useFormik} from "formik";
 
-const ClientForm = () => {
+const ClientForm = ({handleSubmit}) => {
   const validate = (values) => {
     const errors = {};
     if (!values.Company_Name.trim()) {
@@ -61,7 +61,8 @@ const ClientForm = () => {
     },
     validate,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      // alert(JSON.stringify(values, null, 2));
+      handleSubmit(values);
     },
   });
 

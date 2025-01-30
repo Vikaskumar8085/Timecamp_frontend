@@ -1,10 +1,10 @@
 import React from "react";
 import Card from "../../common/Card/Card";
 import Breadcrumb from "../../common/BreadCrumb/BreadCrumb";
-import { Container } from "@mui/material";
+import {Container} from "@mui/material";
 import DefaultLayout from "../../Layoutcomponents/DefaultLayout/DefaultLayout";
-import { useFormik } from "formik";
-import { loginapicall } from "../../ApiServices/Authapiservices";
+import {useFormik} from "formik";
+import {loginapicall} from "../../ApiServices/Authapiservices";
 import axios from "axios";
 
 const validate = (values) => {
@@ -35,13 +35,14 @@ const Login = () => {
     validate,
     onSubmit: async (values) => {
       try {
+        console.log("values");
         const response = await loginapicall(values);
+        console.log(response, "login value");
         if (response.success) {
           window.location.href = response.redirectUrl;
+          localStorage.setItem("token", JSON.stringify(response.token));
         }
-      } catch (error) {
-        alert(JSON.stringify(error?.message));
-      }
+      } catch (error) {}
     },
   });
   return (
@@ -56,7 +57,7 @@ const Login = () => {
                 id="Email"
                 {...formik.getFieldProps("Email")}
               />
-              <p style={{ color: "red" }}>
+              <p style={{color: "red"}}>
                 {formik.touched.Email && formik.errors.Email ? (
                   <div>{formik.errors.Email}</div>
                 ) : null}
@@ -69,7 +70,7 @@ const Login = () => {
                 id="Password"
                 {...formik.getFieldProps("Password")}
               />
-              <p style={{ color: "red" }}>
+              <p style={{color: "red"}}>
                 {formik.touched.Password && formik.errors.Password ? (
                   <div>{formik.errors.Password}</div>
                 ) : null}

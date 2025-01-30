@@ -18,7 +18,7 @@ const Employee = () => {
             color: "white",
           }}
         >
-          Add Client
+          Add Employee
         </Button>
       </HeaderTab>
     </DefaultLayout>

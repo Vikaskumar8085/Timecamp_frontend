@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import {useFormik} from "formik";
 
-const AdminForm = () => {
+const AdminForm = ({handleSubmit}) => {
   const validate = (values) => {
     const errors = {};
     if (!values.FirstName.trim()) {
@@ -49,7 +49,9 @@ const AdminForm = () => {
     validate,
     onSubmit: (values) => {
       const {ConfirmPassword, ...formValues} = values; // Exclude ConfirmPassword before submission
-      alert(JSON.stringify(formValues, null, 2));
+      // alert(JSON.stringify(formValues, null, 2));
+
+      handleSubmit(formValues);
     },
   });
 

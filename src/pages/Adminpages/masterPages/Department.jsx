@@ -1,16 +1,53 @@
 import {Button, Input, TextField} from "@mui/material";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TModal from "../../../common/Modal/TModal";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import DepartmentTable from "../../../Component/MasterComponent/Department/DepartmentTable";
+import {useFormik} from "formik";
+import {
+  createdepartmentapicall,
+  fetchdepartmentapicall,
+} from "../../../ApiServices/MasterApiServices/Department";
 
 const Department = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isdepartmentdata, setIsdepartmentdata] = useState([]);
+  const getdepartment = async () => {
+    try {
+      const response = await fetchdepartmentapicall();
+      if (response.success) {
+        setIsdepartmentdata(response.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      Department_Name: "",
+    },
+    onSubmit: async (values) => {
+      try {
+        const response = await createdepartmentapicall(values);
+        if (response.success) {
+          setIsModalOpen(false);
+          getdepartment();
+        }
+      } catch (error) {
+        console.log(error?.message);
+      }
+    },
+  });
+
+  useEffect(() => {
+    getdepartment();
+  });
   return (
     <DefaultLayout>
-      <BreadCrumb pageName="Designation" />
+      <BreadCrumb pageName="Department" />
       <HeaderTab>
         <Button
           onClick={() => setIsModalOpen(true)}
@@ -31,13 +68,14 @@ const Department = () => {
           title={"Add Department"}
         >
           <div className="department_form">
-            <form>
+            <form onSubmit={formik.handleSubmit}>
               <br />
               <TextField
                 label="Department Name"
                 variant="outlined"
                 type="text"
                 sx={{width: "100%"}}
+                {...formik.getFieldProps("Department_Name")}
               />
               <Button
                 sx={{
@@ -55,7 +93,7 @@ const Department = () => {
           </div>
         </TModal>
       ) : null}
-      <DepartmentTable />
+      <DepartmentTable isdepartmentdata={isdepartmentdata} />
     </DefaultLayout>
   );
 };

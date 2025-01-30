@@ -19,6 +19,9 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Company from "./pages/Adminpages/Company/Company";
 import Taskupload from "./pages/Adminpages/TaskPage/Taskupload";
 import ProjectUpload from "./pages/Adminpages/Projectpage/ProjectUpload";
+import Activeclient from "./pages/Adminpages/clientPage/Activeclient";
+import Deadclient from "./pages/Adminpages/clientPage/Deadclient";
+import Deactiveclient from "./pages/Adminpages/clientPage/Deactiveclient";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -47,6 +50,9 @@ const App = () => {
         <Route path="/company" element={<Company />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/client" element={<Client />} />
+        <Route path="/active-client" element={<Activeclient />} />
+        <Route path="/inactive-client" element={<Deactiveclient />} />
+        <Route path="/dead-client" element={<Deadclient />} />
         <Route path="/employee" element={<Employee />} />
         <Route path="/contractor" element={<Contractor />} />
         <Route path="/project" element={<Project />} />
