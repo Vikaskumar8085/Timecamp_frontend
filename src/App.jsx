@@ -27,6 +27,8 @@ import ActiveEmployee from "./pages/Adminpages/employeepage/ActiveEmployee";
 import DeactiveEmployee from "./pages/Adminpages/employeepage/DeactiveEmployee";
 import Activecontractor from "./pages/Adminpages/contractorpage/Activecontractor";
 import InActivecontractor from "./pages/Adminpages/contractorpage/InActivecontractor";
+import Activeproject from "./pages/Adminpages/Projectpage/Activeproject";
+import Inactiveprojects from "./pages/Adminpages/Projectpage/Inactiveprojects";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -67,6 +69,8 @@ const App = () => {
         <Route path="/inactive-contractor" element={<InActivecontractor />} />
         <Route path="/contractor/:id" element={<ContractorInfo />} />
         <Route path="/project" element={<Project />} />
+        <Route path="/active-projects" element={<Activeproject />} />
+        <Route path="/inactive-projects" element={<Inactiveprojects />} />
         <Route path="/project-upload" element={<ProjectUpload />} />
         <Route path="/task" element={<Task />} />
         <Route path="task-upload" element={<Taskupload />} />
