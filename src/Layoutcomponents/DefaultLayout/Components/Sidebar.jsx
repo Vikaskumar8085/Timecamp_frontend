@@ -46,8 +46,8 @@ const Sidebar = ({isOpen, setIsOpen, isSidebarOpen, setIsSidebarOpen}) => {
         </li>
         <li>
           <Link to="/dead-client" className="menu_item">
-          <FiHome/>
-          <span>Dead Client</span>
+            <FiHome />
+            <span>Dead Client</span>
           </Link>
         </li>
         <li>
@@ -56,8 +56,33 @@ const Sidebar = ({isOpen, setIsOpen, isSidebarOpen, setIsSidebarOpen}) => {
           </Link>
         </li>
         <li>
+          <Link to="/active-employee" className="menu_item">
+            <FiHome />
+            <span>Active Employee</span>
+          </Link>
+        </li>
+        <li>
+          <Link to="/inactive-employee" className="menu_item">
+            <FiHome />
+            <span>Inactive Employee</span>
+          </Link>
+        </li>
+
+        <li>
           <Link to="/contractor" className="menu_item">
             <FiHome /> <span>Contractor</span>
+          </Link>
+        </li>
+        <li>
+          <Link to="/active-contractor" className="menu_item">
+            <FiHome />
+            <span>Active contractor</span>
+          </Link>
+        </li>
+        <li>
+          <Link to="/inactive-contractor" className="menu_item">
+            <FiHome />
+            <span>Inactive contractor</span>
           </Link>
         </li>
 

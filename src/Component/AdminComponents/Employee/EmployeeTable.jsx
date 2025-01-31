@@ -1,7 +1,4 @@
-import React, {useEffect, useState} from "react";
-import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
-import {fetchinactivecontractorapicall} from "../../../ApiServices/AdminApiServices/Contractor";
-import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
+import React from "react";
 import {
   Table,
   TableBody,
@@ -11,27 +8,9 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-
-const InActivecontractor = () => {
-  const [isInActivecontractordata, setIsInActivecontractordata] = useState([]);
-
-  const getInactivecontractor = async () => {
-    try {
-      const response = await fetchinactivecontractorapicall();
-      if (response.success) {
-        setIsInActivecontractordata(response.result);
-      }
-    } catch (error) {
-      console.log(error?.message);
-    }
-  };
-
-  useEffect(() => {
-    getInactivecontractor();
-  }, [0]);
+const EmployeeTable = ({IsEmployeeData}) => {
   return (
-    <DefaultLayout>
-      <BreadCrumb pageName="InActive contractor" />
+    <>
       <TableContainer component={Paper}>
         <Table sx={{minWidth: 650}} aria-label="simple table">
           <TableHead>
@@ -47,8 +26,8 @@ const InActivecontractor = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {isInActivecontractordata.length > 0
-              ? isInActivecontractordata.map((item, index) => (
+            {IsEmployeeData.length > 0
+              ? IsEmployeeData.map((item, index) => (
                   <TableRow key={index}>
                     <TableCell component="th" scope="row">
                       {index + 1}
@@ -64,8 +43,8 @@ const InActivecontractor = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </DefaultLayout>
+    </>
   );
 };
 
-export default InActivecontractor;
+export default EmployeeTable;

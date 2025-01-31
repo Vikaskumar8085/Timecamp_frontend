@@ -1,15 +1,41 @@
-import React from "react";
-import { TextField } from "@mui/material";
-import { useFormik } from "formik";
+import React, {useState} from "react";
+import {TextField} from "@mui/material";
+import {useFormik} from "formik";
 import * as Yup from "yup";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
-import { Button } from "@mui/material";
+import {Button} from "@mui/material";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
 import TModal from "../../../common/Modal/TModal";
+import {
+  addContractorapicall,
+  fetchcontractorapicall,
+} from "../../../ApiServices/AdminApiServices/Contractor";
 
 const Contractor = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [Iscontractordata, setIscontractordata] = useState([]);
+
+  const getcontractor = async () => {
+    try {
+      const response = await fetchcontractorapicall();
+      console.log(response)
+      if (response.success) {
+        setIscontractordata(response.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -30,13 +56,20 @@ const Contractor = () => {
     }),
     onSubmit: async (value) => {
       try {
-        console.log(value, "values");
+        const response = await addContractorapicall(value);
+        if (response.success) {
+          setIsModalOpen(false);
+          getcontractor();
+        }
       } catch (error) {
         console.log(error?.message);
       }
     },
   });
 
+  React.useEffect(() => {
+    getcontractor();
+  }, [0]);
   return (
     <DefaultLayout>
       <BreadCrumb pageName="Contractor" />
@@ -124,13 +157,47 @@ const Contractor = () => {
               color="primary"
               type="submit"
               fullWidth
-              sx={{ mt: 2 }}
+              sx={{mt: 2}}
             >
               Submit
             </Button>
           </form>
         </TModal>
       }
+
+      {/* table of contractor */}
+      <TableContainer component={Paper}>
+        <Table sx={{minWidth: 650}} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="left">ID</TableCell>
+              <TableCell align="left">Contractor FirstName</TableCell>
+              <TableCell align="left">Contractor LastName</TableCell>
+              <TableCell align="left">Contractor Email</TableCell>
+              <TableCell align="left">Contractor Phone</TableCell>
+              <TableCell align="left">Contractor Address</TableCell>
+
+              <TableCell align="left">Action</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {Iscontractordata.length > 0
+              ? Iscontractordata.map((item, index) => (
+                  <TableRow key={index}>
+                    <TableCell component="th" scope="row">
+                      {index + 1}
+                    </TableCell>
+                    <TableCell align="left">{item.FirstName}</TableCell>
+                    <TableCell align="left">{item.LastName}</TableCell>
+                    <TableCell align="left">{item.Email}</TableCell>
+                    <TableCell align="left">{item.Phone}</TableCell>
+                    <TableCell align="left">{item.Address}</TableCell>
+                  </TableRow>
+                ))
+              : "null"}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </DefaultLayout>
   );
 };

@@ -1,15 +1,33 @@
-import React from "react";
-import { TextField } from "@mui/material";
-import { useFormik } from "formik";
+import React, {useState} from "react";
+import {TextField} from "@mui/material";
+import {useFormik} from "formik";
 import * as Yup from "yup";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
-import { Button } from "@mui/material";
+import {Button} from "@mui/material";
 import TModal from "../../../common/Modal/TModal";
+import {
+  addemployeeapicall,
+  fetchemployeeapicall,
+} from "../../../ApiServices/AdminApiServices/Employee";
+import EmployeeTable from "../../../Component/AdminComponents/Employee/EmployeeTable";
 
 const Employee = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+  const [IsEmployeeData, setIsEmployeeData] = useState([]);
+
+  const getemployee = async () => {
+    try {
+      const response = await fetchemployeeapicall();
+      if (response.success) {
+        setIsEmployeeData(response.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -30,6 +48,13 @@ const Employee = () => {
     }),
     onSubmit: async (value) => {
       try {
+        const response = await addemployeeapicall(value);
+        console.log(response, "response data");
+        if (response.success) {
+          getemployee();
+          setIsModalOpen(false);
+        }
+
         console.log(value, "values");
       } catch (error) {
         console.log(error?.message);
@@ -37,6 +62,9 @@ const Employee = () => {
     },
   });
 
+  React.useEffect(() => {
+    getemployee();
+  }, [0]);
   return (
     <DefaultLayout>
       <BreadCrumb pageName="Employee" />
@@ -124,13 +152,15 @@ const Employee = () => {
               color="primary"
               type="submit"
               fullWidth
-              sx={{ mt: 2 }}
+              sx={{mt: 2}}
             >
               Submit
             </Button>
           </form>
         </TModal>
       }
+
+      <EmployeeTable IsEmployeeData={IsEmployeeData} />
     </DefaultLayout>
   );
 };
