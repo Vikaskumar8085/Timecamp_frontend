@@ -19,8 +19,14 @@ export const fetchactivecontractorapicall = async () => {
 
 //   fetch inactive contracotr
 export const fetchinactivecontractorapicall = async () => {
+  const response = await apiInstance.get("/v1/admin/fetch-inactive-contractor");
+  return response.data;
+};
+
+// fetch single contractor
+export const fetchsinglecontractorapicall = async (value) => {
   const response = await apiInstance.get(
-    "/v1/admin/fetch-inactive-contractor"
+    `/v1/admin/fetch-single-contractor/${value}`
   );
   return response.data;
 };

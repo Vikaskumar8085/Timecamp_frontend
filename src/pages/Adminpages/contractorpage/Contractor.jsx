@@ -20,6 +20,7 @@ import {
   addContractorapicall,
   fetchcontractorapicall,
 } from "../../../ApiServices/AdminApiServices/Contractor";
+import { Link } from "react-router-dom";
 
 const Contractor = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -192,6 +193,9 @@ const Contractor = () => {
                     <TableCell align="left">{item.Email}</TableCell>
                     <TableCell align="left">{item.Phone}</TableCell>
                     <TableCell align="left">{item.Address}</TableCell>
+                    <TableCell align="left">
+                    <Link to={`/contractor-info/${item.staff_Id}`}>View</Link>
+                    </TableCell>
                   </TableRow>
                 ))
               : "null"}

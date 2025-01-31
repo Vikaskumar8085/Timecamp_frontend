@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -8,9 +8,10 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-import {fetchactiveemployeeapicall} from "../../../ApiServices/AdminApiServices/Employee";
+import { fetchactiveemployeeapicall } from "../../../ApiServices/AdminApiServices/Employee";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
+import { Link } from "react-router-dom";
 
 const ActiveEmployee = () => {
   const [IsactiveEmployeedata, setIsactiveEmployeedata] = useState([]);
@@ -35,7 +36,7 @@ const ActiveEmployee = () => {
         <BreadCrumb pageName="Active Employee" />
 
         <TableContainer component={Paper}>
-          <Table sx={{minWidth: 650}} aria-label="simple table">
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell align="left">ID</TableCell>
@@ -60,6 +61,9 @@ const ActiveEmployee = () => {
                       <TableCell align="left">{item.Email}</TableCell>
                       <TableCell align="left">{item.Phone}</TableCell>
                       <TableCell align="left">{item.Address}</TableCell>
+                      <TableCell align="left">
+                        <Link to={`/employee-info/${item.staff_Id}`}>View</Link>
+                      </TableCell>
                     </TableRow>
                   ))
                 : "null"}

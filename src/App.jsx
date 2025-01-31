@@ -67,7 +67,7 @@ const App = () => {
         <Route path="/contractor" element={<Contractor />} />
         <Route path="/active-contractor" element={<Activecontractor />} />
         <Route path="/inactive-contractor" element={<InActivecontractor />} />
-        <Route path="/contractor/:id" element={<ContractorInfo />} />
+        <Route path="/contractor-info/:id" element={<ContractorInfo />} />
         <Route path="/project" element={<Project />} />
         <Route path="/active-projects" element={<Activeproject />} />
         <Route path="/inactive-projects" element={<Inactiveprojects />} />

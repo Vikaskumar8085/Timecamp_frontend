@@ -26,3 +26,10 @@ export const fetchinactiveemployeeapicall = async () => {
   const response = await apiInstance.get("/v1/admin/fetch-inactive-employee");
   return response.data;
 };
+
+export const fetchsingleemployeeapicall = async (value) => {
+  const response = await apiInstance.get(
+    `/v1/admin/fetch-single-employee/${value}`
+  );
+  return response.data;
+};

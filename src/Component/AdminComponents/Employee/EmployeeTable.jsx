@@ -8,6 +8,7 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 const EmployeeTable = ({IsEmployeeData}) => {
   return (
     <>
@@ -37,6 +38,9 @@ const EmployeeTable = ({IsEmployeeData}) => {
                     <TableCell align="left">{item.Email}</TableCell>
                     <TableCell align="left">{item.Phone}</TableCell>
                     <TableCell align="left">{item.Address}</TableCell>
+                    <TableCell align="left">
+                      <Link to={`/employee-info/${item.staff_Id}`}>View</Link>
+                    </TableCell>
                   </TableRow>
                 ))
               : "null"}
