@@ -11,6 +11,7 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const Activeclient = () => {
   const [isactiveclientdata, setIsactiveclientdata] = useState([]);
@@ -65,6 +66,9 @@ const Activeclient = () => {
                     </TableCell>
                     <TableCell align="left">{item.GstNumber}</TableCell>
                     <TableCell align="left">{item.Client_Status}</TableCell>
+                    <TableCell align="left">
+                      <Link to={`/client-info/${item.Client_Id}`}>view</Link>
+                    </TableCell>
                   </TableRow>
                 ))
               : "null"}

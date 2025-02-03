@@ -7,7 +7,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "auto",
   bgcolor: "background.paper",
   border: "2px solid rgba(0,0,0,0.1)",
   borderRadius: 2,
@@ -24,7 +24,17 @@ const TModal = ({isModalOpen, setIsModalOpen, title, children}) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2" sx={{marginBottom:"15px",textAlign:"center",fontWeight:"700",fontSize:"1em"}}>
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            sx={{
+              marginBottom: "15px",
+              textAlign: "center",
+              fontWeight: "700",
+              fontSize: "1em",
+            }}
+          >
             {title}
           </Typography>
           {children}

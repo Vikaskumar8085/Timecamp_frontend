@@ -24,3 +24,19 @@ export const fetchdeadclientapicall = async () => {
   const response = await apiInstance.get("/v1/admin/fetch-dead-client");
   return response.data;
 };
+
+export const fetchsignleclientapicall = async (value) => {
+  const response = await apiInstance.get(
+    `/v1/admin/fetch-single-client/${value}`
+  );
+  return response.data;
+};
+
+// fetch client projects
+export const fetchclientprojectsapicall = async (value) => {
+  console.log(value, "afsdfasdf");
+  const response = await apiInstance.get(
+    `/v1/admin/fetch-client-projects/${value}`
+  );
+  return response.data;
+};

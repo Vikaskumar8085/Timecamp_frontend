@@ -2,6 +2,7 @@ import apiInstance from "../../ApiInstance/apiInstance";
 
 export const createprojectapicall = async (value) => {
   const response = await apiInstance.post("/v1/admin/create-projects", value);
+  return response.data;
 };
 
 export const fetchprojectapicall = async () => {

@@ -6,11 +6,24 @@ import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import TModal from "../../../common/Modal/TModal";
 import ProjectForm from "../../../Component/AdminComponents/Project/ProjectForm";
 import UploadProjectForm from "../../../Component/AdminComponents/Project/UploadProjectForm";
+import {createprojectapicall} from "../../../ApiServices/ProjectApiServices";
 
 const Project = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [IsProjectUploadModelOpen, setIsProjectUploadModelOpen] =
     useState(false);
+
+  const handleSubmit = async (values) => {
+    try {
+      const response = await createprojectapicall(values);
+      if (response.success) {
+        setIsModalOpen(false);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
+
   return (
     <DefaultLayout>
       <BreadCrumb pageName="Project" />
@@ -46,7 +59,7 @@ const Project = () => {
           setIsModalOpen={setIsModalOpen}
           title={"Add Project"}
         >
-          <ProjectForm />
+          <ProjectForm handleSubmit={handleSubmit} />
         </TModal>
       ) : null}
 

@@ -1,15 +1,21 @@
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
-import { fetchsingleemployeeapicall } from "../../../ApiServices/AdminApiServices/Employee";
+import {fetchsingleemployeeapicall} from "../../../ApiServices/AdminApiServices/Employee";
+import {Paper} from "@mui/material";
+import Card from "../../../common/Card/Card";
 
 const Employeeinfo = () => {
-  const { id } = useParams();
+  const {id} = useParams();
+  const [isEmployeedata, setIsEmployeedata] = useState([]);
 
   const fetchsingleemployeefunc = async () => {
     try {
       const response = await fetchsingleemployeeapicall(id);
-      console.log(response, "data");
+      console.log(response, "data employee data");
+      if (response.success) {
+        setIsEmployeedata(response.result);
+      }
     } catch (error) {
       console.log(error?.message);
     }
@@ -17,8 +23,18 @@ const Employeeinfo = () => {
 
   useEffect(() => {
     fetchsingleemployeefunc();
-  });
-  return <DefaultLayout></DefaultLayout>;
+  }, [0]);
+  return (
+    <DefaultLayout>
+      <Card>
+        <p>FirstName:{isEmployeedata.FirstName}</p>
+        <p>LastName:{isEmployeedata.LastName}</p>
+        <p>Email:{isEmployeedata.Email}</p>
+        <p>Phone:{isEmployeedata.Phone}</p>
+        <p>Address:{isEmployeedata.Address}</p>
+      </Card>
+    </DefaultLayout>
+  );
 };
 
 export default Employeeinfo;

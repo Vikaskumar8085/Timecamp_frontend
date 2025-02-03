@@ -29,6 +29,8 @@ import Activecontractor from "./pages/Adminpages/contractorpage/Activecontractor
 import InActivecontractor from "./pages/Adminpages/contractorpage/InActivecontractor";
 import Activeproject from "./pages/Adminpages/Projectpage/Activeproject";
 import Inactiveprojects from "./pages/Adminpages/Projectpage/Inactiveprojects";
+import Profile from "./pages/Dashboard/Profile";
+import Clientinfo from "./pages/Adminpages/clientPage/Clientinfo";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -53,10 +55,12 @@ const App = () => {
 
         {/* auth pages */}
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/profile" element={<Profile />} />
         {/* Admin Pages */}
         <Route path="/company" element={<Company />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/client" element={<Client />} />
+        <Route path="/client-info/:id" element={<Clientinfo />} />
         <Route path="/active-client" element={<Activeclient />} />
         <Route path="/inactive-client" element={<Deactiveclient />} />
         <Route path="/dead-client" element={<Deadclient />} />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Card from "../../common/Card/Card";
 import Breadcrumb from "../../common/BreadCrumb/BreadCrumb";
 import {Container} from "@mui/material";
@@ -12,9 +12,7 @@ const validate = (values) => {
 
   if (!values.Email) {
     errors.Email = "Email is required";
-  } else if (!/\S+@\S+\.\S+/.test(values.Email)) {
-    errors.Email = "Email address is invalid";
-  }
+  } 
 
   if (!values.Password) {
     errors.Password = "Password is required";
@@ -45,6 +43,17 @@ const Login = () => {
       } catch (error) {}
     },
   });
+
+  function redirectfunc() {
+    if (localStorage.getItem("token")) {
+      window.location.href = "/dashboard";
+    }
+  }
+
+  useEffect(() => {
+    redirectfunc();
+  }, [0]);
+
   return (
     <>
       <div className="login_wrapper">

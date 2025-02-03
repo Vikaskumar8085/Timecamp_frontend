@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   TextField,
   Button,
@@ -8,8 +8,8 @@ import {
   Container,
   Typography,
 } from "@mui/material";
-import { useFormik } from "formik";
-import { signupapicall } from "../../ApiServices/Authapiservices";
+import {useFormik} from "formik";
+import {signupapicall} from "../../ApiServices/Authapiservices";
 
 const validate = (values) => {
   const errors = {};
@@ -50,14 +50,24 @@ const Signup = () => {
     onSubmit: async (values) => {
       try {
         const response = await signupapicall(values);
-        if(response.success){
-          window.location.href="/"
+        if (response.success) {
+          window.location.href = "/";
         }
       } catch (error) {
-        console.log(error?.response?.message,"message");
+        console.log(error?.response?.message, "message");
       }
     },
   });
+
+  function redirectfunc() {
+    if (localStorage.getItem("token")) {
+      window.location.href = "/dashboard";
+    }
+  }
+
+  useEffect(() => {
+    redirectfunc();
+  }, [0]);
   return (
     <>
       <div className="Signup_wrapper">
@@ -67,7 +77,7 @@ const Signup = () => {
           </Typography>
           <Avatar
             src={formik.values.Photo}
-            sx={{ width: 80, height: 80, margin: "auto" }}
+            sx={{width: 80, height: 80, margin: "auto"}}
           />
           <form onSubmit={formik.handleSubmit}>
             <div className="mb-3">
@@ -140,7 +150,7 @@ const Signup = () => {
                 variant="contained"
                 color="primary"
                 type="submit"
-                sx={{ mt: 2 }}
+                sx={{mt: 2}}
               >
                 Register
               </Button>

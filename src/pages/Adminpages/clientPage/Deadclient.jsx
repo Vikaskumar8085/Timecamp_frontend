@@ -11,6 +11,8 @@ import {
   Paper,
 } from "@mui/material";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
+import { Link } from "react-router-dom";
+
 const Deadclient = () => {
   const [isdeadclientdata, setIsdeadclientdata] = useState([]);
 
@@ -65,6 +67,9 @@ const Deadclient = () => {
                     </TableCell>
                     <TableCell align="left">{item.GstNumber}</TableCell>
                     <TableCell align="left">{item.Client_Status}</TableCell>
+                    <TableCell align="left">
+                      <Link to={`/client-info/${item.Client_Id}`}>view</Link>
+                    </TableCell>
                   </TableRow>
                 ))
               : "null"}
