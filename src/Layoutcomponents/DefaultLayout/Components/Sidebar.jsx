@@ -190,14 +190,18 @@ const Sidebar = ({
           </li>
 
           <li>
-            <Link to="/contractor" className="menu_item">
-              <FiHome /> <span>Client</span>
+            <Link to="/project" className="menu_item">
+              <FiHome /> <span>Project</span>
             </Link>
           </li>
-
           <li>
-            <Link to="/profile" className="menu_item">
-              <FiHome /> <span>Profile</span>
+            <Link to="/task" className="menu_item">
+              <FiHome /> <span>Task</span>
+            </Link>
+          </li>
+          <li>
+            <Link to="/timesheet" className="menu_item">
+              <FiHome /> <span>TimeSheet</span>
             </Link>
           </li>
         </ul>
@@ -215,14 +219,18 @@ const Sidebar = ({
             </Link>
           </li>
           <li>
-            <Link to="/admin" className="menu_item">
-              <FiHome /> <span>Employee</span>
+            <Link to="/project" className="menu_item">
+              <FiHome /> <span>Project</span>
             </Link>
           </li>
-
           <li>
-            <Link to="/client" className="menu_item">
-              <FiHome /> <span>Client</span>
+            <Link to="/task" className="menu_item">
+              <FiHome /> <span>Task</span>
+            </Link>
+          </li>
+          <li>
+            <Link to="/timesheet" className="menu_item">
+              <FiHome /> <span>TimeSheet</span>
             </Link>
           </li>
         </ul>
@@ -240,14 +248,19 @@ const Sidebar = ({
             </Link>
           </li>
           <li>
-            <Link to="/admin" className="menu_item">
-              <FiHome /> <span>Admin</span>
+            <Link to="/project" className="menu_item">
+              <FiHome /> <span>Project</span>
             </Link>
           </li>
 
           <li>
-            <Link to="/client" className="menu_item">
-              <FiHome /> <span>Client</span>
+            <Link to="/task" className="menu_item">
+              <FiHome /> <span>Task</span>
+            </Link>
+          </li>
+          <li>
+            <Link to="/timesheet" className="menu_item">
+              <FiHome /> <span>TimeSheet</span>
             </Link>
           </li>
         </ul>
