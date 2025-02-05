@@ -31,6 +31,7 @@ import Activeproject from "./pages/Adminpages/Projectpage/Activeproject";
 import Inactiveprojects from "./pages/Adminpages/Projectpage/Inactiveprojects";
 import Profile from "./pages/Dashboard/Profile";
 import Clientinfo from "./pages/Adminpages/clientPage/Clientinfo";
+import Projectinfo from "./pages/Adminpages/Projectpage/Projectinfo";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -73,6 +74,7 @@ const App = () => {
         <Route path="/inactive-contractor" element={<InActivecontractor />} />
         <Route path="/contractor-info/:id" element={<ContractorInfo />} />
         <Route path="/project" element={<Project />} />
+        <Route path="/project-info/:id" element={<Projectinfo />} />
         <Route path="/active-projects" element={<Activeproject />} />
         <Route path="/inactive-projects" element={<Inactiveprojects />} />
         <Route path="/project-upload" element={<ProjectUpload />} />

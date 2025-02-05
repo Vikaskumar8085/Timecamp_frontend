@@ -15,7 +15,7 @@ import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout
 const ProjectUpload = () => {
   return (
     <DefaultLayout>
-      <MilestoneForm />
+      {/* <MilestoneForm /> */}
     </DefaultLayout>
   );
 };

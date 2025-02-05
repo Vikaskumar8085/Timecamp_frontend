@@ -16,7 +16,11 @@ import {
 } from "@mui/material";
 import {AddCircleOutline, RemoveCircleOutline} from "@mui/icons-material";
 import {fetchclientapicall} from "../../../ApiServices/AdminApiServices/Client/index";
-import {createprojectapicall} from "../../../ApiServices/ProjectApiServices";
+import {
+  createprojectapicall,
+  fetchstaffmembersapicall,
+} from "../../../ApiServices/ProjectApiServices";
+import {fetchroleapicall} from "../../../ApiServices/MasterApiServices/Roles";
 
 // Function to generate a random project code
 const generateProjectCode = () =>
@@ -24,7 +28,8 @@ const generateProjectCode = () =>
 
 const ProjectForm = ({handleSubmit}) => {
   const [clients, setClients] = useState([]);
-
+  const [IsStaffdata, setIsstaffdata] = useState([]);
+  const [IsRoledata, setIsRoledata] = useState([]);
   const getclientdata = async () => {
     try {
       const response = await fetchclientapicall();
@@ -36,8 +41,26 @@ const ProjectForm = ({handleSubmit}) => {
     }
   };
 
-  const getroledata = async () => {};
-  const getstaffdata = async () => {};
+  const getroledata = async () => {
+    try {
+      const response = await fetchroleapicall();
+      if (response.success) {
+        setIsRoledata(response.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
+  const getstaffdata = async () => {
+    try {
+      const response = await fetchstaffmembersapicall();
+      if (response.success) {
+        setIsstaffdata(response.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -90,6 +113,8 @@ const ProjectForm = ({handleSubmit}) => {
   };
   useEffect(() => {
     getclientdata();
+    getstaffdata();
+    getroledata();
   }, [0]);
 
   return (
@@ -157,9 +182,9 @@ const ProjectForm = ({handleSubmit}) => {
                 onChange={formik.handleChange}
                 label="Select Client"
               >
-                {clients.map((client) => (
-                  <MenuItem key={client.Client_Id} value={client.Client_Id}>
-                    <ListItemText primary={client.Client_Name} />
+                {IsStaffdata.map((item) => (
+                  <MenuItem key={item.staff_Id} value={item.staff_Id}>
+                    <ListItemText primary={item.FirstName} />
                   </MenuItem>
                 ))}
               </Select>
@@ -220,11 +245,40 @@ const ProjectForm = ({handleSubmit}) => {
           <Grid item xs={12}>
             <Typography variant="h6">Role Resources</Typography>
           </Grid>
+          {/* fghfgh */}
           <Grid item xs={12}>
             {formik.values.RoleResource.map((role, index) => (
               <Grid container spacing={2} key={index} alignItems="center">
                 <Grid item xs={6}>
-                  <TextField
+                  <FormControl fullWidth margin="normal">
+                    <InputLabel id="client-select-label">
+                      Select Resources
+                    </InputLabel>
+                    <Select
+                      labelId="recourses-select-label"
+                      id="resourse-select"
+                      name={`RoleResource[${index}].RRId`}
+                      value={role.RRId}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      label="Select Client"
+                      error={
+                        formik.touched.RoleResource?.[index]?.RRId &&
+                        Boolean(formik.errors.RoleResource?.[index]?.RRId)
+                      }
+                      helperText={
+                        formik.touched.RoleResource?.[index]?.RRId &&
+                        formik.errors.RoleResource?.[index]?.RRId
+                      }
+                    >
+                      {IsRoledata.map((item) => (
+                        <MenuItem key={item.RoleId} value={item.RoleId}>
+                          <ListItemText primary={item.RoleName} />
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  {/* <TextField
                     fullWidth
                     label="Role Resource ID"
                     name={`RoleResource[${index}].RRId`}
@@ -239,10 +293,38 @@ const ProjectForm = ({handleSubmit}) => {
                       formik.touched.RoleResource?.[index]?.RRId &&
                       formik.errors.RoleResource?.[index]?.RRId
                     }
-                  />
+                  /> */}
                 </Grid>
                 <Grid item xs={6}>
-                  <TextField
+                  <FormControl fullWidth margin="normal">
+                    <InputLabel id="Role-resourse-select-label">
+                      Resources
+                    </InputLabel>
+                    <Select
+                      labelId="recourses-select-label"
+                      id="resourse-select"
+                      label="Resource ID"
+                      name={`RoleResource[${index}].RId`}
+                      value={role.RId}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.RoleResource?.[index]?.RId &&
+                        Boolean(formik.errors.RoleResource?.[index]?.RId)
+                      }
+                      helperText={
+                        formik.touched.RoleResource?.[index]?.RId &&
+                        formik.errors.RoleResource?.[index]?.RId
+                      }
+                    >
+                      {IsStaffdata.map((item) => (
+                        <MenuItem key={item.staff_Id} value={item.staff_Id}>
+                          <ListItemText primary={item.FirstName} />
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  {/* <TextField
                     fullWidth
                     label="Resource ID"
                     name={`RoleResource[${index}].RId`}
@@ -257,7 +339,7 @@ const ProjectForm = ({handleSubmit}) => {
                       formik.touched.RoleResource?.[index]?.RId &&
                       formik.errors.RoleResource?.[index]?.RId
                     }
-                  />
+                  /> */}
                 </Grid>
                 <Grid item xs={12}>
                   <IconButton
@@ -270,7 +352,7 @@ const ProjectForm = ({handleSubmit}) => {
               </Grid>
             ))}
           </Grid>
-
+          {/* jhkhjk */}
           <Grid item xs={12}>
             <Button
               onClick={addRoleResource}
