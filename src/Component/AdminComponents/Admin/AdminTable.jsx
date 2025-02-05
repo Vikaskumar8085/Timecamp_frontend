@@ -9,7 +9,7 @@ function AdminTable({isAdmindata}) {
         <Grid2 container spacing={1}>
           {isAdmindata.map((item, index) => {
             return (
-              <Grid2 size={{xs: 12, md: 3, lg: 3, sm: 6}}>
+              <Grid2 size={{xs: 12, md: 6, lg: 6, sm: 6}}>
                 <Card>
                   <div>FirstName : {item.FirstName}</div>
                   <div>LastName : {item.LastName}</div>
