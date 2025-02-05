@@ -2,9 +2,12 @@ import React, {useEffect, useState} from "react";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import {fetchactiveprojectsapicall} from "../../../ApiServices/ProjectApiServices";
+import {useSelector} from "react-redux";
 
 const Activeproject = () => {
   const [Isactiveprojectdata, setIsActiveprojectsdata] = useState([]);
+  const userdata = useSelector((state) => state.user.values);
+  let Role = userdata.Role;
 
   const getactiveprojectapicall = async () => {
     try {
@@ -20,12 +23,13 @@ const Activeproject = () => {
   }, [0]);
 
   return (
-    <div>
-      {" "}
-      <DefaultLayout>
-        <BreadCrumb pageName="InActive Projects" />
-      </DefaultLayout>
-    </div>
+    <DefaultLayout>
+      <BreadCrumb pageName="InActive Projects" />
+      {Role === "Admin" && <div></div>}
+      {Role === "Client" && <div>Role:{userdata?.Role}</div>}
+      {Role === "Employee" && <div>Role:{userdata?.Role}</div>}
+      {Role === "Contractor" && <div>Role:{userdata?.Role}</div>}
+    </DefaultLayout>
   );
 };
 

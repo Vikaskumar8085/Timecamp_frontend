@@ -20,8 +20,11 @@ import {
   fetchprojectapicall,
 } from "../../../ApiServices/ProjectApiServices";
 import {Link} from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Project = () => {
+  const userdata = useSelector((state) => state.user.values);
+  let Role = userdata.Role;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isProjectdata, setIsProjectdata] = useState([]);
   const [IsProjectUploadModelOpen, setIsProjectUploadModelOpen] =
@@ -55,88 +58,97 @@ const Project = () => {
 
   return (
     <DefaultLayout>
-      <BreadCrumb pageName="Project" />
-      <HeaderTab>
-        <Button
-          onClick={() => setIsModalOpen(true)}
-          sx={{
-            background: "skyblue",
-            padding: "15px",
-            color: "white",
-            margin: "0px 10px",
-          }}
-        >
-          Add Project
-        </Button>
+      {Role === "Admin" && (
+        <>
+          <BreadCrumb pageName="Project" />
+          <HeaderTab>
+            <Button
+              onClick={() => setIsModalOpen(true)}
+              sx={{
+                background: "skyblue",
+                padding: "15px",
+                color: "white",
+                margin: "0px 10px",
+              }}
+            >
+              Add Project
+            </Button>
 
-        <Button
-          onClick={() => setIsProjectUploadModelOpen(true)}
-          sx={{
-            background: "skyblue",
-            padding: "15px",
-            color: "white",
-            margin: "0px 10px",
-          }}
-        >
-          Upload Projects
-        </Button>
-      </HeaderTab>
+            <Button
+              onClick={() => setIsProjectUploadModelOpen(true)}
+              sx={{
+                background: "skyblue",
+                padding: "15px",
+                color: "white",
+                margin: "0px 10px",
+              }}
+            >
+              Upload Projects
+            </Button>
+          </HeaderTab>
 
-      {isModalOpen ? (
-        <TModal
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-          title={"Add Project"}
-        >
-          <ProjectForm handleSubmit={handleSubmit} />
-        </TModal>
-      ) : null}
+          {isModalOpen ? (
+            <TModal
+              isModalOpen={isModalOpen}
+              setIsModalOpen={setIsModalOpen}
+              title={"Add Project"}
+            >
+              <ProjectForm handleSubmit={handleSubmit} />
+            </TModal>
+          ) : null}
 
-      {IsProjectUploadModelOpen ? (
-        <TModal
-          isModalOpen={IsProjectUploadModelOpen}
-          setIsModalOpen={setIsProjectUploadModelOpen}
-          title={"Upload Projects"}
-        >
-          <UploadProjectForm />
-        </TModal>
-      ) : null}
+          {IsProjectUploadModelOpen ? (
+            <TModal
+              isModalOpen={IsProjectUploadModelOpen}
+              setIsModalOpen={setIsProjectUploadModelOpen}
+              title={"Upload Projects"}
+            >
+              <UploadProjectForm />
+            </TModal>
+          ) : null}
 
-      <TableContainer component={Paper}>
-        <Table sx={{minWidth: 650}} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="left">ID</TableCell>
-              <TableCell align="left">Project Name</TableCell>
-              <TableCell align="left">Project Code</TableCell>
-              {/* <TableCell align="left">Client Name</TableCell> */}
-              <TableCell align="left">Project Hours</TableCell>
-              <TableCell align="left">Start Date</TableCell>
-              <TableCell align="left">End Date</TableCell>
-              <TableCell align="left">Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {isProjectdata.length > 0
-              ? isProjectdata.map((item, index) => (
-                  <TableRow key={index}>
-                    <TableCell component="th" scope="row">
-                      {index + 1}
-                    </TableCell>
-                    <TableCell align="left">{item.Project_Name}</TableCell>
-                    <TableCell align="left">{item.Project_Code}</TableCell>
-                    <TableCell align="left">{item.Project_Hours}</TableCell>
-                    <TableCell align="left">{item.Start_Date}</TableCell>
-                    <TableCell align="left">{item.End_Date}</TableCell>
-                    <TableCell align="left">
-                      <Link to={`/project-info/${item.ProjectId}`}>View</Link>
-                    </TableCell>
-                  </TableRow>
-                ))
-              : "null"}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          <TableContainer component={Paper}>
+            <Table sx={{minWidth: 650}} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="left">ID</TableCell>
+                  <TableCell align="left">Project Name</TableCell>
+                  <TableCell align="left">Project Code</TableCell>
+                  {/* <TableCell align="left">Client Name</TableCell> */}
+                  <TableCell align="left">Project Hours</TableCell>
+                  <TableCell align="left">Start Date</TableCell>
+                  <TableCell align="left">End Date</TableCell>
+                  <TableCell align="left">Action</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {isProjectdata.length > 0
+                  ? isProjectdata.map((item, index) => (
+                      <TableRow key={index}>
+                        <TableCell component="th" scope="row">
+                          {index + 1}
+                        </TableCell>
+                        <TableCell align="left">{item.Project_Name}</TableCell>
+                        <TableCell align="left">{item.Project_Code}</TableCell>
+                        <TableCell align="left">{item.Project_Hours}</TableCell>
+                        <TableCell align="left">{item.Start_Date}</TableCell>
+                        <TableCell align="left">{item.End_Date}</TableCell>
+                        <TableCell align="left">
+                          <Link to={`/project-info/${item.ProjectId}`}>
+                            View
+                          </Link>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  : "null"}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
+      )}
+      {Role === "Client" && <div>Role:{userdata?.Role}</div>}
+      {Role === "Employee" && <div>Role:{userdata?.Role}</div>}
+      {Role === "Contractor" && <div>Role:{userdata?.Role}</div>}
     </DefaultLayout>
   );
 };
