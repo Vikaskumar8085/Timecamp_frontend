@@ -32,9 +32,12 @@ import Inactiveprojects from "./pages/Adminpages/Projectpage/Inactiveprojects";
 import Profile from "./pages/Dashboard/Profile";
 import Clientinfo from "./pages/Adminpages/clientPage/Clientinfo";
 import Projectinfo from "./pages/Adminpages/Projectpage/Projectinfo";
+import {useSelector} from "react-redux";
+import SpinnerLoader from "./common/SpinnerLoader/SpinnerLoader";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
+  const loadspinner = useSelector((state) => state.loader.IsLoading);
   const {pathname} = useLocation();
 
   useEffect(() => {
@@ -49,6 +52,7 @@ const App = () => {
     <Loader />
   ) : (
     <>
+      {loadspinner && <SpinnerLoader />}
       <Routes>
         {/* auth pages */}
         <Route index element={<Login />} />
