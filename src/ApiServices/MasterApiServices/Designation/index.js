@@ -17,3 +17,20 @@ export const fetchdesignationapicall = async () => {
   const response = await apiInstance.get("/v1/master/fetch-designation");
   return response.data;
 };
+
+// remove designation api call
+export const removedesignationapicall = async (value) => {
+  const response = await apiInstance.delete(
+    `/v1/master/remove-designation/${value.id}`
+  );
+  return response.data;
+};
+
+// update designation api call
+export const updatedesignationapicall = async (value) => {
+  const response = await apiInstance.put(
+    `/v1/master/update-designation/${value.id}`,
+    value.payload
+  );
+  return response.data;
+};

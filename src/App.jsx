@@ -34,7 +34,8 @@ import Clientinfo from "./pages/Adminpages/clientPage/Clientinfo";
 import Projectinfo from "./pages/Adminpages/Projectpage/Projectinfo";
 import {useSelector} from "react-redux";
 import SpinnerLoader from "./common/SpinnerLoader/SpinnerLoader";
-import AdminPanel from "./Layoutcomponents/Layout/AdminPanel";
+import Layout from "./Layoutcomponents/Layout/Layout";
+import {Toaster} from "react-hot-toast";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -56,7 +57,7 @@ const App = () => {
       {loadspinner && <SpinnerLoader />}
       <Routes>
         {/* auth pages */}
-        <Route index element={<AdminPanel/>}/>
+        <Route index element={<Layout />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
@@ -94,6 +95,7 @@ const App = () => {
 
         <Route path="*" element={<Nopage />} />
       </Routes>
+      <Toaster />
     </>
   );
 };

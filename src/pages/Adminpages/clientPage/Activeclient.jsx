@@ -11,7 +11,9 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
+import Layout from "../../../Layoutcomponents/Layout/Layout";
+import Empty from "../../../common/EmptyFolder/Empty";
 
 const Activeclient = () => {
   const [isactiveclientdata, setIsactiveclientdata] = useState([]);
@@ -31,7 +33,7 @@ const Activeclient = () => {
     getactiveclient();
   }, [0]);
   return (
-    <DefaultLayout>
+    <Layout>
       <BreadCrumb pageName="Active Client" />
       <TableContainer component={Paper}>
         <Table sx={{minWidth: 650}} aria-label="simple table">
@@ -49,33 +51,33 @@ const Activeclient = () => {
               <TableCell align="left">Action</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {isactiveclientdata.length > 0
-              ? isactiveclientdata.map((item, index) => (
-                  <TableRow key={index}>
-                    <TableCell component="th" scope="row">
-                      {index + 1}
-                    </TableCell>
-                    <TableCell align="left">{item.Company_Name}</TableCell>
-                    <TableCell align="left">{item.Client_Name}</TableCell>
-                    <TableCell align="left">{item.Client_Email}</TableCell>
-                    <TableCell align="left">{item.Client_Phone}</TableCell>
-                    <TableCell align="left">{item.Address}</TableCell>
-                    <TableCell align="left">
-                      {item.Client_Postal_Code}
-                    </TableCell>
-                    <TableCell align="left">{item.GstNumber}</TableCell>
-                    <TableCell align="left">{item.Client_Status}</TableCell>
-                    <TableCell align="left">
-                      <Link to={`/client-info/${item.Client_Id}`}>view</Link>
-                    </TableCell>
-                  </TableRow>
-                ))
-              : "null"}
-          </TableBody>
+          {isactiveclientdata.length > 0 ? (
+            isactiveclientdata.map((item, index) => (
+              <TableBody>
+                <TableRow key={index}>
+                  <TableCell component="th" scope="row">
+                    {index + 1}
+                  </TableCell>
+                  <TableCell align="left">{item.Company_Name}</TableCell>
+                  <TableCell align="left">{item.Client_Name}</TableCell>
+                  <TableCell align="left">{item.Client_Email}</TableCell>
+                  <TableCell align="left">{item.Client_Phone}</TableCell>
+                  <TableCell align="left">{item.Address}</TableCell>
+                  <TableCell align="left">{item.Client_Postal_Code}</TableCell>
+                  <TableCell align="left">{item.GstNumber}</TableCell>
+                  <TableCell align="left">{item.Client_Status}</TableCell>
+                  <TableCell align="left">
+                    <Link to={`/client-info/${item.Client_Id}`}>view</Link>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            ))
+          ) : (
+            <Empty />
+          )}
         </Table>
       </TableContainer>
-    </DefaultLayout>
+    </Layout>
   );
 };
 

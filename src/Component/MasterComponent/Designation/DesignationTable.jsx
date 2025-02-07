@@ -7,6 +7,7 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Button,
 } from "@mui/material";
 
 function DesignationTable({isdesignationdata}) {
@@ -27,6 +28,9 @@ function DesignationTable({isdesignationdata}) {
                 {index + 1}
               </TableCell>
               <TableCell align="left">{item.Designation_Name}</TableCell>
+              <TableCell align="left">
+                <Button> delete</Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

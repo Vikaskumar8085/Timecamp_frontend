@@ -35,4 +35,4 @@ function DepartmentTable({isdepartmentdata}) {
   );
 }
 
-export default DepartmentTable;
+export default React.memo(DepartmentTable);

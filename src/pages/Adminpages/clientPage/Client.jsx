@@ -10,6 +10,7 @@ import {
   createclientapicall,
   fetchclientapicall,
 } from "../../../ApiServices/AdminApiServices/Client";
+import Layout from "../../../Layoutcomponents/Layout/Layout";
 
 const Client = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -46,7 +47,7 @@ const Client = () => {
   }, [0]);
 
   return (
-    <DefaultLayout>
+    <Layout>
       <BreadCrumb pageName="Client" />
       <HeaderTab>
         <Button
@@ -72,7 +73,7 @@ const Client = () => {
       ) : null}
 
       <ClientTable Isclientdata={Isclientdata} />
-    </DefaultLayout>
+    </Layout>
   );
 };
 

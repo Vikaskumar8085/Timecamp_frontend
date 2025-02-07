@@ -1,0 +1,12 @@
+.Empty_wrapper {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  height: 100%;
+  .Empty_box {
+    img {
+      height: 150px;
+      width: 150px;
+    }
+  }
+}

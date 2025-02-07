@@ -73,6 +73,7 @@ import {
   createadminapicall,
   fetchadminapicall,
 } from "../../../ApiServices/AdminApiServices/Admin";
+import Layout from "../../../Layoutcomponents/Layout/Layout";
 
 const Admin = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -110,7 +111,7 @@ const Admin = () => {
     fetchadmin();
   }, [0]);
   return (
-    <DefaultLayout>
+    <Layout>
       <BreadCrumb pageName="Admin" />
       <HeaderTab>
         <Button
@@ -135,7 +136,7 @@ const Admin = () => {
       ) : null}
 
       <AdminTable isAdmindata={isAdmindata} />
-    </DefaultLayout>
+    </Layout>
   );
 };
 

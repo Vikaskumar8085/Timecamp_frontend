@@ -1,4 +1,4 @@
-import {Button, Input, TextField} from "@mui/material";
+import {Button, Container, Drawer, Input, TextField} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import TModal from "../../../common/Modal/TModal";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
@@ -10,10 +10,12 @@ import {
   createdepartmentapicall,
   fetchdepartmentapicall,
 } from "../../../ApiServices/MasterApiServices/Department";
+import Layout from "../../../Layoutcomponents/Layout/Layout";
 
 const Department = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isdepartmentdata, setIsdepartmentdata] = useState([]);
+  const [IsOpen, setIsOpen] = useState(false);
   const getdepartment = async () => {
     try {
       const response = await fetchdepartmentapicall();
@@ -25,32 +27,25 @@ const Department = () => {
     }
   };
 
-  const formik = useFormik({
-    initialValues: {
-      Department_Name: "",
-    },
-    onSubmit: async (values) => {
-      try {
-        const response = await createdepartmentapicall(values);
-        if (response.success) {
-          setIsModalOpen(false);
-          getdepartment();
-        }
-      } catch (error) {
-        console.log(error?.message);
-      }
-    },
-  });
-
   useEffect(() => {
     getdepartment();
   });
   return (
-    <DefaultLayout>
+    <Layout>
       <BreadCrumb pageName="Department" />
       <HeaderTab>
         <Button
           onClick={() => setIsModalOpen(true)}
+          sx={{
+            background: "skyblue",
+            padding: "15px",
+            color: "white",
+          }}
+        >
+          Add Department
+        </Button>
+        <Button
+          onClick={() => setIsOpen(true)}
           sx={{
             background: "skyblue",
             padding: "15px",
@@ -93,8 +88,16 @@ const Department = () => {
           </div>
         </TModal>
       ) : null}
+
+      {IsOpen && (
+        <Drawer
+          open={IsOpen}
+          anchor="right"
+          onClose={() => setIsOpen(false)}
+        ></Drawer>
+      )}
       <DepartmentTable isdepartmentdata={isdepartmentdata} />
-    </DefaultLayout>
+    </Layout>
   );
 };
 

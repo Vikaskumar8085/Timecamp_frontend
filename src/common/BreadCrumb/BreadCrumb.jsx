@@ -6,7 +6,6 @@ const Breadcrumb = ({pageName}) => {
   return (
     <div className="breadcrumb-container">
       <h2 className="breadcrumb-title">{pageName}</h2>
-
       <nav>
         <ol className="breadcrumb-nav">
           <li>

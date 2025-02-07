@@ -4,7 +4,6 @@ import {
   fetchclientprojectsapicall,
   fetchsignleclientapicall,
 } from "../../../ApiServices/AdminApiServices/Client";
-import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import Card from "../../../common/Card/Card";
 
 import {
@@ -18,6 +17,7 @@ import {
   Paper,
 } from "@mui/material";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
+import Layout from "../../../Layoutcomponents/Layout/Layout";
 
 const Clientinfo = () => {
   const {id} = useParams();
@@ -53,7 +53,7 @@ const Clientinfo = () => {
     getclientsprojects();
   }, [0]);
   return (
-    <DefaultLayout>
+    <Layout>
         <BreadCrumb pageName="Client Information"/>
       <Card>
         <div className="card_data">
@@ -97,7 +97,7 @@ const Clientinfo = () => {
           </Table>
         </TableContainer>
       </Box>
-    </DefaultLayout>
+    </Layout>
   );
 };
 

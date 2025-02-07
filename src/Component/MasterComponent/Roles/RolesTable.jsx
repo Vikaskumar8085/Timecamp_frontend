@@ -35,4 +35,4 @@ function RolesTable({isRoledata}) {
   );
 }
 
-export default RolesTable;
+export default React.memo(RolesTable);

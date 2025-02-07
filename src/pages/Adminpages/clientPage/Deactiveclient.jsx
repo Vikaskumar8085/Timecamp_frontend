@@ -11,7 +11,8 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
+import Layout from "../../../Layoutcomponents/Layout/Layout";
 
 const Deactiveclient = () => {
   const [isInactiveclientdata, setIsinactiveclientdata] = useState([]);
@@ -33,7 +34,7 @@ const Deactiveclient = () => {
   });
 
   return (
-    <DefaultLayout>
+    <Layout>
       <BreadCrumb pageName="InActive Client" />
       <TableContainer component={Paper}>
         <Table sx={{minWidth: 650}} aria-label="simple table">
@@ -77,7 +78,7 @@ const Deactiveclient = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </DefaultLayout>
+    </Layout>
   );
 };
 

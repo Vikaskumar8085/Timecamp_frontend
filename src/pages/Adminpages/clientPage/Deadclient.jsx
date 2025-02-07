@@ -11,7 +11,8 @@ import {
   Paper,
 } from "@mui/material";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
+import Layout from "../../../Layoutcomponents/Layout/Layout";
 
 const Deadclient = () => {
   const [isdeadclientdata, setIsdeadclientdata] = useState([]);
@@ -32,7 +33,7 @@ const Deadclient = () => {
   }, [0]);
 
   return (
-    <DefaultLayout>
+    <Layout>
       <BreadCrumb pageName="Dead Client" />
       <TableContainer component={Paper}>
         <Table sx={{minWidth: 650}} aria-label="simple table">
@@ -76,7 +77,7 @@ const Deadclient = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </DefaultLayout>
+    </Layout>
   );
 };
 

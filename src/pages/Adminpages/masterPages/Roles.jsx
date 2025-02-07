@@ -12,6 +12,7 @@ import {
   fetchroleapicall,
 } from "../../../ApiServices/MasterApiServices/Roles";
 import apiInstance from "../../../ApiInstance/apiInstance";
+import Layout from "../../../Layoutcomponents/Layout/Layout";
 
 const Roles = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -52,7 +53,7 @@ const Roles = () => {
 
   return (
     <>
-      <DefaultLayout>
+      <Layout>
         <BreadCrumb pageName="Roles" />
         <HeaderTab>
           <Button
@@ -101,7 +102,7 @@ const Roles = () => {
         ) : null}
 
         <RolesTable isRoledata={isRoledata} />
-      </DefaultLayout>
+      </Layout>
     </>
   );
 };

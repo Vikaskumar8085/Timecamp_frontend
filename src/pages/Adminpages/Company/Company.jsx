@@ -7,8 +7,8 @@ import {
   fetchcompanyapicall,
 } from "../../../ApiServices/Companyapiservices";
 import {useNavigate} from "react-router-dom";
-import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
+import Layout from "../../../Layoutcomponents/Layout/Layout";
 
 const CompanyForm = ({handlesubmit}) => {
   const formik = useFormik({
@@ -219,9 +219,9 @@ const Company = () => {
     getcompany();
   }, [0]);
   return iscompanydata.Company_Id > 0 ? (
-    <DefaultLayout>
+    <Layout>
       <BreadCrumb pageName="Company" />
-    </DefaultLayout>
+    </Layout>
   ) : (
     <>
       <div className="comapny_form">
