@@ -21,6 +21,7 @@ import {
 } from "../../../ApiServices/ProjectApiServices";
 import {Link} from "react-router-dom";
 import { useSelector } from "react-redux";
+import Layout from "../../../Layoutcomponents/Layout/Layout";
 
 const Project = () => {
   const userdata = useSelector((state) => state.user.values);
@@ -57,7 +58,7 @@ const Project = () => {
   }, [0]);
 
   return (
-    <DefaultLayout>
+    <Layout>
       {Role === "Admin" && (
         <>
           <BreadCrumb pageName="Project" />
@@ -149,7 +150,7 @@ const Project = () => {
       {Role === "Client" && <div>Role:{userdata?.Role}</div>}
       {Role === "Employee" && <div>Role:{userdata?.Role}</div>}
       {Role === "Contractor" && <div>Role:{userdata?.Role}</div>}
-    </DefaultLayout>
+    </Layout>
   );
 };
 

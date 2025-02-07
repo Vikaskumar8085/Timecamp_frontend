@@ -1,17 +1,9 @@
 import React from "react";
-import {
-  TextField,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  Avatar,
-  Container,
-  Typography,
-  Grid,
-} from "@mui/material";
-import {useFormik} from "formik";
+import { TextField, Button, Container, Box, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid2";
+import { useFormik } from "formik";
 
-const AdminForm = ({handleSubmit}) => {
+const AdminForm = ({ handleSubmit }) => {
   const validate = (values) => {
     const errors = {};
     if (!values.FirstName.trim()) {
@@ -48,79 +40,108 @@ const AdminForm = ({handleSubmit}) => {
     },
     validate,
     onSubmit: (values) => {
-      const {ConfirmPassword, ...formValues} = values; // Exclude ConfirmPassword before submission
-      // alert(JSON.stringify(formValues, null, 2));
+      try {
+        const { ConfirmPassword, ...formValues } = values; // Exclude ConfirmPassword before submission
+        handleSubmit(formValues);
 
-      handleSubmit(formValues);
+        formik.resetForm();
+      } catch (error) {
+        console.log(error?.message);
+      }
     },
   });
 
   return (
-    <Container maxWidth="xs">
-      <form onSubmit={formik.handleSubmit}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="First Name"
-              {...formik.getFieldProps("FirstName")}
-              error={
-                formik.touched.FirstName && Boolean(formik.errors.FirstName)
-              }
-              helperText={formik.touched.FirstName && formik.errors.FirstName}
-            />
+    <Container maxWidth="sm">
+      <Box
+        sx={{
+          mt: 2,
+          p: 1,
+        }}
+      >
+        <Typography variant="h5" sx={{ margin: "10px 0px" }}>
+          Add Admin
+        </Typography>
+
+        <form onSubmit={formik.handleSubmit}>
+          <Grid container spacing={2}>
+            <Grid size={{ sm: 12 }}>
+              <TextField
+                fullWidth
+                label="First Name"
+                {...formik.getFieldProps("FirstName")}
+                error={
+                  formik.touched.FirstName && Boolean(formik.errors.FirstName)
+                }
+                helperText={formik.touched.FirstName && formik.errors.FirstName}
+              />
+            </Grid>
+            <Grid size={{ sm: 12 }}>
+              <TextField
+                fullWidth
+                label="Last Name"
+                {...formik.getFieldProps("LastName")}
+                error={
+                  formik.touched.LastName && Boolean(formik.errors.LastName)
+                }
+                helperText={formik.touched.LastName && formik.errors.LastName}
+              />
+            </Grid>
+            <Grid size={{ sm: 12 }}>
+              <TextField
+                fullWidth
+                label="Email"
+                type="email"
+                {...formik.getFieldProps("Email")}
+                error={formik.touched.Email && Boolean(formik.errors.Email)}
+                helperText={formik.touched.Email && formik.errors.Email}
+              />
+            </Grid>
+            <Grid size={{ sm: 12 }}>
+              <TextField
+                fullWidth
+                label="Password"
+                type="password"
+                {...formik.getFieldProps("Password")}
+                error={
+                  formik.touched.Password && Boolean(formik.errors.Password)
+                }
+                helperText={formik.touched.Password && formik.errors.Password}
+              />
+            </Grid>
+            <Grid size={{ sm: 12 }}>
+              <TextField
+                fullWidth
+                label="Confirm Password"
+                type="password"
+                {...formik.getFieldProps("ConfirmPassword")}
+                error={
+                  formik.touched.ConfirmPassword &&
+                  Boolean(formik.errors.ConfirmPassword)
+                }
+                helperText={
+                  formik.touched.ConfirmPassword &&
+                  formik.errors.ConfirmPassword
+                }
+              />
+            </Grid>
+            <Grid size={{ sm: 12 }}>
+              <Button
+                fullWidth
+                variant="contained"
+                sx={{
+                  background: "#2c3e50",
+                  padding: "8px 10px",
+                  color: "white",
+                }}
+                type="submit"
+              >
+                Register
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Last Name"
-              {...formik.getFieldProps("LastName")}
-              error={formik.touched.LastName && Boolean(formik.errors.LastName)}
-              helperText={formik.touched.LastName && formik.errors.LastName}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Email"
-              type="email"
-              {...formik.getFieldProps("Email")}
-              error={formik.touched.Email && Boolean(formik.errors.Email)}
-              helperText={formik.touched.Email && formik.errors.Email}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Password"
-              type="password"
-              {...formik.getFieldProps("Password")}
-              error={formik.touched.Password && Boolean(formik.errors.Password)}
-              helperText={formik.touched.Password && formik.errors.Password}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Confirm Password"
-              type="password"
-              {...formik.getFieldProps("ConfirmPassword")}
-              error={
-                formik.touched.ConfirmPassword &&
-                Boolean(formik.errors.ConfirmPassword)
-              }
-              helperText={
-                formik.touched.ConfirmPassword && formik.errors.ConfirmPassword
-              }
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button fullWidth variant="contained" color="primary" type="submit">
-              Register
-            </Button>
-          </Grid>
-        </Grid>
-      </form>
+        </form>
+      </Box>
     </Container>
   );
 };

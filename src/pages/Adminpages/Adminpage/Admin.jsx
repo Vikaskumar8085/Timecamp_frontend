@@ -61,11 +61,11 @@
 
 // export default Admin;
 
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
-import {Button} from "@mui/material";
+import { Button, Drawer } from "@mui/material";
 import TModal from "../../../common/Modal/TModal";
 import AdminForm from "../../../Component/AdminComponents/Admin/AdminForm";
 import AdminTable from "../../../Component/AdminComponents/Admin/AdminTable";
@@ -74,6 +74,7 @@ import {
   fetchadminapicall,
 } from "../../../ApiServices/AdminApiServices/Admin";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
+import AddIcon from "@mui/icons-material/Add";
 
 const Admin = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -116,9 +117,11 @@ const Admin = () => {
       <HeaderTab>
         <Button
           onClick={() => setIsModalOpen(true)}
+          startIcon={<AddIcon />}
           sx={{
-            background: "skyblue",
-            padding: "15px",
+            background: "#2c3e50",
+            padding: "8px 10px",
+            margin: "0px 10px",
             color: "white",
           }}
         >
@@ -126,13 +129,14 @@ const Admin = () => {
         </Button>
       </HeaderTab>
       {isModalOpen ? (
-        <TModal
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-          title={"Add Admin"}
+        <Drawer
+          open={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          // title={"Add Admin"}
+          anchor="right"
         >
           <AdminForm handleSubmit={handleSubmit} />
-        </TModal>
+        </Drawer>
       ) : null}
 
       <AdminTable isAdmindata={isAdmindata} />

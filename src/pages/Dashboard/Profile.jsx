@@ -1,9 +1,9 @@
 import React from "react";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import HeaderTab from "../../common/HeaderTab/HeaderTab";
-import {Button} from "@mui/material";
+import { Button } from "@mui/material";
 
 const Profile = () => {
   const userdata = useSelector((state) => state.user.values);
@@ -12,9 +12,7 @@ const Profile = () => {
     <>
       <Layout>
         <BreadCrumb pageName="Profile" />
-        <HeaderTab>
-          <Button>Add Profile</Button>
-        </HeaderTab>
+
         {Role === "Admin" && (
           <div>
             <Card>

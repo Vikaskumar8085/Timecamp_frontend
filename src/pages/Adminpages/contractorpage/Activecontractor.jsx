@@ -11,6 +11,7 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
+import Layout from "../../../Layoutcomponents/Layout/Layout";
 
 const Activecontractor = () => {
   const [isActivecontractordata, setIsActivecontractordata] = useState([]);
@@ -30,7 +31,7 @@ const Activecontractor = () => {
     getactivecontractor();
   }, [0]);
   return (
-    <DefaultLayout>
+    <Layout>
       <BreadCrumb pageName="Active Contractor" />
       <TableContainer component={Paper}>
         <Table sx={{minWidth: 650}} aria-label="simple table">
@@ -64,7 +65,7 @@ const Activecontractor = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </DefaultLayout>
+    </Layout>
   );
 };
 

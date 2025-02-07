@@ -4,8 +4,8 @@ import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout
 import TModal from "../../../common/Modal/TModal";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
-import {TextField} from "@mui/material";
-import {useFormik} from "formik";
+import { TextField } from "@mui/material";
+import { useFormik } from "formik";
 import RolesTable from "../../../Component/MasterComponent/Roles/RolesTable";
 import {
   createrolesapicall,
@@ -13,6 +13,8 @@ import {
 } from "../../../ApiServices/MasterApiServices/Roles";
 import apiInstance from "../../../ApiInstance/apiInstance";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
+import AddIcon from "@mui/icons-material/Add";
+
 
 const Roles = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -58,9 +60,11 @@ const Roles = () => {
         <HeaderTab>
           <Button
             onClick={() => setIsModalOpen(true)}
+            startIcon={<AddIcon />}
             sx={{
-              background: "skyblue",
-              padding: "15px",
+              background: "#2c3e50",
+              padding: "8px 10px",
+              margin: "10px 0px",
               color: "white",
             }}
           >
@@ -78,7 +82,7 @@ const Roles = () => {
                 label="Role Name"
                 variant="outlined"
                 type="text"
-                sx={{width: "100%"}}
+                sx={{ width: "100%" }}
                 {...formik.getFieldProps("RoleName")}
                 error={
                   formik.touched.RoleName && Boolean(formik.errors.RoleName)

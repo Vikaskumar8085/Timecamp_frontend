@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
-import {fetchinactivecontractorapicall} from "../../../ApiServices/AdminApiServices/Contractor";
+import { fetchinactivecontractorapicall } from "../../../ApiServices/AdminApiServices/Contractor";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import {
   Table,
@@ -11,6 +11,7 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
+import Layout from "../../../Layoutcomponents/Layout/Layout";
 
 const InActivecontractor = () => {
   const [isInActivecontractordata, setIsInActivecontractordata] = useState([]);
@@ -30,10 +31,10 @@ const InActivecontractor = () => {
     getInactivecontractor();
   }, [0]);
   return (
-    <DefaultLayout>
+    <Layout>
       <BreadCrumb pageName="InActive contractor" />
       <TableContainer component={Paper}>
-        <Table sx={{minWidth: 650}} aria-label="simple table">
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell align="left">ID</TableCell>
@@ -64,7 +65,7 @@ const InActivecontractor = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </DefaultLayout>
+    </Layout>
   );
 };
 

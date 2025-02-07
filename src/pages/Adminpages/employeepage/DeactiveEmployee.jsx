@@ -12,6 +12,7 @@ import { fetchinactiveemployeeapicall } from "../../../ApiServices/AdminApiServi
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import { Link } from "react-router-dom";
+import Layout from "../../../Layoutcomponents/Layout/Layout";
 
 const DeactiveEmployee = () => {
   const [IsInactiveEmployeedata, setIsInactiveEmployeedata] = useState([]);
@@ -32,7 +33,7 @@ const DeactiveEmployee = () => {
   }, [0]);
   return (
     <>
-      <DefaultLayout>
+      <Layout>
         <BreadCrumb pageName="InActive Employee" />
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -69,7 +70,7 @@ const DeactiveEmployee = () => {
             </TableBody>
           </Table>
         </TableContainer>
-      </DefaultLayout>
+      </Layout>
     </>
   );
 };

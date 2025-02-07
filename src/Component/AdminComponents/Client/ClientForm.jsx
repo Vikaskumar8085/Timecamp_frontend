@@ -1,8 +1,9 @@
 import React from "react";
-import {TextField, Button, Container, Box} from "@mui/material";
-import {useFormik} from "formik";
+import { TextField, Button, Container, Box, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid2";
+import { useFormik } from "formik";
 
-const ClientForm = ({handleSubmit}) => {
+const ClientForm = ({ handleSubmit }) => {
   const validate = (values) => {
     const errors = {};
     if (!values.Company_Name.trim()) {
@@ -68,90 +69,129 @@ const ClientForm = ({handleSubmit}) => {
 
   return (
     <Container maxWidth="sm">
-      <form onSubmit={formik.handleSubmit}>
-        <Box display="flex" flexDirection="column" gap={2}>
-          <TextField
-            fullWidth
-            label="Company Name"
-            {...formik.getFieldProps("Company_Name")}
-            error={
-              formik.touched.Company_Name && Boolean(formik.errors.Company_Name)
-            }
-            helperText={
-              formik.touched.Company_Name && formik.errors.Company_Name
-            }
-          />
-          <TextField
-            fullWidth
-            label="Client Name"
-            {...formik.getFieldProps("Client_Name")}
-            error={
-              formik.touched.Client_Name && Boolean(formik.errors.Client_Name)
-            }
-            helperText={formik.touched.Client_Name && formik.errors.Client_Name}
-          />
-          <TextField
-            fullWidth
-            label="Client Email"
-            type="email"
-            {...formik.getFieldProps("Client_Email")}
-            error={
-              formik.touched.Client_Email && Boolean(formik.errors.Client_Email)
-            }
-            helperText={
-              formik.touched.Client_Email && formik.errors.Client_Email
-            }
-          />
-          <TextField
-            fullWidth
-            label="Client Phone"
-            type="tel"
-            {...formik.getFieldProps("Client_Phone")}
-            error={
-              formik.touched.Client_Phone && Boolean(formik.errors.Client_Phone)
-            }
-            helperText={
-              formik.touched.Client_Phone && formik.errors.Client_Phone
-            }
-          />
-          <TextField
-            fullWidth
-            label="Client Address"
-            {...formik.getFieldProps("Client_Address")}
-            error={
-              formik.touched.Client_Address &&
-              Boolean(formik.errors.Client_Address)
-            }
-            helperText={
-              formik.touched.Client_Address && formik.errors.Client_Address
-            }
-          />
-          <TextField
-            fullWidth
-            label="Client Postal Code"
-            type="number"
-            {...formik.getFieldProps("Client_Postal_Code")}
-            error={
-              formik.touched.Client_Postal_Code &&
-              Boolean(formik.errors.Client_Postal_Code)
-            }
-            helperText={
-              formik.touched.Client_Postal_Code &&
-              formik.errors.Client_Postal_Code
-            }
-          />
-          <TextField
-            fullWidth
-            label="GST Number"
-            {...formik.getFieldProps("GstNumber")}
-            error={formik.touched.GstNumber && Boolean(formik.errors.GstNumber)}
-            helperText={formik.touched.GstNumber && formik.errors.GstNumber}
-          />
-          <Button fullWidth variant="contained" color="primary" type="submit">
-            Register Client
-          </Button>
-        </Box>
-      </form>
+      <Box
+        sx={{
+          mt: 2,
+          p: 1,
+        }}
+      >
+        <Typography variant="h5" sx={{ margin: "10px 0px" }}>
+          Add Client
+        </Typography>
+        <form onSubmit={formik.handleSubmit}>
+          <Grid container spacing={2}>
+            <Grid size={{ sm: 12 }}>
+              <TextField
+                fullWidth
+                label="Company Name"
+                {...formik.getFieldProps("Company_Name")}
+                error={
+                  formik.touched.Company_Name &&
+                  Boolean(formik.errors.Company_Name)
+                }
+                helperText={
+                  formik.touched.Company_Name && formik.errors.Company_Name
+                }
+              />
+            </Grid>
+            <Grid size={{ sm: 12 }}>
+              <TextField
+                fullWidth
+                label="Client Name"
+                {...formik.getFieldProps("Client_Name")}
+                error={
+                  formik.touched.Client_Name &&
+                  Boolean(formik.errors.Client_Name)
+                }
+                helperText={
+                  formik.touched.Client_Name && formik.errors.Client_Name
+                }
+              />
+            </Grid>
+            <Grid size={{ sm: 12 }}>
+              <TextField
+                fullWidth
+                label="Client Email"
+                type="email"
+                {...formik.getFieldProps("Client_Email")}
+                error={
+                  formik.touched.Client_Email &&
+                  Boolean(formik.errors.Client_Email)
+                }
+                helperText={
+                  formik.touched.Client_Email && formik.errors.Client_Email
+                }
+              />
+            </Grid>
+            <Grid size={{ sm: 12 }}>
+              <TextField
+                fullWidth
+                label="Client Phone"
+                type="tel"
+                {...formik.getFieldProps("Client_Phone")}
+                error={
+                  formik.touched.Client_Phone &&
+                  Boolean(formik.errors.Client_Phone)
+                }
+                helperText={
+                  formik.touched.Client_Phone && formik.errors.Client_Phone
+                }
+              />
+            </Grid>
+            <Grid size={{ sm: 12 }}>
+              <TextField
+                fullWidth
+                label="Client Address"
+                {...formik.getFieldProps("Client_Address")}
+                error={
+                  formik.touched.Client_Address &&
+                  Boolean(formik.errors.Client_Address)
+                }
+                helperText={
+                  formik.touched.Client_Address && formik.errors.Client_Address
+                }
+              />
+            </Grid>
+            <Grid size={{ sm: 12 }}>
+              <TextField
+                fullWidth
+                label="Client Postal Code"
+                type="number"
+                {...formik.getFieldProps("Client_Postal_Code")}
+                error={
+                  formik.touched.Client_Postal_Code &&
+                  Boolean(formik.errors.Client_Postal_Code)
+                }
+                helperText={
+                  formik.touched.Client_Postal_Code &&
+                  formik.errors.Client_Postal_Code
+                }
+              />
+            </Grid>
+            <Grid size={{ sm: 12 }}>
+              <TextField
+                fullWidth
+                label="GST Number"
+                {...formik.getFieldProps("GstNumber")}
+                error={
+                  formik.touched.GstNumber && Boolean(formik.errors.GstNumber)
+                }
+                helperText={formik.touched.GstNumber && formik.errors.GstNumber}
+              />
+            </Grid>
+            <Grid size={{ sm: 12 }}>
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                type="submit"
+              >
+                Register Client
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+      </Box>
     </Container>
   );
 };

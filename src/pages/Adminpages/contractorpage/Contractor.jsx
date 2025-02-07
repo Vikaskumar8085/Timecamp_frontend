@@ -1,11 +1,11 @@
-import React, {useState} from "react";
-import {TextField} from "@mui/material";
-import {useFormik} from "formik";
+import React, { useState } from "react";
+import { TextField } from "@mui/material";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
-import {Button} from "@mui/material";
+import { Button } from "@mui/material";
 import {
   Table,
   TableBody,
@@ -21,6 +21,9 @@ import {
   fetchcontractorapicall,
 } from "../../../ApiServices/AdminApiServices/Contractor";
 import { Link } from "react-router-dom";
+import Layout from "../../../Layoutcomponents/Layout/Layout";
+import AddIcon from "@mui/icons-material/Add";
+
 
 const Contractor = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -29,7 +32,7 @@ const Contractor = () => {
   const getcontractor = async () => {
     try {
       const response = await fetchcontractorapicall();
-      console.log(response)
+      console.log(response);
       if (response.success) {
         setIscontractordata(response.result);
       }
@@ -72,21 +75,21 @@ const Contractor = () => {
     getcontractor();
   }, [0]);
   return (
-    <DefaultLayout>
+    <Layout>
       <BreadCrumb pageName="Contractor" />
 
-      <HeaderTab>
         <Button
           onClick={() => setIsModalOpen(true)}
+          startIcon={<AddIcon />}
           sx={{
-            background: "skyblue",
-            padding: "15px",
+            background: "#2c3e50",
+            padding: "8px 10px",
+            margin: "10px 0px",
             color: "white",
           }}
         >
           Add Contractor
         </Button>
-      </HeaderTab>
 
       {
         <TModal
@@ -158,7 +161,7 @@ const Contractor = () => {
               color="primary"
               type="submit"
               fullWidth
-              sx={{mt: 2}}
+              sx={{ mt: 2 }}
             >
               Submit
             </Button>
@@ -168,7 +171,7 @@ const Contractor = () => {
 
       {/* table of contractor */}
       <TableContainer component={Paper}>
-        <Table sx={{minWidth: 650}} aria-label="simple table">
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell align="left">ID</TableCell>
@@ -194,7 +197,7 @@ const Contractor = () => {
                     <TableCell align="left">{item.Phone}</TableCell>
                     <TableCell align="left">{item.Address}</TableCell>
                     <TableCell align="left">
-                    <Link to={`/contractor-info/${item.staff_Id}`}>View</Link>
+                      <Link to={`/contractor-info/${item.staff_Id}`}>View</Link>
                     </TableCell>
                   </TableRow>
                 ))
@@ -202,7 +205,7 @@ const Contractor = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </DefaultLayout>
+    </Layout>
   );
 };
 

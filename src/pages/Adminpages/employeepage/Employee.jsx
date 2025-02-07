@@ -1,17 +1,19 @@
-import React, {useState} from "react";
-import {TextField} from "@mui/material";
-import {useFormik} from "formik";
+import React, { useState } from "react";
+import { TextField } from "@mui/material";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
-import {Button} from "@mui/material";
+import { Button } from "@mui/material";
 import TModal from "../../../common/Modal/TModal";
 import {
   addemployeeapicall,
   fetchemployeeapicall,
 } from "../../../ApiServices/AdminApiServices/Employee";
 import EmployeeTable from "../../../Component/AdminComponents/Employee/EmployeeTable";
+import Layout from "../../../Layoutcomponents/Layout/Layout";
+import AddIcon from "@mui/icons-material/Add";
 
 const Employee = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -66,21 +68,21 @@ const Employee = () => {
     getemployee();
   }, [0]);
   return (
-    <DefaultLayout>
+    <Layout>
       <BreadCrumb pageName="Employee" />
 
-      <HeaderTab>
-        <Button
-          onClick={() => setIsModalOpen(true)}
-          sx={{
-            background: "skyblue",
-            padding: "15px",
-            color: "white",
-          }}
-        >
-          Add Employee
-        </Button>
-      </HeaderTab>
+      <Button
+        onClick={() => setIsModalOpen(true)}
+        startIcon={<AddIcon />}
+        sx={{
+          background: "#2c3e50",
+          padding: "8px 10px",
+          margin: "10px 0px",
+          color: "white",
+        }}
+      >
+        Add Employee
+      </Button>
 
       {
         <TModal
@@ -152,7 +154,7 @@ const Employee = () => {
               color="primary"
               type="submit"
               fullWidth
-              sx={{mt: 2}}
+              sx={{ mt: 2 }}
             >
               Submit
             </Button>
@@ -161,7 +163,7 @@ const Employee = () => {
       }
 
       <EmployeeTable IsEmployeeData={IsEmployeeData} />
-    </DefaultLayout>
+    </Layout>
   );
 };
 

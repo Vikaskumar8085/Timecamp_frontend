@@ -1,9 +1,9 @@
 import React from "react";
-import {NavLink} from "react-router-dom";
-import {FaUserTie, FaBuilding, FaUserShield} from "react-icons/fa";
-const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen}) => {
+import { NavLink } from "react-router-dom";
+import { FaUserTie, FaBuilding, FaUserShield } from "react-icons/fa";
+const Sidebar = ({ setDropdownOpen, isOpen, dropdownOpen }) => {
   const toggleDropdown = (menu) => {
-    setDropdownOpen((prev) => ({...prev, [menu]: !prev[menu]}));
+    setDropdownOpen((prev) => ({ ...prev, [menu]: !prev[menu] }));
   };
   return (
     <div className={`layout_wrapper_sidebar ${isOpen ? "open" : "closed"}`}>
@@ -13,7 +13,7 @@ const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen}) => {
             <NavLink
               to={"/dashboard"}
               className="nav_link"
-              style={({isActive}) => ({
+              style={({ isActive }) => ({
                 color: isActive ? "greenyellow" : "white",
               })}
             >
@@ -24,7 +24,7 @@ const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen}) => {
             <NavLink
               to={"/company"}
               className="nav_link"
-              style={({isActive}) => ({
+              style={({ isActive }) => ({
                 color: isActive ? "greenyellow" : "white",
               })}
             >
@@ -33,15 +33,27 @@ const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen}) => {
           </li>
           <li>
             <NavLink
+              to={"/profile"}
+              className="nav_link"
+              style={({ isActive }) => ({
+                color: isActive ? "greenyellow" : "white",
+              })}
+            >
+              Profile
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
               to={"/admin"}
               className="nav_link"
-              style={({isActive}) => ({
+              style={({ isActive }) => ({
                 color: isActive ? "greenyellow" : "white",
               })}
             >
               Admin
             </NavLink>
           </li>
+
           <li className="dropdown">
             <button
               className="dropdown_btn"
@@ -90,17 +102,17 @@ const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen}) => {
               }`}
             >
               <li>
-                <NavLink to="/all-clients" className="nav_link">
+                <NavLink to="/employee" className="nav_link">
                   <FaUserTie className="icon" /> All Employee
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/active-clients" className="nav_link">
+                <NavLink to="/active-employee" className="nav_link">
                   <FaBuilding className="icon" /> Active Employee
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/inactive-clients" className="nav_link">
+                <NavLink to="/inactive-employee" className="nav_link">
                   <FaUserShield className="icon" /> Inactive Employee
                 </NavLink>
               </li>
@@ -120,17 +132,17 @@ const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen}) => {
               }`}
             >
               <li>
-                <NavLink to="/all-clients" className="nav_link">
+                <NavLink to="/contractor" className="nav_link">
                   <FaUserTie className="icon" /> All Contractor
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/active-clients" className="nav_link">
+                <NavLink to="/active-contractor" className="nav_link">
                   <FaBuilding className="icon" /> Active Contractor
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/inactive-clients" className="nav_link">
+                <NavLink to="/inactive-contractor" className="nav_link">
                   <FaUserShield className="icon" /> Inactive Contractor
                 </NavLink>
               </li>
@@ -149,18 +161,18 @@ const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen}) => {
               }`}
             >
               <li>
-                <NavLink to="/all-clients" className="nav_link">
-                  <FaUserTie className="icon" /> All Contractor
+                <NavLink to="/clients" className="nav_link">
+                  <FaUserTie className="icon" /> Timesheet
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/active-clients" className="nav_link">
-                  <FaBuilding className="icon" /> Active Contractor
+                  <FaBuilding className="icon" /> Project Time
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/inactive-clients" className="nav_link">
-                  <FaUserShield className="icon" /> Inactive Contractor
+                  <FaUserShield className="icon" /> Time summary
                 </NavLink>
               </li>
             </ul>
@@ -190,6 +202,35 @@ const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen}) => {
               <li>
                 <NavLink to="/master/roles" className="nav_link">
                   <FaUserShield className="icon" /> Roles
+                </NavLink>
+              </li>
+            </ul>
+          </li>
+          <li className="dropdown">
+            <button
+              className="dropdown_btn"
+              onClick={() => toggleDropdown("Project")}
+            >
+              Project <span>{dropdownOpen.masters ? "▲" : "▼"}</span>
+            </button>
+            <ul
+              className={`dropdown_menu ${
+                dropdownOpen.Project ? "show" : "hide"
+              }`}
+            >
+              <li>
+                <NavLink to="/projects" className="nav_link">
+                  <FaUserTie className="icon" /> Project
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/active-projects" className="nav_link">
+                  <FaBuilding className="icon" /> Active Project
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/inactive-projects" className="nav_link">
+                  <FaUserShield className="icon" /> Inactive Projects
                 </NavLink>
               </li>
             </ul>

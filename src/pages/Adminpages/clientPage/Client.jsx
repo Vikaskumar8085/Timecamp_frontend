@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import {Button} from "@mui/material";
+import { Box, Button, Drawer } from "@mui/material";
 import TModal from "../../../common/Modal/TModal";
 import ClientForm from "../../../Component/AdminComponents/Client/ClientForm";
 import ClientTable from "../../../Component/AdminComponents/Client/ClientTable";
@@ -11,9 +11,10 @@ import {
   fetchclientapicall,
 } from "../../../ApiServices/AdminApiServices/Client";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
+import AddIcon from "@mui/icons-material/Add";
 
 const Client = () => {
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [IsOpen, setIsOpen] = useState(false);
   const [Isclientdata, setIsclientdata] = useState([]);
   // fetch client
 
@@ -34,7 +35,7 @@ const Client = () => {
     try {
       const response = await createclientapicall(value);
       if (response.success) {
-        setIsModalOpen(false);
+        // setIsModalOpen(false);
         fetchclientfucntion();
       }
     } catch (error) {
@@ -49,29 +50,24 @@ const Client = () => {
   return (
     <Layout>
       <BreadCrumb pageName="Client" />
-      <HeaderTab>
-        <Button
-          onClick={() => setIsModalOpen(true)}
-          sx={{
-            background: "skyblue",
-            padding: "15px",
-            color: "white",
-          }}
-        >
-          Add Client
-        </Button>
-      </HeaderTab>
+      <Button
+        onClick={() => setIsOpen(true)}
+        startIcon={<AddIcon />}
+        sx={{
+          background: "#2c3e50",
+          padding: "8px 10px",
+          margin: "10px 0px",
+          color: "white",
+        }}
+      >
+        Add Client
+      </Button>
 
-      {isModalOpen ? (
-        <TModal
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-          title={"Add Client"}
-        >
+      {IsOpen && (
+        <Drawer open={IsOpen} onClose={() => setIsOpen(false)} anchor="right">
           <ClientForm handleSubmit={handleSubmit} />
-        </TModal>
-      ) : null}
-
+        </Drawer>
+      )}
       <ClientTable Isclientdata={Isclientdata} />
     </Layout>
   );

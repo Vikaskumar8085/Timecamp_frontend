@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from "react";
-import {fetchinactiveprojectsapicall} from "../../../ApiServices/ProjectApiServices";
+import React, { useEffect, useState } from "react";
+import { fetchinactiveprojectsapicall } from "../../../ApiServices/ProjectApiServices";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
+import Layout from "../../../Layoutcomponents/Layout/Layout";
 
 const Inactiveprojects = () => {
   const [IsInActiveprojectsdata, setIsInActiveprojectsdata] = useState([]);
@@ -22,9 +23,8 @@ const Inactiveprojects = () => {
     getinactiveprojectfunc();
   }, [0]);
 
-
   return (
-    <DefaultLayout>
+    <Layout>
       {Role === "Admin" && (
         <div>
           <Card>
@@ -37,7 +37,7 @@ const Inactiveprojects = () => {
       {Role === "Client" && <div>Role:{userdata?.Role}</div>}
       {Role === "Employee" && <div>Role:{userdata?.Role}</div>}
       {Role === "Contractor" && <div>Role:{userdata?.Role}</div>}
-    </DefaultLayout>
+    </Layout>
   );
 };
 

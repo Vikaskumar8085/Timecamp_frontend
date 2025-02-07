@@ -1,11 +1,11 @@
-import {Button, Container, Drawer, Input, TextField} from "@mui/material";
-import React, {useEffect, useState} from "react";
+import { Button, Container, Drawer, Input, TextField } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import TModal from "../../../common/Modal/TModal";
-import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import DepartmentTable from "../../../Component/MasterComponent/Department/DepartmentTable";
-import {useFormik} from "formik";
+import AddIcon from "@mui/icons-material/Add";
+
 import {
   createdepartmentapicall,
   fetchdepartmentapicall,
@@ -46,9 +46,11 @@ const Department = () => {
         </Button>
         <Button
           onClick={() => setIsOpen(true)}
+          startIcon={<AddIcon />}
           sx={{
-            background: "skyblue",
-            padding: "15px",
+            background: "#2c3e50",
+            padding: "8px 10px",
+            margin: "10px 0px",
             color: "white",
           }}
         >
@@ -69,7 +71,7 @@ const Department = () => {
                 label="Department Name"
                 variant="outlined"
                 type="text"
-                sx={{width: "100%"}}
+                sx={{ width: "100%" }}
                 {...formik.getFieldProps("Department_Name")}
               />
               <Button

@@ -1,12 +1,13 @@
-import React, {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
-import {fetchsingleemployeeapicall} from "../../../ApiServices/AdminApiServices/Employee";
-import {Paper} from "@mui/material";
+import { fetchsingleemployeeapicall } from "../../../ApiServices/AdminApiServices/Employee";
+import { Paper } from "@mui/material";
 import Card from "../../../common/Card/Card";
+import Layout from "../../../Layoutcomponents/Layout/Layout";
 
 const Employeeinfo = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   const [isEmployeedata, setIsEmployeedata] = useState([]);
 
   const fetchsingleemployeefunc = async () => {
@@ -25,7 +26,7 @@ const Employeeinfo = () => {
     fetchsingleemployeefunc();
   }, [0]);
   return (
-    <DefaultLayout>
+    <Layout>
       <Card>
         <p>FirstName:{isEmployeedata.FirstName}</p>
         <p>LastName:{isEmployeedata.LastName}</p>
@@ -33,7 +34,7 @@ const Employeeinfo = () => {
         <p>Phone:{isEmployeedata.Phone}</p>
         <p>Address:{isEmployeedata.Address}</p>
       </Card>
-    </DefaultLayout>
+    </Layout>
   );
 };
 

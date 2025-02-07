@@ -5,6 +5,7 @@ import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import {fetchsinglecontractorapicall} from "../../../ApiServices/AdminApiServices/Contractor";
 import Card from "../../../common/Card/Card";
+import Layout from "../../../Layoutcomponents/Layout/Layout";
 
 const ContractorInfo = () => {
   const {id} = useParams();
@@ -27,7 +28,7 @@ const ContractorInfo = () => {
     getcontractorInfo();
   }, [0]);
   return (
-    <DefaultLayout>
+    <Layout>
       <BreadCrumb pageName="Contractor Info" />
       <Card>
         <p>FirstName:{isContractordata.FirstName}</p>
@@ -36,7 +37,7 @@ const ContractorInfo = () => {
         <p>Phone:{isContractordata.Phone}</p>
         <p>Address:{isContractordata.Address}</p>
       </Card>
-    </DefaultLayout>
+    </Layout>
   );
 };
 

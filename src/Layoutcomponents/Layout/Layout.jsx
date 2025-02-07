@@ -1,10 +1,10 @@
-import React, {Suspense, useState} from "react";
+import React, { Suspense, useState } from "react";
 import "./style.css";
 import Sidebar from "./Sidebar/Sidebar";
 import Loader from "../../common/Loader/Loader";
-import {useSelector} from "react-redux";
-import {getuserapicall} from "../../ApiServices/UserApiServices/User";
-const Layout = ({children}) => {
+import { useSelector } from "react-redux";
+import { getuserapicall } from "../../ApiServices/UserApiServices/User";
+const Layout = ({ children }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState({
     masters: false,
@@ -12,6 +12,7 @@ const Layout = ({children}) => {
     Employee: false,
     Contractor: false,
     TimeSheet: false,
+    Project: false,
   });
   const userdata = useSelector((state) => state.user.values);
   let Role = userdata.Role;
