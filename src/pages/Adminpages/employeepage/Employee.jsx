@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TextField } from "@mui/material";
+import { Drawer, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
@@ -14,10 +14,12 @@ import {
 import EmployeeTable from "../../../Component/AdminComponents/Employee/EmployeeTable";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
+import ContractorUploadForm from "../../../Component/AdminComponents/Contractor/ContractorUploadForm";
 
 const Employee = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
-
+  const [isUpload, setIsUpload] = useState(false);
   const [IsEmployeeData, setIsEmployeeData] = useState([]);
 
   const getemployee = async () => {
@@ -82,6 +84,18 @@ const Employee = () => {
         }}
       >
         Add Employee
+      </Button>
+      <Button
+        onClick={() => setIsUpload(true)}
+        startIcon={<FileUploadIcon />}
+        sx={{
+          background: "#2c3e50",
+          padding: "8px 10px",
+          margin: "10px 10px",
+          color: "white",
+        }}
+      >
+        Upload Employee
       </Button>
 
       {
@@ -161,6 +175,16 @@ const Employee = () => {
           </form>
         </TModal>
       }
+
+      {isUpload && (
+        <Drawer
+          open={isUpload}
+          onClose={() => setIsUpload(false)}
+          anchor="right"
+        >
+          <ContractorUploadForm />
+        </Drawer>
+      )}
 
       <EmployeeTable IsEmployeeData={IsEmployeeData} />
     </Layout>

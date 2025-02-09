@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { TextField } from "@mui/material";
+import { Drawer, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import HeaderTab from "../../../common/HeaderTab/HeaderTab";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { Button } from "@mui/material";
 import {
   Table,
@@ -23,10 +23,13 @@ import {
 import { Link } from "react-router-dom";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
+import ContractorUploadForm from "../../../Component/AdminComponents/Contractor/ContractorUploadForm";
+import ContractorTable from "../../../Component/AdminComponents/Contractor/ContractorTable";
 
 const Contractor = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [Iscontractordata, setIscontractordata] = useState([]);
+  const [isUpload, setIsUpload] = useState(false);
 
   const getcontractor = async () => {
     try {
@@ -88,6 +91,18 @@ const Contractor = () => {
         }}
       >
         Add Contractor
+      </Button>
+      <Button
+        onClick={() => setIsUpload(true)}
+        startIcon={<FileUploadIcon />}
+        sx={{
+          background: "#2c3e50",
+          padding: "8px 10px",
+          margin: "10px 10px",
+          color: "white",
+        }}
+      >
+        Upload Contractor
       </Button>
 
       {
@@ -168,42 +183,18 @@ const Contractor = () => {
         </TModal>
       }
 
+      {isUpload && (
+        <Drawer
+          open={isUpload}
+          onClose={() => setIsUpload(false)}
+          anchor="right"
+        >
+          <ContractorUploadForm />
+        </Drawer>
+      )}
       {/* table of contractor */}
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="left">ID</TableCell>
-              <TableCell align="left">Contractor FirstName</TableCell>
-              <TableCell align="left">Contractor LastName</TableCell>
-              <TableCell align="left">Contractor Email</TableCell>
-              <TableCell align="left">Contractor Phone</TableCell>
-              <TableCell align="left">Contractor Address</TableCell>
 
-              <TableCell align="left">Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {Iscontractordata.length > 0
-              ? Iscontractordata.map((item, index) => (
-                  <TableRow key={index}>
-                    <TableCell component="th" scope="row">
-                      {index + 1}
-                    </TableCell>
-                    <TableCell align="left">{item.FirstName}</TableCell>
-                    <TableCell align="left">{item.LastName}</TableCell>
-                    <TableCell align="left">{item.Email}</TableCell>
-                    <TableCell align="left">{item.Phone}</TableCell>
-                    <TableCell align="left">{item.Address}</TableCell>
-                    <TableCell align="left">
-                      <Link to={`/contractor-info/${item.staff_Id}`}>View</Link>
-                    </TableCell>
-                  </TableRow>
-                ))
-              : "null"}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <ContractorTable Iscontractordata={Iscontractordata} />
     </Layout>
   );
 };
