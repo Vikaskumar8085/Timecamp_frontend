@@ -24,7 +24,6 @@ import { Link } from "react-router-dom";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 
-
 const Contractor = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [Iscontractordata, setIscontractordata] = useState([]);
@@ -78,18 +77,18 @@ const Contractor = () => {
     <Layout>
       <BreadCrumb pageName="Contractor" />
 
-        <Button
-          onClick={() => setIsModalOpen(true)}
-          startIcon={<AddIcon />}
-          sx={{
-            background: "#2c3e50",
-            padding: "8px 10px",
-            margin: "10px 0px",
-            color: "white",
-          }}
-        >
-          Add Contractor
-        </Button>
+      <Button
+        onClick={() => setIsModalOpen(true)}
+        startIcon={<AddIcon />}
+        sx={{
+          background: "#2c3e50",
+          padding: "8px 10px",
+          margin: "10px 0px",
+          color: "white",
+        }}
+      >
+        Add Contractor
+      </Button>
 
       {
         <TModal

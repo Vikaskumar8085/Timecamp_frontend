@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
-import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import { Box, Button, Drawer } from "@mui/material";
-import TModal from "../../../common/Modal/TModal";
 import ClientForm from "../../../Component/AdminComponents/Client/ClientForm";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 import ClientTable from "../../../Component/AdminComponents/Client/ClientTable";
 import {
   createclientapicall,
@@ -12,9 +10,11 @@ import {
 } from "../../../ApiServices/AdminApiServices/Client";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
+import ClientUploadForm from "../../../Component/AdminComponents/Client/ClientUploadForm";
 
 const Client = () => {
   const [IsOpen, setIsOpen] = useState(false);
+  const [isUpload, setIsUpload] = useState(false);
   const [Isclientdata, setIsclientdata] = useState([]);
   // fetch client
 
@@ -63,9 +63,30 @@ const Client = () => {
         Add Client
       </Button>
 
+      <Button
+        onClick={() => setIsUpload(true)}
+        startIcon={<FileUploadIcon />}
+        sx={{
+          background: "#2c3e50",
+          padding: "8px 10px",
+          margin: "10px 10px",
+          color: "white",
+        }}
+      >
+        Upload Client
+      </Button>
       {IsOpen && (
         <Drawer open={IsOpen} onClose={() => setIsOpen(false)} anchor="right">
           <ClientForm handleSubmit={handleSubmit} />
+        </Drawer>
+      )}
+      {isUpload && (
+        <Drawer
+          open={isUpload}
+          onClose={() => setIsUpload(false)}
+          anchor="right"
+        >
+          <ClientUploadForm />
         </Drawer>
       )}
       <ClientTable Isclientdata={Isclientdata} />

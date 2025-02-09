@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
-import {Button} from "@mui/material";
+import { Button } from "@mui/material";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import TModal from "../../../common/Modal/TModal";
@@ -19,7 +19,7 @@ import {
   createprojectapicall,
   fetchprojectapicall,
 } from "../../../ApiServices/ProjectApiServices";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 
@@ -109,7 +109,7 @@ const Project = () => {
           ) : null}
 
           <TableContainer component={Paper}>
-            <Table sx={{minWidth: 650}} aria-label="simple table">
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
                   <TableCell align="left">ID</TableCell>
