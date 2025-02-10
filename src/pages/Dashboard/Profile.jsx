@@ -1,9 +1,9 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import Layout from "../../Layoutcomponents/Layout/Layout";
+import {useSelector} from "react-redux";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
-import HeaderTab from "../../common/HeaderTab/HeaderTab";
-import { Button } from "@mui/material";
+import Layout from "../../Layoutcomponents/Layout/Layout";
+import {Card} from "@mui/material";
+import UserProfile from "../../Component/DashboardComponents/ProfileComponent/UserProfile";
 
 const Profile = () => {
   const userdata = useSelector((state) => state.user.values);
@@ -15,11 +15,7 @@ const Profile = () => {
 
         {Role === "Admin" && (
           <div>
-            <Card>
-              <p>FirstName : {userdata.FirstName}</p>
-              <p>LastName : {userdata.LastName}</p>
-              <p>Email : {userdata.Email}</p>
-            </Card>
+            <UserProfile user={userdata} />
           </div>
         )}
         {Role === "Client" && <div>Role:{userdata?.Role}</div>}

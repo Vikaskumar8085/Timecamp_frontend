@@ -61,11 +61,11 @@
 
 // export default Admin;
 
-import React, { useEffect } from "react";
+import React, {useEffect} from "react";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
-import { Button, Drawer } from "@mui/material";
+import {Button, Drawer} from "@mui/material";
 import TModal from "../../../common/Modal/TModal";
 import AdminForm from "../../../Component/AdminComponents/Admin/AdminForm";
 import AdminTable from "../../../Component/AdminComponents/Admin/AdminTable";
@@ -75,6 +75,7 @@ import {
 } from "../../../ApiServices/AdminApiServices/Admin";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
+import UserList from "../../../Component/AdminComponents/Admin/UserList";
 
 const Admin = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -139,7 +140,9 @@ const Admin = () => {
         </Drawer>
       ) : null}
 
-      <AdminTable isAdmindata={isAdmindata} />
+      {/* <AdminTable isAdmindata={isAdmindata} />
+       */}
+      <UserList users={isAdmindata} />
     </Layout>
   );
 };

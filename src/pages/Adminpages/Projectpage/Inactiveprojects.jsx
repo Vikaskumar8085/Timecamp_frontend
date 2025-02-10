@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { fetchinactiveprojectsapicall } from "../../../ApiServices/ProjectApiServices";
+import React, {useEffect, useState} from "react";
+import {fetchinactiveprojectsapicall} from "../../../ApiServices/ProjectApiServices";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 
 const Inactiveprojects = () => {
@@ -25,15 +25,8 @@ const Inactiveprojects = () => {
 
   return (
     <Layout>
-      {Role === "Admin" && (
-        <div>
-          <Card>
-            <p>FirstName : {userdata.FirstName}</p>
-            <p>LastName : {userdata.LastName}</p>
-            <p>Email : {userdata.Email}</p>
-          </Card>
-        </div>
-      )}
+      <BreadCrumb pageName="InActive Projects" />
+      {Role === "Admin" && <div></div>}
       {Role === "Client" && <div>Role:{userdata?.Role}</div>}
       {Role === "Employee" && <div>Role:{userdata?.Role}</div>}
       {Role === "Contractor" && <div>Role:{userdata?.Role}</div>}

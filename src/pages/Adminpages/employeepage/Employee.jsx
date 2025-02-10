@@ -16,6 +16,7 @@ import Layout from "../../../Layoutcomponents/Layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import ContractorUploadForm from "../../../Component/AdminComponents/Contractor/ContractorUploadForm";
+import EmployeeUploadForm from "../../../Component/AdminComponents/Employee/EmployeeUploadForm";
 
 const Employee = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -182,7 +183,7 @@ const Employee = () => {
           onClose={() => setIsUpload(false)}
           anchor="right"
         >
-          <ContractorUploadForm />
+          <EmployeeUploadForm />
         </Drawer>
       )}
 

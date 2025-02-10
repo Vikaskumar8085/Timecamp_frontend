@@ -1,9 +1,9 @@
 import React from "react";
-import { TextField, Button, Container, Box, Typography } from "@mui/material";
+import {TextField, Button, Container, Box, Typography} from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import { useFormik } from "formik";
+import {useFormik} from "formik";
 
-const ClientForm = ({ handleSubmit }) => {
+const ClientForm = ({handleSubmit}) => {
   const validate = (values) => {
     const errors = {};
     if (!values.Company_Name.trim()) {
@@ -75,12 +75,12 @@ const ClientForm = ({ handleSubmit }) => {
           p: 1,
         }}
       >
-        <Typography variant="h5" sx={{ margin: "10px 0px" }}>
+        <Typography variant="h5" sx={{margin: "10px 0px"}}>
           Add Client
         </Typography>
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={2}>
-            <Grid size={{ sm: 12 }}>
+            <Grid size={{sm: 12}}>
               <TextField
                 fullWidth
                 label="Company Name"
@@ -94,7 +94,7 @@ const ClientForm = ({ handleSubmit }) => {
                 }
               />
             </Grid>
-            <Grid size={{ sm: 12 }}>
+            <Grid size={{sm: 12}}>
               <TextField
                 fullWidth
                 label="Client Name"
@@ -108,7 +108,7 @@ const ClientForm = ({ handleSubmit }) => {
                 }
               />
             </Grid>
-            <Grid size={{ sm: 12 }}>
+            <Grid size={{sm: 12}}>
               <TextField
                 fullWidth
                 label="Client Email"
@@ -123,7 +123,7 @@ const ClientForm = ({ handleSubmit }) => {
                 }
               />
             </Grid>
-            <Grid size={{ sm: 12 }}>
+            <Grid size={{sm: 12}}>
               <TextField
                 fullWidth
                 label="Client Phone"
@@ -138,7 +138,7 @@ const ClientForm = ({ handleSubmit }) => {
                 }
               />
             </Grid>
-            <Grid size={{ sm: 12 }}>
+            <Grid size={{sm: 12}}>
               <TextField
                 fullWidth
                 label="Client Address"
@@ -152,7 +152,7 @@ const ClientForm = ({ handleSubmit }) => {
                 }
               />
             </Grid>
-            <Grid size={{ sm: 12 }}>
+            <Grid size={{sm: 12}}>
               <TextField
                 fullWidth
                 label="Client Postal Code"
@@ -168,7 +168,7 @@ const ClientForm = ({ handleSubmit }) => {
                 }
               />
             </Grid>
-            <Grid size={{ sm: 12 }}>
+            <Grid size={{sm: 12}}>
               <TextField
                 fullWidth
                 label="GST Number"
@@ -179,12 +179,18 @@ const ClientForm = ({ handleSubmit }) => {
                 helperText={formik.touched.GstNumber && formik.errors.GstNumber}
               />
             </Grid>
-            <Grid size={{ sm: 12 }}>
+            <Grid size={{sm: 12}}>
               <Button
                 fullWidth
                 variant="contained"
                 color="primary"
                 type="submit"
+                sx={{
+                  background: "#2c3e50",
+                  padding: "8px 10px",
+                  color: "white",
+                  width: "100%",
+                }}
               >
                 Register Client
               </Button>

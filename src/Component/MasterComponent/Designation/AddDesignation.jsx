@@ -60,6 +60,9 @@ const AddDesignation = ({handleSubmit}) => {
                   variant="contained"
                   color="primary"
                   fullWidth
+                  sx={{
+                    background: "#2c3e50",
+                  }}
                 >
                   Submit
                 </Button>

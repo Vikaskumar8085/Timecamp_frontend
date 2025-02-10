@@ -1,8 +1,13 @@
 import React from "react";
-import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
+import Layout from "../../../Layoutcomponents/Layout/Layout";
+import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 
 const ProjectTime = () => {
-  return <DefaultLayout>ProjectTime</DefaultLayout>;
+  return <Layout>
+
+
+    <BreadCrumb pageName="Project Time"/>
+  </Layout>;
 };
 
 export default ProjectTime;

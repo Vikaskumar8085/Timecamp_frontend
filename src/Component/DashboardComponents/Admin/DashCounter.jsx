@@ -1,5 +1,6 @@
 import React from "react";
 import Grid from "@mui/material/Grid2";
+import { Card } from "@mui/material";
 const DashCounter = () => {
   return (
     <div>

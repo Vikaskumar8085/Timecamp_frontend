@@ -36,6 +36,8 @@ import {useSelector} from "react-redux";
 import SpinnerLoader from "./common/SpinnerLoader/SpinnerLoader";
 import Layout from "./Layoutcomponents/Layout/Layout";
 import {Toaster} from "react-hot-toast";
+import ProjectTime from "./pages/Adminpages/Timesheetpage/ProjectTime";
+import TimesheetSummary from "./pages/Adminpages/Timesheetpage/TimesheetSummary";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -88,6 +90,8 @@ const App = () => {
         <Route path="/task" element={<Task />} />
         <Route path="task-upload" element={<Taskupload />} />
         <Route path="/timesheet" element={<Timesheet />} />
+        <Route path="/timesheet/project-time" element={<ProjectTime />} />
+        <Route path="/timesheet/time-summary" element={<TimesheetSummary />} />
         <Route path="/master/designation" element={<Designation />} />
         <Route path="/master/department" element={<Department />} />
         <Route path="/master/roles" element={<Roles />} />

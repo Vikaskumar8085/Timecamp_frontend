@@ -1,18 +1,18 @@
 import React, {useEffect} from "react";
-import Card from "../../common/Card/Card";
-import Breadcrumb from "../../common/BreadCrumb/BreadCrumb";
-import {Container} from "@mui/material";
-import DefaultLayout from "../../Layoutcomponents/DefaultLayout/DefaultLayout";
+import {Button, Container} from "@mui/material";
 import {useFormik} from "formik";
 import {loginapicall} from "../../ApiServices/Authapiservices";
-import axios from "axios";
+import {useGoogleLogin} from "@react-oauth/google";
+import {useDispatch} from "react-redux";
+import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
+import {GoogleLoginAuth} from "../../ApiServices/UserApiServices/User";
 
 const validate = (values) => {
   const errors = {};
 
   if (!values.Email) {
     errors.Email = "Email is required";
-  } 
+  }
 
   if (!values.Password) {
     errors.Password = "Password is required";
@@ -24,6 +24,8 @@ const validate = (values) => {
 };
 
 const Login = () => {
+  const dispatch = useDispatch();
+
   // at us.
   const formik = useFormik({
     initialValues: {
@@ -49,6 +51,18 @@ const Login = () => {
       window.location.href = "/dashboard";
     }
   }
+
+  const login = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      dispatch(setLoader(true));
+      const response = await GoogleLoginAuth(tokenResponse);
+      console.log(response, "afsdfasdfjlsadfj");
+      if (response.success) {
+        dispatch(setLoader(false));
+        window.location.href = "/dashboard";
+      }
+    },
+  });
 
   useEffect(() => {
     redirectfunc();
@@ -87,6 +101,10 @@ const Login = () => {
             </div>
             <div className="mb-3">
               <button type="submit">Submit</button>
+            </div>
+
+            <div className="mb-3">
+              <Button onClick={() => login()}>google Login</Button>
             </div>
           </form>
         </Container>

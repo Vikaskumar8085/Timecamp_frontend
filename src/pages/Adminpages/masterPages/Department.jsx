@@ -29,7 +29,7 @@ const Department = () => {
 
   useEffect(() => {
     getdepartment();
-  });
+  },[0]);
   return (
     <Layout>
       <BreadCrumb pageName="Department" />

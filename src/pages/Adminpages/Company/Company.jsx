@@ -9,6 +9,7 @@ import {
 import {useNavigate} from "react-router-dom";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
+import CompanyTable from "../../../Component/Companycomponents/CompanyTable";
 
 const CompanyForm = ({handlesubmit}) => {
   const formik = useFormik({
@@ -190,7 +191,7 @@ const CompanyForm = ({handlesubmit}) => {
 const Company = () => {
   const navigate = useNavigate();
   const [iscompanydata, setIscompanydata] = useState({});
-  console.log(iscompanydata.Company_Id);
+  console.log(iscompanydata);
 
   const getcompany = async () => {
     try {
@@ -221,6 +222,7 @@ const Company = () => {
   return iscompanydata.Company_Id > 0 ? (
     <Layout>
       <BreadCrumb pageName="Company" />
+      <CompanyTable company={iscompanydata} />
     </Layout>
   ) : (
     <>

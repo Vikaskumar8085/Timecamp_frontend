@@ -1,11 +1,20 @@
-import React, { Suspense, useState } from "react";
+import React, {Suspense, useState} from "react";
 import "./style.css";
 import Sidebar from "./Sidebar/Sidebar";
 import Loader from "../../common/Loader/Loader";
-import { useSelector } from "react-redux";
-import { getuserapicall } from "../../ApiServices/UserApiServices/User";
-const Layout = ({ children }) => {
+import {useDispatch, useSelector} from "react-redux";
+import {getuserapicall} from "../../ApiServices/UserApiServices/User";
+import {setUser} from "../../redux/User/UserSlice";
+const Layout = ({children}) => {
+  const dispatch = useDispatch();
+  const userdata = useSelector((state) => {
+    return state.user.values;
+  });
+
+  let Role = userdata.Role;
+  console.log(userdata.Role, "daalfasdlkfaslk");
   const [isOpen, setIsOpen] = useState(true);
+
   const [dropdownOpen, setDropdownOpen] = useState({
     masters: false,
     client: false,
@@ -14,13 +23,11 @@ const Layout = ({ children }) => {
     TimeSheet: false,
     Project: false,
   });
-  const userdata = useSelector((state) => state.user.values);
-  let Role = userdata.Role;
 
   const getProfileFunc = async () => {
     try {
       const response = await getuserapicall();
-      console.log(response, "response");
+      console.log(response.result, "response");
       if (response.success) {
         dispatch(setUser(response.result));
       }
@@ -45,6 +52,7 @@ const Layout = ({ children }) => {
           dropdownOpen={dropdownOpen}
           setDropdownOpen={setDropdownOpen}
           isOpen={isOpen}
+          Role={Role}
         />
         <div className="layout_wrapper_box">
           <div className="layout_wrapper_header">
