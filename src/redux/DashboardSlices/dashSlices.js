@@ -6,11 +6,11 @@ const dashSlice = createSlice({
     countervalues: [],
   },
   reducers: {
-    setCounter: (state, action) => {
+    setadminNumberofdashboarddata: (state, action) => {
       state.countervalues = action.payload;
     },
   },
 });
 
-export const {setCounter} = dashSlice.actions;
+export const {setadminNumberofdashboarddata} = dashSlice.actions;
 export default dashSlice.reducer;
