@@ -1,11 +1,12 @@
-import React, {Suspense, useState} from "react";
+import React, { Suspense, useState } from "react";
 import "./style.css";
 import Sidebar from "./Sidebar/Sidebar";
 import Loader from "../../common/Loader/Loader";
-import {useDispatch, useSelector} from "react-redux";
-import {getuserapicall} from "../../ApiServices/UserApiServices/User";
-import {setUser} from "../../redux/User/UserSlice";
-const Layout = ({children}) => {
+import { useDispatch, useSelector } from "react-redux";
+import { getuserapicall } from "../../ApiServices/UserApiServices/User";
+import { setUser } from "../../redux/User/UserSlice";
+import { Avatar } from "@mui/material";
+const Layout = ({ children }) => {
   const dispatch = useDispatch();
   const userdata = useSelector((state) => {
     return state.user.values;
@@ -67,7 +68,11 @@ const Layout = ({children}) => {
               </div>
 
               <div className="header_right_item">
-                <h1>profile</h1>
+                <Avatar
+                  src={"https://via.placeholder.com/100"}
+                  alt={"adsfk"}
+                  sx={{ width: 60, height: 60 }}
+                />
               </div>
             </div>
           </div>
