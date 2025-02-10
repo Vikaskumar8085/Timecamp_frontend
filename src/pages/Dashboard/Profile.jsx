@@ -18,9 +18,21 @@ const Profile = () => {
             <UserProfile user={userdata} />
           </div>
         )}
-        {Role === "Client" && <div>Role:{userdata?.Role}</div>}
-        {Role === "Employee" && <div>Role:{userdata?.Role}</div>}
-        {Role === "Contractor" && <div>Role:{userdata?.Role}</div>}
+        {Role === "Client" && (
+          <>
+            <UserProfile user={userdata} />
+          </>
+        )}
+        {Role === "Employee" && (
+          <div>
+            <UserProfile user={userdata} />
+          </div>
+        )}
+        {Role === "Contractor" && (
+          <>
+            <UserProfile user={userdata} />
+          </>
+        )}
       </Layout>
     </>
   );
