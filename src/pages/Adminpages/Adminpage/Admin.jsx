@@ -140,8 +140,6 @@ const Admin = () => {
         </Drawer>
       ) : null}
 
-      {/* <AdminTable isAdmindata={isAdmindata} />
-       */}
       <UserList users={isAdmindata} />
     </Layout>
   );
