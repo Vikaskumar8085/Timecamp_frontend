@@ -7,6 +7,7 @@ import {getuserapicall} from "../../ApiServices/UserApiServices/User";
 import {setUser} from "../../redux/User/UserSlice";
 import {Avatar, Badge} from "@mui/material";
 import NotificationDrawer from "../../Component/Notificationcomponent/NotificationDrawer";
+import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
 const Layout = ({children}) => {
   const dispatch = useDispatch();
   const userdata = useSelector((state) => {
@@ -28,10 +29,12 @@ const Layout = ({children}) => {
 
   const getProfileFunc = async () => {
     try {
+      dispatch(setLoader(true));
       const response = await getuserapicall();
       console.log(response.result, "response");
       if (response.success) {
         dispatch(setUser(response.result));
+        dispatch(setLoader(false));
       }
     } catch (error) {
       console.group(error?.message);
@@ -50,7 +53,6 @@ const Layout = ({children}) => {
   return (
     <div className="layout_wrapper">
       <div className="layout_box">
-        
         <Sidebar
           dropdownOpen={dropdownOpen}
           setDropdownOpen={setDropdownOpen}

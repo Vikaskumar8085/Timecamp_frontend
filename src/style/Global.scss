@@ -17,3 +17,24 @@ a {
   font-size: 1em;
   font-family: sans-serif;
 }
+
+::-webkit-scrollbar {
+  height: 2px;
+  width: 4px;
+  border-radius: 40px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 3px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #03c8ff;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #32f1ff;
+}
