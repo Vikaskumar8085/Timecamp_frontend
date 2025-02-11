@@ -23,6 +23,7 @@ import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
+import ProjectTable from "../../../Component/AdminComponents/Project/ProjectTable";
 
 const Project = () => {
   const userdata = useSelector((state) => state.user.values);
@@ -61,9 +62,8 @@ const Project = () => {
   return (
     <Layout>
       <BreadCrumb pageName="Projects" />
-      {/* {Role === "Admin" && ( */}
-      <>
-        <HeaderTab>
+      {Role === "Admin" && (
+        <>
           <Button
             onClick={() => setIsModalOpen(true)}
             startIcon={<AddIcons />}
@@ -89,65 +89,30 @@ const Project = () => {
           >
             Upload Projects
           </Button>
-        </HeaderTab>
 
-        {isModalOpen ? (
-          <Drawer
-            open={isModalOpen}
-            onClose={()=>setIsModalOpen(false)}
-            anchor="right"
-          >
-            <ProjectForm handleSubmit={handleSubmit} />
-          </Drawer>
-        ) : null}
+          {isModalOpen ? (
+            <Drawer
+              open={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              anchor="right"
+            >
+              <ProjectForm handleSubmit={handleSubmit} />
+            </Drawer>
+          ) : null}
 
-        {IsProjectUploadModelOpen ? (
-          <Drawer
-            open={IsProjectUploadModelOpen}
-            onClose={() => setIsProjectUploadModelOpen(false)}
-            anchor="right"
-          >
-            <UploadProjectForm />
-          </Drawer>
-        ) : null}
+          {IsProjectUploadModelOpen ? (
+            <Drawer
+              open={IsProjectUploadModelOpen}
+              onClose={() => setIsProjectUploadModelOpen(false)}
+              anchor="right"
+            >
+              <UploadProjectForm />
+            </Drawer>
+          ) : null}
 
-        <TableContainer component={Paper}>
-          <Table sx={{minWidth: 650}} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="left">ID</TableCell>
-                <TableCell align="left">Project Name</TableCell>
-                <TableCell align="left">Project Code</TableCell>
-                {/* <TableCell align="left">Client Name</TableCell> */}
-                <TableCell align="left">Project Hours</TableCell>
-                <TableCell align="left">Start Date</TableCell>
-                <TableCell align="left">End Date</TableCell>
-                <TableCell align="left">Action</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {isProjectdata.length > 0
-                ? isProjectdata.map((item, index) => (
-                    <TableRow key={index}>
-                      <TableCell component="th" scope="row">
-                        {index + 1}
-                      </TableCell>
-                      <TableCell align="left">{item.Project_Name}</TableCell>
-                      <TableCell align="left">{item.Project_Code}</TableCell>
-                      <TableCell align="left">{item.Project_Hours}</TableCell>
-                      <TableCell align="left">{item.Start_Date}</TableCell>
-                      <TableCell align="left">{item.End_Date}</TableCell>
-                      <TableCell align="left">
-                        <Link to={`/project-info/${item.ProjectId}`}>View</Link>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                : "null"}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </>
-      {/* )} */}
+          <ProjectTable isProjectdata={isProjectdata} />
+        </>
+      )}
       {Role === "Client" && <div>Role:{userdata?.Role}</div>}
       {Role === "Employee" && <div>Role:{userdata?.Role}</div>}
       {Role === "Contractor" && <div>Role:{userdata?.Role}</div>}

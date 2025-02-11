@@ -62,7 +62,6 @@
 // export default Admin;
 
 import React, {useEffect} from "react";
-import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import {Button, Drawer} from "@mui/material";
@@ -115,20 +114,18 @@ const Admin = () => {
   return (
     <Layout>
       <BreadCrumb pageName="Admin" />
-      <HeaderTab>
-        <Button
-          onClick={() => setIsModalOpen(true)}
-          startIcon={<AddIcon />}
-          sx={{
-            background: "#2c3e50",
-            padding: "8px 10px",
-            margin: "0px 10px",
-            color: "white",
-          }}
-        >
-          Add Admin
-        </Button>
-      </HeaderTab>
+      <Button
+        onClick={() => setIsModalOpen(true)}
+        startIcon={<AddIcon />}
+        sx={{
+          background: "#2c3e50",
+          padding: "8px 10px",
+          margin: "10px 10px",
+          color: "white",
+        }}
+      >
+        Add Admin
+      </Button>
       {isModalOpen ? (
         <Drawer
           open={isModalOpen}

@@ -16,6 +16,9 @@ const Header = ({setIsOpen,isOpen}) => {
         </div>
 
         <div className="header_right_item">
+
+
+          
           <h1>profile</h1>
         </div>
       </div>

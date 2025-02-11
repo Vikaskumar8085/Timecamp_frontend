@@ -55,7 +55,7 @@ const UploadTaskForm = () => {
 
   return (
     <Container maxWidth="sm">
-      <Box sx={{mt: 4, p: 3, boxShadow: 3, borderRadius: 2}}>
+      <Box sx={{mt: 4, p: 3,  borderRadius: 2}}>
         <Typography variant="h5" gutterBottom>
           Upload Project
         </Typography>

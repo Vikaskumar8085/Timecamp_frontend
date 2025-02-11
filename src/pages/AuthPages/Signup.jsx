@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useEffect} from "react";
 import {
   TextField,
   Button,
@@ -51,7 +51,7 @@ const Signup = () => {
       try {
         const response = await signupapicall(values);
         if (response.success) {
-          window.location.href = "/";
+          window.location.href = "/login";
         }
       } catch (error) {
         console.log(error?.response?.message, "message");

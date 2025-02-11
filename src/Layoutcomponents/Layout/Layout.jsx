@@ -1,12 +1,13 @@
-import React, { Suspense, useState } from "react";
+import React, {Suspense, useState} from "react";
 import "./style.css";
 import Sidebar from "./Sidebar/Sidebar";
 import Loader from "../../common/Loader/Loader";
-import { useDispatch, useSelector } from "react-redux";
-import { getuserapicall } from "../../ApiServices/UserApiServices/User";
-import { setUser } from "../../redux/User/UserSlice";
-import { Avatar } from "@mui/material";
-const Layout = ({ children }) => {
+import {useDispatch, useSelector} from "react-redux";
+import {getuserapicall} from "../../ApiServices/UserApiServices/User";
+import {setUser} from "../../redux/User/UserSlice";
+import {Avatar, Badge} from "@mui/material";
+import NotificationDrawer from "../../Component/Notificationcomponent/NotificationDrawer";
+const Layout = ({children}) => {
   const dispatch = useDispatch();
   const userdata = useSelector((state) => {
     return state.user.values;
@@ -49,6 +50,7 @@ const Layout = ({ children }) => {
   return (
     <div className="layout_wrapper">
       <div className="layout_box">
+        
         <Sidebar
           dropdownOpen={dropdownOpen}
           setDropdownOpen={setDropdownOpen}
@@ -58,21 +60,39 @@ const Layout = ({ children }) => {
         <div className="layout_wrapper_box">
           <div className="layout_wrapper_header">
             <div className="header_box">
-              <div className="header_left_item">
+              <div
+                className="header_left_item"
+                style={{display: "flex", alignItems: "center", gap: "2"}}
+              >
                 <button
                   className="toggle_btn"
                   onClick={() => setIsOpen(!isOpen)}
                 >
                   {isOpen ? "✖" : "☰"}
                 </button>
+
+                <div className="company_logo">
+                  <img
+                    src={"https://ignitivelabs.in/images/logo-1.png"}
+                    alt=""
+                    srcset=""
+                    style={{height: "60px", margin: "0px 20px ", flexGrow: 1}}
+                  />
+                </div>
               </div>
 
-              <div className="header_right_item">
-                <Avatar
-                  src={"https://via.placeholder.com/100"}
-                  alt={"adsfk"}
-                  sx={{ width: 60, height: 60 }}
-                />
+              <div
+                className="header_right_item"
+                style={{display: "flex", alignItems: "center"}}
+              >
+                <NotificationDrawer />
+                <div className="header_right_item_box">
+                  <Avatar
+                    src={"https://via.placeholder.com/100"}
+                    alt={"adsfk"}
+                    sx={{width: 60, height: 60}}
+                  />
+                </div>
               </div>
             </div>
           </div>

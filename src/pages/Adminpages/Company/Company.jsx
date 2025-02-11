@@ -210,6 +210,8 @@ const Company = () => {
       const response = await createcompanyapicall(value);
       if (response.success) {
         navigate("/dashboard");
+      } else {
+        navigate("/company");
       }
     } catch (error) {
       console.log(error?.message);
@@ -218,6 +220,7 @@ const Company = () => {
 
   useEffect(() => {
     getcompany();
+    // localStorage.setItem("company", parseInt(iscompanydata.Company_Id));
   }, [0]);
   return iscompanydata.Company_Id > 0 ? (
     <Layout>

@@ -1,5 +1,5 @@
-import { Button, Container, Drawer, Input, TextField } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import {Button, Container, Drawer, Input, TextField} from "@mui/material";
+import React, {useEffect, useState} from "react";
 import TModal from "../../../common/Modal/TModal";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
@@ -11,8 +11,12 @@ import {
   fetchdepartmentapicall,
 } from "../../../ApiServices/MasterApiServices/Department";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
+import AddDepartment from "../../../Component/MasterComponent/Department/AddDepartment";
+import {useDispatch} from "react-redux";
+import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 
 const Department = () => {
+  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isdepartmentdata, setIsdepartmentdata] = useState([]);
   const [IsOpen, setIsOpen] = useState(false);
@@ -27,76 +31,44 @@ const Department = () => {
     }
   };
 
+  const handleSubmit = async (value) => {
+    try {
+      dispatch(setLoader(true));
+      const response = await createdepartmentapicall(value);
+      if (response.success) {
+        dispatch(setLoader(false));
+        getdepartment();
+        setIsOpen(false);
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+    }
+  };
+
   useEffect(() => {
     getdepartment();
-  },[0]);
+  }, [0]);
   return (
     <Layout>
       <BreadCrumb pageName="Department" />
-      <HeaderTab>
-        <Button
-          onClick={() => setIsModalOpen(true)}
-          sx={{
-            background: "skyblue",
-            padding: "15px",
-            color: "white",
-          }}
-        >
-          Add Department
-        </Button>
-        <Button
-          onClick={() => setIsOpen(true)}
-          startIcon={<AddIcon />}
-          sx={{
-            background: "#2c3e50",
-            padding: "8px 10px",
-            margin: "10px 0px",
-            color: "white",
-          }}
-        >
-          Add Department
-        </Button>
-      </HeaderTab>
 
-      {isModalOpen ? (
-        <TModal
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-          title={"Add Department"}
-        >
-          <div className="department_form">
-            <form onSubmit={formik.handleSubmit}>
-              <br />
-              <TextField
-                label="Department Name"
-                variant="outlined"
-                type="text"
-                sx={{ width: "100%" }}
-                {...formik.getFieldProps("Department_Name")}
-              />
-              <Button
-                sx={{
-                  backgroundColor: "skyblue",
-                  padding: "10px 15px",
-                  color: "white",
-                  margin: "10px 0px",
-                  width: "100%",
-                }}
-                type="submit"
-              >
-                submit
-              </Button>
-            </form>
-          </div>
-        </TModal>
-      ) : null}
+      <Button
+        onClick={() => setIsOpen(true)}
+        startIcon={<AddIcon />}
+        sx={{
+          background: "#2c3e50",
+          padding: "8px 10px",
+          margin: "10px 0px",
+          color: "white",
+        }}
+      >
+        Add Department
+      </Button>
 
       {IsOpen && (
-        <Drawer
-          open={IsOpen}
-          anchor="right"
-          onClose={() => setIsOpen(false)}
-        ></Drawer>
+        <Drawer open={IsOpen} anchor="right" onClose={() => setIsOpen(false)}>
+          <AddDepartment handleSubmit={handleSubmit} />
+        </Drawer>
       )}
       <DepartmentTable isdepartmentdata={isdepartmentdata} />
     </Layout>

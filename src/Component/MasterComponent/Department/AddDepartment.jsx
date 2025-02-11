@@ -1,50 +1,78 @@
 import {useFormik} from "formik";
 import React from "react";
-
-const AddDepartment = () => {
+import {Button, Box, Typography, TextField, Container} from "@mui/material";
+import Grid from "@mui/material/Grid2";
+import AddIcons from "@mui/icons-material/Add";
+const AddDepartment = ({handleSubmit}) => {
   const formik = useFormik({
     initialValues: {
       Department_Name: "",
     },
+    // validationSchema: DesignationValidate,
     onSubmit: async (values) => {
       try {
-        const response = await createdepartmentapicall(values);
-        if (response.success) {
-          setIsModalOpen(false);
-        }
+        handleSubmit(values);
+        formik.resetForm();
       } catch (error) {
         console.log(error?.message);
       }
     },
   });
-
   return (
-    <div>
+    <>
       <Container maxWidth="sm">
-        <form onSubmit={formik.handleSubmit}>
-          <br />
-          <TextField
-            label="Department Name"
-            variant="outlined"
-            type="text"
-            sx={{width: "100%"}}
-            {...formik.getFieldProps("Department_Name")}
-          />
-          <Button
-            sx={{
-              backgroundColor: "skyblue",
-              padding: "10px 15px",
-              color: "white",
-              margin: "10px 0px",
-              width: "100%",
-            }}
-            type="submit"
-          >
-            submit
-          </Button>
-        </form>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            mt: 2,
+            p: 1,
+          }}
+        >
+          <Typography variant="h6" component={"h1"}>
+            Add Designation
+          </Typography>
+          <form onSubmit={formik.handleSubmit}>
+            <Grid container spacing={2}>
+              <Grid size={{sm: 12, xs: 12}} sx={{mt: 3}}>
+                <TextField
+                  fullWidth
+                  id="Department_Name"
+                  name="Department_Name"
+                  label="Department Name"
+                  variant="outlined"
+                  value={formik.values.Department_Name}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={
+                    formik.touched.Department_Name &&
+                    Boolean(formik.errors.Department_Name)
+                  }
+                  helperText={
+                    formik.touched.Department_Name &&
+                    formik.errors.Department_Name
+                  }
+                />
+              </Grid>
+              <Grid size={{sm: 12, xs: 12}}>
+                <Button
+                  startIcon={<AddIcons />}
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  sx={{
+                    background: "#2c3e50",
+                  }}
+                >
+                  Submit
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </Box>
       </Container>
-    </div>
+    </>
   );
 };
 

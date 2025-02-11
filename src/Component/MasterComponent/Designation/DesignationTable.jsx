@@ -15,27 +15,29 @@ import {
 import Grid from "@mui/material/Grid2";
 import GridViewIcon from "@mui/icons-material/GridView";
 import TableViewIcon from "@mui/icons-material/TableView";
+import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 const DesignationTable = ({isdesignationdata}) => {
   const [viewMode, setViewMode] = useState("table"); // "table" or "grid"
 
   return (
     <div>
-      <Button
-        onClick={() => setViewMode(viewMode === "table" ? "grid" : "table")}
-        sx={{
-          background: "#2c3e50",
-          padding: "8px 10px",
-          margin: "10px 0px",
-          color: "white",
-        }}
-      >
-        {viewMode === "table" ? <GridViewIcon /> : <TableViewIcon />}
-      </Button>
+      <HeaderTab>
+        <Button
+          onClick={() => setViewMode(viewMode === "table" ? "grid" : "table")}
+          sx={{
+            background: "#2c3e50",
+            padding: "8px 10px",
+            color: "white",
+          }}
+        >
+          {viewMode === "table" ? <GridViewIcon /> : <TableViewIcon />}
+        </Button>
+      </HeaderTab>
 
       {viewMode === "table" ? (
         <Grid container spacing={2}>
           <Grid size={{sm: 12}}>
-            <TableContainer component={Paper} sx={{mt: 2}}>
+            <TableContainer component={Paper}>
               <Table sx={{minWidth: 650}} aria-label="designation table">
                 <TableHead>
                   <TableRow>

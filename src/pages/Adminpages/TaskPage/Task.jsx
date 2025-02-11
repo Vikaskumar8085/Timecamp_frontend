@@ -2,34 +2,70 @@ import React, {useState} from "react";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
-import {Button} from "@mui/material";
+import {Button, Drawer} from "@mui/material";
 import {useSelector} from "react-redux";
 import AddIcons from "@mui/icons-material/Add";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
+import {AddTask} from "@mui/icons-material";
+import UploadTask from "../../../Component/AdminComponents/Task/UploadTask";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 
 const Task = () => {
   const userdata = useSelector((state) => state.user.values);
   let Role = userdata.Role;
   const [IsOpen, setIsOpen] = useState(false);
+  const [IsUpload, setIsUpload] = useState(false);
 
   return (
     <Layout>
       {Role === "Admin" && (
         <div>
           <BreadCrumb pageName="Task" />
-          <HeaderTab>
-            <Button
-              onClick={() => setIsOpen(true)}
-              startIcon={<AddIcons />}
-              sx={{
-                background: "#2c3e50",
-                padding: "8px 10px",
-                color: "white",
-              }}
+          <Button
+            onClick={() => setIsOpen(true)}
+            startIcon={<AddIcons />}
+            sx={{
+              background: "#2c3e50",
+              padding: "8px 10px",
+              margin: "10px 10px",
+              color: "white",
+            }}
+          >
+            Add Task
+          </Button>
+          <Button
+            onClick={() => setIsUpload(true)}
+            startIcon={<FileUploadIcon />}
+            sx={{
+              background: "#2c3e50",
+              padding: "8px 10px",
+              margin: "10px 0px",
+              color: "white",
+            }}
+          >
+            Upload Task
+          </Button>
+
+          {IsOpen && (
+            <Drawer
+              open={IsOpen}
+              onClose={() => setIsOpen(false)}
+              anchor="right"
             >
-              Add Task
-            </Button>
-          </HeaderTab>
+              <h1>Add Task</h1>
+              <AddTask />
+            </Drawer>
+          )}
+
+          {IsUpload && (
+            <Drawer
+              open={IsUpload}
+              onClose={() => setIsUpload(false)}
+              anchor="right"
+            >
+              <UploadTask />
+            </Drawer>
+          )}
         </div>
       )}
       {Role === "Client" && <div>Role:{userdata?.Role}</div>}

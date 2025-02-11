@@ -20,7 +20,6 @@ import {addDesignationitem} from "../../../redux/Masterslices/DesignationSlice";
 
 const Designation = () => {
   const dispatch = useDispatch();
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [isdesignationdata, setisdesignationdata] = React.useState([]);
   const [IsOpen, setIsOpen] = React.useState(false);
 
@@ -50,6 +49,8 @@ const Designation = () => {
         dispatch(setLoader(false));
         dispatch(addDesignationitem(response.result));
         toast.success(response.message);
+        getdesignation();
+        setIsOpen(false);
       }
     } catch (error) {
       dispatch(setLoader(false));
@@ -63,49 +64,19 @@ const Designation = () => {
   return (
     <Layout>
       <BreadCrumb pageName="Designation" />
-      <HeaderTab>
-        <Button
-          onClick={() => setIsOpen(true)}
-          startIcon={<AddIcon />}
-          sx={{
-            background: "#2c3e50",
-            padding: "8px 10px",
-            margin: "10px 0px",
-            color: "white",
-          }}
-        >
-          Add Designation
-        </Button>
-      </HeaderTab>
-      {/* {isModalOpen ? (
-        <TModal
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-          title={"Add designation"}
-        >
-          <form onSubmit={formik.handleSubmit}>
-            <TextField
-              label="Designation Name"
-              variant="outlined"
-              type="text"
-              sx={{width: "100%"}}
-              {...formik.getFieldProps("Designation_Name")}
-            />
-            <Button
-              sx={{
-                backgroundColor: "skyblue",
-                padding: "10px 15px",
-                color: "white",
-                margin: "10px 0px",
-                width: "100%",
-              }}
-              type="submit"
-            >
-              submit
-            </Button>
-          </form>
-        </TModal>
-      ) : null} */}
+
+      <Button
+        onClick={() => setIsOpen(true)}
+        startIcon={<AddIcon />}
+        sx={{
+          background: "#2c3e50",
+          padding: "8px 10px",
+          margin: "10px 0px",
+          color: "white",
+        }}
+      >
+        Add Designation
+      </Button>
 
       {IsOpen && (
         <Drawer

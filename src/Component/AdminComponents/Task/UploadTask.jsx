@@ -1,0 +1,107 @@
+import {useState} from "react";
+import {useFormik} from "formik";
+import Grid from "@mui/material/Grid2";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
+import {
+  Box,
+  Button,
+  Container,
+  TextField,
+  Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
+import Papa from "papaparse";
+import DownloadIcon from "@mui/icons-material/Download";
+
+const UploadTask = () => {
+  const formik = useFormik({
+    initialValues: {
+      file: null,
+    },
+    onSubmit: async (values) => {
+      console.log(values);
+    },
+  });
+  return (
+    <>
+      <Container maxWidth="sm" fullWidth>
+        <Box sx={{mt: 2, p: 1}}>
+          <Typography
+            style={{fontSize: "20px", fontWeight: "bold", marginBottom: "16px"}}
+          >
+            Upload Task
+          </Typography>
+          <form onSubmit={formik.handleSubmit}>
+            <Grid container spacing={1}>
+              <Grid size={{sm: 12}}>
+                <TextField
+                  type="file"
+                  inputProps={{accept: ".csv"}}
+                  onChange={(event) =>
+                    formik.setFieldValue("file", event.currentTarget.files[0])
+                  }
+                  fullWidth
+                />
+              </Grid>
+              <Grid size={{sm: 12}}>
+                <Button
+                  startIcon={<DownloadIcon />}
+                  sx={{
+                    background: "#2c3e50",
+                    padding: "8px 10px",
+                    color: "white",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  Task Csv formate
+                </Button>
+              </Grid>
+              <Grid size={{sm: 12}}>
+                <Button
+                  type="submit"
+                  startIcon={<FileUploadIcon />}
+                  sx={{
+                    background: "#2c3e50",
+                    padding: "8px 10px",
+                    color: "white",
+                    width: "100%",
+                  }}
+                  // disabled={!formik.values.file}
+                >
+                  Upload
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+          {/* {open && (
+            <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
+              <DialogTitle>Parsed Data</DialogTitle>
+              <DialogContent>
+                <pre
+                  style={{
+                    backgroundColor: "#f5f5f5",
+                    padding: "8px",
+                    borderRadius: "4px",
+                    overflow: "auto",
+                  }}
+                >
+                  {JSON.stringify(data, null, 2)}
+                </pre>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                  Close
+                </Button>
+              </DialogActions>
+            </Dialog>
+          )} */}
+        </Box>
+      </Container>
+    </>
+  );
+};
+
+export default UploadTask;

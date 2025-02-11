@@ -275,10 +275,192 @@ const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen, Role}) => {
                 Profile
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                to={"/task"}
+                className="nav_link"
+                style={({isActive}) => ({
+                  color: isActive ? "greenyellow" : "white",
+                })}
+              >
+                Task
+              </NavLink>
+            </li>
+            <li className="dropdown">
+              <button
+                className="dropdown_btn"
+                onClick={() => toggleDropdown("Project")}
+              >
+                Project <span>{dropdownOpen.masters ? "▲" : "▼"}</span>
+              </button>
+              <ul
+                className={`dropdown_menu ${
+                  dropdownOpen.Project ? "show" : "hide"
+                }`}
+              >
+                <li>
+                  <NavLink to="/project" className="nav_link">
+                    <FaUserTie className="icon" /> Project
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/active-projects" className="nav_link">
+                    <FaBuilding className="icon" /> Active Project
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/inactive-projects" className="nav_link">
+                    <FaUserShield className="icon" /> Inactive Projects
+                  </NavLink>
+                </li>
+              </ul>
+            </li>
           </ul>
         )}
-        {Role === "Employee" && <div>client</div>}
-        {Role === "Contractor" && <div>client</div>}
+        {Role === "Employee" && (
+          <>
+            <ul>
+              <li>
+                <NavLink
+                  to={"/dashboard"}
+                  className="nav_link"
+                  style={({isActive}) => ({
+                    color: isActive ? "greenyellow" : "white",
+                  })}
+                >
+                  Dashboard
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to={"/profile"}
+                  className="nav_link"
+                  style={({isActive}) => ({
+                    color: isActive ? "greenyellow" : "white",
+                  })}
+                >
+                  Profile
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to={"/task"}
+                  className="nav_link"
+                  style={({isActive}) => ({
+                    color: isActive ? "greenyellow" : "white",
+                  })}
+                >
+                  Task
+                </NavLink>
+              </li>
+              <li className="dropdown">
+                <button
+                  className="dropdown_btn"
+                  onClick={() => toggleDropdown("Project")}
+                >
+                  Project <span>{dropdownOpen.masters ? "▲" : "▼"}</span>
+                </button>
+                <ul
+                  className={`dropdown_menu ${
+                    dropdownOpen.Project ? "show" : "hide"
+                  }`}
+                >
+                  <li>
+                    <NavLink to="/project" className="nav_link">
+                      <FaUserTie className="icon" /> Project
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/active-projects" className="nav_link">
+                      <FaBuilding className="icon" /> Active Project
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/inactive-projects" className="nav_link">
+                      <FaUserShield className="icon" /> Inactive Projects
+                    </NavLink>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </>
+        )}
+        {Role === "Contractor" && (
+          <>
+            <ul>
+              <li>
+                <NavLink
+                  to={"/dashboard"}
+                  className="nav_link"
+                  style={({isActive}) => ({
+                    color: isActive ? "greenyellow" : "white",
+                  })}
+                >
+                  Dashboard
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to={"/profile"}
+                  className="nav_link"
+                  style={({isActive}) => ({
+                    color: isActive ? "greenyellow" : "white",
+                  })}
+                >
+                  Profile
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to={"/task"}
+                  className="nav_link"
+                  style={({isActive}) => ({
+                    color: isActive ? "greenyellow" : "white",
+                  })}
+                >
+                  Task
+                </NavLink>
+              </li>
+              <li className="dropdown">
+                <button
+                  className="dropdown_btn"
+                  onClick={() => toggleDropdown("Project")}
+                >
+                  Project <span>{dropdownOpen.masters ? "▲" : "▼"}</span>
+                </button>
+                <ul
+                  className={`dropdown_menu ${
+                    dropdownOpen.Project ? "show" : "hide"
+                  }`}
+                >
+                  <li>
+                    <NavLink to="/project" className="nav_link">
+                      <FaUserTie className="icon" /> Project
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/active-projects" className="nav_link">
+                      <FaBuilding className="icon" /> Active Project
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/inactive-projects" className="nav_link">
+                      <FaUserShield className="icon" /> Inactive Projects
+                    </NavLink>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </>
+        )}
+        <button
+          onClick={() => {
+            localStorage.clear();
+            window.location.href = "/login";
+          }}
+        >
+          logout
+        </button>
       </nav>
     </div>
   );

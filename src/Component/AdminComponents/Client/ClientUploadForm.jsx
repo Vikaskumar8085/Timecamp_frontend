@@ -110,7 +110,6 @@ function ClientUploadForm() {
                 sx={{
                   background: "#2c3e50",
                   padding: "8px 10px",
-                  margin: "10px 10px",
                   color: "white",
                   textTransform: "capitalize",
                 }}
@@ -125,7 +124,6 @@ function ClientUploadForm() {
                 sx={{
                   background: "#2c3e50",
                   padding: "8px 10px",
-                  margin: "10px 10px",
                   color: "white",
                   width: "100%",
                 }}

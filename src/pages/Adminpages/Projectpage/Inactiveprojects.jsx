@@ -4,6 +4,7 @@ import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import {useSelector} from "react-redux";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
+import ProjectTable from "../../../Component/AdminComponents/Project/ProjectTable";
 
 const Inactiveprojects = () => {
   const [IsInActiveprojectsdata, setIsInActiveprojectsdata] = useState([]);
@@ -14,6 +15,10 @@ const Inactiveprojects = () => {
     try {
       const response = await fetchinactiveprojectsapicall();
       console.log(response);
+
+      if (response.success) {
+        setIsInActiveprojectsdata(response.result);
+      }
     } catch (error) {
       console.log(error?.message);
     }
@@ -26,7 +31,12 @@ const Inactiveprojects = () => {
   return (
     <Layout>
       <BreadCrumb pageName="InActive Projects" />
-      {Role === "Admin" && <div></div>}
+      {Role === "Admin" && (
+        <div>
+          {" "}
+          <ProjectTable isProjectdata={IsInActiveprojectsdata} />
+        </div>
+      )}
       {Role === "Client" && <div>Role:{userdata?.Role}</div>}
       {Role === "Employee" && <div>Role:{userdata?.Role}</div>}
       {Role === "Contractor" && <div>Role:{userdata?.Role}</div>}

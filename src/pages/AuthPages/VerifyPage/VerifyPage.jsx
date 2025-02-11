@@ -1,7 +1,7 @@
 import React from "react";
 
 const VerifyPage = () => {
-  return <div></div>;
+  return <div>asdfsdf</div>;
 };
 
 export default VerifyPage;

@@ -38,6 +38,9 @@ import Layout from "./Layoutcomponents/Layout/Layout";
 import {Toaster} from "react-hot-toast";
 import ProjectTime from "./pages/Adminpages/Timesheetpage/ProjectTime";
 import TimesheetSummary from "./pages/Adminpages/Timesheetpage/TimesheetSummary";
+import Forget from "./pages/AuthPages/ForgetPassword/Forget";
+import ResetPassword from "./pages/AuthPages/Resetpassword/ResetPassword";
+import VerifyPage from "./pages/AuthPages/VerifyPage/VerifyPage";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -62,6 +65,9 @@ const App = () => {
         <Route index element={<Layout />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/forget-password" element={<Forget />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/verify/:id" element={<VerifyPage />} />
 
         {/* auth pages */}
         <Route path="/dashboard" element={<Dashboard />} />
