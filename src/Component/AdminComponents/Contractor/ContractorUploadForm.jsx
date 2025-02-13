@@ -6,11 +6,30 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, {useState} from "react";
 import DownloadIcon from "@mui/icons-material/Download";
-import {downloadcontractorcsvformate} from "../../../ApiServices/Csvapiservices/csvapiservices";
 
-const ContractorUploadForm = () => {
+const ContractorUploadForm = ({uploadcontractorcsvupload}) => {
+  const [file, setFile] = useState(null);
+  // Handle file selection
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]);
+  };
+  console.log(file, "///////////");
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (!file) {
+      alert("Please select a file to upload.");
+      return;
+    }
+    const formData = new FormData();
+    formData.append("file", file);
+    console.log(formData, "afsaldflksdfl");
+    uploadcontractorcsvupload(formData);
+
+    setFile(null);
+  };
   const getcontractorcsvformate = async () => {
     const token = JSON.parse(localStorage.getItem("token"));
     try {
@@ -51,10 +70,16 @@ const ContractorUploadForm = () => {
         }}
       >
         <Typography variant="h5">Upload Contractor</Typography>
-        <form>
+        <form onSubmit={handleSubmit}>
           <Grid2 container spacing={1}>
             <Grid2 size={{sm: 12}}>
-              <TextField type="file" fullWidth />
+              <TextField
+                type="file"
+                inputProps={{accept: ".csv"}}
+                fullWidth
+                onChange={handleFileChange}
+                // value={""}
+              />
             </Grid2>
             <Grid2 size={{sm: 12}}>
               <Button
@@ -79,6 +104,7 @@ const ContractorUploadForm = () => {
                   color: "white",
                   width: "100%",
                 }}
+                type="submit"
               >
                 submit
               </Button>

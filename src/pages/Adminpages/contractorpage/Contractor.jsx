@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { Drawer, TextField } from "@mui/material";
-import { useFormik } from "formik";
+import React, {useState} from "react";
+import {Drawer, TextField} from "@mui/material";
+import {useFormik} from "formik";
 import * as Yup from "yup";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
-import { Button } from "@mui/material";
+import {Button} from "@mui/material";
 import {
   Table,
   TableBody,
@@ -20,11 +20,12 @@ import {
   addContractorapicall,
   fetchcontractorapicall,
 } from "../../../ApiServices/AdminApiServices/Contractor";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import ContractorUploadForm from "../../../Component/AdminComponents/Contractor/ContractorUploadForm";
 import ContractorTable from "../../../Component/AdminComponents/Contractor/ContractorTable";
+import {uploadcontractorcsvapicall} from "../../../ApiServices/Csvapiservices/csvapiservices";
 
 const Contractor = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -72,6 +73,18 @@ const Contractor = () => {
       }
     },
   });
+
+  const uploadcontractorcsvupload = async (value) => {
+    try {
+      const response = await uploadcontractorcsvapicall(value);
+      alert("File uploaded successfully!");
+      console.log(response.data);
+      getcontractor();
+      setIsUpload(false);
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
 
   React.useEffect(() => {
     getcontractor();
@@ -175,7 +188,7 @@ const Contractor = () => {
               color="primary"
               type="submit"
               fullWidth
-              sx={{ mt: 2 }}
+              sx={{mt: 2}}
             >
               Submit
             </Button>
@@ -189,7 +202,9 @@ const Contractor = () => {
           onClose={() => setIsUpload(false)}
           anchor="right"
         >
-          <ContractorUploadForm />
+          <ContractorUploadForm
+            uploadcontractorcsvupload={uploadcontractorcsvupload}
+          />
         </Drawer>
       )}
       {/* table of contractor */}

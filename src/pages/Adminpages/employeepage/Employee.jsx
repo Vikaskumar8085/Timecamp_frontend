@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { Drawer, TextField } from "@mui/material";
-import { useFormik } from "formik";
+import React, {useState} from "react";
+import {Drawer, TextField} from "@mui/material";
+import {useFormik} from "formik";
 import * as Yup from "yup";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
-import { Button } from "@mui/material";
+import {Button} from "@mui/material";
 import TModal from "../../../common/Modal/TModal";
 import {
   addemployeeapicall,
@@ -17,6 +17,7 @@ import AddIcon from "@mui/icons-material/Add";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import ContractorUploadForm from "../../../Component/AdminComponents/Contractor/ContractorUploadForm";
 import EmployeeUploadForm from "../../../Component/AdminComponents/Employee/EmployeeUploadForm";
+import {uploademployeecsvapicall} from "../../../ApiServices/Csvapiservices/csvapiservices";
 
 const Employee = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -66,6 +67,22 @@ const Employee = () => {
       }
     },
   });
+
+  // upload handle submit
+
+  const uploadhandlesubmit = async (value) => {
+    try {
+      const response = await uploademployeecsvapicall(value);
+
+      alert("File uploaded successfully!");
+      console.log(response.data);
+      getemployee();
+      setIsUpload(false);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      alert("File upload failed.");
+    }
+  };
 
   React.useEffect(() => {
     getemployee();
@@ -169,7 +186,7 @@ const Employee = () => {
               color="primary"
               type="submit"
               fullWidth
-              sx={{ mt: 2 }}
+              sx={{mt: 2}}
             >
               Submit
             </Button>
@@ -183,7 +200,7 @@ const Employee = () => {
           onClose={() => setIsUpload(false)}
           anchor="right"
         >
-          <EmployeeUploadForm />
+          <EmployeeUploadForm uploadhandlesubmit={uploadhandlesubmit} />
         </Drawer>
       )}
 

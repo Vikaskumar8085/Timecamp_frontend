@@ -16,36 +16,30 @@ import {
 } from "@mui/material";
 import Papa from "papaparse";
 import DownloadIcon from "@mui/icons-material/Download";
+import {uploadclientcsvapicall} from "../../../ApiServices/Csvapiservices/csvapiservices";
 
-function ClientUploadForm() {
+function ClientUploadForm({uploadclientcsvhandlesubmit}) {
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
 
-  const formik = useFormik({
-    initialValues: {
-      file: null,
-    },
-    onSubmit: (values) => {
-      const formik = useFormik({
-        initialValues: {
-          file: null,
-        },
-        onSubmit: (values) => {
-          if (values.file) {
-            Papa.parse(values.file, {
-              complete: (result) => {
-                setData(result.data);
-                setOpen(true);
-                console.log("Parsed Data:", result.data);
-              },
-              header: true,
-            });
-          }
-        },
-      });
-    },
-  });
-
+  const [file, setFile] = useState(null);
+  // Handle file selection
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]);
+  };
+  console.log(file, "///////////");
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (!file) {
+      alert("Please select a file to upload.");
+      return;
+    }
+    const formData = new FormData();
+    formData.append("file", file);
+    console.log(formData, "afsaldflksdfl");
+    uploadclientcsvhandlesubmit(formData)
+    setFile(null);
+  };
   // download client csv
   const getclientcsvformate = async () => {
     const token = JSON.parse(localStorage.getItem("token"));
@@ -91,16 +85,14 @@ function ClientUploadForm() {
         >
           Upload Client CSV
         </Typography>
-        <form onSubmit={formik.handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <Grid container spacing={1}>
             <Grid size={{sm: 12}}>
               <TextField
                 type="file"
                 inputProps={{accept: ".csv"}}
-                onChange={(event) =>
-                  formik.setFieldValue("file", event.currentTarget.files[0])
-                }
                 fullWidth
+                onChange={handleFileChange}
               />
             </Grid>
             <Grid size={{sm: 12}}>
@@ -134,7 +126,7 @@ function ClientUploadForm() {
             </Grid>
           </Grid>
         </form>
-        {open && (
+        {/* {open && (
           <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
             <DialogTitle>Parsed Data</DialogTitle>
             <DialogContent>
@@ -155,7 +147,7 @@ function ClientUploadForm() {
               </Button>
             </DialogActions>
           </Dialog>
-        )}
+        )} */}
       </Box>
     </Container>
   );

@@ -84,13 +84,33 @@ const ProjectForm = ({handleSubmit}) => {
       Project_Hours: Yup.number()
         .positive("Hours must be a positive number")
         .required("Project Hours are required"),
-      RoleResource: Yup.array().of(
+      RoleResources: Yup.array().of(
         Yup.object({
-          RRId: Yup.string().required("Role Resource ID is required"),
-          RId: Yup.string().required("Resource ID is required"),
+          RRId: Yup.number()
+            .required("Required")
+            .test(
+              "not-same-as-manager",
+              "RR ID cannot be the same as Project Manager ID",
+              function (value) {
+                return value !== this.parent.Project_ManagersId;
+              }
+            ),
+          RId: Yup.number().required("Required"),
         })
       ),
     }),
+    validate: (values) => {
+      let errors = {};
+      values.RoleResource.forEach((role, index) => {
+        if (role.RRId === values.Project_ManagersId) {
+          if (!errors.RoleResource) errors.RoleResource = [];
+          errors.RoleResource[index] = {
+            RRId: "Cannot select Project Manager as a Role Resource",
+          };
+        }
+      });
+      return errors;
+    },
     onSubmit: async (values) => {
       console.log("Form Submitted", values);
       handleSubmit(values);
@@ -173,18 +193,15 @@ const ProjectForm = ({handleSubmit}) => {
           </Grid>
           <Grid item xs={12}>
             <FormControl fullWidth margin="normal">
-              <InputLabel id="client-select-label">Select Resources</InputLabel>
+              <InputLabel>Select Project Manager</InputLabel>
               <Select
-                labelId="recourses-select-label"
-                id="resourse-select"
                 name="Project_ManagersId"
                 value={formik.values.Project_ManagersId}
                 onChange={formik.handleChange}
-                label="Select Client"
               >
                 {IsStaffdata.map((item) => (
                   <MenuItem key={item.staff_Id} value={item.staff_Id}>
-                    <ListItemText primary={item.FirstName} />
+                    {item.FirstName}
                   </MenuItem>
                 ))}
               </Select>
@@ -251,32 +268,33 @@ const ProjectForm = ({handleSubmit}) => {
               <Grid container spacing={2} key={index} alignItems="center">
                 <Grid item xs={6}>
                   <FormControl fullWidth margin="normal">
-                    <InputLabel id="client-select-label">
-                      Select Resources
-                    </InputLabel>
+                    <InputLabel>Select Resource</InputLabel>
                     <Select
-                      labelId="recourses-select-label"
-                      id="resourse-select"
                       name={`RoleResource[${index}].RRId`}
                       value={role.RRId}
                       onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      label="Select Client"
                       error={
-                        formik.touched.RoleResource?.[index]?.RRId &&
-                        Boolean(formik.errors.RoleResource?.[index]?.RRId)
-                      }
-                      helperText={
-                        formik.touched.RoleResource?.[index]?.RRId &&
-                        formik.errors.RoleResource?.[index]?.RRId
+                        formik.errors.RoleResource &&
+                        formik.errors.RoleResource[index] &&
+                        Boolean(formik.errors.RoleResource[index].RRId)
                       }
                     >
-                      {IsRoledata.map((item) => (
-                        <MenuItem key={item.RoleId} value={item.RoleId}>
-                          <ListItemText primary={item.RoleName} />
+                      {IsStaffdata.filter(
+                        (item) =>
+                          item.staff_Id !== formik.values.Project_ManagersId
+                      ).map((item) => (
+                        <MenuItem key={item.staff_Id} value={item.staff_Id}>
+                          {item.FirstName}
                         </MenuItem>
                       ))}
                     </Select>
+                    {formik.errors.RoleResource &&
+                      formik.errors.RoleResource[index] &&
+                      formik.errors.RoleResource[index].RRId && (
+                        <Typography color="error">
+                          {formik.errors.RoleResource[index].RRId}
+                        </Typography>
+                      )}
                   </FormControl>
                   {/* <TextField
                     fullWidth

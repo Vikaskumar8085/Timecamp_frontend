@@ -9,13 +9,10 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 
 const Timesheet = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const userdata = useSelector((state) => state.user.values);
-  let Role = userdata.Role;
   return (
     <Layout>
       <BreadCrumb pageName="TimeSheet" />
 
-      {/* {Role === "Admin" && ( */}
       <div>
         <Button
           startIcon={<FileUploadIcon />}
@@ -39,10 +36,6 @@ const Timesheet = () => {
           </Drawer>
         ) : null}
       </div>
-      {/* )} */}
-      {Role === "Client" && <div>Role:{userdata?.Role}</div>}
-      {Role === "Employee" && <div>Role:{userdata?.Role}</div>}
-      {Role === "Contractor" && <div>Role:{userdata?.Role}</div>}
     </Layout>
   );
 };

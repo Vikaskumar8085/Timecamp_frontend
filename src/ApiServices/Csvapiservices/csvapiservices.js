@@ -6,6 +6,14 @@ export const downloadclientcsvformate = async () => {
   return response.data;
 };
 
+export const uploadclientcsvapicall = async (value) => {
+  const response = await apiInstance.post(
+    "/v1/csv-upload/upload-csv-client",
+    value
+  );
+  return response.data;
+};
+
 // employee
 export const downloadEmployeecsvformate = async () => {
   const response = await apiInstance.get(
@@ -14,10 +22,26 @@ export const downloadEmployeecsvformate = async () => {
   return response.data;
 };
 
+export const uploademployeecsvapicall = async (value) => {
+  const response = await apiInstance.post(
+    "/v1/csv-upload/employee-csv-upload",
+    value
+  );
+  return response.data;
+};
+
 //   contractor
 export const downloadcontractorcsvformate = async () => {
   const response = await apiInstance.get(
     "/v1/csv-upload/contractor-csv-download"
+  );
+  return response.data;
+};
+
+export const uploadcontractorcsvapicall = async (value) => {
+  const response = await apiInstance.post(
+    "/v1/csv-upload/contractor-csv-upload",
+    value
   );
   return response.data;
 };

@@ -1,15 +1,14 @@
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import {fetchsinglecontractorapicall} from "../../../ApiServices/AdminApiServices/Contractor";
-import Card from "../../../common/Card/Card";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
+import TabComp from "../../../common/TabComponent/TabComp";
+import ContractorInformation from "./ContractorInfopage/ContractorInformation";
 
 const ContractorInfo = () => {
   const {id} = useParams();
-
+  const [isSubState, setisSubState] = useState(0);
   const [isContractordata, setIscontractordata] = useState([]);
 
   const getcontractorInfo = async () => {
@@ -27,16 +26,29 @@ const ContractorInfo = () => {
   useEffect(() => {
     getcontractorInfo();
   }, [0]);
+
+  const tabsheader = [{title: "Contractor Info"}, {title: "TimeSheet"}];
+  const Tabsbody = [
+    {
+      content: (
+        <>
+          <ContractorInformation />
+        </>
+      ),
+    },
+    {
+      content: <></>,
+    },
+  ];
   return (
     <Layout>
       <BreadCrumb pageName="Contractor Info" />
-      <Card>
-        <p>FirstName:{isContractordata.FirstName}</p>
-        <p>LastName:{isContractordata.LastName}</p>
-        <p>Email:{isContractordata.Email}</p>
-        <p>Phone:{isContractordata.Phone}</p>
-        <p>Address:{isContractordata.Address}</p>
-      </Card>
+      <TabComp
+        Tabsheader={tabsheader}
+        TabsBody={Tabsbody}
+        isSubState={isSubState}
+        setisSubState={setisSubState}
+      />
     </Layout>
   );
 };

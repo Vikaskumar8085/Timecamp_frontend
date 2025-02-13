@@ -11,6 +11,7 @@ import {
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import ClientUploadForm from "../../../Component/AdminComponents/Client/ClientUploadForm";
+import {uploadclientcsvapicall} from "../../../ApiServices/Csvapiservices/csvapiservices";
 
 const Client = () => {
   const [IsOpen, setIsOpen] = useState(false);
@@ -38,6 +39,18 @@ const Client = () => {
         // setIsModalOpen(false);
         fetchclientfucntion();
       }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
+
+  const uploadclientcsvhandlesubmit = async (value) => {
+    try {
+      const response = await uploadclientcsvapicall(value);
+      alert("File uploaded successfully!");
+      console.log(response.data);
+      fetchclientfucntion();
+      setIsUpload(false);
     } catch (error) {
       console.log(error?.message);
     }
@@ -86,7 +99,9 @@ const Client = () => {
           onClose={() => setIsUpload(false)}
           anchor="right"
         >
-          <ClientUploadForm />
+          <ClientUploadForm
+            uploadclientcsvhandlesubmit={uploadclientcsvhandlesubmit}
+          />
         </Drawer>
       )}
       <ClientTable Isclientdata={Isclientdata} />
