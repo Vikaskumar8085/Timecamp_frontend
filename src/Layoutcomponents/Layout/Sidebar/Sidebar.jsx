@@ -277,7 +277,18 @@ const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen, Role}) => {
             </li>
             <li>
               <NavLink
-                to={"/task"}
+                to={"/client/TimeSheet"}
+                className="nav_link"
+                style={({isActive}) => ({
+                  color: isActive ? "greenyellow" : "white",
+                })}
+              >
+                Timesheet
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to={"/client/tasks"}
                 className="nav_link"
                 style={({isActive}) => ({
                   color: isActive ? "greenyellow" : "white",
@@ -299,17 +310,17 @@ const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen, Role}) => {
                 }`}
               >
                 <li>
-                  <NavLink to="/project" className="nav_link">
+                  <NavLink to="/client/project" className="nav_link">
                     <FaUserTie className="icon" /> Project
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/active-projects" className="nav_link">
+                  <NavLink to="/client/active-project" className="nav_link">
                     <FaBuilding className="icon" /> Active Project
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/inactive-projects" className="nav_link">
+                  <NavLink to="/client/inactive-project" className="nav_link">
                     <FaUserShield className="icon" /> Inactive Projects
                   </NavLink>
                 </li>
@@ -344,7 +355,7 @@ const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen, Role}) => {
               </li>
               <li>
                 <NavLink
-                  to={"/task"}
+                  to={"/employee/tasks"}
                   className="nav_link"
                   style={({isActive}) => ({
                     color: isActive ? "greenyellow" : "white",
@@ -366,21 +377,38 @@ const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen, Role}) => {
                   }`}
                 >
                   <li>
-                    <NavLink to="/project" className="nav_link">
+                    <NavLink to="/employee/projects" className="nav_link">
                       <FaUserTie className="icon" /> Project
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink to="/active-projects" className="nav_link">
+                    <NavLink
+                      to="/employee/active-projects"
+                      className="nav_link"
+                    >
                       <FaBuilding className="icon" /> Active Project
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink to="/inactive-projects" className="nav_link">
+                    <NavLink
+                      to="/employee/inactive-inprojects"
+                      className="nav_link"
+                    >
                       <FaUserShield className="icon" /> Inactive Projects
                     </NavLink>
                   </li>
                 </ul>
+              </li>
+              <li>
+                <NavLink
+                  to={"/employee/Timesheet"}
+                  className="nav_link"
+                  style={({isActive}) => ({
+                    color: isActive ? "greenyellow" : "white",
+                  })}
+                >
+                  Timesheets
+                </NavLink>
               </li>
             </ul>
           </>
@@ -412,7 +440,7 @@ const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen, Role}) => {
               </li>
               <li>
                 <NavLink
-                  to={"/task"}
+                  to={"/contractor/tasks"}
                   className="nav_link"
                   style={({isActive}) => ({
                     color: isActive ? "greenyellow" : "white",
@@ -421,6 +449,19 @@ const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen, Role}) => {
                   Task
                 </NavLink>
               </li>
+
+              <li>
+                <NavLink
+                  to={"/contractor/Timesheet"}
+                  className="nav_link"
+                  style={({isActive}) => ({
+                    color: isActive ? "greenyellow" : "white",
+                  })}
+                >
+                  Timesheets
+                </NavLink>
+              </li>
+
               <li className="dropdown">
                 <button
                   className="dropdown_btn"
@@ -434,17 +475,23 @@ const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen, Role}) => {
                   }`}
                 >
                   <li>
-                    <NavLink to="/project" className="nav_link">
+                    <NavLink to="/contractor/projects" className="nav_link">
                       <FaUserTie className="icon" /> Project
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink to="/active-projects" className="nav_link">
+                    <NavLink
+                      to="/contractor/active-projects"
+                      className="nav_link"
+                    >
                       <FaBuilding className="icon" /> Active Project
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink to="/inactive-projects" className="nav_link">
+                    <NavLink
+                      to="/contractor/inactive-projects"
+                      className="nav_link"
+                    >
                       <FaUserShield className="icon" /> Inactive Projects
                     </NavLink>
                   </li>

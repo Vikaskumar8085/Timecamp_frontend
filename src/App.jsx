@@ -41,6 +41,21 @@ import TimesheetSummary from "./pages/Adminpages/Timesheetpage/TimesheetSummary"
 import Forget from "./pages/AuthPages/ForgetPassword/Forget";
 import ResetPassword from "./pages/AuthPages/Resetpassword/ResetPassword";
 import VerifyPage from "./pages/AuthPages/VerifyPage/VerifyPage";
+import ClientActiveProject from "./pages/ClientPages/ClientActiveProject";
+import ClientInactiveProject from "./pages/ClientPages/ClientInactiveProject";
+import ClientProjects from "./pages/ClientPages/ClientProjects";
+import ClientTaskPages from "./pages/ClientPages/ClientTaskPages";
+import EmployeeProjects from "./pages/EmployeePages/EmployeeProjects";
+import EmployeeActiveProject from "./pages/EmployeePages/EmployeeActiveProject";
+import EmployeeInactiveProjects from "./pages/EmployeePages/EmployeeInactiveProjects";
+import EmployeeTasks from "./pages/EmployeePages/EmployeeTasks";
+import EmployeeTimesheets from "./pages/EmployeePages/EmployeeTimesheets";
+import ContractorTasks from "./pages/ContractorPages/ContractorTasks";
+import ContractorProject from "./pages/ContractorPages/ContractorProject";
+import ContractorActiveProject from "./pages/ContractorPages/ContractorActiveProject";
+import ContractorInactiveProject from "./pages/ContractorPages/ContractorInactiveProject";
+import ContractorTimesheet from "./pages/ContractorPages/ContractorTimesheet";
+import ClientTimesheet from "./pages/ClientPages/ClientTimesheet";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -102,7 +117,49 @@ const App = () => {
         <Route path="/master/department" element={<Department />} />
         <Route path="/master/roles" element={<Roles />} />
         {/* Admin pages */}
+        {/* client pages */}
+        <Route
+          path="/client/active-project"
+          element={<ClientActiveProject />}
+        />
 
+        <Route path="/client/tasks" element={<ClientTaskPages />} />
+        <Route path="/client/project" element={<ClientProjects />} />
+        <Route
+          path="/client/inactive-project"
+          element={<ClientInactiveProject />}
+        />
+        <Route path="/client/Timesheet" element={<ClientTimesheet />} />
+        {/* client pages */}
+
+        {/* employee Pages */}
+
+        <Route path="/employee/projects" element={<EmployeeProjects />} />
+        <Route
+          path="/employee/active-projects"
+          element={<EmployeeActiveProject />}
+        />
+        <Route
+          path="/employee/inactive-inprojects"
+          element={<EmployeeInactiveProjects />}
+        />
+        <Route path="/employee/tasks" element={<EmployeeTasks />} />
+        <Route path="/employee/Timesheet" element={<EmployeeTimesheets />} />
+        {/* employee Pages */}
+
+        {/* contractor  */}
+        <Route path="/contractor/tasks" element={<ContractorTasks />} />
+        <Route path="/contractor/projects" element={<ContractorProject />} />
+        <Route
+          path="/contractor/active-projects"
+          element={<ContractorActiveProject />}
+        />
+        <Route
+          path="/contractor/inactive-projects"
+          element={<ContractorInactiveProject />}
+        />
+        <Route path="/contractor/Timesheet" element={<ContractorTimesheet />} />
+        {/* contractor  */}
         <Route path="*" element={<Nopage />} />
       </Routes>
       <Toaster />
