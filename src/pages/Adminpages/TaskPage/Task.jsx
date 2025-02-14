@@ -1,14 +1,13 @@
 import React, {useState} from "react";
-import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import {Button, Drawer} from "@mui/material";
 import {useSelector} from "react-redux";
 import AddIcons from "@mui/icons-material/Add";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
-import {AddTask} from "@mui/icons-material";
+
 import UploadTask from "../../../Component/AdminComponents/Task/UploadTask";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
+import TaskCreationForm from "../../../Component/AdminComponents/Task/TaskCreationForm";
 
 const Task = () => {
   const userdata = useSelector((state) => state.user.values);
@@ -52,8 +51,8 @@ const Task = () => {
               onClose={() => setIsOpen(false)}
               anchor="right"
             >
-              <h1>Add Task</h1>
-              <AddTask />
+      
+              <TaskCreationForm />
             </Drawer>
           )}
 
