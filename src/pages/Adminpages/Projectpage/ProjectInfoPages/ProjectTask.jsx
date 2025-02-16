@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import MilestoneForm from "./MilestoneForm";
 import apiInstance from "../../../../ApiInstance/apiInstance";
 import UploadTask from "../../../../Component/AdminComponents/Task/UploadTask";
+import AddProjectTask from "../../../../Component/AdminComponents/Project/AddProjectTask";
 
 const ProjectTask = ({ id }) => {
   const [IsTaskOpen, setIsTaskOpen] = useState(false);
@@ -63,7 +64,7 @@ const ProjectTask = ({ id }) => {
           onClose={() => setIsTaskOpen(false)}
           anchor="right"
         >
-          Task
+          <AddProjectTask />
         </Drawer>
       )}
 
