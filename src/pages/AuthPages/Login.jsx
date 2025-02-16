@@ -1,11 +1,11 @@
-import React, {useEffect} from "react";
-import {Button, Container} from "@mui/material";
-import {useFormik} from "formik";
-import {loginapicall} from "../../ApiServices/Authapiservices";
-import {useGoogleLogin} from "@react-oauth/google";
-import {useDispatch} from "react-redux";
-import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
-import {GoogleLoginAuth} from "../../ApiServices/UserApiServices/User";
+import React, { useEffect } from "react";
+import { Button, Container } from "@mui/material";
+import { useFormik } from "formik";
+import { loginapicall } from "../../ApiServices/Authapiservices";
+import { useGoogleLogin } from "@react-oauth/google";
+import { useDispatch } from "react-redux";
+import { setLoader } from "../../redux/LoaderSlices/LoaderSlices";
+import { GoogleLoginAuth } from "../../ApiServices/UserApiServices/User";
 
 const validate = (values) => {
   const errors = {};
@@ -59,7 +59,9 @@ const Login = () => {
       console.log(response, "afsdfasdfjlsadfj");
       if (response.success) {
         dispatch(setLoader(false));
-        window.location.href = "/dashboard";
+
+        localStorage.setItem("token", JSON.stringify(response.result));
+        window.location.href = response.redirectUrl;
       }
     },
   });
@@ -80,7 +82,7 @@ const Login = () => {
                 id="Email"
                 {...formik.getFieldProps("Email")}
               />
-              <p style={{color: "red"}}>
+              <p style={{ color: "red" }}>
                 {formik.touched.Email && formik.errors.Email ? (
                   <div>{formik.errors.Email}</div>
                 ) : null}
@@ -93,7 +95,7 @@ const Login = () => {
                 id="Password"
                 {...formik.getFieldProps("Password")}
               />
-              <p style={{color: "red"}}>
+              <p style={{ color: "red" }}>
                 {formik.touched.Password && formik.errors.Password ? (
                   <div>{formik.errors.Password}</div>
                 ) : null}

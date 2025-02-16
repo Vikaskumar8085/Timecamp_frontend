@@ -10,3 +10,8 @@ export const fetchadminapicall = async () => {
   return response.data;
 };
 
+// fetch staff
+export const fetchstaffmemberapicall = async () => {
+  const response = await apiInstance.get("/v1/admin//fetch-staffmembers");
+  return response.data;
+};

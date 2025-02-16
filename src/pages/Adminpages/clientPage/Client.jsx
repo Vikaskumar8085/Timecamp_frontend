@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import {Button, Drawer} from "@mui/material";
+import { Button, Drawer } from "@mui/material";
 import ClientForm from "../../../Component/AdminComponents/Client/ClientForm";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import ClientTable from "../../../Component/AdminComponents/Client/ClientTable";
@@ -11,12 +11,15 @@ import {
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import ClientUploadForm from "../../../Component/AdminComponents/Client/ClientUploadForm";
-import {uploadclientcsvapicall} from "../../../ApiServices/Csvapiservices/csvapiservices";
+import { uploadclientcsvapicall } from "../../../ApiServices/Csvapiservices/csvapiservices";
+import { useDispatch } from "react-redux";
+import { setLoader } from "../../../redux/LoaderSlices/LoaderSlices";
 
 const Client = () => {
   const [IsOpen, setIsOpen] = useState(false);
   const [isUpload, setIsUpload] = useState(false);
   const [Isclientdata, setIsclientdata] = useState([]);
+  const dispatch = useDispatch();
   // fetch client
 
   const fetchclientfucntion = async () => {
@@ -34,13 +37,19 @@ const Client = () => {
 
   const handleSubmit = async (value) => {
     try {
+      dispatch(setLoader(true));
       const response = await createclientapicall(value);
       if (response.success) {
-        // setIsModalOpen(false);
+        setIsOpen(false);
         fetchclientfucntion();
+        dispatch(setLoader(false));
+      } else {
+        console.log(response.message);
+        dispatch(setLoader(false));
       }
     } catch (error) {
       console.log(error?.message);
+      dispatch(setLoader(false));
     }
   };
 

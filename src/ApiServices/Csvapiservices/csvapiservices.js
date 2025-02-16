@@ -45,3 +45,11 @@ export const uploadcontractorcsvapicall = async (value) => {
   );
   return response.data;
 };
+
+export const uploadtimesheetcsvapicall = async (value) => {
+  const response = await apiInstance.post(
+    "/v1/csv-upload/timesheet-csv-upload",
+    value
+  );
+  return response.data;
+};

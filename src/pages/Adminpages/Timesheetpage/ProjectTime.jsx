@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import {
@@ -9,10 +9,29 @@ import {
   TableHead,
   TableRow,
   TableCell,
+  TableBody,
   Paper,
 } from "@mui/material";
+import { fetchProjectTimeapicall } from "../../../ApiServices/TimesheetApiServices";
 
 const ProjectTime = () => {
+  const [Isprojecttimedata, setIsprojectTimedata] = useState([]);
+
+  const getprojecttimefunc = async () => {
+    try {
+      const response = await fetchProjectTimeapicall();
+      if (response.success) {
+        setIsprojectTimedata(response.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
+
+  useEffect(() => {
+    getprojecttimefunc();
+  }, [0]);
+
   return (
     <Layout>
       <BreadCrumb pageName="Project Time" />
@@ -32,47 +51,38 @@ const ProjectTime = () => {
       </Grid2>
 
       <TableContainer component={Paper}>
-        <Table sx={{minWidth: 650}} aria-label="client table">
+        <Table sx={{ minWidth: 650 }} aria-label="client table">
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell>Company Name</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Phone</TableCell>
-              <TableCell>Address</TableCell>
-              <TableCell>Postal Code</TableCell>
-              <TableCell>Gst Number</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Action</TableCell>
+              <TableCell>Project Name</TableCell>
+              <TableCell>Total Hour</TableCell>
+              <TableCell>Total Entries</TableCell>
+              <TableCell>Total Billed Hours</TableCell>
+              <TableCell>Total Ok Hours</TableCell>
+              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
-          {/* <TableBody>
-            {Isclientdata.length > 0 ? (
-              Isclientdata.map((item, index) => (
+          <TableBody>
+            {Isprojecttimedata.length > 0 ? (
+              Isprojecttimedata.map((item, index) => (
                 <TableRow key={index}>
                   <TableCell>{index + 1}</TableCell>
-                  <TableCell>{item.Company_Name}</TableCell>
-                  <TableCell>{item.Client_Name}</TableCell>
-                  <TableCell>{item.Client_Email}</TableCell>
-                  <TableCell>{item.Client_Phone}</TableCell>
-                  <TableCell>{item.Address}</TableCell>
-                  <TableCell>{item.Client_Postal_Code}</TableCell>
-                  <TableCell>{item.GstNumber}</TableCell>
-                  <TableCell>{item.Client_Status}</TableCell>
-                  <TableCell>
-                    <Link to={`/client-info/${item.Client_Id}`}>View</Link>
-                  </TableCell>
+                  <TableCell>{item.ProjectName}</TableCell>
+                  <TableCell>{item.TotalHours}</TableCell>
+                  <TableCell>{item.TotalEntries}</TableCell>
+                  <TableCell>{item.BilledHours}</TableCell>
+                  <TableCell>{item.OkHours}</TableCell>
                 </TableRow>
               ))
             ) : (
               <TableRow>
                 <TableCell colSpan={10} align="center">
-                  <Empty />
+                  {/* <Empty /> */}
                 </TableCell>
               </TableRow>
             )}
-          </TableBody> */}
+          </TableBody>
         </Table>
       </TableContainer>
     </Layout>

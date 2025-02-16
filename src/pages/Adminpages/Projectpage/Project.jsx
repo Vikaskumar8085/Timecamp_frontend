@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {Button, Drawer} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Button, Drawer } from "@mui/material";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import TModal from "../../../common/Modal/TModal";
@@ -19,12 +19,13 @@ import {
   createprojectapicall,
   fetchprojectapicall,
 } from "../../../ApiServices/ProjectApiServices";
-import {Link} from "react-router-dom";
-import {useSelector} from "react-redux";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import ProjectTable from "../../../Component/AdminComponents/Project/ProjectTable";
 import MilestoneForm from "./ProjectInfoPages/MilestoneForm";
+import ProjectUploadForm from "../../../Component/AdminComponents/Project/ProjectUploadForm";
 
 const Project = () => {
   const userdata = useSelector((state) => state.user.values);
@@ -106,19 +107,6 @@ const Project = () => {
       >
         Add Project
       </Button>
-
-      <Button
-        onClick={() => getprojectcsvdownload()}
-        sx={{
-          background: "#2c3e50",
-          padding: "8px 10px",
-          margin: "10px 0px",
-          color: "white",
-        }}
-      >
-        download csv project
-      </Button>
-
       <Button
         onClick={() => setIsProjectUploadModelOpen(true)}
         startIcon={<FileUploadIcon />}
@@ -148,7 +136,7 @@ const Project = () => {
           onClose={() => setIsProjectUploadModelOpen(false)}
           anchor="right"
         >
-          <UploadProjectForm />
+          <ProjectUploadForm />
         </Drawer>
       ) : null}
 

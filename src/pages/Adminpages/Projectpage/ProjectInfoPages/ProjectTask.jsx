@@ -1,9 +1,10 @@
-import {Button, Drawer} from "@mui/material";
-import React, {useState} from "react";
+import { Button, Drawer } from "@mui/material";
+import React, { useState } from "react";
 import MilestoneForm from "./MilestoneForm";
 import apiInstance from "../../../../ApiInstance/apiInstance";
+import UploadTask from "../../../../Component/AdminComponents/Task/UploadTask";
 
-const ProjectTask = ({id}) => {
+const ProjectTask = ({ id }) => {
   const [IsTaskOpen, setIsTaskOpen] = useState(false);
   const [IsMilestoneOpen, setIsMieStoneOpen] = useState(false);
   const [IsUploadTaskOpen, setIsUploadTaskOpen] = useState(false);
@@ -82,7 +83,7 @@ const ProjectTask = ({id}) => {
           onClose={() => setIsUploadTaskOpen(false)}
           anchor="right"
         >
-          Upload Task
+          <UploadTask />
         </Drawer>
       )}
     </>

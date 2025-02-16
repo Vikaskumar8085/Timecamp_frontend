@@ -1,17 +1,17 @@
-import React, {useEffect, useState} from "react";
-import {useFormik} from "formik";
-import {TextField, Button, Container, Grid} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useFormik } from "formik";
+import { TextField, Button, Container, Grid } from "@mui/material";
 import "./company.scss";
 import {
   createcompanyapicall,
   fetchcompanyapicall,
 } from "../../../ApiServices/Companyapiservices";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import CompanyTable from "../../../Component/Companycomponents/CompanyTable";
 
-const CompanyForm = ({handlesubmit}) => {
+const CompanyForm = ({ handlesubmit }) => {
   const formik = useFormik({
     initialValues: {
       Company_Name: "",
@@ -148,7 +148,7 @@ const CompanyForm = ({handlesubmit}) => {
               label="Established Date"
               fullWidth
               type="date"
-              InputLabelProps={{shrink: true}}
+              InputLabelProps={{ shrink: true }}
               {...formik.getFieldProps("Established_date")}
             />
           </Grid>
@@ -230,6 +230,14 @@ const Company = () => {
   ) : (
     <>
       <div className="comapny_form">
+        <button
+          onClick={() => {
+            localStorage.clear();
+            window.location.href = "/login";
+          }}
+        >
+          logout
+        </button>
         <CompanyForm handlesubmit={handlesubmit} />
       </div>
     </>

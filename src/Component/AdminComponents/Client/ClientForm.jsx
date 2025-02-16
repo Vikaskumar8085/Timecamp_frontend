@@ -1,9 +1,17 @@
 import React from "react";
-import {TextField, Button, Container, Box, Typography} from "@mui/material";
+import {
+  TextField,
+  Button,
+  Container,
+  Box,
+  Typography,
+  FormControlLabel,
+  Checkbox,
+} from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import {useFormik} from "formik";
+import { useFormik } from "formik";
 
-const ClientForm = ({handleSubmit}) => {
+const ClientForm = ({ handleSubmit }) => {
   const validate = (values) => {
     const errors = {};
     if (!values.Company_Name.trim()) {
@@ -47,6 +55,9 @@ const ClientForm = ({handleSubmit}) => {
     } else if (!/^GST[0-9]{6,10}$/.test(values.GstNumber)) {
       errors.GstNumber = "Invalid GST Number format";
     }
+    // if (!values.System_Access) {
+    // errors.System_Access = "System Access is required";
+    // }
     return errors;
   };
 
@@ -59,11 +70,14 @@ const ClientForm = ({handleSubmit}) => {
       Client_Address: "",
       Client_Postal_Code: "",
       GstNumber: "",
+      System_Access: false,
     },
     validate,
     onSubmit: (values) => {
       // alert(JSON.stringify(values, null, 2));
       handleSubmit(values);
+      formik.resetForm();
+      // console.log(values,'akdfalskd')
     },
   });
 
@@ -75,12 +89,12 @@ const ClientForm = ({handleSubmit}) => {
           p: 1,
         }}
       >
-        <Typography variant="h5" sx={{margin: "10px 0px"}}>
+        <Typography variant="h5" sx={{ margin: "10px 0px" }}>
           Add Client
         </Typography>
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={2}>
-            <Grid size={{sm: 12}}>
+            <Grid size={{ sm: 12 }}>
               <TextField
                 fullWidth
                 label="Company Name"
@@ -94,7 +108,7 @@ const ClientForm = ({handleSubmit}) => {
                 }
               />
             </Grid>
-            <Grid size={{sm: 12}}>
+            <Grid size={{ sm: 12 }}>
               <TextField
                 fullWidth
                 label="Client Name"
@@ -108,7 +122,7 @@ const ClientForm = ({handleSubmit}) => {
                 }
               />
             </Grid>
-            <Grid size={{sm: 12}}>
+            <Grid size={{ sm: 12 }}>
               <TextField
                 fullWidth
                 label="Client Email"
@@ -123,7 +137,7 @@ const ClientForm = ({handleSubmit}) => {
                 }
               />
             </Grid>
-            <Grid size={{sm: 12}}>
+            <Grid size={{ sm: 12 }}>
               <TextField
                 fullWidth
                 label="Client Phone"
@@ -138,7 +152,7 @@ const ClientForm = ({handleSubmit}) => {
                 }
               />
             </Grid>
-            <Grid size={{sm: 12}}>
+            <Grid size={{ sm: 12 }}>
               <TextField
                 fullWidth
                 label="Client Address"
@@ -152,7 +166,7 @@ const ClientForm = ({handleSubmit}) => {
                 }
               />
             </Grid>
-            <Grid size={{sm: 12}}>
+            <Grid size={{ sm: 12 }}>
               <TextField
                 fullWidth
                 label="Client Postal Code"
@@ -168,7 +182,7 @@ const ClientForm = ({handleSubmit}) => {
                 }
               />
             </Grid>
-            <Grid size={{sm: 12}}>
+            <Grid size={{ sm: 12 }}>
               <TextField
                 fullWidth
                 label="GST Number"
@@ -179,7 +193,22 @@ const ClientForm = ({handleSubmit}) => {
                 helperText={formik.touched.GstNumber && formik.errors.GstNumber}
               />
             </Grid>
-            <Grid size={{sm: 12}}>
+            <Grid size={{ sm: 12 }}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name="System_Access"
+                    color="primary"
+                    checked={formik.values.System_Access}
+                    onChange={formik.handleChange}
+                    onBlur={() => setTouched(true)}
+                  />
+                }
+                label="System Access"
+              />
+            </Grid>
+
+            <Grid size={{ sm: 12 }}>
               <Button
                 fullWidth
                 variant="contained"

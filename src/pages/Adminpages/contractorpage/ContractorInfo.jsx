@@ -11,6 +11,7 @@ const ContractorInfo = () => {
   const [isSubState, setisSubState] = useState(0);
   const [isContractordata, setIscontractordata] = useState([]);
 
+  console.log(isContractordata)
   const getcontractorInfo = async () => {
     try {
       const response = await fetchsinglecontractorapicall(id);
@@ -32,7 +33,7 @@ const ContractorInfo = () => {
     {
       content: (
         <>
-          <ContractorInformation />
+          <ContractorInformation isContractordata={isContractordata}/>
         </>
       ),
     },

@@ -1,11 +1,11 @@
-import React, {useState} from "react";
-import {Drawer, TextField} from "@mui/material";
-import {useFormik} from "formik";
+import React, { useState } from "react";
+import { Drawer, TextField } from "@mui/material";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
-import {Button} from "@mui/material";
+import { Button } from "@mui/material";
 import TModal from "../../../common/Modal/TModal";
 import {
   addemployeeapicall,
@@ -17,12 +17,14 @@ import AddIcon from "@mui/icons-material/Add";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import ContractorUploadForm from "../../../Component/AdminComponents/Contractor/ContractorUploadForm";
 import EmployeeUploadForm from "../../../Component/AdminComponents/Employee/EmployeeUploadForm";
-import {uploademployeecsvapicall} from "../../../ApiServices/Csvapiservices/csvapiservices";
+import { uploademployeecsvapicall } from "../../../ApiServices/Csvapiservices/csvapiservices";
+import EmployeeForm from "../../../Component/AdminComponents/Employee/EmployeeForm";
 
 const Employee = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [isUpload, setIsUpload] = useState(false);
   const [IsEmployeeData, setIsEmployeeData] = useState([]);
+  const [IsOpen, setIsOpen] = React.useState(false);
 
   const getemployee = async () => {
     try {
@@ -102,6 +104,18 @@ const Employee = () => {
         }}
       >
         Add Employee
+      </Button>
+      <Button
+        onClick={() => setIsOpen(true)}
+        startIcon={<AddIcon />}
+        sx={{
+          background: "#2c3e50",
+          padding: "8px 10px",
+          margin: "10px 0px",
+          color: "white",
+        }}
+      >
+        Create Employee
       </Button>
       <Button
         onClick={() => setIsUpload(true)}
@@ -186,13 +200,27 @@ const Employee = () => {
               color="primary"
               type="submit"
               fullWidth
-              sx={{mt: 2}}
+              sx={{ mt: 2 }}
             >
               Submit
             </Button>
           </form>
         </TModal>
       }
+
+      {/* create employee */}
+
+      {IsOpen && (
+        <Drawer
+          open={IsOpen}
+          onClose={() => setIsOpen(false)}
+          anchor="right"
+        >
+          <EmployeeForm/>
+
+        </Drawer>
+      )}
+      {/* create employee */}
 
       {isUpload && (
         <Drawer
