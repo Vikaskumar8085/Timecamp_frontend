@@ -1,14 +1,29 @@
-import { Button, Drawer } from "@mui/material";
+import { Box, Button, Drawer, Grid2 } from "@mui/material";
 import React, { useState } from "react";
 import MilestoneForm from "./MilestoneForm";
 import apiInstance from "../../../../ApiInstance/apiInstance";
 import UploadTask from "../../../../Component/AdminComponents/Task/UploadTask";
 import AddProjectTask from "../../../../Component/AdminComponents/Project/AddProjectTask";
+import MilestoneList from "../../../../Component/AdminComponents/Project/ProjecTaskComponent/MilestoneList";
 
 const ProjectTask = ({ id }) => {
   const [IsTaskOpen, setIsTaskOpen] = useState(false);
   const [IsMilestoneOpen, setIsMieStoneOpen] = useState(false);
   const [IsUploadTaskOpen, setIsUploadTaskOpen] = useState(false);
+  const [Ismilestonedata, setIsmilestonedata] = useState([]);
+
+  const fetchmilestonefunc = async () => {
+    try {
+      const response = await apiInstance.get(
+        `/v2/milestone/fetch-milestone/${id}`
+      );
+      if (response.data.success) {
+        setIsmilestonedata(response.data.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
 
   const handleSubmit = async (values) => {
     try {
@@ -17,11 +32,19 @@ const ProjectTask = ({ id }) => {
         values.milestones
       );
       console.log(response);
+      if (response.success) {
+        console.log(response);
+        fetchmilestonefunc();
+        setIsMieStoneOpen(false);
+      }
     } catch (error) {
       console.log(error?.message);
     }
   };
 
+  React.useEffect(() => {
+    fetchmilestonefunc();
+  }, [0]);
   return (
     <>
       <Button
@@ -87,6 +110,16 @@ const ProjectTask = ({ id }) => {
           <UploadTask />
         </Drawer>
       )}
+
+      <div>
+        <Grid2 container spacing={2}>
+          <Grid2 size={{ sm: 12, md: 6 }}>
+            <Box sx={{height:'300px', overflow:"auto"}}>
+              <MilestoneList milestones={Ismilestonedata} />
+            </Box>
+          </Grid2>
+        </Grid2>
+      </div>
     </>
   );
 };
