@@ -1,16 +1,55 @@
-import { Box, Button, Drawer, Grid2 } from "@mui/material";
-import React, { useState } from "react";
+import {Box, Button, Drawer, Grid2} from "@mui/material";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Typography,
+} from "@mui/material";
+import React, {useState} from "react";
 import MilestoneForm from "./MilestoneForm";
 import apiInstance from "../../../../ApiInstance/apiInstance";
 import UploadTask from "../../../../Component/AdminComponents/Task/UploadTask";
 import AddProjectTask from "../../../../Component/AdminComponents/Project/AddProjectTask";
 import MilestoneList from "../../../../Component/AdminComponents/Project/ProjecTaskComponent/MilestoneList";
+import toast from "react-hot-toast";
 
-const ProjectTask = ({ id }) => {
+const ProjectTask = ({id}) => {
   const [IsTaskOpen, setIsTaskOpen] = useState(false);
   const [IsMilestoneOpen, setIsMieStoneOpen] = useState(false);
   const [IsUploadTaskOpen, setIsUploadTaskOpen] = useState(false);
   const [Ismilestonedata, setIsmilestonedata] = useState([]);
+  const [isMilestonoeresourcesdata, setIsMilestonoeresourcesdata] = useState(
+    []
+  );
+  const [tasks, setTasks] = useState([]);
+  const fetchTasks = async () => {
+    try {
+      const response = await apiInstance.get(
+        `/v1/admin/fetch-project-task/${id}`
+      );
+      setTasks(response.data.result);
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
+  };
+  const fetchmilestonewithresourcesfunc = async () => {
+    try {
+      const response = await apiInstance.get(
+        `/v2/milestone/fetch-milestone-resources/${id}`
+      );
+      if (response.data.success) {
+        setIsMilestonoeresourcesdata(response.data.result);
+      } else {
+        console.log(response.data.message);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
 
   const fetchmilestonefunc = async () => {
     try {
@@ -42,8 +81,27 @@ const ProjectTask = ({ id }) => {
     }
   };
 
+  const TaskHandleSubmit = async (value) => {
+    try {
+      const response = await apiInstance.post(
+        `/v1/admin/create-task/${id}`,
+        value
+      );
+      if (response.data.success) {
+        toast.success(response.data.message);
+        fetchTasks();
+        setIsTaskOpen(false)
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
   React.useEffect(() => {
     fetchmilestonefunc();
+    fetchmilestonewithresourcesfunc();
+    fetchTasks();
   }, [0]);
   return (
     <>
@@ -87,7 +145,10 @@ const ProjectTask = ({ id }) => {
           onClose={() => setIsTaskOpen(false)}
           anchor="right"
         >
-          <AddProjectTask />
+          <AddProjectTask
+            isMilestonoeresourcesdata={isMilestonoeresourcesdata}
+            TaskHandleSubmit={TaskHandleSubmit}
+          />
         </Drawer>
       )}
 
@@ -113,12 +174,50 @@ const ProjectTask = ({ id }) => {
 
       <div>
         <Grid2 container spacing={2}>
-          <Grid2 size={{ sm: 12, md: 6 }}>
-            <Box sx={{height:'300px', overflow:"auto"}}>
+          <Grid2 size={{sm: 12, md: 6}}>
+            <Box sx={{height: "300px", overflow: "auto"}}>
               <MilestoneList milestones={Ismilestonedata} />
             </Box>
           </Grid2>
         </Grid2>
+
+        <TableContainer component={Paper} sx={{mt: 3}}>
+          <Typography variant="h6" sx={{p: 2}}>
+            Task List
+          </Typography>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Task Name</TableCell>
+                <TableCell>Project Name</TableCell>
+                <TableCell>Milestone</TableCell>
+                <TableCell>Priority</TableCell>
+                <TableCell>Start Date</TableCell>
+                <TableCell>End Date</TableCell>
+                <TableCell>Resource Name</TableCell>
+                <TableCell>Status</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {tasks.map((task) => (
+                <TableRow key={task._id}>
+                  <TableCell>{task.Task_Name}</TableCell>
+                  <TableCell>{task.ProjectName?.join(", ")}</TableCell>
+                  <TableCell>{task.MilestoneName?.join(", ")}</TableCell>
+                  <TableCell>{task.Priority}</TableCell>
+                  <TableCell>
+                    {new Date(task.StartDate).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>
+                    {new Date(task.EndDate).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>{task.ResourceName?.join(", ")}</TableCell>
+                  <TableCell>{task.Status}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
     </>
   );

@@ -13,6 +13,8 @@ const Projectinfo = () => {
   const [isSubState, setisSubState] = useState(0);
   const [IsprojectInfodata, setIsprojectInfodata] = useState([]);
 
+
+  
   const getsingleprojectfunc = async () => {
     try {
       const response = await fetchsingleprojectapicall(id);

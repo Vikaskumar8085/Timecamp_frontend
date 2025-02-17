@@ -100,7 +100,7 @@ const Admin = () => {
       const response = await createadminapicall(value);
 
       if (response.success) {
-        getalladmin();
+        fetchadmin();
         setIsModalOpen(false);
       }
     } catch (error) {

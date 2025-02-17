@@ -33,3 +33,10 @@ export const fetchsingleemployeeapicall = async (value) => {
   );
   return response.data;
 };
+
+export const fetchemployeeprojectapicall = async (value) => {
+  const response = await apiInstance.get(
+    `/v1/admin/fetch-employee-project/${value}`
+  );
+  return response.data;
+};

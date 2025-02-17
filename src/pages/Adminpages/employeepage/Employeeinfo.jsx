@@ -1,7 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
-import {fetchsingleemployeeapicall} from "../../../ApiServices/AdminApiServices/Employee";
+import {
+  fetchemployeeprojectapicall,
+  fetchsingleemployeeapicall,
+} from "../../../ApiServices/AdminApiServices/Employee";
 import {Paper} from "@mui/material";
 import Card from "../../../common/Card/Card";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
@@ -14,6 +17,8 @@ const Employeeinfo = () => {
   const {id} = useParams();
   const [isEmployeedata, setIsEmployeedata] = useState([]);
   const [isSubState, setisSubState] = useState(0);
+  const [isEmployeeprojectdata, setIsemployeeprojectdata] = useState([]);
+  console.log(isEmployeeprojectdata, "????????????");
 
   const fetchsingleemployeefunc = async () => {
     try {
@@ -27,8 +32,20 @@ const Employeeinfo = () => {
     }
   };
 
+  const fetchemployeeprojectsfunc = async () => {
+    try {
+      const response = await fetchemployeeprojectapicall(id);
+      if (response.success) {
+        setIsemployeeprojectdata(response.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
+
   useEffect(() => {
     fetchsingleemployeefunc();
+    fetchemployeeprojectsfunc();
   }, [0]);
 
   const tabsheader = [{title: "Empoyee Info"}, {title: "TimeSheet"}];
@@ -36,7 +53,10 @@ const Employeeinfo = () => {
     {
       content: (
         <>
-          <Employeeinformation />
+          <Employeeinformation
+            isEmployeedata={isEmployeedata}
+            isEmployeeprojectdata={isEmployeeprojectdata}
+          />
         </>
       ),
     },

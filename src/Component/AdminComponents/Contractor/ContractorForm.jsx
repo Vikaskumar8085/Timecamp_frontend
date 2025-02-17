@@ -8,17 +8,17 @@ import {
   MenuItem,
   Select,
   TextField,
+  Grid,
   Typography,
   Button,
 } from "@mui/material";
-import Grid from "@mui/material/Grid2";
-import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
-import { fetchdesignationapicall } from "../../../ApiServices/MasterApiServices/Designation";
+import {useFormik} from "formik";
+import React, {useEffect, useState} from "react";
+import {fetchdesignationapicall} from "../../../ApiServices/MasterApiServices/Designation";
 import toast from "react-hot-toast";
-import { fetchstaffmemberapicall } from "../../../ApiServices/AdminApiServices/Admin";
+import {fetchstaffmemberapicall} from "../../../ApiServices/AdminApiServices/Admin";
 
-const ContractorForm = () => {
+const ContractorForm = ({handleSubmit}) => {
   const [designations, setDesignations] = useState([]);
   const [Ismanagerid, setIsmanagerid] = useState([]);
 
@@ -41,6 +41,8 @@ const ContractorForm = () => {
     },
     onSubmit: async (values) => {
       console.log("Submitted Data:", values);
+      handleSubmit(values);
+      formik.resetForm();
     },
   });
 
@@ -76,9 +78,9 @@ const ContractorForm = () => {
 
   return (
     <Container maxWidth="md">
-      <Box sx={{ p: 2 }}>
-        <Typography sx={{ mb: 3 }} variant="h5">
-          Add Employee
+      <Box sx={{p: 2}}>
+        <Typography sx={{mb: 3}} variant="h5">
+          Add Contractor
         </Typography>
 
         <form onSubmit={formik.handleSubmit}>
@@ -128,7 +130,7 @@ const ContractorForm = () => {
                 label="Joining Date"
                 type="date"
                 fullWidth
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{shrink: true}}
                 {...formik.getFieldProps("Joining_Date")}
               />
             </Grid>
@@ -160,8 +162,8 @@ const ContractorForm = () => {
                   onChange={formik.handleChange}
                 >
                   {Ismanagerid.map((item) => (
-                    <MenuItem key={item.ManagerId} value={item.ManagerId}>
-                      {item.FristName}
+                    <MenuItem key={item.staff_Id} value={item.staff_Id}>
+                      {item.FirstName}
                     </MenuItem>
                   ))}
                 </Select>
@@ -227,7 +229,7 @@ const ContractorForm = () => {
                   padding: "8px 10px",
                   margin: "10px 0px",
                   color: "white",
-                  "&:hover": { background: "#1a252f" },
+                  "&:hover": {background: "#1a252f"},
                 }}
               >
                 Submit

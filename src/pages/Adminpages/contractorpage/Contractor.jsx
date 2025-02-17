@@ -26,12 +26,15 @@ import AddIcon from "@mui/icons-material/Add";
 import ContractorUploadForm from "../../../Component/AdminComponents/Contractor/ContractorUploadForm";
 import ContractorTable from "../../../Component/AdminComponents/Contractor/ContractorTable";
 import {uploadcontractorcsvapicall} from "../../../ApiServices/Csvapiservices/csvapiservices";
+import ContractorForm from "../../../Component/AdminComponents/Contractor/ContractorForm";
+import {useDispatch} from "react-redux";
+import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 
 const Contractor = () => {
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [Iscontractordata, setIscontractordata] = useState([]);
   const [isUpload, setIsUpload] = useState(false);
-
+  const [IsOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
   const getcontractor = async () => {
     try {
       const response = await fetchcontractorapicall();
@@ -44,35 +47,23 @@ const Contractor = () => {
     }
   };
 
-  const formik = useFormik({
-    initialValues: {
-      FirstName: "",
-      LastName: "",
-      Email: "",
-      Phone: "",
-      Address: "",
-    },
-    validationSchema: Yup.object({
-      FirstName: Yup.string().required("First Name is required"),
-      LastName: Yup.string().required("Last Name is required"),
-      Email: Yup.string().email("Invalid email").required("Email is required"),
-      Phone: Yup.string()
-        .matches(/^\d{10}$/, "Phone number must be 10 digits")
-        .required("Phone number is required"),
-      Address: Yup.string().required("Address is required"),
-    }),
-    onSubmit: async (value) => {
-      try {
-        const response = await addContractorapicall(value);
-        if (response.success) {
-          setIsModalOpen(false);
-          getcontractor();
-        }
-      } catch (error) {
-        console.log(error?.message);
+  const handleSubmit = async (value) => {
+    try {
+      dispatch(setLoader(true));
+      const response = await addContractorapicall(value);
+      if (response.success) {
+        dispatch(setLoader(false));
+        setIsOpen(false);
+        getcontractor();
+      } else {
+        toast.error(response?.message || "Something went wrong.");
       }
-    },
-  });
+    } catch (error) {
+      dispatch(setLoader(false));
+      setIsOpen(false);
+      toast.error(error.response?.data?.message || "Something went wrong.");
+    }
+  };
 
   const uploadcontractorcsvupload = async (value) => {
     try {
@@ -94,7 +85,7 @@ const Contractor = () => {
       <BreadCrumb pageName="Contractor" />
 
       <Button
-        onClick={() => setIsModalOpen(true)}
+        onClick={() => setIsOpen(true)}
         startIcon={<AddIcon />}
         sx={{
           background: "#2c3e50",
@@ -118,83 +109,11 @@ const Contractor = () => {
         Upload Contractor
       </Button>
 
-      {
-        <TModal
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-          title={"Add Contractor"}
-        >
-          <form onSubmit={formik.handleSubmit}>
-            <TextField
-              fullWidth
-              margin="normal"
-              label="First Name"
-              name="FirstName"
-              value={formik.values.FirstName}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={
-                formik.touched.FirstName && Boolean(formik.errors.FirstName)
-              }
-              helperText={formik.touched.FirstName && formik.errors.FirstName}
-            />
-            <TextField
-              fullWidth
-              margin="normal"
-              label="Last Name"
-              name="LastName"
-              value={formik.values.LastName}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.LastName && Boolean(formik.errors.LastName)}
-              helperText={formik.touched.LastName && formik.errors.LastName}
-            />
-            <TextField
-              fullWidth
-              margin="normal"
-              label="Email"
-              name="Email"
-              type="email"
-              value={formik.values.Email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.Email && Boolean(formik.errors.Email)}
-              helperText={formik.touched.Email && formik.errors.Email}
-            />
-            <TextField
-              fullWidth
-              margin="normal"
-              label="Phone"
-              name="Phone"
-              value={formik.values.Phone}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.Phone && Boolean(formik.errors.Phone)}
-              helperText={formik.touched.Phone && formik.errors.Phone}
-            />
-            <TextField
-              fullWidth
-              margin="normal"
-              label="Address"
-              name="Address"
-              value={formik.values.Address}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.Address && Boolean(formik.errors.Address)}
-              helperText={formik.touched.Address && formik.errors.Address}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              fullWidth
-              sx={{mt: 2}}
-            >
-              Submit
-            </Button>
-          </form>
-        </TModal>
-      }
+      {IsOpen && (
+        <Drawer open={IsOpen} onClose={() => setIsOpen(false)} anchor="right">
+          <ContractorForm handleSubmit={handleSubmit} />
+        </Drawer>
+      )}
 
       {isUpload && (
         <Drawer

@@ -66,7 +66,7 @@ const ClientTable = ({Isclientdata}) => {
                         <TableCell>{item.Client_Name}</TableCell>
                         <TableCell>{item.Client_Email}</TableCell>
                         <TableCell>{item.Client_Phone}</TableCell>
-                        <TableCell>{item.Address}</TableCell>
+                        <TableCell>{item.Client_Address}</TableCell>
                         <TableCell>{item.Client_Postal_Code}</TableCell>
                         <TableCell>{item.GstNumber}</TableCell>
                         <TableCell>{item.Client_Status}</TableCell>

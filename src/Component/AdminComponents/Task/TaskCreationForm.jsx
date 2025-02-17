@@ -1,186 +1,275 @@
-import React, {useState, useEffect} from "react";
-import {
-  TextField,
-  Button,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  Chip,
-  Container,
-  Typography,
-  Box,
-} from "@mui/material";
+import React from "react";
 import {useFormik} from "formik";
 import * as Yup from "yup";
-// import {DesktopDatePicker} from "@mui/x-date-pickers";
+import {
+  Container,
+  Box,
+  Typography,
+  Grid,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Button,
+} from "@mui/material";
 
-const TaskCreationForm = () => {
-  const [projects, setProjects] = useState([]);
-  const [milestones, setMilestones] = useState([]);
-  const [resources, setResources] = useState([]);
-
-  useEffect(() => {
-    // Fetch projects, milestones, and resources from API
-    setProjects([
-      {id: "1", name: "Project A"},
-      {id: "2", name: "Project B"},
-    ]);
-    setResources([
-      {id: "101", name: "Resource 1"},
-      {id: "102", name: "Resource 2"},
-    ]);
-  }, []);
-
+const TaskCreationForm = ({Isprojectmilestonedata}) => {
   const formik = useFormik({
     initialValues: {
-      projectId: "",
-      milestoneId: "",
-      taskName: "",
-      resourceIds: [],
-      startDate: null,
-      expectedDate: null,
-      priority: "",
-      estimatedTime: "",
-      taskDescription: "",
-      attachment: null,
+      ProjectId: "",
+      MilestoneId: "",
+      Task_Name: "",
+      StartDate: "",
+      EndDate: "",
+      Estimated_Time: "",
+      Priority: "",
+      Task_Description: "",
+      Attachment: null,
+      Resource_Id: "", // new field for selected resources
     },
-    validationSchema: Yup.object({
-      projectId: Yup.string().required("Project is required"),
-      milestoneId: Yup.string().required("Milestone is required"),
-      taskName: Yup.string().required("Task Name is required"),
-      resourceIds: Yup.array().min(1, "Select at least one resource"),
-      startDate: Yup.date().required("Start date is required"),
-      expectedDate: Yup.date().required("Expected date is required"),
-      priority: Yup.string().required("Priority is required"),
-      estimatedTime: Yup.number().min(1, "Must be at least 1 hour"),
-      taskDescription: Yup.string(),
-      attachment: Yup.mixed().nullable(),
-    }),
-    onSubmit: (values) => {
-      console.log("Form Submitted", values);
+
+    onSubmit: async (values) => {
+      console.log(values, "?/////////////");
+      // const formData = new FormData();
+      // formData.append("MilestoneId", values.MilestoneId);
+      // formData.append("Task_Name", values.Task_Name);
+      // formData.append("StartDate", values.StartDate);
+      // formData.append("EndDate", values.EndDate);
+      // formData.append("Estimated_Time", values.Estimated_Time);
+      // formData.append("Priority", values.Priority);
+      // formData.append("Task_Description", values.Task_Description);
+      // formData.append("file", values.Attachment);
+      // formData.append("Resource_Id", values.Resource_Id);
+      // TaskHandleSubmit(formData);
+
+      formik.resetForm();
     },
   });
 
   return (
-    <Container maxWidth="sm">
-      <Box sx={{mt: 4, p: 3, borderRadius: 2}}>
-        <Typography variant="h5" gutterBottom>
-          Upload Project
-        </Typography>
-        <form
-          onSubmit={formik.handleSubmit}
-          style={{display: "flex", flexDirection: "column", gap: "16px"}}
-        >
-          <FormControl fullWidth>
-            <InputLabel>Project</InputLabel>
-            <Select {...formik.getFieldProps("projectId")}>
-              {projects.map((project) => (
-                <MenuItem key={project.id} value={project.id}>
-                  {project.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+    <>
+      <Container maxWidth="md">
+        <Box sx={{p: 2}}>
+          <Typography variant="h5" gutterBottom>
+            Add Task
+          </Typography>
+          <form onSubmit={formik.handleSubmit}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <FormControl fullWidth>
+                  <InputLabel>Select Project</InputLabel>
+                  <Select
+                    {...formik.getFieldProps("ProjectId")}
+                    value={formik.values.ProjectId}
+                    onChange={formik.handleChange}
+                  >
+                    {Isprojectmilestonedata.map((item) => (
+                      <MenuItem key={item.ProjectId} value={item.ProjectId}>
+                        {item.Project_Name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
 
-          <FormControl fullWidth>
-            <InputLabel>Milestone</InputLabel>
-            <Select {...formik.getFieldProps("milestoneId")}>
-              {milestones.map((milestone) => (
-                <MenuItem key={milestone.id} value={milestone.id}>
-                  {milestone.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              <Grid item xs={12}>
+                <FormControl fullWidth>
+                  <InputLabel>Select Milestone</InputLabel>
+                  <Select
+                    {...formik.getFieldProps("MilestoneId")}
+                    value={formik.values.MilestoneId}
+                    onChange={formik.handleChange}
+                  >
+                    {Isprojectmilestonedata.filter(
+                      (item) => item.ProjectId === formik.values.ProjectId
+                    ) // Filter by selected ProjectId
+                      .map((item) => {
+                        return item.mileStonedata?.map((milestoneItem) => (
+                          <MenuItem
+                            key={milestoneItem.milestoneId}
+                            value={milestoneItem.milestoneId}
+                          >
+                            {milestoneItem.milestoneName}
+                          </MenuItem>
+                        ));
+                      })}
+                  </Select>
+                </FormControl>
+              </Grid>
 
-          <TextField
-            label="Task Name"
-            {...formik.getFieldProps("taskName")}
-            fullWidth
-          />
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Task Name"
+                  name="Task_Name"
+                  value={formik.values.Task_Name}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={
+                    formik.touched.Task_Name && Boolean(formik.errors.Task_Name)
+                  }
+                  helperText={
+                    formik.touched.Task_Name && formik.errors.Task_Name
+                  }
+                />
+              </Grid>
 
-          <FormControl fullWidth>
-            <InputLabel>Resource</InputLabel>
-            <Select
-              multiple
-              value={formik.values.resourceIds}
-              onChange={(e) =>
-                formik.setFieldValue("resourceIds", e.target.value)
-              }
-              input={<OutlinedInput label="Resource" />}
-              renderValue={(selected) => (
-                <div style={{display: "flex", flexWrap: "wrap", gap: 5}}>
-                  {selected.map((value) => (
-                    <Chip
-                      key={value}
-                      label={resources.find((r) => r.id === value)?.name}
-                    />
-                  ))}
-                </div>
-              )}
-            >
-              {resources.map((resource) => (
-                <MenuItem key={resource.id} value={resource.id}>
-                  {resource.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  label="Start Date"
+                  name="StartDate"
+                  type="date"
+                  InputLabelProps={{shrink: true}}
+                  value={formik.values.StartDate}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={
+                    formik.touched.StartDate && Boolean(formik.errors.StartDate)
+                  }
+                  helperText={
+                    formik.touched.StartDate && formik.errors.StartDate
+                  }
+                />
+              </Grid>
 
-          {/* <DesktopDatePicker
-        label="Start Date"
-        value={formik.values.startDate}
-        onChange={(date) => formik.setFieldValue("startDate", date)}
-        renderInput={(params) => <TextField {...params} fullWidth />}
-      /> */}
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  label="Expected End Date"
+                  name="EndDate"
+                  type="date"
+                  InputLabelProps={{shrink: true}}
+                  value={formik.values.EndDate}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={
+                    formik.touched.EndDate && Boolean(formik.errors.EndDate)
+                  }
+                  helperText={formik.touched.EndDate && formik.errors.EndDate}
+                />
+              </Grid>
 
-          {/* <DesktopDatePicker
-        label="Expected Date"
-        value={formik.values.expectedDate}
-        onChange={(date) => formik.setFieldValue("expectedDate", date)}
-        renderInput={(params) => <TextField {...params} fullWidth />}
-      /> */}
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Estimate Time (Hours)"
+                  name="Estimated_Time"
+                  type="number"
+                  value={formik.values.Estimated_Time}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={
+                    formik.touched.Estimated_Time &&
+                    Boolean(formik.errors.Estimated_Time)
+                  }
+                  helperText={
+                    formik.touched.Estimated_Time &&
+                    formik.errors.Estimated_Time
+                  }
+                />
+              </Grid>
 
-          <FormControl fullWidth>
-            <InputLabel>Priority</InputLabel>
-            <Select {...formik.getFieldProps("priority")}>
-              <MenuItem value="Low">Low</MenuItem>
-              <MenuItem value="Medium">Medium</MenuItem>
-              <MenuItem value="High">High</MenuItem>
-            </Select>
-          </FormControl>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  select
+                  label="Priority Mode"
+                  name="Priority"
+                  value={formik.values.Priority}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={
+                    formik.touched.Priority && Boolean(formik.errors.Priority)
+                  }
+                  helperText={formik.touched.Priority && formik.errors.Priority}
+                >
+                  <MenuItem value="HIGH">High</MenuItem>
+                  <MenuItem value="MEDIUM">Medium</MenuItem>
+                  <MenuItem value="LOW">Low</MenuItem>
+                </TextField>
+              </Grid>
 
-          <TextField
-            label="Estimated Time (Hours)"
-            type="number"
-            {...formik.getFieldProps("estimatedTime")}
-            fullWidth
-          />
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Task Description"
+                  name="Task_Description"
+                  multiline
+                  rows={3}
+                  value={formik.values.Task_Description}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={
+                    formik.touched.Task_Description &&
+                    Boolean(formik.errors.Task_Description)
+                  }
+                  helperText={
+                    formik.touched.Task_Description &&
+                    formik.errors.Task_Description
+                  }
+                />
+              </Grid>
 
-          <TextField
-            label="Task Description"
-            multiline
-            rows={3}
-            {...formik.getFieldProps("taskDescription")}
-            fullWidth
-          />
+              <Grid item xs={12}>
+                <Typography variant="subtitle1">File Attachment</Typography>
+                <input
+                  type="file"
+                  name="Attachment"
+                  onChange={(event) =>
+                    formik.setFieldValue(
+                      "Attachment",
+                      event.currentTarget.files[0]
+                    )
+                  }
+                />
+              </Grid>
 
-          <input
-            type="file"
-            accept=".csv,.pdf,.doc,.docx,image/*"
-            onChange={(event) =>
-              formik.setFieldValue("attachment", event.currentTarget.files[0])
-            }
-          />
+              <Grid item xs={12}>
+                {/* <FormControl fullWidth>
+                  <InputLabel>Select Resources</InputLabel>
+                  <Select
+                    {...formik.getFieldProps("Resource_Id")}
+                    value={formik.values.Resource_Id}
+                    onChange={formik.handleChange}
+                  >
+                    {resources.length > 0 ? (
+                      resources.map((resource) => (
+                        <MenuItem
+                          key={resource.staff_id}
+                          value={resource.staff_id}
+                        >
+                          {resource.FirstName}
+                        </MenuItem>
+                      ))
+                    ) : (
+                      <MenuItem disabled>No resources available</MenuItem>
+                    )}
+                  </Select>
+                </FormControl> */}
+              </Grid>
 
-          <Button type="submit" variant="contained" color="primary">
-            Create Task
-          </Button>
-        </form>
-      </Box>
-    </Container>
+              <Grid item xs={12}>
+                <Button
+                  type="submit"
+                  fullWidth
+                  sx={{
+                    background: "#2c3e50",
+                    padding: "8px 10px",
+                    color: "white",
+                  }}
+                  variant="contained"
+                  color="primary"
+                >
+                  Submit Task
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </Box>
+      </Container>
+    </>
   );
 };
 

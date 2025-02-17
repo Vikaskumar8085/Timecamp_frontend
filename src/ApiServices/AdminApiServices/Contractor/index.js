@@ -30,3 +30,10 @@ export const fetchsinglecontractorapicall = async (value) => {
   );
   return response.data;
 };
+
+export const fetchcontractorprojectapicall = async (value) => {
+  const response = await apiInstance.get(
+    `/v1/admin/fetch-contractor-project/${value}`
+  );
+  return response.data;
+};
