@@ -14,10 +14,11 @@ import {
   Button,
 } from "@mui/material";
 
-const TaskCreationForm = ({Isprojectmilestonedata}) => {
+const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
   const formik = useFormik({
     initialValues: {
       ProjectId: "",
+      StaffId: "",
       MilestoneId: "",
       Task_Name: "",
       StartDate: "",
@@ -26,22 +27,23 @@ const TaskCreationForm = ({Isprojectmilestonedata}) => {
       Priority: "",
       Task_Description: "",
       Attachment: null,
-      Resource_Id: "", // new field for selected resources
+      Resource_Id: "",
     },
 
     onSubmit: async (values) => {
       console.log(values, "?/////////////");
-      // const formData = new FormData();
-      // formData.append("MilestoneId", values.MilestoneId);
-      // formData.append("Task_Name", values.Task_Name);
-      // formData.append("StartDate", values.StartDate);
-      // formData.append("EndDate", values.EndDate);
-      // formData.append("Estimated_Time", values.Estimated_Time);
-      // formData.append("Priority", values.Priority);
-      // formData.append("Task_Description", values.Task_Description);
-      // formData.append("file", values.Attachment);
-      // formData.append("Resource_Id", values.Resource_Id);
-      // TaskHandleSubmit(formData);
+      const formData = new FormData();
+      formData.append("MilestoneId", values.MilestoneId);
+      formData.append("Task_Name", values.Task_Name);
+      formData.append("StartDate", values.StartDate);
+      formData.append("ProjectId", values.ProjectId);
+      formData.append("EndDate", values.EndDate);
+      formData.append("Estimated_Time", values.Estimated_Time);
+      formData.append("Priority", values.Priority);
+      formData.append("Task_Description", values.Task_Description);
+      formData.append("file", values.Attachment);
+      formData.append("Resource_Id", values.Resource_Id);
+      TaskHandlesubmit(formData);
 
       formik.resetForm();
     },
@@ -98,6 +100,30 @@ const TaskCreationForm = ({Isprojectmilestonedata}) => {
                 </FormControl>
               </Grid>
 
+              <Grid item xs={12}>
+                <FormControl fullWidth>
+                  <InputLabel>Select Milestone</InputLabel>
+                  <Select
+                    {...formik.getFieldProps("Resource_Id")}
+                    value={formik.values.StaffId}
+                    onChange={formik.handleChange}
+                  >
+                    {Isprojectmilestonedata.filter(
+                      (item) => item.ProjectId === formik.values.ProjectId
+                    ) // Filter by selected ProjectId
+                      .map((item) => {
+                        return item.resourcedata?.map((resourcedata) => (
+                          <MenuItem
+                            key={resourcedata.resourceId}
+                            value={resourcedata.resourceId}
+                          >
+                            {resourcedata.resourceName}
+                          </MenuItem>
+                        ));
+                      })}
+                  </Select>
+                </FormControl>
+              </Grid>
               <Grid item xs={12}>
                 <TextField
                   fullWidth

@@ -6,3 +6,8 @@ export const fetchProjectwithmilestonesapicall = async () => {
   );
   return response.data;
 };
+
+export const addTaskapicall = async (value) => {
+  const response = await apiInstance.post("/v1/admin/add-task", value);
+  return response.data;
+};

@@ -13,16 +13,20 @@ import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import {Button, Drawer} from "@mui/material";
 import AddIcons from "@mui/icons-material/Add";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
-// import UploadTask from "../../../Component/AdminComponents/Task/UploadTask";
-// import FileUploadIcon from "@mui/icons-material/FileUpload";
 import TaskCreationForm from "../../../Component/AdminComponents/Task/TaskCreationForm";
 import apiInstance from "../../../ApiInstance/apiInstance";
-import {fetchProjectwithmilestonesapicall} from "../../../ApiServices/TaskApiServices";
+import {
+  addTaskapicall,
+  fetchProjectwithmilestonesapicall,
+} from "../../../ApiServices/TaskApiServices";
+import {useDispatch} from "react-redux";
+import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 
 const Task = () => {
   const [IsOpen, setIsOpen] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [Isprojectmilestonedata, setIsprojectmilestonedata] = useState([]);
+  const dispatch = useDispatch();
   const fetchprojectwithmilestonefunc = async () => {
     try {
       const response = await fetchProjectwithmilestonesapicall();
@@ -40,6 +44,20 @@ const Task = () => {
       setTasks(response.data.result);
     } catch (error) {
       console.error("Error fetching tasks:", error);
+    }
+  };
+
+  const TaskHandlesubmit = async (values) => {
+    try {
+      dispatch(setLoader(true));
+      const response = await addTaskapicall(values);
+      if (response.success) {
+        setIsOpen(false);
+        dispatch(setLoader(false));
+        fetchTasks();
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
     }
   };
   useEffect(() => {
@@ -63,22 +81,13 @@ const Task = () => {
         >
           Add Task
         </Button>
-        {/* <Button
-          onClick={() => setIsUpload(true)}
-          startIcon={<FileUploadIcon />}
-          sx={{
-            background: "#2c3e50",
-            padding: "8px 10px",
-            margin: "10px 0px",
-            color: "white",
-          }}
-        >
-          Upload Task
-        </Button> */}
 
         {IsOpen && (
           <Drawer open={IsOpen} onClose={() => setIsOpen(false)} anchor="right">
-            <TaskCreationForm Isprojectmilestonedata={Isprojectmilestonedata} />
+            <TaskCreationForm
+              TaskHandlesubmit={TaskHandlesubmit}
+              Isprojectmilestonedata={Isprojectmilestonedata}
+            />
           </Drawer>
         )}
 

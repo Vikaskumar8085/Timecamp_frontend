@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { useFormik } from "formik";
+import {useState} from "react";
+import {useFormik} from "formik";
 import Grid from "@mui/material/Grid2";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import {Box, Button, Container, TextField, Typography} from "@mui/material";
 import Papa from "papaparse";
 import DownloadIcon from "@mui/icons-material/Download";
-import { uploadtimesheetcsvapicall } from "../../../ApiServices/Csvapiservices/csvapiservices";
+import {uploadtimesheetcsvapicall} from "../../../ApiServices/Csvapiservices/csvapiservices";
 
 // /timesheet-csv-download
 //
@@ -25,9 +25,7 @@ const UploadTimesheet = () => {
     formData.append("file", file);
 
     const response = await uploadtimesheetcsvapicall(formData);
-    console.log(response, "asdfjksdaf");
-    if (response.success) {
-    }
+    console.log(response, "/............./asdfjksdaf/............./");
 
     setFile(null);
   };
@@ -65,23 +63,23 @@ const UploadTimesheet = () => {
 
   return (
     <Container maxWidth="sm" fullWidth>
-      <Box sx={{ mt: 2, p: 1 }}>
+      <Box sx={{mt: 2, p: 1}}>
         <Typography
-          style={{ fontSize: "20px", fontWeight: "bold", marginBottom: "16px" }}
+          style={{fontSize: "20px", fontWeight: "bold", marginBottom: "16px"}}
         >
           Upload Task
         </Typography>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={1}>
-            <Grid size={{ sm: 12 }}>
+            <Grid size={{sm: 12}}>
               <TextField
                 type="file"
-                inputProps={{ accept: ".csv" }}
+                inputProps={{accept: ".csv"}}
                 fullWidth
                 onChange={handleFileChange}
               />
             </Grid>
-            <Grid size={{ sm: 12 }}>
+            <Grid size={{sm: 12}}>
               <Button
                 startIcon={<DownloadIcon />}
                 onClick={() => gettimesheetcsvdownload()}
@@ -95,7 +93,7 @@ const UploadTimesheet = () => {
                 Timesheet Csv formate
               </Button>
             </Grid>
-            <Grid size={{ sm: 12 }}>
+            <Grid size={{sm: 12}}>
               <Button
                 type="submit"
                 startIcon={<FileUploadIcon />}

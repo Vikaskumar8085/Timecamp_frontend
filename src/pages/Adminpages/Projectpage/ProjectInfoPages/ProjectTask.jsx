@@ -90,7 +90,23 @@ const ProjectTask = ({id}) => {
       if (response.data.success) {
         toast.success(response.data.message);
         fetchTasks();
-        setIsTaskOpen(false)
+        setIsTaskOpen(false);
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
+
+  const uploadTaskhandlesubmit = async (value) => {
+    try {
+      const response = await apiInstance.post(
+        `/v1/csv-upload/task-csv-upload/${id}`,
+        value
+      );
+      if (response.data.success) {
+        toast.success(response.data.message);
       } else {
         toast.error(response.data.message);
       }
@@ -168,7 +184,7 @@ const ProjectTask = ({id}) => {
           onClose={() => setIsUploadTaskOpen(false)}
           anchor="right"
         >
-          <UploadTask />
+          <UploadTask uploadTaskhandlesubmit={uploadTaskhandlesubmit} />
         </Drawer>
       )}
 

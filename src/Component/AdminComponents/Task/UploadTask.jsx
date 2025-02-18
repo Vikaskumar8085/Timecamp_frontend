@@ -1,9 +1,9 @@
-import { useState } from "react";
+import {useState} from "react";
 import Grid2 from "@mui/material/Grid2";
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import {Box, Button, Container, TextField, Typography} from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 
-const UploadTask = () => {
+const UploadTask = ({uploadTaskhandlesubmit}) => {
   const [file, setFile] = useState(null);
   // Handle file selection
   const handleFileChange = (event) => {
@@ -17,17 +17,16 @@ const UploadTask = () => {
     }
     const formData = new FormData();
     formData.append("file", file);
-    console.log(formData, "afsaldflksdfl");
-    // uploadhandlesubmit(formData);
+    uploadTaskhandlesubmit(formData);
 
     setFile(null);
   };
 
-  const getemployeecsvdownload = async () => {
+  const getTaskcsvdownload = async () => {
     const token = JSON.parse(localStorage.getItem("token"));
     try {
       const response = await fetch(
-        "http://localhost:8000/api/v1/csv-upload/employee-csv-download",
+        "http://localhost:8000/api/v1/csv-upload/task-csv-download",
         {
           method: "GET",
           headers: {
@@ -44,7 +43,7 @@ const UploadTask = () => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "Employee.csv";
+      a.download = "Task.csv";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -65,18 +64,18 @@ const UploadTask = () => {
           <Typography variant="h5">Upload Task</Typography>
           <form onSubmit={handleSubmit}>
             <Grid2 container spacing={1}>
-              <Grid2 size={{ xs: 12 }}>
+              <Grid2 size={{xs: 12}}>
                 <TextField
                   type="file"
-                  inputProps={{ accept: ".csv" }}
+                  inputProps={{accept: ".csv"}}
                   fullWidth
                   onChange={handleFileChange}
                 />
               </Grid2>
-              <Grid2 size={{ xs: 12 }}>
+              <Grid2 size={{xs: 12}}>
                 <Button
                   startIcon={<DownloadIcon />}
-                  onClick={() => getemployeecsvdownload()}
+                  onClick={() => getTaskcsvdownload()}
                   sx={{
                     background: "#2c3e50",
                     padding: "8px 10px",
@@ -87,7 +86,7 @@ const UploadTask = () => {
                   Task CSV Format
                 </Button>
               </Grid2>
-              <Grid2 size={{ xs: 12 }}>
+              <Grid2 size={{xs: 12}}>
                 <Button
                   type="submit"
                   sx={{
