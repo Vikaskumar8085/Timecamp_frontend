@@ -12,12 +12,14 @@ import {
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import {fetchclientinactiveprojectapicall} from "../../ApiServices/Cllientapiservices/Client";
+import {Link} from "react-router-dom";
 const ClientInactiveProject = () => {
   const [isclientactiveproject, setIsclientactiveproject] = useState([]);
+
   const fetchinactiveclientproject = async () => {
     try {
       const response = await fetchclientinactiveprojectapicall();
-      if (response.successs) {
+      if (response.success) {
         setIsclientactiveproject(response.result);
       }
     } catch (error) {
@@ -33,7 +35,6 @@ const ClientInactiveProject = () => {
     <div>
       <Layout>
         <BreadCrumb pageName="Client Inactive Project" />
-
         <TableContainer component={Paper}>
           <Table sx={{minWidth: 650}} aria-label="simple table">
             <TableHead>
@@ -59,6 +60,11 @@ const ClientInactiveProject = () => {
                       <TableCell>{item.Start_Date}</TableCell>
                       <TableCell>{item.End_Date}</TableCell>
                       <TableCell>{item.Project_Hours}</TableCell>
+                      <TableCell>
+                        <Link to={`/client/client-pageinfo/${item?.ProjectId}`}>
+                          view{" "}
+                        </Link>
+                      </TableCell>
                     </TableRow>
                   ))
                 : "null"}

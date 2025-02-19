@@ -48,6 +48,7 @@ const EmployeeTable = ({IsEmployeeData}) => {
                     <TableCell>ID</TableCell>
                     <TableCell>Employee FirstName</TableCell>
                     <TableCell>Employee LastName</TableCell>
+                    <TableCell>Employee Username</TableCell>
                     <TableCell>Employee Email</TableCell>
                     <TableCell>Employee Phone</TableCell>
                     <TableCell>Employee Address</TableCell>
@@ -61,6 +62,7 @@ const EmployeeTable = ({IsEmployeeData}) => {
                         <TableCell>{index + 1}</TableCell>
                         <TableCell>{item.FirstName}</TableCell>
                         <TableCell>{item.LastName}</TableCell>
+                        <TableCell>{item.UserName}</TableCell>
                         <TableCell>{item.Email}</TableCell>
                         <TableCell>{item.Phone}</TableCell>
                         <TableCell>{item.Address}</TableCell>

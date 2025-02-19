@@ -7,23 +7,14 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Card,
-  CardContent,
-  Typography,
-  Button,
 } from "@mui/material";
-import {Link} from "react-router-dom";
-import Grid from "@mui/material/Grid2";
-import GridViewIcon from "@mui/icons-material/GridView";
-import TableViewIcon from "@mui/icons-material/TableView";
-import Empty from "../../common/EmptyFolder/Empty";
-import HeaderTab from "../../common/HeaderTab/HeaderTab";
+
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import {fetchclientprojectapicall} from "../../ApiServices/Cllientapiservices/Client";
+import {Link} from "react-router-dom";
 
 const ClientProjects = () => {
-  //   const [viewMode, setViewMode] = useState("table");
   const [Isclientdata, setisclientdata] = useState([]);
 
   const fetchclientproject = async () => {
@@ -69,6 +60,11 @@ const ClientProjects = () => {
                     <TableCell>{item.Start_Date}</TableCell>
                     <TableCell>{item.End_Date}</TableCell>
                     <TableCell>{item.Project_Hours}</TableCell>
+                    <TableCell>
+                      <Link to={`/client/client-pageinfo/${item?.ProjectId}`}>
+                        view{" "}
+                      </Link>
+                    </TableCell>
                   </TableRow>
                 ))
               : "null"}

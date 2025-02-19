@@ -69,6 +69,11 @@ const ClientActiveProject = () => {
                       <TableCell>{item.Start_Date}</TableCell>
                       <TableCell>{item.End_Date}</TableCell>
                       <TableCell>{item.Project_Hours}</TableCell>
+                      <TableCell>
+                        <Link to={`/client/client-pageinfo/${item?.ProjectId}`}>
+                          view
+                        </Link>
+                      </TableCell>
                     </TableRow>
                   ))
                 : "null"}

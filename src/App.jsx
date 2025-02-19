@@ -56,6 +56,7 @@ import ContractorActiveProject from "./pages/ContractorPages/ContractorActivePro
 import ContractorInactiveProject from "./pages/ContractorPages/ContractorInactiveProject";
 import ContractorTimesheet from "./pages/ContractorPages/ContractorTimesheet";
 import ClientTimesheet from "./pages/ClientPages/ClientTimesheet";
+import ClientPageinfo from "./pages/ClientPages/ClientPageinfo";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -130,6 +131,10 @@ const App = () => {
           element={<ClientInactiveProject />}
         />
         <Route path="/client/Timesheet" element={<ClientTimesheet />} />
+        <Route
+          path="/client/client-pageinfo/:id"
+          element={<ClientPageinfo />}
+        />
         {/* client pages */}
 
         {/* employee Pages */}
