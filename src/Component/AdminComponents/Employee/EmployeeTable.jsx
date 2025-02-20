@@ -51,6 +51,7 @@ const EmployeeTable = ({IsEmployeeData}) => {
                     <TableCell>Employee Username</TableCell>
                     <TableCell>Employee Email</TableCell>
                     <TableCell>Employee Phone</TableCell>
+                    <TableCell>Manager</TableCell>
                     <TableCell>Employee Address</TableCell>
                     <TableCell>Action</TableCell>
                   </TableRow>
@@ -65,6 +66,8 @@ const EmployeeTable = ({IsEmployeeData}) => {
                         <TableCell>{item.UserName}</TableCell>
                         <TableCell>{item.Email}</TableCell>
                         <TableCell>{item.Phone}</TableCell>
+                        <TableCell>{item.Manager}</TableCell>
+
                         <TableCell>{item.Address}</TableCell>
                         <TableCell>
                           <Link to={`/employee-info/${item.staff_Id}`}>
