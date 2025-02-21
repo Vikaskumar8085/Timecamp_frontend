@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import {fetchactiveprojectsapicall} from "../../../ApiServices/ProjectApiServices";
 import {useSelector} from "react-redux";

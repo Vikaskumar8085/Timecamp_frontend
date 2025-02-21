@@ -51,6 +51,7 @@ const ContractorTable = ({Iscontractordata}) => {
                     <TableCell align="left">ID</TableCell>
                     <TableCell align="left">First Name</TableCell>
                     <TableCell align="left">Last Name</TableCell>
+                    <TableCell align="left">Username</TableCell>
                     <TableCell align="left">Email</TableCell>
                     <TableCell align="left">Phone</TableCell>
                     <TableCell align="left">Address</TableCell>
@@ -64,6 +65,7 @@ const ContractorTable = ({Iscontractordata}) => {
                         <TableCell>{index + 1}</TableCell>
                         <TableCell>{item.FirstName}</TableCell>
                         <TableCell>{item.LastName}</TableCell>
+                        <TableCell>{item.UserName}</TableCell>
                         <TableCell>{item.Email}</TableCell>
                         <TableCell>{item.Phone}</TableCell>
                         <TableCell>{item.Address}</TableCell>

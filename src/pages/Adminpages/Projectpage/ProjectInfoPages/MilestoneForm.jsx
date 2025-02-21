@@ -34,6 +34,8 @@ const MilestoneForm = ({handleSubmit}) => {
     onSubmit: async (values) => {
       try {
         handleSubmit(values);
+
+        formik.resetForm();
       } catch (error) {
         console.log(error?.message);
       }

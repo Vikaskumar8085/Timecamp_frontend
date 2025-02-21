@@ -102,7 +102,7 @@ const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
 
               <Grid item xs={12}>
                 <FormControl fullWidth>
-                  <InputLabel>Select Milestone</InputLabel>
+                  <InputLabel>Select Resource</InputLabel>
                   <Select
                     {...formik.getFieldProps("Resource_Id")}
                     value={formik.values.StaffId}

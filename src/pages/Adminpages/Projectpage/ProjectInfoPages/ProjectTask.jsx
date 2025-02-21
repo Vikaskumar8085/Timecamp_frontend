@@ -71,7 +71,7 @@ const ProjectTask = ({id}) => {
         values.milestones
       );
       console.log(response);
-      if (response.success) {
+      if (response.data.success) {
         console.log(response);
         fetchmilestonefunc();
         setIsMieStoneOpen(false);

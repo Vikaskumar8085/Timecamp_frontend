@@ -61,6 +61,9 @@ export const fetchemployeetaskapicall = async () => {
 
 // fill employee timesheet apicall
 export const fillemployeetimesheetapicall = async (value) => {
-  const response = await apiInstance.post("/fill-project-timesheet", value);
+  const response = await apiInstance.post(
+    "/v2/employee/fill-project-timesheet",
+    value
+  );
   return response.data;
 };

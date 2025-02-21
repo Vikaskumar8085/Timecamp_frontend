@@ -57,6 +57,8 @@ import ContractorInactiveProject from "./pages/ContractorPages/ContractorInactiv
 import ContractorTimesheet from "./pages/ContractorPages/ContractorTimesheet";
 import ClientTimesheet from "./pages/ClientPages/ClientTimesheet";
 import ClientPageinfo from "./pages/ClientPages/ClientPageinfo";
+import ContractorProjectInfo from "./pages/ContractorPages/ContractorProjectInfo";
+import EmployeeProjectinfo from "./pages/EmployeePages/EmployeeProjectinfo";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -150,6 +152,10 @@ const App = () => {
         />
         <Route path="/employee/tasks" element={<EmployeeTasks />} />
         <Route path="/employee/Timesheet" element={<EmployeeTimesheets />} />
+        <Route
+          path="/employee/employee-project-info/:id"
+          element={<EmployeeProjectinfo />}
+        />
         {/* employee Pages */}
 
         {/* contractor  */}
@@ -164,6 +170,10 @@ const App = () => {
           element={<ContractorInactiveProject />}
         />
         <Route path="/contractor/Timesheet" element={<ContractorTimesheet />} />
+        <Route
+          path="/contractor/contractor-project-info/:id"
+          element={<ContractorProjectInfo />}
+        />
         {/* contractor  */}
         <Route path="*" element={<Nopage />} />
       </Routes>
