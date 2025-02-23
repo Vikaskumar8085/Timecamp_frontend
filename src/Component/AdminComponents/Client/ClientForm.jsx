@@ -11,7 +11,7 @@ import {
 import Grid from "@mui/material/Grid2";
 import { useFormik } from "formik";
 
-const ClientForm = ({ handleSubmit }) => {
+const ClientForm = ({ handleSubmit, isEdit, handleUpdate }) => {
   const validate = (values) => {
     const errors = {};
     if (!values.Company_Name.trim()) {
@@ -75,8 +75,11 @@ const ClientForm = ({ handleSubmit }) => {
     validate,
     onSubmit: (values) => {
       // alert(JSON.stringify(values, null, 2));
+
       handleSubmit(values);
+
       formik.resetForm();
+
       // console.log(values,'akdfalskd')
     },
   });
@@ -90,7 +93,7 @@ const ClientForm = ({ handleSubmit }) => {
         }}
       >
         <Typography variant="h5" sx={{ margin: "10px 0px" }}>
-          Add Client
+          {isEdit !== null ? "Edit Client " : " Add Client"}
         </Typography>
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={2}>

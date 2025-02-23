@@ -40,3 +40,10 @@ export const fetchemployeeprojectapicall = async (value) => {
   );
   return response.data;
 };
+
+export const fetchemployeeprojecttimesheetapicall = async (value) => {
+  const response = await apiInstance.get(
+    `/v1/admin/fetch-employee-timesheet/${value}`
+  );
+  return response.data;
+};

@@ -6,7 +6,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { useDispatch } from "react-redux";
 import { setLoader } from "../../redux/LoaderSlices/LoaderSlices";
 import { GoogleLoginAuth } from "../../ApiServices/UserApiServices/User";
-
+import toast from "react-hot-toast";
 const validate = (values) => {
   const errors = {};
 
@@ -35,14 +35,22 @@ const Login = () => {
     validate,
     onSubmit: async (values) => {
       try {
-        console.log("values");
+        dispatch(setLoader(true));
         const response = await loginapicall(values);
         console.log(response, "login value");
         if (response.success) {
+          dispatch(setLoader(false));
           window.location.href = response.redirectUrl;
           localStorage.setItem("token", JSON.stringify(response.token));
+          toast.success(response.message);
+        } else {
+          dispatch(setLoader(false));
+          toast.error(response.message);
         }
-      } catch (error) {}
+      } catch (error) {
+        dispatch(setLoader(false));
+        toast.error(error?.response?.data?.message || "something went wrong");
+      }
     },
   });
 

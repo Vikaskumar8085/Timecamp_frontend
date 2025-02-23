@@ -37,3 +37,9 @@ export const fetchstaffmembersapicall = async () => {
   const response = await apiInstance.get("/v1/admin/fetch-staff-members");
   return response.data;
 };
+
+
+export const fetchprojecttimesheetapicall = async(value)=>{
+  const response = await apiInstance.get(`/v1/admin/fetch-project-timesheet/${value}`);
+  return response.data;
+}

@@ -1,22 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import {useFormik} from "formik";
-import {
-  Button,
-  Container,
-  Drawer,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { useFormik } from "formik";
+import { Button, Container, Drawer } from "@mui/material";
 import * as Yup from "yup";
-import {fillcontractorprojecttimesheetapicall} from "../../../ApiServices/ContractorApiServices/ContractorApiServices";
+import { fillcontractorprojecttimesheetapicall } from "../../../ApiServices/ContractorApiServices/ContractorApiServices";
 
-const ContractorProjectTimesheet = ({id}) => {
+const ContractorProjectTimesheet = ({ id }) => {
   const [isContractoractiveproject, setIsContractoractiveproject] = useState(
     []
   );
@@ -83,7 +73,7 @@ const ContractorProjectTimesheet = ({id}) => {
     fetchcontractorprojecttimesheetFunc();
   }, [0]);
   return (
-    <Layout>
+    <>
       <BreadCrumb pageName="Contractor Project Timesheet" />
       <Button
         onClick={() => setIsOpen(true)}
@@ -99,12 +89,9 @@ const ContractorProjectTimesheet = ({id}) => {
       </Button>
       {IsOpen && (
         <Drawer open={IsOpen} anchor="right" onClose={() => setIsOpen(false)}>
-          <Container maxWidth="sm" sx={{p: 2}}>
-            <Typography variant="h5" sx={{mb: 3}}>
-              Fill timesheet
-            </Typography>
+          <Container maxWidth="sm" sx={{ p: 2 }}>
             <form onSubmit={formik.handleSubmit}>
-              <FormControl fullWidth sx={{mb: 2}}>
+              <FormControl fullWidth sx={{ mb: 2 }}>
                 <InputLabel>Select Project</InputLabel>
                 <Select
                   {...formik.getFieldProps("project")}
@@ -112,9 +99,8 @@ const ContractorProjectTimesheet = ({id}) => {
                   onChange={formik.handleChange}
                 >
                   {[
-                    ...(isContractoractiveproject?.response || []),
-                    ...(isContractoractiveproject?.employeeactiveProjects ||
-                      []),
+                    ...(Isemployeeprojects?.response || []),
+                    ...(Isemployeeprojects?.employeeactiveProjects || []),
                   ].map((item) => (
                     <MenuItem key={item.ProjectId} value={item.ProjectId}>
                       {item.Project_Name}
@@ -140,7 +126,7 @@ const ContractorProjectTimesheet = ({id}) => {
                 label="Day"
                 name="day"
                 type="date"
-                InputLabelProps={{shrink: true}}
+                InputLabelProps={{ shrink: true }}
                 value={formik.values.day}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -196,14 +182,14 @@ const ContractorProjectTimesheet = ({id}) => {
                 onBlur={formik.handleBlur}
               />
               {formik.touched.attachement && formik.errors.attachement && (
-                <div style={{color: "red"}}>{formik.errors.attachement}</div>
+                <div style={{ color: "red" }}>{formik.errors.attachement}</div>
               )}
 
               <Button
                 type="submit"
                 variant="contained"
                 color="primary"
-                style={{marginTop: "15px"}}
+                style={{ marginTop: "15px" }}
                 fullWidth
               >
                 Submit
@@ -212,7 +198,7 @@ const ContractorProjectTimesheet = ({id}) => {
           </Container>
         </Drawer>
       )}
-    </Layout>
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import {
@@ -11,8 +11,8 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import {Link} from "react-router-dom";
-import {fetchcontractoractiveprojectapicall} from "../../ApiServices/ContractorApiServices/ContractorApiServices";
+import { Link } from "react-router-dom";
+import { fetchcontractoractiveprojectapicall } from "../../ApiServices/ContractorApiServices/ContractorApiServices";
 
 const ContractorActiveProject = () => {
   const [isContractoractiveproject, setIsContractoractiveproject] = useState(
@@ -39,7 +39,7 @@ const ContractorActiveProject = () => {
       <Layout>
         <BreadCrumb pageName="Contract Active Project" />
         <TableContainer component={Paper}>
-          <Table sx={{minWidth: 650}} aria-label="simple table">
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell align="left">Id</TableCell>
@@ -70,7 +70,9 @@ const ContractorActiveProject = () => {
                         {new Date(item.End_Date).toLocaleDateString()}
                       </TableCell>
                       <TableCell>
-                        <Link to={`/client/client-pageinfo/${item.ProjectId}`}>
+                        <Link
+                          to={`/contractor/contractor-project-info/${item.ProjectId}`}
+                        >
                           view
                         </Link>
                       </TableCell>
@@ -95,7 +97,7 @@ const ContractorActiveProject = () => {
                         </TableCell>
                         <TableCell>
                           <Link
-                            to={`/employee/employee-project-info/${item.ProjectId}`}
+                            to={`/contractor/contractor-project-info/${item.ProjectId}`}
                           >
                             view
                           </Link>

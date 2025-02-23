@@ -19,6 +19,7 @@ const Client = () => {
   const [IsOpen, setIsOpen] = useState(false);
   const [isUpload, setIsUpload] = useState(false);
   const [Isclientdata, setIsclientdata] = useState([]);
+  const [isEdit, setIsEdit] = useState({});
   const dispatch = useDispatch();
   // fetch client
 
@@ -65,6 +66,27 @@ const Client = () => {
     }
   };
 
+  // delete client
+  const handleUpdate = async (value) => {
+    try {
+      let val = {
+        id: isEdit.Client_Id,
+        payload: value,
+      };
+
+      dispatch(setLoader(true));
+
+      // const response = await
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
+
+  const handleOpen = async (value) => {
+    setIsEdit(value);
+    setIsOpen(true);
+  };
+
   useEffect(() => {
     fetchclientfucntion();
   }, [0]);
@@ -99,7 +121,11 @@ const Client = () => {
       </Button>
       {IsOpen && (
         <Drawer open={IsOpen} onClose={() => setIsOpen(false)} anchor="right">
-          <ClientForm handleSubmit={handleSubmit} />
+          <ClientForm
+            isEdit={isEdit}
+            handleUpdate={handleUpdate}
+            handleSubmit={handleSubmit}
+          />
         </Drawer>
       )}
       {isUpload && (
@@ -113,7 +139,7 @@ const Client = () => {
           />
         </Drawer>
       )}
-      <ClientTable Isclientdata={Isclientdata} />
+      <ClientTable handleOpen={handleOpen} Isclientdata={Isclientdata} />
     </Layout>
   );
 };

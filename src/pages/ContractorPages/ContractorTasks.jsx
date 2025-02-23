@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {fetchcontractortaskapicall} from "../../ApiServices/ContractorApiServices/ContractorApiServices";
+import React, { useEffect, useState } from "react";
+import { fetchcontractortaskapicall } from "../../ApiServices/ContractorApiServices/ContractorApiServices";
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import {
@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 const ContractorTasks = () => {
   const [IsContracotorTaskdata, setIsContractorTaskdata] = useState([]);
-
   const fetchContractorTaskfunc = async () => {
     try {
       const response = await fetchcontractortaskapicall();
@@ -34,8 +33,8 @@ const ContractorTasks = () => {
     <div>
       <Layout>
         <BreadCrumb pageName="Contractor Task" />
-        <TableContainer component={Paper} sx={{mt: 3}}>
-          <Typography variant="h6" sx={{p: 2}}>
+        <TableContainer component={Paper} sx={{ mt: 3 }}>
+          <Typography variant="h6" sx={{ p: 2 }}>
             Task List
           </Typography>
           <Table>

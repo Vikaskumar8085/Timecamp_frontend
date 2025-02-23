@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import {
   TextField,
   Button,
@@ -8,8 +8,11 @@ import {
   Container,
   Typography,
 } from "@mui/material";
-import {useFormik} from "formik";
-import {signupapicall} from "../../ApiServices/Authapiservices";
+import { useFormik } from "formik";
+import { signupapicall } from "../../ApiServices/Authapiservices";
+import toast from "react-hot-toast";
+import { setLoader } from "../../redux/LoaderSlices/LoaderSlices";
+import { useDispatch } from "react-redux";
 
 const validate = (values) => {
   const errors = {};
@@ -37,6 +40,7 @@ const validate = (values) => {
 
 const Signup = () => {
   // at us.
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       FirstName: "",
@@ -49,12 +53,19 @@ const Signup = () => {
     validate,
     onSubmit: async (values) => {
       try {
+        dispatch(setLoader(true));
         const response = await signupapicall(values);
         if (response.success) {
           window.location.href = "/login";
+          toast.success(response.message);
+          dispatch(setLoader(false));
+        } else {
+          dispatch(setLoader(false));
+          toast.error(response.message);
         }
       } catch (error) {
-        console.log(error?.response?.message, "message");
+        dispatch(setLoader(false));
+        toast.error(error?.response?.data?.message || "something went wrong");
       }
     },
   });
@@ -77,7 +88,7 @@ const Signup = () => {
           </Typography>
           <Avatar
             src={formik.values.Photo}
-            sx={{width: 80, height: 80, margin: "auto"}}
+            sx={{ width: 80, height: 80, margin: "auto" }}
           />
           <form onSubmit={formik.handleSubmit}>
             <div className="mb-3">
@@ -150,7 +161,7 @@ const Signup = () => {
                 variant="contained"
                 color="primary"
                 type="submit"
-                sx={{mt: 2}}
+                sx={{ mt: 2 }}
               >
                 Register
               </Button>

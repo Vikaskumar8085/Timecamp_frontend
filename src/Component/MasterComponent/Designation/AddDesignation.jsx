@@ -1,17 +1,23 @@
-import {useFormik} from "formik";
+import { useFormik } from "formik";
 import React from "react";
-import {Button, Box, Typography, TextField, Container} from "@mui/material";
+import { Button, Box, Typography, TextField, Container } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import DesignationValidate from "../../../validation/mastervalidation/Designation";
-const AddDesignation = ({handleSubmit}) => {
+const AddDesignation = ({ handleSubmit, isEdit, updateDesignation }) => {
   const formik = useFormik({
     initialValues: {
-      Designation_Name: "",
+      Designation_Name: isEdit !== null ? isEdit?.Designation_Name : null,
     },
     validationSchema: DesignationValidate,
     onSubmit: async (values) => {
       try {
-        handleSubmit(values);
+        if (isEdit !== null) {
+          updateDesignation(values);
+          formik.resetForm();
+        } else {
+          handleSubmit(values);
+          formik.resetForm();
+        }
         formik.resetForm();
       } catch (error) {
         console.log(error?.message);
@@ -30,11 +36,11 @@ const AddDesignation = ({handleSubmit}) => {
           }}
         >
           <Typography variant="h6" component={"h1"}>
-            Add Designation
+            {isEdit !== null ? "Edit Designation" : "Add Designation"}
           </Typography>
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={2}>
-              <Grid size={{sm: 12, xs: 12}} sx={{mt: 3}}>
+              <Grid size={{ sm: 12, xs: 12 }} sx={{ mt: 3 }}>
                 <TextField
                   fullWidth
                   id="Designation_Name"
@@ -54,7 +60,7 @@ const AddDesignation = ({handleSubmit}) => {
                   }
                 />
               </Grid>
-              <Grid size={{sm: 12, xs: 12}}>
+              <Grid size={{ sm: 12, xs: 12 }}>
                 <Button
                   type="submit"
                   variant="contained"

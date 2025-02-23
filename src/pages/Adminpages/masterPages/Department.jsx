@@ -1,5 +1,5 @@
-import {Button, Container, Drawer, Input, TextField} from "@mui/material";
-import React, {useEffect, useState} from "react";
+import { Button, Container, Drawer, Input, TextField } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import TModal from "../../../common/Modal/TModal";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
@@ -9,17 +9,21 @@ import AddIcon from "@mui/icons-material/Add";
 import {
   createdepartmentapicall,
   fetchdepartmentapicall,
+  removedepartmentapicall,
+  updatedepartmentapicall,
 } from "../../../ApiServices/MasterApiServices/Department";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import AddDepartment from "../../../Component/MasterComponent/Department/AddDepartment";
-import {useDispatch} from "react-redux";
-import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
+import { useDispatch } from "react-redux";
+import { setLoader } from "../../../redux/LoaderSlices/LoaderSlices";
+import toast from "react-hot-toast";
 
 const Department = () => {
   const dispatch = useDispatch();
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isdepartmentdata, setIsdepartmentdata] = useState([]);
   const [IsOpen, setIsOpen] = useState(false);
+  const [isEdit, setIsEdit] = useState(null);
+
   const getdepartment = async () => {
     try {
       const response = await fetchdepartmentapicall();
@@ -39,12 +43,63 @@ const Department = () => {
         dispatch(setLoader(false));
         getdepartment();
         setIsOpen(false);
+        toast.success(response.message);
+      } else {
+        toast.error(response.message);
       }
     } catch (error) {
       dispatch(setLoader(false));
+      toast.error(error?.response?.data.message || "something went wrong");
     }
   };
 
+  const deleteDepartment = async (value) => {
+    try {
+      dispatch(setLoader(true));
+      const response = await removedepartmentapicall(value);
+      if (response.success) {
+        getdepartment();
+        toast.success(response.message);
+        dispatch(setLoader(false));
+      } else {
+        dispatch(setLoader(false));
+        toast.error(response.message);
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      toast.error(error.response?.data?.message || "Something went wrong.");
+    }
+  };
+
+  const updatedepartment = async (value) => {
+    let val = {
+      id: isEdit?.Department_Id,
+      payload: value,
+    };
+    try {
+      dispatch(setLoader(true));
+      const response = await updatedepartmentapicall(val);
+      if (response.success) {
+        dispatch(setLoader(false));
+        setIsOpen(false);
+        toast?.success(response.message);
+        getdepartment();
+      } else {
+        dispatch(setLoader(false));
+        setIsOpen(false);
+        toast.error(response.message);
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      setIsOpen(false);
+      toast.error(error.response?.data?.message || "Something went wrong.");
+    }
+  };
+
+  const handleOpen = (value) => {
+    setIsOpen(true);
+    setIsEdit(value);
+  };
   useEffect(() => {
     getdepartment();
   }, [0]);
@@ -53,7 +108,10 @@ const Department = () => {
       <BreadCrumb pageName="Department" />
 
       <Button
-        onClick={() => setIsOpen(true)}
+        onClick={() => {
+          setIsOpen(true);
+          setIsEdit(null);
+        }}
         startIcon={<AddIcon />}
         sx={{
           background: "#2c3e50",
@@ -66,11 +124,26 @@ const Department = () => {
       </Button>
 
       {IsOpen && (
-        <Drawer open={IsOpen} anchor="right" onClose={() => setIsOpen(false)}>
-          <AddDepartment handleSubmit={handleSubmit} />
+        <Drawer
+          open={IsOpen}
+          anchor="right"
+          onClose={() => {
+            setIsOpen(false);
+            setIsEdit(null);
+          }}
+        >
+          <AddDepartment
+            updatedepartment={updatedepartment}
+            isEdit={isEdit}
+            handleSubmit={handleSubmit}
+          />
         </Drawer>
       )}
-      <DepartmentTable isdepartmentdata={isdepartmentdata} />
+      <DepartmentTable
+        handleOpen={handleOpen}
+        deleteDepartment={deleteDepartment}
+        isdepartmentdata={isdepartmentdata}
+      />
     </Layout>
   );
 };

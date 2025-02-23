@@ -15,7 +15,7 @@ export const fetchdepartmentapicall = async () => {
 
 export const removedepartmentapicall = async (value) => {
   const response = await apiInstance.delete(
-    `/v1/master/remove-department/${value.id}`
+    `/v1/master/remove-department/${value}`
   );
   return response.data;
 };

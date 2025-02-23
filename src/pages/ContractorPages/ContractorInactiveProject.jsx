@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from "react";
-import {fetchcontractorinactiveprojectapicall} from "../../ApiServices/ContractorApiServices/ContractorApiServices";
+import React, { useEffect, useState } from "react";
+import { fetchcontractorinactiveprojectapicall } from "../../ApiServices/ContractorApiServices/ContractorApiServices";
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Table,
   TableBody,
@@ -33,7 +33,7 @@ const ContractorInactiveProject = () => {
     <Layout>
       <BreadCrumb pageName="Contractor Inactive Project" />
       <TableContainer component={Paper}>
-        <Table sx={{minWidth: 650}} aria-label="simple table">
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell align="left">Id</TableCell>
@@ -64,7 +64,9 @@ const ContractorInactiveProject = () => {
                       {new Date(item.End_Date).toLocaleDateString()}
                     </TableCell>
                     <TableCell>
-                      <Link to={`/client/client-pageinfo/${item.ProjectId}`}>
+                      <Link
+                        to={`/contractor/contractor-project-info/${item.ProjectId}`}
+                      >
                         view
                       </Link>
                     </TableCell>
@@ -89,7 +91,7 @@ const ContractorInactiveProject = () => {
                       </TableCell>
                       <TableCell>
                         <Link
-                          to={`/employee/employee-project-info/${item.ProjectId}`}
+                          to={`/contractor/contractor-project-info/${item.ProjectId}`}
                         >
                           view
                         </Link>

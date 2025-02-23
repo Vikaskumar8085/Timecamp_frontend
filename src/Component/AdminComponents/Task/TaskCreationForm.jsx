@@ -1,5 +1,5 @@
 import React from "react";
-import {useFormik} from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
   Container,
@@ -14,7 +14,7 @@ import {
   Button,
 } from "@mui/material";
 
-const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
+const TaskCreationForm = ({ Isprojectmilestonedata, TaskHandlesubmit }) => {
   const formik = useFormik({
     initialValues: {
       ProjectId: "",
@@ -52,7 +52,7 @@ const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
   return (
     <>
       <Container maxWidth="md">
-        <Box sx={{p: 2}}>
+        <Box sx={{ p: 2 }}>
           <Typography variant="h5" gutterBottom>
             Add Task
           </Typography>
@@ -105,7 +105,7 @@ const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
                   <InputLabel>Select Resource</InputLabel>
                   <Select
                     {...formik.getFieldProps("Resource_Id")}
-                    value={formik.values.StaffId}
+                    value={formik.values.Resource_Id}
                     onChange={formik.handleChange}
                   >
                     {Isprojectmilestonedata.filter(
@@ -147,7 +147,7 @@ const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
                   label="Start Date"
                   name="StartDate"
                   type="date"
-                  InputLabelProps={{shrink: true}}
+                  InputLabelProps={{ shrink: true }}
                   value={formik.values.StartDate}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -166,7 +166,7 @@ const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
                   label="Expected End Date"
                   name="EndDate"
                   type="date"
-                  InputLabelProps={{shrink: true}}
+                  InputLabelProps={{ shrink: true }}
                   value={formik.values.EndDate}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}

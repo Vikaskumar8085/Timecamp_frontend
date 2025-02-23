@@ -20,12 +20,14 @@ import {
   fetchprojectapicall,
 } from "../../../ApiServices/ProjectApiServices";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import ProjectTable from "../../../Component/AdminComponents/Project/ProjectTable";
 import MilestoneForm from "./ProjectInfoPages/MilestoneForm";
 import ProjectUploadForm from "../../../Component/AdminComponents/Project/ProjectUploadForm";
+import { setLoader } from "../../../redux/LoaderSlices/LoaderSlices";
+import toast from "react-hot-toast";
 
 const Project = () => {
   const userdata = useSelector((state) => state.user.values);
@@ -34,15 +36,26 @@ const Project = () => {
   const [isProjectdata, setIsProjectdata] = useState([]);
   const [IsProjectUploadModelOpen, setIsProjectUploadModelOpen] =
     useState(false);
+  const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
     try {
+      dispatch(setLoader(true));
       const response = await createprojectapicall(values);
+      console.log();
       if (response.success) {
         setIsModalOpen(false);
+        toast.success(response?.message);
+        getProjectapicall();
+        dispatch(setLoader(false));
+      } else {
+        dispatch(setLoader(false));
+        toast.error(response?.message);
       }
     } catch (error) {
       console.log(error?.message);
+      dispatch(setLoader(false));
+      toast.error(error?.response?.data?.message);
     }
   };
 

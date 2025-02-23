@@ -1,21 +1,23 @@
-import React, {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import {
   fetchcontractorprojectapicall,
+  fetchcontractorprojectTimesheetapicall,
   fetchsinglecontractorapicall,
 } from "../../../ApiServices/AdminApiServices/Contractor";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import TabComp from "../../../common/TabComponent/TabComp";
 import ContractorInformation from "./ContractorInfopage/ContractorInformation";
+import ContractorTimesheet from "./ContractorInfopage/ContractorTimesheet";
 
 const ContractorInfo = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   const [isSubState, setisSubState] = useState(0);
   const [isContractordata, setIscontractordata] = useState([]);
   const [iscontractorprojectdata, setIscontractorprojectdata] = useState([]);
-
-  console.log(isContractordata);
+  const [IsContractorProjectTimesheetdata, setIsCoractorProjectTimesheetdata] =
+    useState([]);
 
   const fetchcontractorprojectfunc = async () => {
     try {
@@ -39,12 +41,25 @@ const ContractorInfo = () => {
     }
   };
 
+  const getcontractorProjectTimesheetfunc = async () => {
+    try {
+      const response = await fetchcontractorprojectTimesheetapicall(id);
+      console.log(response, ">>>>>>>>>>>>>..");
+      if (response.success) {
+        setIsCoractorProjectTimesheetdata(response.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
+
   useEffect(() => {
+    getcontractorProjectTimesheetfunc();
     getcontractorInfo();
     fetchcontractorprojectfunc();
   }, [0]);
 
-  const tabsheader = [{title: "Contractor Info"}, {title: "TimeSheet"}];
+  const tabsheader = [{ title: "Contractor Info" }, { title: "TimeSheet" }];
   const Tabsbody = [
     {
       content: (
@@ -57,7 +72,11 @@ const ContractorInfo = () => {
       ),
     },
     {
-      content: <></>,
+      content: (
+        <>
+          <ContractorTimesheet data={IsContractorProjectTimesheetdata} />
+        </>
+      ),
     },
   ];
   return (

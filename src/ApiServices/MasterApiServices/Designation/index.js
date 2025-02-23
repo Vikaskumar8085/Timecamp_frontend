@@ -21,7 +21,7 @@ export const fetchdesignationapicall = async () => {
 // remove designation api call
 export const removedesignationapicall = async (value) => {
   const response = await apiInstance.delete(
-    `/v1/master/remove-designation/${value.id}`
+    `/v1/master/remove-designation/${value}`
   );
   return response.data;
 };

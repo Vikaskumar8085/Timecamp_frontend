@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
   TableContainer,
   Table,
@@ -16,7 +16,11 @@ import Grid from "@mui/material/Grid2";
 import GridViewIcon from "@mui/icons-material/GridView";
 import TableViewIcon from "@mui/icons-material/TableView";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
-const DesignationTable = ({isdesignationdata}) => {
+const DesignationTable = ({
+  isdesignationdata,
+  removeDesignation,
+  handleOpen,
+}) => {
   const [viewMode, setViewMode] = useState("table"); // "table" or "grid"
 
   return (
@@ -36,9 +40,9 @@ const DesignationTable = ({isdesignationdata}) => {
 
       {viewMode === "table" ? (
         <Grid container spacing={2}>
-          <Grid size={{sm: 12}}>
+          <Grid size={{ sm: 12 }}>
             <TableContainer component={Paper}>
-              <Table sx={{minWidth: 650}} aria-label="designation table">
+              <Table sx={{ minWidth: 650 }} aria-label="designation table">
                 <TableHead>
                   <TableRow>
                     <TableCell align="left">ID</TableCell>
@@ -54,7 +58,13 @@ const DesignationTable = ({isdesignationdata}) => {
                         {item.Designation_Name}
                       </TableCell>
                       <TableCell align="left">
-                        <Button color="error">Delete</Button>
+                        <Button
+                          onClick={() => removeDesignation(item.Designation_Id)}
+                          color="error"
+                        >
+                          Delete
+                        </Button>
+                        <Button onClick={() => handleOpen(item)}>edit</Button>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -64,18 +74,23 @@ const DesignationTable = ({isdesignationdata}) => {
           </Grid>
         </Grid>
       ) : (
-        <Grid container spacing={2} sx={{mt: 2}}>
+        <Grid container spacing={2} sx={{ mt: 2 }}>
           {isdesignationdata.map((item, index) => (
-            <Grid size={{xs: 12, sm: 12, md: 12, lg: 6}} key={index}>
+            <Grid size={{ xs: 12, sm: 12, md: 12, lg: 6 }} key={index}>
               <Card variant="outlined">
                 <CardContent>
                   <Typography variant="h6">ID: {index + 1}</Typography>
                   <Typography variant="body1">
                     {item.Designation_Name}
                   </Typography>
-                  <Button color="error" sx={{mt: 1}}>
+                  <Button
+                    onClick={() => removeDesignation(item.Designation_Id)}
+                    color="error"
+                    sx={{ mt: 1 }}
+                  >
                     Delete
                   </Button>
+                  <Button onClick={() => handleOpen(item)}>edit</Button>
                 </CardContent>
               </Card>
             </Grid>

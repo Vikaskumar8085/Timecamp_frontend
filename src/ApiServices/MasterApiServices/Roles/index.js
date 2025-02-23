@@ -13,9 +13,7 @@ export const fetchroleapicall = async () => {
 
 // remove role api call
 export const removeroleapicall = async (value) => {
-  const response = await apiInstance.delete(
-    `/v1/master/remove-role/${value.id}`
-  );
+  const response = await apiInstance.delete(`/v1/master/remove-roles/${value}`);
   return response.data;
 };
 

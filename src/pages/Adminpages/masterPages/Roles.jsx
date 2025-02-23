@@ -4,33 +4,42 @@ import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout
 import TModal from "../../../common/Modal/TModal";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
-import {Drawer, TextField} from "@mui/material";
-import {useFormik} from "formik";
+import { Drawer, TextField } from "@mui/material";
+import { useFormik } from "formik";
 import RolesTable from "../../../Component/MasterComponent/Roles/RolesTable";
 import {
   createrolesapicall,
   fetchroleapicall,
+  removeroleapicall,
+  updateroleapicall,
 } from "../../../ApiServices/MasterApiServices/Roles";
 import apiInstance from "../../../ApiInstance/apiInstance";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import AddRoles from "../../../Component/MasterComponent/Roles/AddRoles";
-import {useDispatch} from "react-redux";
-import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
+import { useDispatch } from "react-redux";
+import { setLoader } from "../../../redux/LoaderSlices/LoaderSlices";
+import toast from "react-hot-toast";
 
 const Roles = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [isRoledata, setIsRoledata] = React.useState([]);
+  const [isEdit, setIsEdit] = React.useState(null);
   const dispatch = useDispatch();
 
   const getroles = async () => {
     try {
+      dispatch(setLoader(true));
       const response = await fetchroleapicall();
       if (response.success) {
         setIsRoledata(response.result);
+        dispatch(setLoader(false));
+      } else {
+        toast.error(response.message);
       }
     } catch (error) {
       console.log(error?.message);
+      toast.error(error?.response?.data?.message || "something went wrong");
     }
   };
 
@@ -48,6 +57,52 @@ const Roles = () => {
     }
   };
 
+  const removeRoles = async (value) => {
+    try {
+      dispatch(setLoader(true));
+      const response = await removeroleapicall(value);
+      if (response.success) {
+        getroles();
+        dispatch(setLoader(false));
+        toast.success(response.message);
+      } else {
+        dispatch(setLoader(false));
+        toast.error(response.message);
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      toast.error(error.response?.data?.message || "Something went wrong.");
+    }
+  };
+
+  const handleupdate = async (values) => {
+    let val = {
+      id: isEdit.RoleId,
+      payload: values,
+    };
+    try {
+      dispatch(setLoader(true));
+      const response = await updateroleapicall(val);
+      if (response.success) {
+        toast.success(response.message);
+        getroles();
+        setIsModalOpen(false);
+        dispatch(setLoader(false));
+      } else {
+        dispatch(setLoader(false));
+        setIsModalOpen(false);
+
+        toast.error(response.message);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Something went wrong.");
+    }
+  };
+
+  const handleOpen = (value) => {
+    setIsModalOpen(true);
+    setIsEdit(value);
+  };
   React.useEffect(() => {
     getroles();
   }, []);
@@ -73,14 +128,25 @@ const Roles = () => {
         {isModalOpen ? (
           <Drawer
             open={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
+            onClose={() => {
+              setIsModalOpen(false);
+              setIsEdit(null);
+            }}
             anchor="right"
           >
-            <AddRoles handleSubmit={handleSubmit} />
+            <AddRoles
+              handleupdate={handleupdate}
+              isEdit={isEdit}
+              handleSubmit={handleSubmit}
+            />
           </Drawer>
         ) : null}
 
-        <RolesTable isRoledata={isRoledata} />
+        <RolesTable
+          handleOpen={handleOpen}
+          removeRoles={removeRoles}
+          isRoledata={isRoledata}
+        />
       </Layout>
     </>
   );

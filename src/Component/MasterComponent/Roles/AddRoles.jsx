@@ -1,17 +1,21 @@
-import {Button, Box, Typography, TextField, Container} from "@mui/material";
+import { Button, Box, Typography, TextField, Container } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import {useFormik} from "formik";
+import { useFormik } from "formik";
 import React from "react";
 import AddIcons from "@mui/icons-material/Add";
 
-const AddRoles = ({handleSubmit}) => {
+const AddRoles = ({ handleSubmit, isEdit, handleupdate }) => {
   const formik = useFormik({
     initialValues: {
-      RoleName: "",
+      RoleName: isEdit !== null ? isEdit.RoleName : "",
     },
     onSubmit: async (values) => {
       try {
-        handleSubmit(values);
+        if (isEdit !== null) {
+          handleupdate(values);
+        } else {
+          handleSubmit(values);
+        }
         formik.resetForm();
       } catch (error) {
         console.log(error?.message);
@@ -30,11 +34,11 @@ const AddRoles = ({handleSubmit}) => {
         }}
       >
         <Typography variant="h6" component={"h1"}>
-          Add Role
+          {isEdit !== null ? "Edit Role" : "Add Role"}
         </Typography>
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={2}>
-            <Grid size={{sm: 12, xs: 12}} sx={{mt: 3}}>
+            <Grid size={{ sm: 12, xs: 12 }} sx={{ mt: 3 }}>
               <TextField
                 fullWidth
                 id="Role_Name"
@@ -50,7 +54,7 @@ const AddRoles = ({handleSubmit}) => {
                 helperText={formik.touched.RoleName && formik.errors.RoleName}
               />
             </Grid>
-            <Grid size={{sm: 12, xs: 12}}>
+            <Grid size={{ sm: 12, xs: 12 }}>
               <Button
                 startIcon={<AddIcons />}
                 type="submit"

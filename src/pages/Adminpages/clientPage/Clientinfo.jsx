@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import {
   fetchclientprojectsapicall,
+  fetchclientTimesheetapicall,
   fetchsignleclientapicall,
 } from "../../../ApiServices/AdminApiServices/Client";
 import Card from "../../../common/Card/Card";
@@ -18,11 +19,14 @@ import {
 } from "@mui/material";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
+import TimesheetList from "./ClientTImesheet/TimesheetList";
 
 const Clientinfo = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   const [IsClientdata, setIsclientdata] = useState([]);
   const [IsClientprojectsdata, setIsclientprojectsdata] = useState([]);
+  const [isClientTimesheet, setIsClientTimesheets] = useState([]);
+  console.log(isClientTimesheet.result, "<<<<<<<<<,,,,,");
   const getClientInfo = async () => {
     try {
       const response = await fetchsignleclientapicall(id);
@@ -48,13 +52,24 @@ const Clientinfo = () => {
     }
   };
 
+  const getclientTimesheet = async () => {
+    try {
+      const response = await fetchclientTimesheetapicall(id);
+      if (response.success) {
+        setIsClientTimesheets(response);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
   useEffect(() => {
     getClientInfo();
+    getclientTimesheet();
     getclientsprojects();
   }, [0]);
   return (
     <Layout>
-        <BreadCrumb pageName="Client Information"/>
+      <BreadCrumb pageName="Client Information" />
       <Card>
         <div className="card_data">
           <p>Client Name: {IsClientdata?.Client_Name}</p>
@@ -66,7 +81,7 @@ const Clientinfo = () => {
 
       <Box>
         <TableContainer component={Paper}>
-          <Table sx={{minWidth: 650}} aria-label="simple table">
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell align="left">ID</TableCell>
@@ -97,6 +112,8 @@ const Clientinfo = () => {
           </Table>
         </TableContainer>
       </Box>
+
+      <TimesheetList data={isClientTimesheet} />
     </Layout>
   );
 };

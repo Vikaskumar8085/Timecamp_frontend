@@ -1,17 +1,44 @@
-import React, {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import TabComp from "../../../common/TabComponent/TabComp";
 import ProjectInformation from "./ProjectInfoPages/ProjectInformation";
 import ProjectTimesheet from "./ProjectInfoPages/ProjectTimesheet";
 import ProjectTask from "./ProjectInfoPages/ProjectTask";
-import {fetchsingleprojectapicall} from "../../../ApiServices/ProjectApiServices";
+import {
+  fetchprojecttimesheetapicall,
+  fetchsingleprojectapicall,
+} from "../../../ApiServices/ProjectApiServices";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { setLoader } from "../../../redux/LoaderSlices/LoaderSlices";
 
 const Projectinfo = () => {
-  const {id} = useParams();
+  const { id } = useParams();
+  const dispatch = useDispatch();
   const [isSubState, setisSubState] = useState(0);
   const [IsprojectInfodata, setIsprojectInfodata] = useState([]);
+  const [Isprojecttimesheetdata, setIsprojecttimesheetdata] = useState([]);
+
+  console.log(Isprojecttimesheetdata, "?>>>>>>>>>>>>...");
+
+  const fetchprojecttimesheetfunc = async () => {
+    try {
+      dispatch(setLoader(true));
+      const response = await fetchprojecttimesheetapicall(id);
+      if (response?.success) {
+        dispatch(setLoader(false));
+        setIsprojecttimesheetdata(response.result);
+      } else {
+        dispatch(setLoader(false));
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      toast.error(error?.response?.data?.message);
+    }
+  };
 
   const getsingleprojectfunc = async () => {
     try {
@@ -26,12 +53,13 @@ const Projectinfo = () => {
 
   useEffect(() => {
     getsingleprojectfunc();
+    fetchprojecttimesheetfunc();
   }, [0]);
 
   const tabsheader = [
-    {title: "Project Info"},
-    {title: "TimeSheet"},
-    {title: "Task"},
+    { title: "Project Info" },
+    { title: "TimeSheet" },
+    { title: "Task" },
   ];
   const Tabsbody = [
     {
@@ -44,7 +72,7 @@ const Projectinfo = () => {
     {
       content: (
         <>
-          <ProjectTimesheet />
+          <ProjectTimesheet Isprojecttimesheetdata={Isprojecttimesheetdata} />
         </>
       ),
     },

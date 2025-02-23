@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
   TableContainer,
   Table,
@@ -16,7 +16,7 @@ import Grid from "@mui/material/Grid2";
 import GridViewIcon from "@mui/icons-material/GridView";
 import TableViewIcon from "@mui/icons-material/TableView";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
-function RolesTable({isRoledata}) {
+function RolesTable({ isRoledata, removeRoles, handleOpen }) {
   const [viewMode, setViewMode] = useState("table");
 
   return (
@@ -36,9 +36,9 @@ function RolesTable({isRoledata}) {
       </HeaderTab>
       {viewMode === "table" ? (
         <Grid container spacing={2}>
-          <Grid size={{sm: 12}}>
+          <Grid size={{ sm: 12 }}>
             <TableContainer component={Paper}>
-              <Table sx={{minWidth: 650}} aria-label="simple table">
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
                     <TableCell align="left">ID</TableCell>
@@ -53,6 +53,15 @@ function RolesTable({isRoledata}) {
                         {index + 1}
                       </TableCell>
                       <TableCell align="left">{item.RoleName}</TableCell>
+                      <TableCell align="left">
+                        <Button
+                          onClick={() => removeRoles(item?.RoleId)}
+                          color="error"
+                        >
+                          Delete
+                        </Button>
+                        <Button onClick={() => handleOpen(item)}>Edit</Button>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -61,16 +70,21 @@ function RolesTable({isRoledata}) {
           </Grid>
         </Grid>
       ) : (
-        <Grid container spacing={2} sx={{mt: 2}}>
+        <Grid container spacing={2} sx={{ mt: 2 }}>
           {isRoledata.map((item, index) => (
-            <Grid size={{xs: 12, sm: 12, md: 12, lg: 6}} key={index}>
+            <Grid size={{ xs: 12, sm: 12, md: 12, lg: 6 }} key={index}>
               <Card variant="outlined">
                 <CardContent>
                   <Typography variant="h6">ID: {index + 1}</Typography>
                   <Typography variant="body1">{item.RoleName}</Typography>
-                  <Button color="error" sx={{mt: 1}}>
+                  <Button
+                    onClick={() => removeRoles(item?.RoleId)}
+                    color="error"
+                    sx={{ mt: 1 }}
+                  >
                     Delete
                   </Button>
+                  <Button onClick={() => handleOpen(item)}>Edit</Button>
                 </CardContent>
               </Card>
             </Grid>

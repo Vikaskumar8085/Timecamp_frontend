@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import {
@@ -20,7 +20,7 @@ import {
   Paper,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import {useFormik} from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
   fetchemployeeactiveprojectapicall,
@@ -28,7 +28,7 @@ import {
   fillemployeetimesheetapicall,
 } from "../../../ApiServices/EmployeeApiservices/Employee";
 
-const EmployeeProjectTimesheet = ({id}) => {
+const EmployeeProjectTimesheet = ({ id }) => {
   const [IsEmployeeProjectTimesheetdata, setIsEmployeeProjectTimesheetdata] =
     useState([]);
 
@@ -123,12 +123,12 @@ const EmployeeProjectTimesheet = ({id}) => {
 
       {IsOpen && (
         <Drawer open={IsOpen} anchor="right" onClose={() => setIsOpen(false)}>
-          <Container maxWidth="sm" sx={{p: 2}}>
-            <Typography variant="h5" sx={{mb: 3}}>
+          <Container maxWidth="sm" sx={{ p: 2 }}>
+            <Typography variant="h5" sx={{ mb: 3 }}>
               Fill timesheet
             </Typography>
             <form onSubmit={formik.handleSubmit}>
-              <FormControl fullWidth sx={{mb: 2}}>
+              <FormControl fullWidth sx={{ mb: 2 }}>
                 <InputLabel>Select Project</InputLabel>
                 <Select
                   {...formik.getFieldProps("project")}
@@ -163,7 +163,7 @@ const EmployeeProjectTimesheet = ({id}) => {
                 label="Day"
                 name="day"
                 type="date"
-                InputLabelProps={{shrink: true}}
+                InputLabelProps={{ shrink: true }}
                 value={formik.values.day}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -219,14 +219,14 @@ const EmployeeProjectTimesheet = ({id}) => {
                 onBlur={formik.handleBlur}
               />
               {formik.touched.attachement && formik.errors.attachement && (
-                <div style={{color: "red"}}>{formik.errors.attachement}</div>
+                <div style={{ color: "red" }}>{formik.errors.attachement}</div>
               )}
 
               <Button
                 type="submit"
                 variant="contained"
                 color="primary"
-                style={{marginTop: "15px"}}
+                style={{ marginTop: "15px" }}
                 fullWidth
               >
                 Submit
@@ -236,8 +236,8 @@ const EmployeeProjectTimesheet = ({id}) => {
         </Drawer>
       )}
 
-      <TableContainer component={Paper} sx={{maxHeight: 500}}>
-        <Typography variant="h6" sx={{m: 2}}>
+      <TableContainer component={Paper} sx={{ maxHeight: 500 }}>
+        <Typography variant="h6" sx={{ m: 2 }}>
           Employee Timesheet
         </Typography>
         <Table stickyHeader>

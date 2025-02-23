@@ -37,3 +37,10 @@ export const fetchcontractorprojectapicall = async (value) => {
   );
   return response.data;
 };
+
+export const fetchcontractorprojectTimesheetapicall = async (value) => {
+  const response = await apiInstance.get(
+    `/v1/admin/fetch-contractor-timesheet/${value}`
+  );
+  return response.data;
+};

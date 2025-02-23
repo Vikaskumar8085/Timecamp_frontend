@@ -20,6 +20,8 @@ import Layout from "../../../Layoutcomponents/Layout/Layout";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { setLoader } from "../../../redux/LoaderSlices/LoaderSlices";
 import { fetchtimesheetapicall } from "../../../ApiServices/TimesheetApiServices";
+import toast from "react-hot-toast";
+import { uploadtimesheetcsvapicall } from "../../../ApiServices/Csvapiservices/csvapiservices";
 
 const Timesheet = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,6 +40,19 @@ const Timesheet = () => {
       console.log(response);
     } catch (error) {
       console.log(error?.message);
+    }
+  };
+  const handleUploadTimesheet = async (formData) => {
+    try {
+      // dispatch(setLoader(true));
+      const response = await uploadtimesheetcsvapicall(formData);
+
+      console.log("response", response);
+      fetchtimesheetfunc();
+      setIsModalOpen(false);
+    } catch (error) {
+      dispatch(setLoader(false));
+      toast.error(error?.response?.data?.message);
     }
   };
 
@@ -67,7 +82,7 @@ const Timesheet = () => {
             onClose={() => setIsModalOpen(false)}
             anchor="right"
           >
-            <UploadTimesheet />
+            <UploadTimesheet handleUploadTimesheet={handleUploadTimesheet} />
           </Drawer>
         ) : null}
       </div>

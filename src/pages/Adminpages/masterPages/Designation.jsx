@@ -3,25 +3,28 @@ import Button from "@mui/material/Button";
 import TModal from "../../../common/Modal/TModal";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
-import {Container, Drawer, TextField} from "@mui/material";
-import {useFormik} from "formik";
+import { Container, Drawer, TextField } from "@mui/material";
+import { useFormik } from "formik";
 import DesignationTable from "../../../Component/MasterComponent/Designation/DesignationTable";
 import {
   createdesignationapicall,
   fetchdesignationapicall,
+  removedesignationapicall,
+  updatedesignationapicall,
 } from "../../../ApiServices/MasterApiServices/Designation";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import AddDesignation from "../../../Component/MasterComponent/Designation/AddDesignation";
-import {useDispatch} from "react-redux";
-import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
+import { useDispatch } from "react-redux";
+import { setLoader } from "../../../redux/LoaderSlices/LoaderSlices";
 import toast from "react-hot-toast";
-import {addDesignationitem} from "../../../redux/Masterslices/DesignationSlice";
+import { addDesignationitem } from "../../../redux/Masterslices/DesignationSlice";
 
 const Designation = () => {
   const dispatch = useDispatch();
   const [isdesignationdata, setisdesignationdata] = React.useState([]);
   const [IsOpen, setIsOpen] = React.useState(false);
+  const [isEdit, setIsEdit] = React.useState(null);
 
   const getdesignation = async () => {
     try {
@@ -58,6 +61,53 @@ const Designation = () => {
     }
   }, []);
 
+  const removeDesignation = async (value) => {
+    try {
+      dispatch(setLoader(true));
+      const response = await removedesignationapicall(value);
+      if (response.success) {
+        dispatch(setLoader(false));
+        getdesignation();
+        toast.success(response.message);
+      } else {
+        dispatch(setLoader(false));
+        toast.success(response.message);
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      toast.error(error.response?.data?.message || "Something went wrong.");
+    }
+  };
+
+  const updateDesignation = async (value) => {
+    let val = {
+      id: isEdit?.Designation_Id,
+      payload: value,
+    };
+    try {
+      dispatch(setLoader(true));
+      const response = await updatedesignationapicall(val);
+      if (response?.success) {
+        dispatch(setLoader(false));
+        toast.success(response?.message);
+        setIsOpen(false);
+        getdesignation();
+      } else {
+        setIsOpen(false);
+        dispatch(setLoader(false));
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      setIsOpen(false);
+      dispatch(setLoader(false));
+      toast.error(error?.response?.data?.message || "something went wrong");
+    }
+  };
+  const handleOpen = (value) => {
+    setIsOpen(true);
+    setIsEdit(value);
+  };
+
   React.useEffect(() => {
     getdesignation();
   }, [dispatch]);
@@ -84,12 +134,21 @@ const Designation = () => {
           anchor="right"
           onClose={() => {
             setIsOpen(false);
+            setIsEdit(null);
           }}
         >
-          <AddDesignation handleSubmit={handleSubmit} />
+          <AddDesignation
+            updateDesignation={updateDesignation}
+            isEdit={isEdit}
+            handleSubmit={handleSubmit}
+          />
         </Drawer>
       )}
-      <DesignationTable isdesignationdata={isdesignationdata} />
+      <DesignationTable
+        removeDesignation={removeDesignation}
+        handleOpen={handleOpen}
+        isdesignationdata={isdesignationdata}
+      />
     </Layout>
   );
 };

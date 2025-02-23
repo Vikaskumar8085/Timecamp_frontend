@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import {
   fetchemployeeprojectapicall,
+  fetchemployeeprojecttimesheetapicall,
   fetchsingleemployeeapicall,
 } from "../../../ApiServices/AdminApiServices/Employee";
-import {Paper} from "@mui/material";
+import { Paper } from "@mui/material";
 import Card from "../../../common/Card/Card";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
@@ -14,11 +15,12 @@ import Employeeinformation from "./EmployeeInfoPages/Employeeinformation";
 import Timesheet from "./EmployeeInfoPages/Timesheet";
 
 const Employeeinfo = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   const [isEmployeedata, setIsEmployeedata] = useState([]);
   const [isSubState, setisSubState] = useState(0);
   const [isEmployeeprojectdata, setIsemployeeprojectdata] = useState([]);
-  console.log(isEmployeeprojectdata, "????????????");
+  const [isEmployeeProjectTimesheetdata, setIsEmployeeProjectTimesheetdata] =
+    useState([]);
 
   const fetchsingleemployeefunc = async () => {
     try {
@@ -43,12 +45,24 @@ const Employeeinfo = () => {
     }
   };
 
+  const fetchemployeeTimesheetfunc = async () => {
+    try {
+      const response = await fetchemployeeprojecttimesheetapicall(id);
+      if (response.success) {
+        setIsEmployeeProjectTimesheetdata(response.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
+
   useEffect(() => {
     fetchsingleemployeefunc();
     fetchemployeeprojectsfunc();
+    fetchemployeeTimesheetfunc();
   }, [0]);
 
-  const tabsheader = [{title: "Empoyee Info"}, {title: "TimeSheet"}];
+  const tabsheader = [{ title: "Empoyee Info" }, { title: "TimeSheet" }];
   const Tabsbody = [
     {
       content: (
@@ -63,7 +77,7 @@ const Employeeinfo = () => {
     {
       content: (
         <>
-          <Timesheet />
+          <Timesheet data={isEmployeeProjectTimesheetdata} />
         </>
       ),
     },

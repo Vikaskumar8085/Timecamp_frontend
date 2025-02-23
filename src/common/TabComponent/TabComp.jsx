@@ -1,7 +1,7 @@
 import React from "react";
 import "./Tab.scss";
 
-function TabComp({Tabsheader, TabsBody, isSubState, setisSubState}) {
+function TabComp({ Tabsheader, TabsBody, isSubState, setisSubState }) {
   const handleclick = (prev) => {
     setisSubState(prev);
   };
