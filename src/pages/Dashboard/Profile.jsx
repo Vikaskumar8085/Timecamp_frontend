@@ -33,6 +33,11 @@ const Profile = () => {
             <UserProfile user={userdata} />
           </>
         )}
+        {Role === "Manager" && (
+          <>
+            <UserProfile user={userdata} />
+          </>
+        )}
       </Layout>
     </>
   );

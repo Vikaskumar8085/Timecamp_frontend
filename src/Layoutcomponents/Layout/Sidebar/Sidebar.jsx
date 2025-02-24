@@ -500,6 +500,115 @@ const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen, Role}) => {
             </ul>
           </>
         )}
+        {Role === "Manager" && (
+          <ul>
+            <li>
+              <NavLink
+                to={"/dashboard"}
+                className="nav_link"
+                style={({isActive}) => ({
+                  color: isActive ? "greenyellow" : "white",
+                })}
+              >
+                Dashboard
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to={"/profile"}
+                className="nav_link"
+                style={({isActive}) => ({
+                  color: isActive ? "greenyellow" : "white",
+                })}
+              >
+                Profile
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to={"/manager/team"}
+                className="nav_link"
+                style={({isActive}) => ({
+                  color: isActive ? "greenyellow" : "white",
+                })}
+              >
+                Team
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink
+                to={"/manager/task"}
+                className="nav_link"
+                style={({isActive}) => ({
+                  color: isActive ? "greenyellow" : "white",
+                })}
+              >
+                Task
+              </NavLink>
+            </li>
+            {/* project */}
+            <li className="dropdown">
+              <button
+                className="dropdown_btn"
+                onClick={() => toggleDropdown("Project")}
+              >
+                Project <span>{dropdownOpen.masters ? "▲" : "▼"}</span>
+              </button>
+              <ul
+                className={`dropdown_menu ${
+                  dropdownOpen.Project ? "show" : "hide"
+                }`}
+              >
+                <li>
+                  <NavLink to="/manager/project" className="nav_link">
+                    <FaUserTie className="icon" /> Project
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/manager/active-project" className="nav_link">
+                    <FaBuilding className="icon" /> Active Project
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/manager/inactive-project" className="nav_link">
+                    <FaUserShield className="icon" /> Inactive Projects
+                  </NavLink>
+                </li>
+              </ul>
+            </li>
+            {/* project */}
+            <li className="dropdown">
+              <button
+                className="dropdown_btn"
+                onClick={() => toggleDropdown("Timesheet")}
+              >
+                TimeSheet <span>{dropdownOpen.masters ? "▲" : "▼"}</span>
+              </button>
+              <ul
+                className={`dropdown_menu ${
+                  dropdownOpen.Timesheet ? "show" : "hide"
+                }`}
+              >
+                <li>
+                  <NavLink to="/manager/timesheet" className="nav_link">
+                    <FaUserTie className="icon" /> Timesheet
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/manager/timesummary" className="nav_link">
+                    <FaBuilding className="icon" /> TimeSummary
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/manager/projectTime" className="nav_link">
+                    <FaUserShield className="icon" /> Project Time
+                  </NavLink>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        )}
         <button
           onClick={() => {
             localStorage.clear();

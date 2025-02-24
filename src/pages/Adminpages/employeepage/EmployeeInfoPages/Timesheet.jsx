@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {
   Table,
   TableBody,
@@ -9,12 +9,15 @@ import {
   Paper,
   Typography,
   TablePagination,
+  FormControlLabel,
+  Checkbox,
+  Button,
 } from "@mui/material";
 
-const Timesheet = ({ data }) => {
-  const { employeeTimesheets, projectManagerTimesheet } = data[0];
+const Timesheet = ({data}) => {
+  const {employeeTimesheets, projectManagerTimesheet} = data[0];
   const timesheets = [...employeeTimesheets, ...projectManagerTimesheet];
-
+  const [selectedItems, setSelectedItems] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -26,15 +29,50 @@ const Timesheet = ({ data }) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  const handleCheckboxChange = (id) => {
+    setSelectedItems(
+      (prevSelected) =>
+        prevSelected.includes(id)
+          ? prevSelected.filter((item) => item !== id) // Remove if already selected
+          : [...prevSelected, id] // Add if not selected
+    );
+  };
 
   return (
-    <TableContainer component={Paper} sx={{ margin: "20px", padding: "20px" }}>
-      <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+    <TableContainer component={Paper} sx={{margin: "20px", padding: "20px"}}>
+      <Typography variant="h6" sx={{marginBottom: "10px"}}>
         Timesheets
       </Typography>
+
+      {selectedItems.length > 0 ? (
+        <div sx={{margin: "10px 0px"}}>
+          <Button
+            sx={{
+              backgroundColor: "Green",
+              color: "white",
+              margin: "10px 0px",
+              padding: "5px 10px",
+            }}
+          >
+            Approve
+          </Button>
+          <Button
+            sx={{
+              backgroundColor: "red",
+              color: "white",
+              margin: "10px 10px",
+              padding: "5px 10px",
+            }}
+          >
+            DisApprove
+          </Button>
+        </div>
+      ) : null}
+
       <Table>
         <TableHead>
           <TableRow>
+            <TableCell>Select Id</TableCell>
             <TableCell>Timesheet ID</TableCell>
             <TableCell>Staff ID</TableCell>
             <TableCell>Company ID</TableCell>
@@ -53,6 +91,20 @@ const Timesheet = ({ data }) => {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((sheet) => (
                 <TableRow key={sheet._id}>
+                  <TableCell>
+                    <FormControlLabel
+                      key={sheet.Timesheet_Id}
+                      control={
+                        <Checkbox
+                          checked={selectedItems.includes(sheet.Timesheet_Id)}
+                          onChange={() =>
+                            handleCheckboxChange(sheet.Timesheet_Id)
+                          }
+                        />
+                      }
+                      label={sheet.name}
+                    />
+                  </TableCell>
                   <TableCell>{sheet.Timesheet_Id}</TableCell>
                   <TableCell>{sheet.Staff_Id}</TableCell>
                   <TableCell>{sheet.CompanyId || "N/A"}</TableCell>

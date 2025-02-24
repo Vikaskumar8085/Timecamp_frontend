@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
 import {
   fetchclientprojectsapicall,
   fetchclientTimesheetapicall,
@@ -22,11 +22,12 @@ import Layout from "../../../Layoutcomponents/Layout/Layout";
 import TimesheetList from "./ClientTImesheet/TimesheetList";
 
 const Clientinfo = () => {
-  const { id } = useParams();
+  const {id} = useParams();
   const [IsClientdata, setIsclientdata] = useState([]);
   const [IsClientprojectsdata, setIsclientprojectsdata] = useState([]);
   const [isClientTimesheet, setIsClientTimesheets] = useState([]);
-  console.log(isClientTimesheet.result, "<<<<<<<<<,,,,,");
+  const [IsClientApprovedId, setIsClientApprovedId] = useState([]);
+
   const getClientInfo = async () => {
     try {
       const response = await fetchsignleclientapicall(id);
@@ -81,7 +82,7 @@ const Clientinfo = () => {
 
       <Box>
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <Table sx={{minWidth: 650}} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell align="left">ID</TableCell>

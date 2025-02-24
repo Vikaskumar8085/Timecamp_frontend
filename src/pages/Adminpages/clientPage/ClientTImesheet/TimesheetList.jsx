@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {
   Card,
   CardContent,
@@ -13,15 +13,30 @@ import {
   TablePagination,
   Chip,
   Box,
+  FormControl,
+  FormControlLabel,
+  Checkbox,
+  Button,
 } from "@mui/material";
 
-const TimesheetList = ({ data }) => {
-  console.log(data, ">lsdjlsdkfjsldk");
+const TimesheetList = ({data}) => {
   const [currentPage, setCurrentPage] = useState(0); // MUI pages start from 0
+  const [selectedItems, setSelectedItems] = useState([]);
+  console.log(selectedItems);
+
   const rowsPerPage = 5;
 
   const handleChangePage = (_, newPage) => {
     setCurrentPage(newPage);
+  };
+
+  const handleCheckboxChange = (id) => {
+    setSelectedItems(
+      (prevSelected) =>
+        prevSelected.includes(id)
+          ? prevSelected.filter((item) => item !== id) // Remove if already selected
+          : [...prevSelected, id] // Add if not selected
+    );
   };
 
   return (
@@ -29,12 +44,17 @@ const TimesheetList = ({ data }) => {
       <Typography variant="h4" gutterBottom>
         Timesheet Records
       </Typography>
-
+      {selectedItems.length > 0 ? (
+        <div>
+          <Button>Approve</Button>
+          <Button>Disapprove</Button>
+        </div>
+      ) : null}
       {data?.result?.length === 0 ? (
         <Typography color="textSecondary">No timesheets available.</Typography>
       ) : (
         data?.result?.map((entry, index) => (
-          <Card key={index} sx={{ mb: 3, boxShadow: 3 }}>
+          <Card key={index} sx={{mb: 3, boxShadow: 3}}>
             <CardContent>
               <Typography variant="h6" gutterBottom>
                 Member: {entry.MemberName.join(", ") || "N/A"}
@@ -44,7 +64,10 @@ const TimesheetList = ({ data }) => {
                 <TableContainer component={Paper}>
                   <Table>
                     <TableHead>
-                      <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
+                      <TableRow sx={{backgroundColor: "#f5f5f5"}}>
+                        <TableCell>
+                          <strong>Select </strong>
+                        </TableCell>
                         <TableCell>
                           <strong>Timesheet ID</strong>
                         </TableCell>
@@ -76,6 +99,24 @@ const TimesheetList = ({ data }) => {
                         )
                         ?.map((timesheet) => (
                           <TableRow key={timesheet._id}>
+                            <TableCell>
+                              <FormControlLabel
+                                key={timesheet.Timesheet_Id}
+                                control={
+                                  <Checkbox
+                                    checked={selectedItems.includes(
+                                      timesheet.Timesheet_Id
+                                    )}
+                                    onChange={() =>
+                                      handleCheckboxChange(
+                                        timesheet.Timesheet_Id
+                                      )
+                                    }
+                                  />
+                                }
+                                label={timesheet.name}
+                              />
+                            </TableCell>
                             <TableCell>{timesheet._id}</TableCell>
                             <TableCell>
                               {timesheet.task_description || "N/A"}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {
   Table,
   TableBody,
@@ -9,11 +9,13 @@ import {
   Paper,
   Typography,
   TablePagination,
+  FormControlLabel,
 } from "@mui/material";
 
-const ContractorTimesheet = ({ data }) => {
-  const { employeeTimesheets, projectManagerTimesheet } = data[0];
+const ContractorTimesheet = ({data}) => {
+  const {employeeTimesheets, projectManagerTimesheet} = data[0];
   const timesheets = [...employeeTimesheets, ...projectManagerTimesheet];
+  const [selectedItems, setSelectedItems] = useState([]);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -27,14 +29,24 @@ const ContractorTimesheet = ({ data }) => {
     setPage(0);
   };
 
+  const handleCheckboxChange = (id) => {
+    setSelectedItems(
+      (prevSelected) =>
+        prevSelected.includes(id)
+          ? prevSelected.filter((item) => item !== id) // Remove if already selected
+          : [...prevSelected, id] // Add if not selected
+    );
+  };
+
   return (
-    <TableContainer component={Paper} sx={{ margin: "20px", padding: "20px" }}>
-      <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+    <TableContainer component={Paper} sx={{margin: "20px", padding: "20px"}}>
+      <Typography variant="h6" sx={{marginBottom: "10px"}}>
         Timesheets
       </Typography>
       <Table>
         <TableHead>
           <TableRow>
+            <TableCell>Select Id</TableCell>
             <TableCell>Timesheet ID</TableCell>
             <TableCell>Staff ID</TableCell>
             <TableCell>Company ID</TableCell>
@@ -53,6 +65,20 @@ const ContractorTimesheet = ({ data }) => {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((sheet) => (
                 <TableRow key={sheet._id}>
+                  <TableCell>
+                    <FormControlLabel
+                      key={sheet.Timesheet_Id}
+                      control={
+                        <Checkbox
+                          checked={selectedItems.includes(sheet.Timesheet_Id)}
+                          onChange={() =>
+                            handleCheckboxChange(sheet.Timesheet_Id)
+                          }
+                        />
+                      }
+                      label={sheet.name}
+                    />
+                  </TableCell>
                   <TableCell>{sheet.Timesheet_Id}</TableCell>
                   <TableCell>{sheet.Staff_Id}</TableCell>
                   <TableCell>{sheet.CompanyId || "N/A"}</TableCell>

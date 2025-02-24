@@ -45,3 +45,19 @@ export const fetchclienttaskinfoapicall = async (value) => {
   );
   return response.data;
 };
+
+export const approveclienttimesheetapicall = async (value) => {
+  const response = await apiInstance.put(
+    `/v2/client/client-approve-timesheet/${value.id}`,
+    value.payload
+  );
+  return response.data;
+};
+
+export const disapprovetimesheetapicall = async (value) => {
+  const response = await apiInstance.put(
+    `/v2/client/client-disapprove-timesheet/${value.id}`,
+    value.payload
+  );
+  return response.data;
+};

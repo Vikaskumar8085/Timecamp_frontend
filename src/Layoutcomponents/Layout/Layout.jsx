@@ -14,10 +14,8 @@ const Layout = ({children}) => {
     return state.user.values;
   });
 
-  let Role = userdata.Role;
-  console.log(userdata.Role, "daalfasdlkfaslk");
+  let Role = userdata?.Role;
   const [isOpen, setIsOpen] = useState(true);
-
   const [dropdownOpen, setDropdownOpen] = useState({
     masters: false,
     client: false,
@@ -26,7 +24,6 @@ const Layout = ({children}) => {
     TimeSheet: false,
     Project: false,
   });
-
   const getProfileFunc = async () => {
     try {
       dispatch(setLoader(true));

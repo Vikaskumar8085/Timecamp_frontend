@@ -59,6 +59,15 @@ import ClientTimesheet from "./pages/ClientPages/ClientTimesheet";
 import ClientPageinfo from "./pages/ClientPages/ClientPageinfo";
 import ContractorProjectInfo from "./pages/ContractorPages/ContractorProjectInfo";
 import EmployeeProjectinfo from "./pages/EmployeePages/EmployeeProjectinfo";
+import ManagerTeam from "./pages/ManagerPages/ManagerTeam";
+import ManagerProject from "./pages/ManagerPages/ManagerProject";
+import ManagerProjectActive from "./pages/ManagerPages/ManagerProjectActive";
+import ManagerInactiveProject from "./pages/ManagerPages/ManagerInactiveProject";
+import ManagerTimesheet from "./pages/ManagerPages/ManagerTimesheet";
+import ManagerTimeSummary from "./pages/ManagerPages/ManagerTimeSummary";
+import ManagerProjectInfo from "./pages/ManagerPages/ManagerProjectInfo";
+import ManagerProjectTime from "./pages/ManagerPages/ManagerProjectTime";
+import Taskpage from "./pages/ManagerPages/Taskpage";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -175,6 +184,27 @@ const App = () => {
           element={<ContractorProjectInfo />}
         />
         {/* contractor  */}
+
+        {/* Manager */}
+        <Route path="/manager/team" element={<ManagerTeam />} />
+        <Route path="/manager/project" element={<ManagerProject />} />
+        <Route
+          path="/manager/active-project"
+          element={<ManagerProjectActive />}
+        />
+        <Route
+          path="/manager/inactive-project"
+          element={<ManagerInactiveProject />}
+        />
+        <Route path="/manager/timesheet" element={<ManagerTimesheet />} />
+        <Route path="/manager/timesummary" element={<ManagerTimeSummary />} />
+        <Route
+          path="/manager/project-info/:id"
+          element={<ManagerProjectInfo />}
+        />
+        <Route path="/manager/projectTime" element={<ManagerProjectTime />} />
+        <Route path="/manager/task" element={<Taskpage />} />
+        {/* Manager */}
         <Route path="*" element={<Nopage />} />
       </Routes>
       <Toaster />

@@ -6,10 +6,15 @@ import ClientProjectInfo from "./ClientInfoPage/ClientProjectInfo";
 import ClientProjectTimesheet from "./ClientInfoPage/ClientProjectTimesheet";
 import ClientProjectTask from "./ClientInfoPage/ClientProjectTask";
 import {
+  approveclienttimesheetapicall,
+  disapprovetimesheetapicall,
   fetchclientprojectinfoapicall,
   fetchclienttaskinfoapicall,
   fetchclienttimesheetinfoapicall,
 } from "../../ApiServices/Cllientapiservices/Client";
+import {toast} from "react-hot-toast";
+import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
+import {useDispatch} from "react-redux";
 
 const ClientPageinfo = () => {
   const {id} = useParams();
@@ -17,7 +22,7 @@ const ClientPageinfo = () => {
   const [isClientprojectInfodata, setIsClientProjectInfodata] = useState([]);
   const [isclinettaskinfodata, setIsclienttaskinfodata] = useState([]);
   const [isClientTimesheetdata, setIsClientTimesheetdata] = useState([]);
-  console.log(isClientTimesheetdata, "???????????");
+  const dispatch = useDispatch();
   const fetchclientsingleprojectfunc = async () => {
     try {
       const response = await fetchclientprojectinfoapicall(id);
@@ -50,6 +55,54 @@ const ClientPageinfo = () => {
       console.log(error?.message);
     }
   };
+
+  const ApproveFunc = async (value) => {
+    try {
+      dispatch(setLoader(true));
+      const val = {
+        id: id,
+        payload: value,
+      };
+      const response = await approveclienttimesheetapicall(val);
+      dispatch(setLoader(false));
+
+      if (response.success) {
+        dispatch(setLoader(false));
+        toast.success(response.message);
+        fetchclienttimesheetinformationfunc();
+      } else {
+        toast.error(response?.message);
+        dispatch(setLoader(false));
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      toast.error(error?.response?.data?.message);
+    }
+  };
+
+  const disApproveFunc = async (value) => {
+    try {
+      dispatch(setLoader(true));
+      const val = {
+        id: id,
+        payload: value,
+      };
+      const response = await disapprovetimesheetapicall(val);
+      dispatch(setLoader(false));
+      if (response.success) {
+        dispatch(setLoader(false));
+        toast.success(response.message);
+        fetchclienttimesheetinformationfunc();
+      } else {
+        dispatch(setLoader(false));
+        toast.error(response.messageF);
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      toast.error(error?.response?.data?.message);
+    }
+  };
+
   const tabsheader = [
     {title: "Client Project Info"},
     {title: "Client Project TimeSheet"},
@@ -69,6 +122,8 @@ const ClientPageinfo = () => {
       content: (
         <>
           <ClientProjectTimesheet
+            ApproveFunc={ApproveFunc}
+            disApproveFunc={disApproveFunc}
             isClientTimesheetdata={isClientTimesheetdata}
           />
         </>

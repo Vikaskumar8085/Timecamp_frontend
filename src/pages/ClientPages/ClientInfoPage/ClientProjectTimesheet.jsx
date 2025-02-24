@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   Table,
   TableBody,
@@ -7,22 +7,67 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Typography,
   Chip,
+  FormControlLabel,
+  Checkbox,
+  Button,
 } from "@mui/material";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 
-const ClientProjectTimesheet = ({isClientTimesheetdata}) => {
+const ClientProjectTimesheet = ({
+  isClientTimesheetdata,
+  ApproveFunc,
+  disApproveFunc,
+}) => {
+  const [selectedItems, setSelectedItems] = useState([]);
+
+  console.log(selectedItems);
+  const handleCheckboxChange = (id) => {
+    setSelectedItems(
+      (prevSelected) =>
+        prevSelected.includes(id)
+          ? prevSelected.filter((item) => item !== id) // Remove if already selected
+          : [...prevSelected, id] // Add if not selected
+    );
+  };
   const formatDate = (excelDate) => {
     if (!excelDate) return "N/A";
     return new Date(
       (parseFloat(excelDate) - 25569) * 86400000
     ).toLocaleDateString();
   };
+
   return (
     <>
       <div>
         <BreadCrumb pageName="Client Project Timesheet " />
+        {selectedItems.length > 0 ? (
+          <div sx={{margin: "10px 0px"}}>
+            <Button
+              onClick={() => ApproveFunc(selectedItems)}
+              sx={{
+                backgroundColor: "Green",
+                color: "white",
+                margin: "10px 0px",
+                padding: "5px 10px",
+              }}
+            >
+              Approve
+            </Button>
+            <Button
+              onClick={() => disApproveFunc(selectedItems)}
+              sx={{
+                backgroundColor: "red",
+                color: "white",
+                margin: "10px 10px",
+                padding: "5px 10px",
+              }}
+            >
+              DisApprove
+            </Button>
+          </div>
+        ) : null}
+
         <TableContainer
           component={Paper}
           sx={{mt: 3, boxShadow: 3, borderRadius: 2}}
@@ -30,6 +75,9 @@ const ClientProjectTimesheet = ({isClientTimesheetdata}) => {
           <Table>
             <TableHead>
               <TableRow sx={{backgroundColor: "#f5f5f5"}}>
+                <TableCell>
+                  <strong>select Id</strong>
+                </TableCell>
                 <TableCell>
                   <strong>Task Name</strong>
                 </TableCell>
@@ -78,6 +126,20 @@ const ClientProjectTimesheet = ({isClientTimesheetdata}) => {
               {isClientTimesheetdata?.map((item) =>
                 item?.timesheets?.map((task, index) => (
                   <TableRow key={index}>
+                    <TableCell>
+                      <FormControlLabel
+                        key={task.Timesheet_Id}
+                        control={
+                          <Checkbox
+                            checked={selectedItems.includes(task.Timesheet_Id)}
+                            onChange={() =>
+                              handleCheckboxChange(task.Timesheet_Id)
+                            }
+                          />
+                        }
+                        label={item.name}
+                      />
+                    </TableCell>
                     <TableCell>{task.Task_Name}</TableCell>
                     <TableCell>{task.ProjectId}</TableCell>
                     <TableCell>

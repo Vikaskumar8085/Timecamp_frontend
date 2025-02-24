@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import {
@@ -12,21 +12,24 @@ import {
   TableCell,
   TableBody,
   Paper,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import moment from "moment";
 import UploadTimesheet from "../../../Component/AdminComponents/Timesheet/UploadTimesheet";
-import { useDispatch, useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
-import { setLoader } from "../../../redux/LoaderSlices/LoaderSlices";
-import { fetchtimesheetapicall } from "../../../ApiServices/TimesheetApiServices";
+import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
+import {fetchtimesheetapicall} from "../../../ApiServices/TimesheetApiServices";
 import toast from "react-hot-toast";
-import { uploadtimesheetcsvapicall } from "../../../ApiServices/Csvapiservices/csvapiservices";
+import {uploadtimesheetcsvapicall} from "../../../ApiServices/Csvapiservices/csvapiservices";
 
 const Timesheet = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [IsTimesheetdata, setIsTimesheetdata] = useState([]);
-  console.log(IsTimesheetdata, ">>>>>>>>>>>>>>...");
+  const [selectedItems, setSelectedItems] = useState([]);
+
   const dispatch = useDispatch();
 
   const fetchtimesheetfunc = async () => {
@@ -54,6 +57,15 @@ const Timesheet = () => {
       dispatch(setLoader(false));
       toast.error(error?.response?.data?.message);
     }
+  };
+
+  const handleCheckboxChange = (id) => {
+    setSelectedItems(
+      (prevSelected) =>
+        prevSelected.includes(id)
+          ? prevSelected.filter((item) => item !== id) // Remove if already selected
+          : [...prevSelected, id] // Add if not selected
+    );
   };
 
   useEffect(() => {
@@ -103,9 +115,10 @@ const Timesheet = () => {
       </Grid2>
 
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="client table">
+        <Table sx={{minWidth: 650}} aria-label="client table">
           <TableHead>
             <TableRow>
+              <TableCell>Select </TableCell>
               <TableCell>ID</TableCell>
               <TableCell>Timesheet No.</TableCell>
               <TableCell>Day</TableCell>
@@ -126,6 +139,21 @@ const Timesheet = () => {
             {IsTimesheetdata.length > 0 ? (
               IsTimesheetdata.map((item, index) => (
                 <TableRow key={index}>
+                  <TableCell>
+                    {" "}
+                    <FormControlLabel
+                      key={task.Timesheet_Id}
+                      control={
+                        <Checkbox
+                          checked={selectedItems.includes(item.Timesheet_Id)}
+                          onChange={() =>
+                            handleCheckboxChange(item.Timesheet_Id)
+                          }
+                        />
+                      }
+                      label={item.name}
+                    />
+                  </TableCell>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{item.ts_code}</TableCell>
                   <TableCell>
