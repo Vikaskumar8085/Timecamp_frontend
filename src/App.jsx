@@ -68,6 +68,7 @@ import ManagerTimeSummary from "./pages/ManagerPages/ManagerTimeSummary";
 import ManagerProjectInfo from "./pages/ManagerPages/ManagerProjectInfo";
 import ManagerProjectTime from "./pages/ManagerPages/ManagerProjectTime";
 import Taskpage from "./pages/ManagerPages/Taskpage";
+import ProductivityLeaderboardpage from "./pages/Dashboard/ProductivityLeaderboardpage";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -98,6 +99,10 @@ const App = () => {
 
         {/* auth pages */}
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route
+          path="/productivity-leaderboard"
+          element={<ProductivityLeaderboardpage />}
+        />
         <Route path="/profile" element={<Profile />} />
         {/* Admin Pages */}
         <Route path="/company" element={<Company />} />

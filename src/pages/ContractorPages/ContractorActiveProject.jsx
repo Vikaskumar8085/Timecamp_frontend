@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import {
@@ -9,10 +9,9 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
-import { fetchcontractoractiveprojectapicall } from "../../ApiServices/ContractorApiServices/ContractorApiServices";
+import {Link} from "react-router-dom";
+import {fetchcontractoractiveprojectapicall} from "../../ApiServices/ContractorApiServices/ContractorApiServices";
 
 const ContractorActiveProject = () => {
   const [isContractoractiveproject, setIsContractoractiveproject] = useState(
@@ -39,7 +38,7 @@ const ContractorActiveProject = () => {
       <Layout>
         <BreadCrumb pageName="Contract Active Project" />
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <Table sx={{minWidth: 650}} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell align="left">Id</TableCell>

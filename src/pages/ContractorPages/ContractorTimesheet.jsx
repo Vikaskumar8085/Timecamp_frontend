@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { fetchcontractortimesheetapicall } from "../../ApiServices/ContractorApiServices/ContractorApiServices";
+import React, {useEffect, useState} from "react";
+import {fetchcontractortimesheetapicall} from "../../ApiServices/ContractorApiServices/ContractorApiServices";
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import {
@@ -16,7 +16,6 @@ const ContractorTimesheet = () => {
   const [isContractorTimesheetdata, setIsContractorTimesheetdata] = useState(
     []
   );
-  console.log(isContractorTimesheetdata, "??????????????>>>>>>>>>>>>>>....");
 
   const fetchcontractorTimesheetfunc = async () => {
     try {
@@ -37,7 +36,7 @@ const ContractorTimesheet = () => {
       <Layout>
         <BreadCrumb pageName="Contractor Timesheet" />
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="client table">
+          <Table sx={{minWidth: 650}} aria-label="client table">
             <TableHead>
               <TableRow>
                 <TableCell>ID</TableCell>

@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { Button, Drawer } from "@mui/material";
-import HeaderTab from "../../../common/HeaderTab/HeaderTab";
+import React, {useEffect, useState} from "react";
+import {Button, Drawer} from "@mui/material";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import TModal from "../../../common/Modal/TModal";
 import ProjectForm from "../../../Component/AdminComponents/Project/ProjectForm";
 import UploadProjectForm from "../../../Component/AdminComponents/Project/UploadProjectForm";
 import AddIcons from "@mui/icons-material/Add";
@@ -19,15 +17,16 @@ import {
   createprojectapicall,
   fetchprojectapicall,
 } from "../../../ApiServices/ProjectApiServices";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import {Link} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import ProjectTable from "../../../Component/AdminComponents/Project/ProjectTable";
 import MilestoneForm from "./ProjectInfoPages/MilestoneForm";
 import ProjectUploadForm from "../../../Component/AdminComponents/Project/ProjectUploadForm";
-import { setLoader } from "../../../redux/LoaderSlices/LoaderSlices";
+import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import toast from "react-hot-toast";
+import {uploadprojectcsvapicall} from "../../../ApiServices/Csvapiservices/csvapiservices";
 
 const Project = () => {
   const userdata = useSelector((state) => state.user.values);
@@ -70,34 +69,24 @@ const Project = () => {
     }
   };
 
-  const getprojectcsvdownload = async () => {
-    const token = JSON.parse(localStorage.getItem("token"));
+  const uploadhandlesubmit = async (value) => {
     try {
-      const response = await fetch(
-        "http://localhost:8000/api/v1/csv-upload/project-csv-download",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "text/csv",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to download CSV");
+      dispatch(setLoader(true));
+      const response = await uploadprojectcsvapicall(value);
+      if (response.success) {
+        dispatch(setLoader(false));
+        getProjectapicall();
+        setIsProjectUploadModelOpen(false);
+        toast.success(response.message);
+      } else {
+        dispatch(setLoader(false));
+        setIsProjectUploadModelOpen(false);
+        toast.error(response.message);
       }
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "Project.csv";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.log(error?.message);
+      toast.error(error?.response?.data?.message);
+      setIsProjectUploadModelOpen(false);
+      dispatch(setLoader(false));
     }
   };
 
@@ -149,7 +138,7 @@ const Project = () => {
           onClose={() => setIsProjectUploadModelOpen(false)}
           anchor="right"
         >
-          <ProjectUploadForm />
+          <ProjectUploadForm uploadhandlesubmit={uploadhandlesubmit} />
         </Drawer>
       ) : null}
 

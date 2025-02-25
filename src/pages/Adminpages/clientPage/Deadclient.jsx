@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { fetchdeadclientapicall } from "../../../ApiServices/AdminApiServices/Client";
+import React, {useEffect, useState} from "react";
+import {fetchdeadclientapicall} from "../../../ApiServices/AdminApiServices/Client";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import TableViewIcon from "@mui/icons-material/TableView";
+import GridViewIcon from "@mui/icons-material/GridView";
 import {
   Table,
   TableBody,
@@ -19,7 +20,7 @@ import {
 import Grid from "@mui/material/Grid2";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import Empty from "../../../common/EmptyFolder/Empty";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 const Deadclient = () => {
   const [isdeadclientdata, setIsdeadclientdata] = useState([]);
   const [viewMode, setViewMode] = useState("table");
@@ -59,9 +60,9 @@ const Deadclient = () => {
 
         {viewMode === "table" ? (
           <Grid container spacing={2}>
-            <Grid size={{ sm: 12 }}>
+            <Grid size={{sm: 12}}>
               <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="client table">
+                <Table sx={{minWidth: 650}} aria-label="client table">
                   <TableHead>
                     <TableRow>
                       <TableCell>ID</TableCell>
@@ -77,8 +78,8 @@ const Deadclient = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {isdeadclientdata.length > 0 ? (
-                      isdeadclientdata.map((item, index) => (
+                    {isdeadclientdata?.length > 0 ? (
+                      isdeadclientdata?.map((item, index) => (
                         <TableRow key={index}>
                           <TableCell>{index + 1}</TableCell>
                           <TableCell>{item.Company_Name}</TableCell>
@@ -110,9 +111,9 @@ const Deadclient = () => {
           </Grid>
         ) : (
           <Grid container spacing={2}>
-            {isdeadclientdata.length > 0 ? (
-              isdeadclientdata.map((item, index) => (
-                <Grid size={{ xs: 12, sm: 12, md: 12, lg: 6 }} key={index}>
+            {isdeadclientdata?.length > 0 ? (
+              isdeadclientdata?.map((item, index) => (
+                <Grid size={{xs: 12, sm: 12, md: 12, lg: 6}} key={index}>
                   <Card>
                     <CardContent>
                       <Typography variant="h6">{item.Company_Name}</Typography>
@@ -133,7 +134,7 @@ const Deadclient = () => {
                 </Grid>
               ))
             ) : (
-              <Grid size={{ sm: 12 }} display="flex" justifyContent="center">
+              <Grid size={{sm: 12}} display="flex" justifyContent="center">
                 <Empty />
               </Grid>
             )}

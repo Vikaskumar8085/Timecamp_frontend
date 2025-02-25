@@ -16,6 +16,8 @@ import UploadTask from "../../../../Component/AdminComponents/Task/UploadTask";
 import AddProjectTask from "../../../../Component/AdminComponents/Project/AddProjectTask";
 import MilestoneList from "../../../../Component/AdminComponents/Project/ProjecTaskComponent/MilestoneList";
 import toast from "react-hot-toast";
+import {useDispatch} from "react-redux";
+import {setLoader} from "../../../../redux/LoaderSlices/LoaderSlices";
 
 const ProjectTask = ({id}) => {
   const [IsTaskOpen, setIsTaskOpen] = useState(false);
@@ -25,6 +27,7 @@ const ProjectTask = ({id}) => {
   const [isMilestonoeresourcesdata, setIsMilestonoeresourcesdata] = useState(
     []
   );
+  let dispatch = useDispatch();
   const [tasks, setTasks] = useState([]);
   const fetchTasks = async () => {
     try {
@@ -101,17 +104,29 @@ const ProjectTask = ({id}) => {
 
   const uploadTaskhandlesubmit = async (value) => {
     try {
+      dispatch(setLoader(true));
       const response = await apiInstance.post(
         `/v1/csv-upload/task-csv-upload/${id}`,
         value
       );
+      dispatch(setLoader(false));
+
       if (response.data.success) {
         toast.success(response.data.message);
+        fetchTasks();
+        toast.success(response.data.message);
+        setIsUploadTaskOpen(false);
+        dispatch(setLoader(false));
       } else {
         toast.error(response.data.message);
+        toast.success(response.data.message);
+        setIsUploadTaskOpen(false);
+        dispatch(setLoader(false));
       }
     } catch (error) {
-      console.log(error?.message);
+      dispatch(setLoader(false));
+      toast.error(error?.response?.data?.message);
+      setIsUploadTaskOpen(false);
     }
   };
   React.useEffect(() => {

@@ -47,12 +47,15 @@ const Timesheet = () => {
   };
   const handleUploadTimesheet = async (formData) => {
     try {
-      // dispatch(setLoader(true));
+      dispatch(setLoader(true));
       const response = await uploadtimesheetcsvapicall(formData);
+      if (response.success) {
+        fetchtimesheetfunc();
+        setIsModalOpen(false);
+        dispatch(setLoader(false));
 
-      console.log("response", response);
-      fetchtimesheetfunc();
-      setIsModalOpen(false);
+
+      }
     } catch (error) {
       dispatch(setLoader(false));
       toast.error(error?.response?.data?.message);
@@ -136,13 +139,13 @@ const Timesheet = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {IsTimesheetdata.length > 0 ? (
-              IsTimesheetdata.map((item, index) => (
+            {IsTimesheetdata?.length > 0 ? (
+              IsTimesheetdata?.map((item, index) => (
                 <TableRow key={index}>
                   <TableCell>
                     {" "}
                     <FormControlLabel
-                      key={task.Timesheet_Id}
+                      key={item.Timesheet_Id}
                       control={
                         <Checkbox
                           checked={selectedItems.includes(item.Timesheet_Id)}
@@ -159,12 +162,12 @@ const Timesheet = () => {
                   <TableCell>
                     {moment(item.created_at).format("DD-MM-YYYY")}
                   </TableCell>
-                  <TableCell>{item.ProjectName}</TableCell>
-                  <TableCell>{item.StaffName || null}</TableCell>
-                  <TableCell>{item.Description || null}</TableCell>
-                  <TableCell>{item.hours || null}</TableCell>
-                  <TableCell>{item.billed_hours || null}</TableCell>
-                  <TableCell>{item.ok_hours || null}</TableCell>
+                  <TableCell>{item.ProjectName.join(", ")}</TableCell>
+                  <TableCell>{item.StaffName.join(", ")}</TableCell>
+                  <TableCell>{item.Description}</TableCell>
+                  <TableCell>{item.hours}</TableCell>
+                  <TableCell>{item.billed_hours}</TableCell>
+                  <TableCell>{item.ok_hours}</TableCell>
                   <TableCell>{item.blank_hours}</TableCell>
                   <TableCell>{item.approval_status}</TableCell>
                   <TableCell>{item.billing_status}</TableCell>

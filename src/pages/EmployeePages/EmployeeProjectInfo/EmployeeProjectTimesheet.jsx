@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import {
@@ -18,23 +18,40 @@ import {
   TableHead,
   TableRow,
   Paper,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { useFormik } from "formik";
+import {useFormik} from "formik";
 import * as Yup from "yup";
 import {
   fetchemployeeactiveprojectapicall,
   fetchemployeeprojecttimesheetapicall,
   fillemployeetimesheetapicall,
 } from "../../../ApiServices/EmployeeApiservices/Employee";
+import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
+import apiInstance from "../../../ApiInstance/apiInstance";
+import {useDispatch} from "react-redux";
 
-const EmployeeProjectTimesheet = ({ id }) => {
+const EmployeeProjectTimesheet = ({id}) => {
   const [IsEmployeeProjectTimesheetdata, setIsEmployeeProjectTimesheetdata] =
     useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
 
+  const dispatch = useDispatch();
   const [Isemployeeprojects, setIsemployeeprojects] = useState([]);
-
   const [IsOpen, setIsOpen] = useState(false);
+
+  // heandlecheckBox
+  const handleCheckboxChange = (id) => {
+    setSelectedItems(
+      (prevSelected) =>
+        prevSelected.includes(id)
+          ? prevSelected.filter((item) => item !== id) // Remove if already selected
+          : [...prevSelected, id] // Add if not selected
+    );
+  };
+  // handlechcekbox
 
   const fetchemployeeactiveproject = async () => {
     try {
@@ -101,6 +118,46 @@ const EmployeeProjectTimesheet = ({ id }) => {
     },
   });
 
+  // remove timesheet
+
+  const RemoveTimesheetFunc = async (value) => {
+    console.log(value, "?>>>>>>>>>>>>>>");
+    try {
+      dispatch(setLoader(true));
+      const response = await apiInstance.delete(
+        `/v2/employee/remove-employee-timesheet/${value}`
+      );
+      console.log(response, "?>>>?>>>>?>?>?>?>");
+      if (response.data?.success) {
+        dispatch(setLoader(false));
+        fetchEmployeeProjectTimesheet();
+      } else {
+      }
+    } catch (error) {}
+  };
+
+  const SendForApprovel = async () => {
+    try {
+      dispatch(setLoader(true));
+      const response = await apiInstance.put(
+        `/v2/employee/send-for-approvel/${id}`,
+        selectedItems
+      );
+      fetchEmployeeProjectTimesheet();
+      if (response?.data?.success) {
+        dispatch(setLoader(false));
+        toast.success(response.data?.message);
+        setSelectedItems([]);
+      } else {
+        dispatch(setLoader(false));
+        toast.error(response?.data?.message);
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      toast.error(error?.response?.data?.message);
+    }
+  };
+
   useEffect(() => {
     fetchEmployeeProjectTimesheet();
     fetchemployeeactiveproject();
@@ -121,14 +178,29 @@ const EmployeeProjectTimesheet = ({ id }) => {
         Fill Timesheet
       </Button>
 
+      {selectedItems.length > 0 ? (
+        <Button
+          onClick={() => SendForApprovel()}
+          sx={{
+            background: "#31bb62",
+            color: "white",
+            padding: "8px 10px",
+            margin: "10px 10px",
+            color: "white",
+          }}
+        >
+          Send For Approved
+        </Button>
+      ) : null}
+
       {IsOpen && (
         <Drawer open={IsOpen} anchor="right" onClose={() => setIsOpen(false)}>
-          <Container maxWidth="sm" sx={{ p: 2 }}>
-            <Typography variant="h5" sx={{ mb: 3 }}>
+          <Container maxWidth="sm" sx={{p: 2}}>
+            <Typography variant="h5" sx={{mb: 3}}>
               Fill timesheet
             </Typography>
             <form onSubmit={formik.handleSubmit}>
-              <FormControl fullWidth sx={{ mb: 2 }}>
+              <FormControl fullWidth sx={{mb: 2}}>
                 <InputLabel>Select Project</InputLabel>
                 <Select
                   {...formik.getFieldProps("project")}
@@ -163,7 +235,7 @@ const EmployeeProjectTimesheet = ({ id }) => {
                 label="Day"
                 name="day"
                 type="date"
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{shrink: true}}
                 value={formik.values.day}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -219,14 +291,14 @@ const EmployeeProjectTimesheet = ({ id }) => {
                 onBlur={formik.handleBlur}
               />
               {formik.touched.attachement && formik.errors.attachement && (
-                <div style={{ color: "red" }}>{formik.errors.attachement}</div>
+                <div style={{color: "red"}}>{formik.errors.attachement}</div>
               )}
 
               <Button
                 type="submit"
                 variant="contained"
                 color="primary"
-                style={{ marginTop: "15px" }}
+                style={{marginTop: "15px"}}
                 fullWidth
               >
                 Submit
@@ -236,13 +308,15 @@ const EmployeeProjectTimesheet = ({ id }) => {
         </Drawer>
       )}
 
-      <TableContainer component={Paper} sx={{ maxHeight: 500 }}>
-        <Typography variant="h6" sx={{ m: 2 }}>
+      <TableContainer component={Paper} sx={{maxHeight: 500}}>
+        <Typography variant="h6" sx={{m: 2}}>
           Employee Timesheet
         </Typography>
         <Table stickyHeader>
           <TableHead>
             <TableRow>
+              <TableCell>Select id</TableCell>
+
               <TableCell>Timesheet Code</TableCell>
               <TableCell>Hours</TableCell>
               <TableCell>Description</TableCell>
@@ -257,6 +331,20 @@ const EmployeeProjectTimesheet = ({ id }) => {
             {IsEmployeeProjectTimesheetdata?.flatMap((item) =>
               item.findtimesheet.map((rowdata) => (
                 <TableRow key={rowdata._id}>
+                  <TableCell>
+                    <FormControlLabel
+                      key={rowdata.Timesheet_Id}
+                      control={
+                        <Checkbox
+                          checked={selectedItems.includes(rowdata.Timesheet_Id)}
+                          onChange={() =>
+                            handleCheckboxChange(rowdata.Timesheet_Id)
+                          }
+                        />
+                      }
+                      label={rowdata.name}
+                    />
+                  </TableCell>
                   <TableCell>{rowdata.ts_code}</TableCell>
                   <TableCell>{rowdata.hours}</TableCell>
                   <TableCell>{rowdata.Description}</TableCell>
@@ -265,6 +353,13 @@ const EmployeeProjectTimesheet = ({ id }) => {
                   <TableCell>{rowdata.approval_status}</TableCell>
                   <TableCell>{rowdata.billing_status}</TableCell>
                   <TableCell>{rowdata.day}</TableCell>
+                  <TableCell>
+                    <Button
+                      onClick={() => RemoveTimesheetFunc(rowdata?.Timesheet_Id)}
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))
             )}

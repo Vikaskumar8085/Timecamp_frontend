@@ -1,9 +1,9 @@
-import { useState } from "react";
+import {useState} from "react";
 import Grid2 from "@mui/material/Grid2";
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import {Box, Button, Container, TextField, Typography} from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 
-const ProjectUploadForm = () => {
+const ProjectUploadForm = ({uploadhandlesubmit}) => {
   const [file, setFile] = useState(null);
   // Handle file selection
   const handleFileChange = (event) => {
@@ -18,7 +18,7 @@ const ProjectUploadForm = () => {
     const formData = new FormData();
     formData.append("file", file);
     console.log(formData, "afsaldflksdfl");
-    // uploadhandlesubmit(formData);
+    uploadhandlesubmit(formData);
 
     setFile(null);
   };
@@ -62,18 +62,18 @@ const ProjectUploadForm = () => {
             p: 1,
           }}
         >
-          <Typography variant="h5">Upload Task</Typography>
+          <Typography variant="h5">Upload Project</Typography>
           <form onSubmit={handleSubmit}>
             <Grid2 container spacing={1}>
-              <Grid2 size={{ xs: 12 }}>
+              <Grid2 size={{xs: 12}}>
                 <TextField
                   type="file"
-                  inputProps={{ accept: ".csv" }}
+                  inputProps={{accept: ".csv"}}
                   fullWidth
                   onChange={handleFileChange}
                 />
               </Grid2>
-              <Grid2 size={{ xs: 12 }}>
+              <Grid2 size={{xs: 12}}>
                 <Button
                   startIcon={<DownloadIcon />}
                   onClick={() => getprojectcsvdownload()}
@@ -87,7 +87,7 @@ const ProjectUploadForm = () => {
                   Project CSV Format
                 </Button>
               </Grid2>
-              <Grid2 size={{ xs: 12 }}>
+              <Grid2 size={{xs: 12}}>
                 <Button
                   type="submit"
                   sx={{
