@@ -6,6 +6,7 @@ import ProductivityLeaderBoard from "../../Component/DashboardComponents/Admin/P
 import RecentProjects from "../../Component/DashboardComponents/Admin/RecentProjects";
 import RecentTimesheet from "../../Component/DashboardComponents/Admin/RecentTimesheet";
 import EmployeeTimeHours from "../../Component/DashboardComponents/Admin/EmployeeTimeHours";
+import Managerdashboardheader from "../../Component/DashboardComponents/Manager/Managerdashboardheader";
 
 const Dashboard = () => {
   const userdata = useSelector((state) => state.user.values);
@@ -22,9 +23,26 @@ const Dashboard = () => {
         </>
       )}
       {Role === "Client" && <div>Dashboard:{userdata?.Role}</div>}
-      {Role === "Employee" && <div>Dashboard:{userdata?.Role}</div>}
+      {Role === "Employee" && (
+        <>
+          {" "}
+          <div>
+            <h1>employee header counter</h1>
+          </div>
+          <div>
+            <h1>Employee Project Time hour</h1>
+          </div>
+          <div>
+            <h1>Recent Project</h1>
+          </div>
+        </>
+      )}
       {Role === "Contractor" && <div>Dashboard:{userdata?.Role}</div>}
-      {Role === "Manager" && <div>Dashboard:{userdata?.Role}</div>}
+      {Role === "Manager" && (
+        <div>
+          <Managerdashboardheader />
+        </div>
+      )}
     </Layout>
   );
 };

@@ -11,11 +11,16 @@ import {
   TableRow,
   Paper,
   Typography,
+  Button,
+  Drawer,
 } from "@mui/material";
 import {Link} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 const EmployeeProjects = () => {
+  const userdata = useSelector((state) => state?.user.values);
   const [Isemployeeprojectdata, setIsemployeeprojectdata] = useState([]);
+  const [IsOpen, setIsOpen] = useState(false);
   const fetchemployeeproject = async () => {
     try {
       const response = await fetchemployeeprojectsapicall();
@@ -35,6 +40,26 @@ const EmployeeProjects = () => {
     <div>
       <Layout>
         <BreadCrumb pageName="Employee Projects" />
+
+        {userdata?.Permission && (
+          <Button
+            onClick={() => setIsOpen(true)}
+            sx={{
+              my: 2,
+              background: "#2c3e50",
+              color: "white",
+              padding: "10px 15px",
+            }}
+          >
+            Create Project
+          </Button>
+        )}
+
+        {IsOpen && (
+          <Drawer open={IsOpen} onClose={() => setIsOpen(false)} anchor="right">
+            <form action="">create form</form>
+          </Drawer>
+        )}
 
         <TableContainer component={Paper} sx={{mt: 3}}>
           <Table>

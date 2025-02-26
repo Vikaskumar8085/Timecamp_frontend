@@ -17,9 +17,12 @@ import {
   InputLabel,
   Typography,
   Box,
+  Button,
+  Drawer,
 } from "@mui/material";
 import apiInstance from "../../ApiInstance/apiInstance";
 const ManagerProject = () => {
+  const [IsOpen, setIsOpen] = useState(false);
   const [managers, setManagers] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -54,6 +57,23 @@ const ManagerProject = () => {
   return (
     <Layout>
       <BreadCrumb pageName="ManagerProject" />
+
+      <Button
+        onClick={() => setIsOpen(true)}
+        sx={{
+          background: "#2c3e50",
+          padding: "8px 10px",
+          margin: "10px 10px",
+          color: "white",
+        }}
+      >
+        Create Project
+      </Button>
+      {IsOpen && (
+        <Drawer open={IsOpen} onClose={() => setIsOpen(false)} anchor="right">
+          Create project
+        </Drawer>
+      )}
       <Paper sx={{width: "100%", overflow: "hidden", padding: 2}}>
         <Typography variant="h6" gutterBottom>
           Manager Team List

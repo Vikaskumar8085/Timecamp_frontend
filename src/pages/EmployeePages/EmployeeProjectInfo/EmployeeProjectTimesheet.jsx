@@ -183,7 +183,6 @@ const EmployeeProjectTimesheet = ({id}) => {
           onClick={() => SendForApprovel()}
           sx={{
             background: "#31bb62",
-            color: "white",
             padding: "8px 10px",
             margin: "10px 10px",
             color: "white",
