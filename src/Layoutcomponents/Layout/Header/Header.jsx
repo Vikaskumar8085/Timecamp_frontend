@@ -1,6 +1,6 @@
 import React from "react";
 
-const Header = ({setIsOpen,isOpen}) => {
+const Header = ({setIsOpen, isOpen}) => {
   return (
     <div className="layout_wrapper_header">
       <div className="header_box">
@@ -16,9 +16,6 @@ const Header = ({setIsOpen,isOpen}) => {
         </div>
 
         <div className="header_right_item">
-
-
-          
           <h1>profile</h1>
         </div>
       </div>

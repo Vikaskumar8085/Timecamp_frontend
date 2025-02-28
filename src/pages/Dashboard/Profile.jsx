@@ -2,7 +2,6 @@ import React from "react";
 import {useSelector} from "react-redux";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import Layout from "../../Layoutcomponents/Layout/Layout";
-import {Card} from "@mui/material";
 import UserProfile from "../../Component/DashboardComponents/ProfileComponent/UserProfile";
 
 const Profile = () => {

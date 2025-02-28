@@ -1,25 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import { Button, Drawer } from "@mui/material";
+import {Button, Drawer} from "@mui/material";
 import ClientForm from "../../../Component/AdminComponents/Client/ClientForm";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import ClientTable from "../../../Component/AdminComponents/Client/ClientTable";
 import {
   createclientapicall,
   fetchclientapicall,
+  updateclientapicall,
 } from "../../../ApiServices/AdminApiServices/Client";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import ClientUploadForm from "../../../Component/AdminComponents/Client/ClientUploadForm";
-import { uploadclientcsvapicall } from "../../../ApiServices/Csvapiservices/csvapiservices";
-import { useDispatch } from "react-redux";
-import { setLoader } from "../../../redux/LoaderSlices/LoaderSlices";
+import {uploadclientcsvapicall} from "../../../ApiServices/Csvapiservices/csvapiservices";
+import {useDispatch} from "react-redux";
+import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
+import toast from "react-hot-toast";
 
 const Client = () => {
   const [IsOpen, setIsOpen] = useState(false);
   const [isUpload, setIsUpload] = useState(false);
   const [Isclientdata, setIsclientdata] = useState([]);
-  const [isEdit, setIsEdit] = useState({});
+  const [isEdit, setIsEdit] = useState(null);
   const dispatch = useDispatch();
   // fetch client
 
@@ -75,10 +77,17 @@ const Client = () => {
       };
 
       dispatch(setLoader(true));
-
-      // const response = await
+      const response = await updateclientapicall(val);
+      if (response.success) {
+        dispatch(setLoader(false));
+        toast.success(response?.message);
+      } else {
+        dispatch(setLoader(false));
+        toast.error(response?.message);
+      }
     } catch (error) {
-      console.log(error?.message);
+      dispatch(setLoader(false));
+      toast.error(error?.response?.data?.message || "something went wrong");
     }
   };
 

@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
-import { Button, Container } from "@mui/material";
-import { useFormik } from "formik";
-import { loginapicall } from "../../ApiServices/Authapiservices";
-import { useGoogleLogin } from "@react-oauth/google";
-import { useDispatch } from "react-redux";
-import { setLoader } from "../../redux/LoaderSlices/LoaderSlices";
-import { GoogleLoginAuth } from "../../ApiServices/UserApiServices/User";
+import React, {useEffect} from "react";
+import {Button, Container} from "@mui/material";
+import {useFormik} from "formik";
+import {loginapicall} from "../../ApiServices/Authapiservices";
+import {useGoogleLogin} from "@react-oauth/google";
+import {useDispatch} from "react-redux";
+import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
+import {GoogleLoginAuth} from "../../ApiServices/UserApiServices/User";
+import {Link} from "react-router-dom";
 import toast from "react-hot-toast";
 const validate = (values) => {
   const errors = {};
@@ -13,7 +14,6 @@ const validate = (values) => {
   if (!values.Email) {
     errors.Email = "Email is required";
   }
-
   if (!values.Password) {
     errors.Password = "Password is required";
   } else if (values.Password.length < 6) {
@@ -43,11 +43,14 @@ const Login = () => {
           window.location.href = response.redirectUrl;
           localStorage.setItem("token", JSON.stringify(response.token));
           toast.success(response.message);
+          formik.resetForm();
         } else {
           dispatch(setLoader(false));
           toast.error(response.message);
+          formik.resetForm();
         }
       } catch (error) {
+        formik.resetForm();
         dispatch(setLoader(false));
         toast.error(error?.response?.data?.message || "something went wrong");
       }
@@ -67,7 +70,6 @@ const Login = () => {
       console.log(response, "afsdfasdfjlsadfj");
       if (response.success) {
         dispatch(setLoader(false));
-
         localStorage.setItem("token", JSON.stringify(response.result));
         window.location.href = response.redirectUrl;
       }
@@ -90,7 +92,7 @@ const Login = () => {
                 id="Email"
                 {...formik.getFieldProps("Email")}
               />
-              <p style={{ color: "red" }}>
+              <p style={{color: "red"}}>
                 {formik.touched.Email && formik.errors.Email ? (
                   <div>{formik.errors.Email}</div>
                 ) : null}
@@ -103,7 +105,7 @@ const Login = () => {
                 id="Password"
                 {...formik.getFieldProps("Password")}
               />
-              <p style={{ color: "red" }}>
+              <p style={{color: "red"}}>
                 {formik.touched.Password && formik.errors.Password ? (
                   <div>{formik.errors.Password}</div>
                 ) : null}
@@ -112,7 +114,11 @@ const Login = () => {
             <div className="mb-3">
               <button type="submit">Submit</button>
             </div>
-
+            <br />
+            <Link to="/signup">
+              <strong>registration ?</strong>
+            </Link>
+            <br />
             <div className="mb-3">
               <Button onClick={() => login()}>google Login</Button>
             </div>

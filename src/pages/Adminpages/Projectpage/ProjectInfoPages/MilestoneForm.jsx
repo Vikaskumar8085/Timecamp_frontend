@@ -10,7 +10,6 @@ import {
   IconButton,
 } from "@mui/material";
 import {Add, Remove} from "@mui/icons-material";
-import apiInstance from "../../../../ApiInstance/apiInstance";
 
 const MilestoneForm = ({handleSubmit}) => {
   const formik = useFormik({

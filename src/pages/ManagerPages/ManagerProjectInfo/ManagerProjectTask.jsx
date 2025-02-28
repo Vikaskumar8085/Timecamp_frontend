@@ -1,11 +1,18 @@
 import React, {useState} from "react";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import {Button, Drawer} from "@mui/material";
+import ManagerProjectMilestoneForm from "../../../Component/ManagerComponents/ManagerProjectinfoComponent/ManagerProjectMilestoneForm";
+import ManagerProjectTaskForm from "../../../Component/ManagerComponents/ManagerProjectinfoComponent/ManagerProjectTaskForm";
+import ManagerProjectTaskUploadForm from "../../../Component/ManagerComponents/ManagerProjectinfoComponent/ManagerProjectTaskUploadForm";
 
 const ManagerTask = () => {
   const [IsMilestoneOpen, setIsMilestoneOpen] = useState(false);
   const [IsOpen, setIsOpen] = useState(false);
   const [IsUploadTask, setIsUploadTask] = useState(false);
+
+  const [isMilestonoeresourcesdata, setisMilestonoeresourcesdata] = useState(
+    []
+  );
 
   return (
     <>
@@ -55,7 +62,9 @@ const ManagerTask = () => {
           }}
           anchor="right"
         >
-          Create task
+          <ManagerProjectTaskForm
+            isMilestonoeresourcesdata={isMilestonoeresourcesdata}
+          />
         </Drawer>
       )}
 
@@ -65,7 +74,7 @@ const ManagerTask = () => {
           onClose={() => setIsMilestoneOpen(false)}
           anchor="right"
         >
-          Create Milestone
+          <ManagerProjectMilestoneForm />
         </Drawer>
       )}
 
@@ -77,7 +86,7 @@ const ManagerTask = () => {
           }}
           anchor="right"
         >
-          Upload Task
+          <ManagerProjectTaskUploadForm />
         </Drawer>
       )}
     </>

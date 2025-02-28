@@ -21,6 +21,7 @@ import {
   Drawer,
 } from "@mui/material";
 import apiInstance from "../../ApiInstance/apiInstance";
+import ManageProjectForm from "../../Component/ManagerComponents/ManageProjectForm";
 const ManagerProject = () => {
   const [IsOpen, setIsOpen] = useState(false);
   const [managers, setManagers] = useState([]);
@@ -33,15 +34,18 @@ const ManagerProject = () => {
 
   const fetchprojects = async () => {
     try {
-      const {data} = await apiInstance.get("/v2/manager/fetch-manager-staff", {
-        params: {
-          page: page + 1, // API expects 1-based index
-          limit: rowsPerPage,
-          search,
-          sortBy,
-          order,
-        },
-      });
+      const {data} = await apiInstance.get(
+        "/v2/manager/fetch-manager-project",
+        {
+          params: {
+            page: page + 1, // API expects 1-based index
+            limit: rowsPerPage,
+            search,
+            sortBy,
+            order,
+          },
+        }
+      );
 
       setManagers(data.result);
       setTotalRecords(data.totalRecords);
@@ -71,7 +75,7 @@ const ManagerProject = () => {
       </Button>
       {IsOpen && (
         <Drawer open={IsOpen} onClose={() => setIsOpen(false)} anchor="right">
-          Create project
+          <ManageProjectForm />
         </Drawer>
       )}
       <Paper sx={{width: "100%", overflow: "hidden", padding: 2}}>

@@ -67,3 +67,19 @@ export const fillemployeetimesheetapicall = async (value) => {
   );
   return response.data;
 };
+
+export const fetchemployeerolesapicall = async () => {
+  const response = await apiInstance.get("/v2/employee/fetch-employee-roles");
+
+  return response?.data;
+};
+
+export const fetchemployeeclientsapicall = async () => {
+  const response = await apiInstance.get("/v2/employee/fetch-employee-client");
+  return response?.data;
+};
+
+export const fetchemployeestaffapicall = async () => {
+  const response = await apiInstance.get("/v2/employee/fetch-employee-staff");
+  return response?.data;
+};

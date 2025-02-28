@@ -247,7 +247,6 @@ const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen, Role}) => {
                 </li>
               </ul>
             </li>
-            <li>Logout</li>
           </ul>
         )}
 

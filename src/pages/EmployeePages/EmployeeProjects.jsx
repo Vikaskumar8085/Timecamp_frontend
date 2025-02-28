@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
+import EmpProjectForm from "../../Component/EmployeeComponents/EmpProjectForm";
 
 const EmployeeProjects = () => {
   const userdata = useSelector((state) => state?.user.values);
@@ -57,7 +58,7 @@ const EmployeeProjects = () => {
 
         {IsOpen && (
           <Drawer open={IsOpen} onClose={() => setIsOpen(false)} anchor="right">
-            <form action="">create form</form>
+            <EmpProjectForm />
           </Drawer>
         )}
 

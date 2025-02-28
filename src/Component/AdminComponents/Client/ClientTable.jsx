@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {
   Table,
   TableBody,
@@ -12,14 +12,14 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import Grid from "@mui/material/Grid2";
 import GridViewIcon from "@mui/icons-material/GridView";
 import TableViewIcon from "@mui/icons-material/TableView";
 import Empty from "../../../common/EmptyFolder/Empty";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 
-const ClientTable = ({ Isclientdata, handleOpen }) => {
+const ClientTable = ({Isclientdata, handleOpen}) => {
   const [viewMode, setViewMode] = useState("table");
 
   return (
@@ -40,9 +40,9 @@ const ClientTable = ({ Isclientdata, handleOpen }) => {
 
       {viewMode === "table" ? (
         <Grid container spacing={2}>
-          <Grid size={{ sm: 12 }}>
+          <Grid size={{sm: 12}}>
             <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="client table">
+              <Table sx={{minWidth: 650}} aria-label="client table">
                 <TableHead>
                   <TableRow>
                     <TableCell>ID</TableCell>
@@ -76,12 +76,12 @@ const ClientTable = ({ Isclientdata, handleOpen }) => {
                           </Link>
                         </TableCell>
                         <TableCell>
-                          {/* <Button
+                          <Button
                             onClick={() => handleOpen(item)}
                             color="primary"
                           >
                             Edit
-                          </Button> */}
+                          </Button>
                         </TableCell>
                       </TableRow>
                     ))
@@ -101,7 +101,7 @@ const ClientTable = ({ Isclientdata, handleOpen }) => {
         <Grid container spacing={2}>
           {Isclientdata.length > 0 ? (
             Isclientdata.map((item, index) => (
-              <Grid size={{ xs: 12, sm: 12, md: 12, lg: 6 }} key={index}>
+              <Grid size={{xs: 12, sm: 12, md: 12, lg: 6}} key={index}>
                 <Card>
                   <CardContent>
                     <Typography variant="h6">{item.Company_Name}</Typography>
@@ -125,7 +125,7 @@ const ClientTable = ({ Isclientdata, handleOpen }) => {
               </Grid>
             ))
           ) : (
-            <Grid size={{ sm: 12 }} display="flex" justifyContent="center">
+            <Grid size={{sm: 12}} display="flex" justifyContent="center">
               <Empty />
             </Grid>
           )}

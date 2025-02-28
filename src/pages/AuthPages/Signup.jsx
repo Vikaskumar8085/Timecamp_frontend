@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useEffect} from "react";
 import {
   TextField,
   Button,
@@ -8,11 +8,12 @@ import {
   Container,
   Typography,
 } from "@mui/material";
-import { useFormik } from "formik";
-import { signupapicall } from "../../ApiServices/Authapiservices";
+import {useFormik} from "formik";
+import {signupapicall} from "../../ApiServices/Authapiservices";
 import toast from "react-hot-toast";
-import { setLoader } from "../../redux/LoaderSlices/LoaderSlices";
-import { useDispatch } from "react-redux";
+import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
+import {useDispatch} from "react-redux";
+import {Link} from "react-router-dom";
 
 const validate = (values) => {
   const errors = {};
@@ -88,7 +89,7 @@ const Signup = () => {
           </Typography>
           <Avatar
             src={formik.values.Photo}
-            sx={{ width: 80, height: 80, margin: "auto" }}
+            sx={{width: 80, height: 80, margin: "auto"}}
           />
           <form onSubmit={formik.handleSubmit}>
             <div className="mb-3">
@@ -161,10 +162,15 @@ const Signup = () => {
                 variant="contained"
                 color="primary"
                 type="submit"
-                sx={{ mt: 2 }}
+                sx={{mt: 2}}
               >
                 Register
               </Button>
+              <br />
+              <br />
+              <Link to="/login">
+                <strong>if your alerady account please Login</strong>
+              </Link>
             </div>
           </form>
         </Container>

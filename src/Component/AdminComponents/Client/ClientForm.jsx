@@ -9,9 +9,9 @@ import {
   Checkbox,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import { useFormik } from "formik";
+import {useFormik} from "formik";
 
-const ClientForm = ({ handleSubmit, isEdit, handleUpdate }) => {
+const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
   const validate = (values) => {
     const errors = {};
     if (!values.Company_Name.trim()) {
@@ -63,22 +63,26 @@ const ClientForm = ({ handleSubmit, isEdit, handleUpdate }) => {
 
   const formik = useFormik({
     initialValues: {
-      Company_Name: "",
-      Client_Name: "",
-      Client_Email: "",
-      Client_Phone: "",
-      Client_Address: "",
-      Client_Postal_Code: "",
-      GstNumber: "",
-      System_Access: false,
+      Company_Name: isEdit !== null ? isEdit?.Company_Name : "",
+      Client_Name: isEdit !== null ? isEdit.Client_Name : "",
+      Client_Email: isEdit !== null ? isEdit.Client_Email : "",
+      Client_Phone: isEdit !== null ? isEdit.Client_Phone : "",
+      Client_Address: isEdit !== null ? isEdit.Client_Address : "",
+      Client_Postal_Code: isEdit !== null ? isEdit.Client_Postal_Code : "",
+      Password: isEdit !== null ? "" : "",
+      GstNumber: isEdit !== null ? isEdit.GstNumber : "",
+      System_Access: isEdit !== null ? isEdit.System_Access : false,
     },
     validate,
     onSubmit: (values) => {
       // alert(JSON.stringify(values, null, 2));
-
-      handleSubmit(values);
-
-      formik.resetForm();
+      if (isEdit !== null) {
+        handleUpdate(values);
+        formik.resetForm();
+      } else {
+        handleSubmit(values);
+        formik.resetForm();
+      }
 
       // console.log(values,'akdfalskd')
     },
@@ -92,12 +96,12 @@ const ClientForm = ({ handleSubmit, isEdit, handleUpdate }) => {
           p: 1,
         }}
       >
-        <Typography variant="h5" sx={{ margin: "10px 0px" }}>
+        <Typography variant="h5" sx={{margin: "10px 0px"}}>
           {isEdit !== null ? "Edit Client " : " Add Client"}
         </Typography>
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={2}>
-            <Grid size={{ sm: 12 }}>
+            <Grid size={{sm: 12}}>
               <TextField
                 fullWidth
                 label="Company Name"
@@ -111,7 +115,7 @@ const ClientForm = ({ handleSubmit, isEdit, handleUpdate }) => {
                 }
               />
             </Grid>
-            <Grid size={{ sm: 12 }}>
+            <Grid size={{sm: 12}}>
               <TextField
                 fullWidth
                 label="Client Name"
@@ -125,7 +129,7 @@ const ClientForm = ({ handleSubmit, isEdit, handleUpdate }) => {
                 }
               />
             </Grid>
-            <Grid size={{ sm: 12 }}>
+            <Grid size={{sm: 12}}>
               <TextField
                 fullWidth
                 label="Client Email"
@@ -140,7 +144,7 @@ const ClientForm = ({ handleSubmit, isEdit, handleUpdate }) => {
                 }
               />
             </Grid>
-            <Grid size={{ sm: 12 }}>
+            <Grid size={{sm: 12}}>
               <TextField
                 fullWidth
                 label="Client Phone"
@@ -155,7 +159,20 @@ const ClientForm = ({ handleSubmit, isEdit, handleUpdate }) => {
                 }
               />
             </Grid>
-            <Grid size={{ sm: 12 }}>
+
+            <Grid size={{sm: 12}}>
+              <TextField
+                fullWidth
+                label="Password"
+                {...formik.getFieldProps("Password")}
+                error={
+                  formik.touched.Password && Boolean(formik.errors.Password)
+                }
+                helperText={formik.touched.Password && formik.errors.Password}
+              />
+            </Grid>
+
+            <Grid size={{sm: 12}}>
               <TextField
                 fullWidth
                 label="Client Address"
@@ -169,7 +186,7 @@ const ClientForm = ({ handleSubmit, isEdit, handleUpdate }) => {
                 }
               />
             </Grid>
-            <Grid size={{ sm: 12 }}>
+            <Grid size={{sm: 12}}>
               <TextField
                 fullWidth
                 label="Client Postal Code"
@@ -185,7 +202,7 @@ const ClientForm = ({ handleSubmit, isEdit, handleUpdate }) => {
                 }
               />
             </Grid>
-            <Grid size={{ sm: 12 }}>
+            <Grid size={{sm: 12}}>
               <TextField
                 fullWidth
                 label="GST Number"
@@ -196,7 +213,7 @@ const ClientForm = ({ handleSubmit, isEdit, handleUpdate }) => {
                 helperText={formik.touched.GstNumber && formik.errors.GstNumber}
               />
             </Grid>
-            <Grid size={{ sm: 12 }}>
+            <Grid size={{sm: 12}}>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -211,7 +228,7 @@ const ClientForm = ({ handleSubmit, isEdit, handleUpdate }) => {
               />
             </Grid>
 
-            <Grid size={{ sm: 12 }}>
+            <Grid size={{sm: 12}}>
               <Button
                 fullWidth
                 variant="contained"

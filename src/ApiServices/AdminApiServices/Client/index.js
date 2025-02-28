@@ -41,8 +41,17 @@ export const fetchclientprojectsapicall = async (value) => {
   return response.data;
 };
 
-
-export const fetchclientTimesheetapicall = async(value)=>{
-  const response = await apiInstance.get(`/v1/admin/fetch-client-timesheet/${value}`);
+export const fetchclientTimesheetapicall = async (value) => {
+  const response = await apiInstance.get(
+    `/v1/admin/fetch-client-timesheet/${value}`
+  );
   return response.data;
-}
+};
+
+export const updateclientapicall = async (value) => {
+  const response = await apiInstance.put(
+    `/v1/admin/edit-client/${value.id}`,
+    value.payload
+  );
+  return response.data;
+};

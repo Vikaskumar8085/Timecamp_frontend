@@ -5,9 +5,10 @@ import Loader from "../../common/Loader/Loader";
 import {useDispatch, useSelector} from "react-redux";
 import {getuserapicall} from "../../ApiServices/UserApiServices/User";
 import {setUser} from "../../redux/User/UserSlice";
-import {Avatar, Badge} from "@mui/material";
+import {Avatar, Badge, Chip, Typography} from "@mui/material";
 import NotificationDrawer from "../../Component/Notificationcomponent/NotificationDrawer";
 import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
+import toast from "react-hot-toast";
 const Layout = ({children}) => {
   const dispatch = useDispatch();
   const userdata = useSelector((state) => {
@@ -32,9 +33,13 @@ const Layout = ({children}) => {
       if (response.success) {
         dispatch(setUser(response.result));
         dispatch(setLoader(false));
+      } else {
+        toast.error(response?.message);
+        dispatch(setLoader(true));
       }
     } catch (error) {
-      console.group(error?.message);
+      toast.error(error?.response?.data?.message);
+      dispatch(setLoader(true));
     }
   };
   function redirectfunc() {
@@ -82,9 +87,39 @@ const Layout = ({children}) => {
 
               <div
                 className="header_right_item"
-                style={{display: "flex", alignItems: "center"}}
+                style={{display: "flex", alignItems: "center", gap: "20px"}}
               >
                 <NotificationDrawer />
+
+                {userdata?.Role === "Admin" && (
+                  <div>
+                    <p>{userdata?.FirstName}</p>
+                    <Chip label="success" color="success">
+                      {userdata?.Role}
+                    </Chip>
+                  </div>
+                )}
+
+                {userdata?.Role === "Client" && (
+                  <div>
+                    <p>{userdata?.Client_Name}</p>
+                    <Chip label="success" color="success">
+                      {userdata?.Role}
+                    </Chip>
+                  </div>
+                )}
+
+                {userdata?.Role === "Employee" ||
+                  userdata?.Role === "Contractor" ||
+                  (userdata?.Role === "Manager" && (
+                    <div>
+                      <Typography>{userdata?.Client_Name}</Typography>
+                      <Chip label="success" color="success">
+                        {userdata?.Role}
+                      </Chip>
+                    </div>
+                  ))}
+
                 <div className="header_right_item_box">
                   <Avatar
                     src={"https://via.placeholder.com/100"}
