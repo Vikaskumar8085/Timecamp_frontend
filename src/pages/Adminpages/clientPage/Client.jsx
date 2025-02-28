@@ -81,9 +81,14 @@ const Client = () => {
       if (response.success) {
         dispatch(setLoader(false));
         toast.success(response?.message);
+        setIsEdit(null);
+        fetchclientfucntion();
+        setIsOpen(false);
       } else {
         dispatch(setLoader(false));
         toast.error(response?.message);
+        setIsEdit(null);
+        setIsOpen(false);
       }
     } catch (error) {
       dispatch(setLoader(false));
