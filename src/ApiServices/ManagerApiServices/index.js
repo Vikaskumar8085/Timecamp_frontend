@@ -21,3 +21,11 @@ export const fetchmanagerprojectwithmilestoneapicall = async () => {
   );
   return response?.data;
 };
+
+export const createManagerProjectapicall = async (value) => {
+  const response = await apiInstance.post(
+    "/v2/manager/create-manager-project",
+    value
+  );
+  return response?.data;
+};

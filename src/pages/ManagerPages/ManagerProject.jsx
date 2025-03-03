@@ -1,6 +1,6 @@
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -22,6 +22,9 @@ import {
 } from "@mui/material";
 import apiInstance from "../../ApiInstance/apiInstance";
 import ManageProjectForm from "../../Component/ManagerComponents/ManageProjectForm";
+import { createManagerProjectapicall } from "../../ApiServices/ManagerApiServices";
+import { useDispatch } from "react-redux";
+import { setLoader } from "../../redux/LoaderSlices/LoaderSlices";
 const ManagerProject = () => {
   const [IsOpen, setIsOpen] = useState(false);
   const [managers, setManagers] = useState([]);
@@ -31,10 +34,11 @@ const ManagerProject = () => {
   const [sortBy, setSortBy] = useState("name");
   const [order, setOrder] = useState("asc");
   const [totalRecords, setTotalRecords] = useState(0);
+  const dispatch = useDispatch();
 
   const fetchprojects = async () => {
     try {
-      const {data} = await apiInstance.get(
+      const { data } = await apiInstance.get(
         "/v2/manager/fetch-manager-project",
         {
           params: {
@@ -51,6 +55,27 @@ const ManagerProject = () => {
       setTotalRecords(data.totalRecords);
     } catch (error) {
       console.error("Error fetching managers:", error);
+    }
+  };
+
+  const handleSubmit = async (value) => {
+    try {
+      dispatch(setLoader(true));
+      const response = await createManagerProjectapicall(value);
+      if (response?.success) {
+        setIsOpen(false);
+        dispatch(setLoader(false));
+        fetchprojects();
+        toast.success(response?.message);
+      } else {
+        fetchprojects();
+        setIsOpen(false);
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      setIsOpen(false);
+      toast.error(error?.response?.data?.message);
     }
   };
 
@@ -75,10 +100,10 @@ const ManagerProject = () => {
       </Button>
       {IsOpen && (
         <Drawer open={IsOpen} onClose={() => setIsOpen(false)} anchor="right">
-          <ManageProjectForm />
+          <ManageProjectForm handleSubmit={handleSubmit} />
         </Drawer>
       )}
-      <Paper sx={{width: "100%", overflow: "hidden", padding: 2}}>
+      <Paper sx={{ width: "100%", overflow: "hidden", padding: 2 }}>
         <Typography variant="h6" gutterBottom>
           Manager Team List
         </Typography>
@@ -90,12 +115,12 @@ const ManagerProject = () => {
           fullWidth
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          sx={{marginBottom: 2}}
+          sx={{ marginBottom: 2 }}
         />
 
         {/* Sorting Options */}
-        <Box sx={{display: "flex", gap: 2, marginBottom: 2}}>
-          <FormControl sx={{minWidth: 150}}>
+        <Box sx={{ display: "flex", gap: 2, marginBottom: 2 }}>
+          <FormControl sx={{ minWidth: 150 }}>
             <InputLabel>Sort By</InputLabel>
             <Select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
               <MenuItem value="name">Name</MenuItem>
@@ -103,7 +128,7 @@ const ManagerProject = () => {
             </Select>
           </FormControl>
 
-          <FormControl sx={{minWidth: 150}}>
+          <FormControl sx={{ minWidth: 150 }}>
             <InputLabel>Order</InputLabel>
             <Select value={order} onChange={(e) => setOrder(e.target.value)}>
               <MenuItem value="asc">Ascending</MenuItem>
