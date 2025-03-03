@@ -1,11 +1,11 @@
-import React, {useState} from "react";
-import {Drawer, TextField} from "@mui/material";
-import {useFormik} from "formik";
+import React, { useState } from "react";
+import { Drawer, TextField } from "@mui/material";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
-import {Button} from "@mui/material";
+import { Button } from "@mui/material";
 import {
   Table,
   TableBody,
@@ -19,16 +19,17 @@ import TModal from "../../../common/Modal/TModal";
 import {
   addContractorapicall,
   fetchcontractorapicall,
+  updatecontractorapicall,
 } from "../../../ApiServices/AdminApiServices/Contractor";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import ContractorUploadForm from "../../../Component/AdminComponents/Contractor/ContractorUploadForm";
 import ContractorTable from "../../../Component/AdminComponents/Contractor/ContractorTable";
-import {uploadcontractorcsvapicall} from "../../../ApiServices/Csvapiservices/csvapiservices";
+import { uploadcontractorcsvapicall } from "../../../ApiServices/Csvapiservices/csvapiservices";
 import ContractorForm from "../../../Component/AdminComponents/Contractor/ContractorForm";
-import {useDispatch} from "react-redux";
-import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
+import { useDispatch } from "react-redux";
+import { setLoader } from "../../../redux/LoaderSlices/LoaderSlices";
 
 const Contractor = () => {
   const [Iscontractordata, setIscontractordata] = useState([]);
@@ -78,6 +79,30 @@ const Contractor = () => {
     }
   };
 
+  const udpatecontractorfunc = async (value) => {
+    try {
+      const val = {
+        id: IsEdit?.staff_Id,
+        payload: value,
+      };
+      dispatch(setLoader(true));
+      const response = await updatecontractorapicall(val);
+      if (response?.success) {
+        setIsOpen(false);
+        setIsEdit(null);
+        getcontractor();
+        dispatch(setLoader(false));
+        toast.success(response?.message);
+      } else {
+        dispatch(setLoader(false));
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      toast?.error(error?.response?.data?.message);
+    }
+  };
+
   React.useEffect(() => {
     getcontractor();
   }, [0]);
@@ -118,7 +143,11 @@ const Contractor = () => {
           }}
           anchor="right"
         >
-          <ContractorForm IsEdit={IsEdit} handleSubmit={handleSubmit} />
+          <ContractorForm
+            udpatecontractorfunc={udpatecontractorfunc}
+            IsEdit={IsEdit}
+            handleSubmit={handleSubmit}
+          />
         </Drawer>
       )}
 

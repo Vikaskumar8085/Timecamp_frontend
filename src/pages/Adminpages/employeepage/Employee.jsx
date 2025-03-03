@@ -1,22 +1,24 @@
-import React, {useState} from "react";
-import {Drawer, TextField} from "@mui/material";
-import {useFormik} from "formik";
+import React, { useState } from "react";
+import { Drawer, TextField } from "@mui/material";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import {Button} from "@mui/material";
+import { Button } from "@mui/material";
 import {
   addemployeeapicall,
   fetchemployeeapicall,
+  updateEmployeeapicall,
 } from "../../../ApiServices/AdminApiServices/Employee";
 import EmployeeTable from "../../../Component/AdminComponents/Employee/EmployeeTable";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import EmployeeUploadForm from "../../../Component/AdminComponents/Employee/EmployeeUploadForm";
-import {uploademployeecsvapicall} from "../../../ApiServices/Csvapiservices/csvapiservices";
+import { uploademployeecsvapicall } from "../../../ApiServices/Csvapiservices/csvapiservices";
 import EmployeeForm from "../../../Component/AdminComponents/Employee/EmployeeForm";
-import {useDispatch} from "react-redux";
-import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
+import { useDispatch } from "react-redux";
+import { setLoader } from "../../../redux/LoaderSlices/LoaderSlices";
+import toast from "react-hot-toast";
 
 const Employee = () => {
   const [isUpload, setIsUpload] = useState(false);
@@ -71,6 +73,31 @@ const Employee = () => {
     }
   };
 
+  const updateEmployeeFunc = async (value) => {
+    dispatch(setLoader(true));
+    try {
+      const val = {
+        id: IsEdit.staff_Id,
+        payload: value,
+      };
+      const response = await updateEmployeeapicall(val);
+      if (response.success) {
+        setIsOpen(false);
+        getemployee();
+        dispatch(setLoader(false));
+        toast.success(response?.message);
+      } else {
+        setIsOpen(false);
+        dispatch(setLoader(false));
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      setIsOpen(false);
+      dispatch(setLoader(false));
+      toast.error(error?.response?.data?.message || "something went wrong");
+    }
+  };
+
   React.useEffect(() => {
     getemployee();
   }, [0]);
@@ -116,7 +143,11 @@ const Employee = () => {
           }}
           anchor="right"
         >
-          <EmployeeForm IsEdit={IsEdit} handleSubmit={handleSubmit} />
+          <EmployeeForm
+            IsEdit={IsEdit}
+            handleSubmit={handleSubmit}
+            updateEmployeeFunc={updateEmployeeFunc}
+          />
         </Drawer>
       )}
       {/* create employee */}

@@ -12,16 +12,15 @@ import {
   Button,
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import {useFormik} from "formik";
-import React, {useEffect, useState} from "react";
-import {fetchdesignationapicall} from "../../../ApiServices/MasterApiServices/Designation";
+import { useFormik } from "formik";
+import React, { useEffect, useState } from "react";
+import { fetchdesignationapicall } from "../../../ApiServices/MasterApiServices/Designation";
 import toast from "react-hot-toast";
-import {fetchstaffmemberapicall} from "../../../ApiServices/AdminApiServices/Admin";
+import { fetchstaffmemberapicall } from "../../../ApiServices/AdminApiServices/Admin";
 
-const EmployeeForm = ({handleSubmit, IsEdit}) => {
+const EmployeeForm = ({ handleSubmit, IsEdit, updateEmployeeFunc }) => {
   const [designations, setDesignations] = useState([]);
   const [Ismanagerid, setIsmanagerid] = useState([]);
-  console.log(IsEdit, "IsEdit");
 
   const formik = useFormik({
     initialValues: {
@@ -39,9 +38,14 @@ const EmployeeForm = ({handleSubmit, IsEdit}) => {
     },
     enableReinitialize: true,
     onSubmit: async (values) => {
-      console.log("Submitted Data:", values);
-      handleSubmit(values);
-      formik.resetForm();
+      if (IsEdit) {
+        console.log(values, ">>>>>>>>>>>>>>>>>>>>. update data");
+        updateEmployeeFunc(values);
+        formik.resetForm();
+      } else {
+        handleSubmit(values);
+        formik.resetForm();
+      }
     },
   });
 
@@ -77,8 +81,8 @@ const EmployeeForm = ({handleSubmit, IsEdit}) => {
 
   return (
     <Container maxWidth="md">
-      <Box sx={{p: 2}}>
-        <Typography sx={{mb: 3}} variant="h5">
+      <Box sx={{ p: 2 }}>
+        <Typography sx={{ mb: 3 }} variant="h5">
           {IsEdit ? "Edit Employee" : "Add Employee"}
         </Typography>
 
@@ -129,7 +133,7 @@ const EmployeeForm = ({handleSubmit, IsEdit}) => {
                 label="Joining Date"
                 type="date"
                 fullWidth
-                InputLabelProps={{shrink: true}}
+                InputLabelProps={{ shrink: true }}
                 {...formik.getFieldProps("Joining_Date")}
               />
             </Grid>
@@ -204,7 +208,7 @@ const EmployeeForm = ({handleSubmit, IsEdit}) => {
                   padding: "8px 10px",
                   margin: "10px 0px",
                   color: "white",
-                  "&:hover": {background: "#1a252f"},
+                  "&:hover": { background: "#1a252f" },
                 }}
               >
                 {" "}

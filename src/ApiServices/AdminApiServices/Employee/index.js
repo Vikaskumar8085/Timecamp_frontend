@@ -6,6 +6,15 @@ export const addemployeeapicall = async (value) => {
   return response.data;
 };
 
+// update employee api call
+export const updateEmployeeapicall = async (value) => {
+  const response = await apiInstance.put(
+    `/v1/admin/edit-employee/${value.id}`,
+    value.payload
+  );
+  return response?.data;
+};
+
 // fetch employee api call
 
 export const fetchemployeeapicall = async () => {

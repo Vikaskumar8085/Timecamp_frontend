@@ -12,13 +12,13 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import {useFormik} from "formik";
-import React, {useEffect, useState} from "react";
-import {fetchdesignationapicall} from "../../../ApiServices/MasterApiServices/Designation";
+import { useFormik } from "formik";
+import React, { useEffect, useState } from "react";
+import { fetchdesignationapicall } from "../../../ApiServices/MasterApiServices/Designation";
 import toast from "react-hot-toast";
-import {fetchstaffmemberapicall} from "../../../ApiServices/AdminApiServices/Admin";
+import { fetchstaffmemberapicall } from "../../../ApiServices/AdminApiServices/Admin";
 
-const ContractorForm = ({handleSubmit, IsEdit}) => {
+const ContractorForm = ({ handleSubmit, IsEdit, udpatecontractorfunc }) => {
   const [designations, setDesignations] = useState([]);
   const [Ismanagerid, setIsmanagerid] = useState([]);
 
@@ -41,9 +41,13 @@ const ContractorForm = ({handleSubmit, IsEdit}) => {
     },
     enableReinitialize: true,
     onSubmit: async (values) => {
-      console.log("Submitted Data:", values);
-      handleSubmit(values);
-      formik.resetForm();
+      if (IsEdit) {
+        udpatecontractorfunc(values);
+        formik.resetForm();
+      } else {
+        handleSubmit(values);
+        formik.resetForm();
+      }
     },
   });
 
@@ -79,8 +83,8 @@ const ContractorForm = ({handleSubmit, IsEdit}) => {
 
   return (
     <Container maxWidth="md">
-      <Box sx={{p: 2}}>
-        <Typography sx={{mb: 3}} variant="h5">
+      <Box sx={{ p: 2 }}>
+        <Typography sx={{ mb: 3 }} variant="h5">
           {IsEdit ? "Edit Contractor " : " Add Contractor"}
         </Typography>
 
@@ -131,7 +135,7 @@ const ContractorForm = ({handleSubmit, IsEdit}) => {
                 label="Joining Date"
                 type="date"
                 fullWidth
-                InputLabelProps={{shrink: true}}
+                InputLabelProps={{ shrink: true }}
                 {...formik.getFieldProps("Joining_Date")}
               />
             </Grid>
@@ -230,7 +234,7 @@ const ContractorForm = ({handleSubmit, IsEdit}) => {
                   padding: "8px 10px",
                   margin: "10px 0px",
                   color: "white",
-                  "&:hover": {background: "#1a252f"},
+                  "&:hover": { background: "#1a252f" },
                 }}
               >
                 {IsEdit ? "update  " : " Submit"}

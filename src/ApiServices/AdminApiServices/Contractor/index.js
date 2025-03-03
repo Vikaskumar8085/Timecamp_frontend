@@ -5,6 +5,14 @@ export const addContractorapicall = async (value) => {
   return response.data;
 };
 
+// update contractor
+export const updatecontractorapicall = async (value) => {
+  const response = await apiInstance.put(
+    `/v1/admin/edit-contractor/${value.id}`,
+    value.payload
+  );
+  return response.data;
+};
 // fetch contractor
 export const fetchcontractorapicall = async () => {
   const response = await apiInstance.get("/v1/admin/fetch-contractor");

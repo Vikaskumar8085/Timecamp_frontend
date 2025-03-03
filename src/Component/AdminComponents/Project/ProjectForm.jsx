@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {useFormik} from "formik";
+import React, { useEffect, useState } from "react";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
   TextField,
@@ -14,15 +14,15 @@ import {
   ListItemText,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import {AddCircleOutline, RemoveCircleOutline} from "@mui/icons-material";
-import {fetchclientapicall} from "../../../ApiServices/AdminApiServices/Client/index";
+import { AddCircleOutline, RemoveCircleOutline } from "@mui/icons-material";
+import { fetchclientapicall } from "../../../ApiServices/AdminApiServices/Client/index";
 import {
   createprojectapicall,
   fetchstaffmembersapicall,
 } from "../../../ApiServices/ProjectApiServices";
-import {fetchroleapicall} from "../../../ApiServices/MasterApiServices/Roles";
+import { fetchroleapicall } from "../../../ApiServices/MasterApiServices/Roles";
 
-const ProjectForm = ({handleSubmit, IsEdit}) => {
+const ProjectForm = ({ handleSubmit, IsEdit }) => {
   const [clients, setClients] = useState([]);
   const [IsStaffdata, setIsstaffdata] = useState([]);
   const [IsRoledata, setIsRoledata] = useState([]);
@@ -60,20 +60,20 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
 
   const formik = useFormik({
     initialValues: {
-      Project_Name: IsEdit?.Project_Name || "",
-      clientId: IsEdit?.clientId || "",
-      Project_ManagersId: IsEdit?.Project_ManagersId || "",
-      Project_Type: IsEdit?.Project_Type || "",
-      Start_Date: IsEdit?.Start_Date || "",
-      End_Date: IsEdit?.End_Date || "",
-      Project_Hours: IsEdit?.Project_Hours || "",
+      Project_Name: IsEdit?.Project_Name ?? "",
+      clientId: IsEdit?.clientId ?? "",
+      Project_ManagersId: IsEdit?.Project_ManagersId ?? "",
+      Project_Type: IsEdit?.Project_Type ?? "",
+      Start_Date: IsEdit?.Start_Date ?? "",
+      End_Date: IsEdit?.End_Date ?? "",
+      Project_Hours: IsEdit?.Project_Hours ?? "",
       roleResources:
-        IsEdit?.roleResources?.length > 0
-          ? IsEdit.roleResources.flatMap((resource) => ({
-              RRId: resource?.RRId || "",
-              RId: resource?.RId || "",
+        Array.isArray(IsEdit?.roleResources) && IsEdit.roleResources.length > 0
+          ? IsEdit.roleResources.map((resource) => ({
+              RRId: resource?.RRId ?? "",
+              RId: resource?.RId ?? "",
             }))
-          : [{RRId: "", RId: ""}],
+          : [{ RRId: "", RId: "" }],
     },
     enableReinitialize: true,
     validationSchema: Yup.object({
@@ -125,7 +125,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
   const addRoleResource = () => {
     formik.setValues({
       ...formik.values,
-      roleResources: [...formik.values.roleResources, {RRId: "", RId: ""}],
+      roleResources: [...formik.values.roleResources, { RRId: "", RId: "" }],
     });
   };
 
@@ -133,7 +133,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
   const removeRoleResource = (index) => {
     const updatedRoles = [...formik.values.roleResources];
     updatedRoles.splice(index, 1);
-    formik.setValues({...formik.values, roleResources: updatedRoles});
+    formik.setValues({ ...formik.values, roleResources: updatedRoles });
   };
   useEffect(() => {
     getclientdata();
@@ -149,7 +149,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
 
       <form action="" onSubmit={formik.handleSubmit}>
         <Grid container spacing={2}>
-          <Grid size={{sm: 12}}>
+          <Grid size={{ sm: 12 }}>
             <TextField
               fullWidth
               label="Project Name"
@@ -166,7 +166,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
               }
             />
           </Grid>
-          <Grid size={{sm: 12}}>
+          <Grid size={{ sm: 12 }}>
             <TextField
               fullWidth
               label="Project Hours"
@@ -183,7 +183,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
               }
             />
           </Grid>
-          <Grid size={{sm: 12}}>
+          <Grid size={{ sm: 12 }}>
             <FormControl fullWidth margin="normal">
               <InputLabel id="client-select-label">Select Client</InputLabel>
               <Select
@@ -203,13 +203,13 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid size={{sm: 12}}>
+          <Grid size={{ sm: 12 }}>
             <TextField
               fullWidth
               type="date"
               label="Start Date"
               name="Start_Date"
-              InputLabelProps={{shrink: true}}
+              InputLabelProps={{ shrink: true }}
               value={formik.values.Start_Date}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -219,13 +219,13 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
               helperText={formik.touched.Start_Date && formik.errors.Start_Date}
             />
           </Grid>
-          <Grid size={{sm: 12}}>
+          <Grid size={{ sm: 12 }}>
             <TextField
               fullWidth
               type="date"
               label="End Date"
               name="End_Date"
-              InputLabelProps={{shrink: true}}
+              InputLabelProps={{ shrink: true }}
               value={formik.values.End_Date}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -233,7 +233,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
               helperText={formik.touched.End_Date && formik.errors.End_Date}
             />
           </Grid>
-          <Grid size={{sm: 12}}>
+          <Grid size={{ sm: 12 }}>
             <FormControl fullWidth margin="normal">
               <InputLabel>Select Project Manager</InputLabel>
               <Select
@@ -249,7 +249,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid size={{sm: 12}}>
+          <Grid size={{ sm: 12 }}>
             <FormControl fullWidth margin="normal">
               <InputLabel id="select-project-type">
                 Select Project Type
@@ -273,11 +273,11 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid size={{sm: 12}}>
-            <Grid size={{xs: 12, sm: 12}}>
+          <Grid size={{ sm: 12 }}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               {formik.values.roleResources.map((role, index) => (
                 <Grid container spacing={2} key={index} alignItems="center">
-                  <Grid size={{xs: 6}}>
+                  <Grid size={{ xs: 6 }}>
                     <FormControl fullWidth margin="normal">
                       <InputLabel>Select Resource</InputLabel>
                       <Select
@@ -308,7 +308,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
                         )}
                     </FormControl>
                   </Grid>
-                  <Grid size={{xs: 6}}>
+                  <Grid size={{ xs: 6 }}>
                     <FormControl fullWidth margin="normal">
                       <InputLabel id="Role-resourse-select-label">
                         Role Name
@@ -338,7 +338,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
                       </Select>
                     </FormControl>
                   </Grid>
-                  <Grid size={{xs: 12, sm: 6}}>
+                  <Grid size={{ xs: 12, sm: 6 }}>
                     <IconButton
                       onClick={() => removeRoleResource(index)}
                       color="secondary"
@@ -349,7 +349,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
                 </Grid>
               ))}
             </Grid>
-            <Grid size={{xs: 12, sm: 6}}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <Button
                 onClick={addRoleResource}
                 variant="outlined"
@@ -359,7 +359,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
               </Button>
             </Grid>
           </Grid>
-          <Grid size={{sm: 12}}>
+          <Grid size={{ sm: 12 }}>
             <Button
               fullWidth
               type="submit"
