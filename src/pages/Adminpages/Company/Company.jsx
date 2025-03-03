@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useFormik} from "formik";
-import {TextField, Button, Container, Grid} from "@mui/material";
+import {TextField, Button, Container, Grid, Drawer} from "@mui/material";
 import "./company.scss";
 import {
   createcompanyapicall,
@@ -10,6 +10,7 @@ import {useNavigate} from "react-router-dom";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import CompanyTable from "../../../Component/Companycomponents/CompanyTable";
+import CompanyEditForm from "../../../Component/Companycomponents/CompanyEditForm";
 
 const CompanyForm = ({handlesubmit}) => {
   const formik = useFormik({
@@ -190,7 +191,9 @@ const CompanyForm = ({handlesubmit}) => {
 };
 
 const Company = () => {
+  const [IsOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const [isEdit, setIsEdit] = useState(null);
   const [iscompanydata, setIscompanydata] = useState({});
   console.log(iscompanydata);
 
@@ -226,7 +229,23 @@ const Company = () => {
   return iscompanydata.Company_Id > 0 ? (
     <Layout>
       <BreadCrumb pageName="Company" />
-      <CompanyTable company={iscompanydata} />
+      <CompanyTable
+        setIsOpen={setIsOpen}
+        setIsEdit={setIsEdit}
+        company={iscompanydata}
+      />
+
+      {IsOpen && (
+        <Drawer
+          open={IsOpen}
+          onClose={() => {
+            setIsOpen(false);
+          }}
+          anchor="right"
+        >
+          <CompanyEditForm isEdit={isEdit} />
+        </Drawer>
+      )}
     </Layout>
   ) : (
     <>

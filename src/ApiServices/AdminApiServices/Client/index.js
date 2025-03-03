@@ -55,3 +55,8 @@ export const updateclientapicall = async (value) => {
   );
   return response.data;
 };
+
+export const removeclientapicall = async (value) => {
+  const response = await apiInstance.delete(`/v1/admin/remove-client/${value}`);
+  return response?.data;
+};

@@ -22,7 +22,7 @@ import {
 } from "../../../ApiServices/ProjectApiServices";
 import {fetchroleapicall} from "../../../ApiServices/MasterApiServices/Roles";
 
-const ProjectForm = ({handleSubmit}) => {
+const ProjectForm = ({handleSubmit, IsEdit}) => {
   const [clients, setClients] = useState([]);
   const [IsStaffdata, setIsstaffdata] = useState([]);
   const [IsRoledata, setIsRoledata] = useState([]);
@@ -60,15 +60,22 @@ const ProjectForm = ({handleSubmit}) => {
 
   const formik = useFormik({
     initialValues: {
-      Project_Name: "",
-      clientId: "",
-      Project_ManagersId: "",
-      Project_Type: "",
-      Start_Date: "",
-      End_Date: "",
-      Project_Hours: "",
-      roleResources: [{RRId: "", RId: ""}],
+      Project_Name: IsEdit?.Project_Name || "",
+      clientId: IsEdit?.clientId || "",
+      Project_ManagersId: IsEdit?.Project_ManagersId || "",
+      Project_Type: IsEdit?.Project_Type || "",
+      Start_Date: IsEdit?.Start_Date || "",
+      End_Date: IsEdit?.End_Date || "",
+      Project_Hours: IsEdit?.Project_Hours || "",
+      roleResources:
+        IsEdit?.roleResources?.length > 0
+          ? IsEdit.roleResources.flatMap((resource) => ({
+              RRId: resource?.RRId || "",
+              RId: resource?.RId || "",
+            }))
+          : [{RRId: "", RId: ""}],
     },
+    enableReinitialize: true,
     validationSchema: Yup.object({
       Project_Name: Yup.string().required("Project Name is required"),
       clientId: Yup.string().required("Client ID is required"),

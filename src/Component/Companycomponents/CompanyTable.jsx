@@ -14,12 +14,18 @@ import {
   Paper,
   Box,
   Link,
+  Button,
 } from "@mui/material";
 import BusinessIcon from "@mui/icons-material/Business";
+import EditIcon from "@mui/icons-material/Edit";
 
 // Function to handle null values
 const getValue = (value) => value || "No data available";
-function CompanyTable({company}) {
+function CompanyTable({company, setIsOpen, setIsEdit}) {
+  const handleclick = (value) => {
+    setIsOpen(true);
+    setIsEdit(value);
+  };
   return (
     <>
       <Box p={3}>
@@ -60,6 +66,9 @@ function CompanyTable({company}) {
                   >
                     {getValue(company.CompanyWesite)}
                   </Link>
+                </Typography>
+                <Typography>
+                  <EditIcon onClick={() => handleclick(company)} sx={{my: 2}} />
                 </Typography>
               </Grid2>
             </Grid2>

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import HeaderTab from "../../../common/HeaderTab/HeaderTab";
+import * as XLSX from "xlsx";
 import {
   Button,
   Drawer,
@@ -29,8 +29,18 @@ const Timesheet = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [IsTimesheetdata, setIsTimesheetdata] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
-
   const dispatch = useDispatch();
+
+  const exportToExcel = () => {
+    const formattedData = IsTimesheetdata.map(({_id, __v, ...rest}) => ({
+      ...rest,
+      CompanyImage: "https://example.com/company-logo.png", // Replace with actual image URL if available
+    }));
+    const worksheet = XLSX.utils.json_to_sheet(formattedData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    XLSX.writeFile(workbook, "Timesheet.xlsx");
+  };
 
   const fetchtimesheetfunc = async () => {
     try {
@@ -53,8 +63,6 @@ const Timesheet = () => {
         fetchtimesheetfunc();
         setIsModalOpen(false);
         dispatch(setLoader(false));
-
-
       }
     } catch (error) {
       dispatch(setLoader(false));
@@ -91,6 +99,8 @@ const Timesheet = () => {
         >
           Upload Timesheet
         </Button>
+        <Button onClick={() => exportToExcel()}>Export to Excel</Button>
+
         {isModalOpen ? (
           <Drawer
             open={isModalOpen}

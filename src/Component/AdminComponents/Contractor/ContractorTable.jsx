@@ -19,7 +19,7 @@ import {Link} from "react-router-dom";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import Empty from "../../../common/EmptyFolder/Empty";
 
-const ContractorTable = ({Iscontractordata}) => {
+const ContractorTable = ({Iscontractordata, setIsEdit, setIsOpen}) => {
   const [viewMode, setViewMode] = useState("table"); // "table" or "grid"
 
   return (
@@ -73,6 +73,15 @@ const ContractorTable = ({Iscontractordata}) => {
                           <Link to={`/contractor-info/${item.staff_Id}`}>
                             View
                           </Link>
+
+                          <Button
+                            onClick={() => {
+                              setIsEdit(item);
+                              setIsOpen(true);
+                            }}
+                          >
+                            Edit
+                          </Button>
                         </TableCell>
                       </TableRow>
                     ))
@@ -107,6 +116,15 @@ const ContractorTable = ({Iscontractordata}) => {
                     <Link to={`/contractor-info/${item.staff_Id}`}>
                       View Details
                     </Link>
+
+                    <Button
+                      onClick={() => {
+                        setIsEdit(item);
+                        setIsOpen(true);
+                      }}
+                    >
+                      Edit
+                    </Button>
                   </CardContent>
                 </Card>
               </Grid>

@@ -66,6 +66,16 @@ const Timesheet = ({data}) => {
           >
             DisApprove
           </Button>
+          <Button
+            sx={{
+              backgroundColor: "#008ab1",
+              color: "white",
+              margin: "10px 10px",
+              padding: "5px 10px",
+            }}
+          >
+            Billed
+          </Button>
         </div>
       ) : null}
 

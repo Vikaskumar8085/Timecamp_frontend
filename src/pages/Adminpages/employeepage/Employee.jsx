@@ -22,6 +22,8 @@ const Employee = () => {
   const [isUpload, setIsUpload] = useState(false);
   const [IsEmployeeData, setIsEmployeeData] = useState([]);
   const [IsOpen, setIsOpen] = React.useState(false);
+  const [IsEdit, setIsEdit] = React.useState(null);
+
   const dispatch = useDispatch();
   const getemployee = async () => {
     try {
@@ -77,7 +79,10 @@ const Employee = () => {
       <BreadCrumb pageName="Employee" />
 
       <Button
-        onClick={() => setIsOpen(true)}
+        onClick={() => {
+          setIsOpen(true);
+          setIsEdit(null);
+        }}
         startIcon={<AddIcon />}
         sx={{
           background: "#2c3e50",
@@ -104,8 +109,14 @@ const Employee = () => {
       {/* create employee */}
 
       {IsOpen && (
-        <Drawer open={IsOpen} onClose={() => setIsOpen(false)} anchor="right">
-          <EmployeeForm handleSubmit={handleSubmit} />
+        <Drawer
+          open={IsOpen}
+          onClose={() => {
+            setIsOpen(false), setIsEdit(null);
+          }}
+          anchor="right"
+        >
+          <EmployeeForm IsEdit={IsEdit} handleSubmit={handleSubmit} />
         </Drawer>
       )}
       {/* create employee */}
@@ -120,7 +131,11 @@ const Employee = () => {
         </Drawer>
       )}
 
-      <EmployeeTable IsEmployeeData={IsEmployeeData} />
+      <EmployeeTable
+        setIsEdit={setIsEdit}
+        setisOpen={setIsOpen}
+        IsEmployeeData={IsEmployeeData}
+      />
     </Layout>
   );
 };

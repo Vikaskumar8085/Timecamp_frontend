@@ -35,6 +35,8 @@ const Project = () => {
   const [isProjectdata, setIsProjectdata] = useState([]);
   const [IsProjectUploadModelOpen, setIsProjectUploadModelOpen] =
     useState(false);
+
+  const [IsEdit, setIsEdit] = useState(null);
   const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
@@ -98,7 +100,10 @@ const Project = () => {
     <Layout>
       <BreadCrumb pageName="Projects" />
       <Button
-        onClick={() => setIsModalOpen(true)}
+        onClick={() => {
+          setIsModalOpen(true);
+          setIsEdit(null);
+        }}
         startIcon={<AddIcons />}
         sx={{
           background: "#2c3e50",
@@ -125,10 +130,13 @@ const Project = () => {
       {isModalOpen ? (
         <Drawer
           open={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
+          onClose={() => {
+            setIsModalOpen(false);
+            setIsEdit(null);
+          }}
           anchor="right"
         >
-          <ProjectForm handleSubmit={handleSubmit} />
+          <ProjectForm IsEdit={IsEdit} handleSubmit={handleSubmit} />
         </Drawer>
       ) : null}
 
@@ -142,7 +150,11 @@ const Project = () => {
         </Drawer>
       ) : null}
 
-      <ProjectTable isProjectdata={isProjectdata} />
+      <ProjectTable
+        setIsModalOpen={setIsModalOpen}
+        setIsEdit={setIsEdit}
+        isProjectdata={isProjectdata}
+      />
     </Layout>
   );
 };

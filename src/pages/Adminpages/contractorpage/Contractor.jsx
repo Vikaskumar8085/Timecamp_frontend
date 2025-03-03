@@ -34,6 +34,7 @@ const Contractor = () => {
   const [Iscontractordata, setIscontractordata] = useState([]);
   const [isUpload, setIsUpload] = useState(false);
   const [IsOpen, setIsOpen] = useState(false);
+  const [IsEdit, setIsEdit] = useState(null);
   const dispatch = useDispatch();
   const getcontractor = async () => {
     try {
@@ -110,8 +111,14 @@ const Contractor = () => {
       </Button>
 
       {IsOpen && (
-        <Drawer open={IsOpen} onClose={() => setIsOpen(false)} anchor="right">
-          <ContractorForm handleSubmit={handleSubmit} />
+        <Drawer
+          open={IsOpen}
+          onClose={() => {
+            setIsOpen(false), setIsEdit(null);
+          }}
+          anchor="right"
+        >
+          <ContractorForm IsEdit={IsEdit} handleSubmit={handleSubmit} />
         </Drawer>
       )}
 
@@ -128,7 +135,11 @@ const Contractor = () => {
       )}
       {/* table of contractor */}
 
-      <ContractorTable Iscontractordata={Iscontractordata} />
+      <ContractorTable
+        setIsOpen={setIsOpen}
+        setIsEdit={setIsEdit}
+        Iscontractordata={Iscontractordata}
+      />
     </Layout>
   );
 };

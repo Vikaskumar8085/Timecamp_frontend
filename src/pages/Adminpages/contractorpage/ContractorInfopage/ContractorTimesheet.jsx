@@ -11,6 +11,7 @@ import {
   TablePagination,
   FormControlLabel,
   Checkbox,
+  Button,
 } from "@mui/material";
 
 const ContractorTimesheet = ({data}) => {
@@ -44,6 +45,42 @@ const ContractorTimesheet = ({data}) => {
       <Typography variant="h6" sx={{marginBottom: "10px"}}>
         Timesheets
       </Typography>
+
+      {selectedItems.length > 0 ? (
+        <div sx={{margin: "10px 0px"}}>
+          <Button
+            sx={{
+              backgroundColor: "Green",
+              color: "white",
+              margin: "10px 0px",
+              padding: "5px 10px",
+            }}
+          >
+            Approve
+          </Button>
+          <Button
+            sx={{
+              backgroundColor: "red",
+              color: "white",
+              margin: "10px 10px",
+              padding: "5px 10px",
+            }}
+          >
+            DisApprove
+          </Button>
+
+          <Button
+            sx={{
+              backgroundColor: "skyblue",
+              color: "white",
+              margin: "10px 10px",
+              padding: "5px 10px",
+            }}
+          >
+            Billed
+          </Button>
+        </div>
+      ) : null}
       <Table>
         <TableHead>
           <TableRow>

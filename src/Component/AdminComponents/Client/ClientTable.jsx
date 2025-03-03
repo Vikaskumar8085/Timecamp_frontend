@@ -19,7 +19,7 @@ import TableViewIcon from "@mui/icons-material/TableView";
 import Empty from "../../../common/EmptyFolder/Empty";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 
-const ClientTable = ({Isclientdata, handleOpen}) => {
+const ClientTable = ({Isclientdata, handleOpen, removeclientfunc}) => {
   const [viewMode, setViewMode] = useState("table");
 
   return (
@@ -74,14 +74,20 @@ const ClientTable = ({Isclientdata, handleOpen}) => {
                           <Link to={`/client-info/${item.Client_Id}`}>
                             View
                           </Link>
-                        </TableCell>
-                        <TableCell>
+
                           <Button
                             onClick={() => handleOpen(item)}
                             color="primary"
                           >
                             Edit
                           </Button>
+                          {/* <Button
+                            onClick={() => {
+                              removeclientfunc(item.Client_Id);
+                            }}
+                          >
+                            delete
+                          </Button> */}
                         </TableCell>
                       </TableRow>
                     ))

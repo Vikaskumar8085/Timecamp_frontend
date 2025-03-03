@@ -22,7 +22,7 @@ import {
 const UserList = ({users}) => {
   return (
     <Box
-      display="grid"
+      sx={{display: "flex", flexWrap: "wrap"}}
       gap={3}
       gridTemplateColumns="repeat(auto-fit, minmax(320px, 1fr))"
       p={3}
@@ -107,7 +107,7 @@ const UserList = ({users}) => {
             </Typography>
 
             {/* Action Buttons */}
-            <Grid container spacing={2} sx={{mt: 3}}>
+            {/* <Grid container spacing={2} sx={{mt: 3}}>
               <Grid item xs={6}>
                 <Button
                   fullWidth
@@ -128,7 +128,7 @@ const UserList = ({users}) => {
                   Delete
                 </Button>
               </Grid>
-            </Grid>
+            </Grid> */}
           </CardContent>
         </Card>
       ))}

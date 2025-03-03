@@ -7,6 +7,7 @@ import ClientTable from "../../../Component/AdminComponents/Client/ClientTable";
 import {
   createclientapicall,
   fetchclientapicall,
+  removeclientapicall,
   updateclientapicall,
 } from "../../../ApiServices/AdminApiServices/Client";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
@@ -96,6 +97,25 @@ const Client = () => {
     }
   };
 
+  const removeclientfunc = async (value) => {
+    try {
+      console.log(value, ">>>>>>>>>");
+      dispatch(setLoader(true));
+      const response = await removeclientapicall(value);
+      if (response?.success) {
+        dispatch(setLoader(false));
+        fetchclientfucntion();
+        toast.success(response?.message);
+      } else {
+        dispatch(setLoader(false));
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      toast.error(error?.response?.data?.message || "something went wrong");
+    }
+  };
+
   const handleOpen = async (value) => {
     setIsEdit(value);
     setIsOpen(true);
@@ -153,7 +173,11 @@ const Client = () => {
           />
         </Drawer>
       )}
-      <ClientTable handleOpen={handleOpen} Isclientdata={Isclientdata} />
+      <ClientTable
+        removeclientfunc={removeclientfunc}
+        handleOpen={handleOpen}
+        Isclientdata={Isclientdata}
+      />
     </Layout>
   );
 };

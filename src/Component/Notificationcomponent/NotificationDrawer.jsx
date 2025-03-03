@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
   Drawer,
   Button,
@@ -12,12 +12,19 @@ import {
   Typography,
 } from "@mui/material";
 import {Notifications} from "@mui/icons-material";
+import {fetchuserNotificationapicall} from "../../ApiServices/AdminApiServices/Admin";
+import {useSelector} from "react-redux";
 
 const NotificationDrawer = () => {
+  const userdata = useSelector((state) => {
+    return state.user.values;
+  });
+
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [notification, setNotification] = useState("");
-
+  const [usernotificationdata, setusernotificationdata] = useState([]);
+  console.log(usernotificationdata, "admin");
   const toggleDrawer = (open) => {
     setOpenDrawer(open);
   };
@@ -31,23 +38,25 @@ const NotificationDrawer = () => {
     setOpenSnackbar(true);
   };
 
-  const notifications = [
-    "New message from John",
-    "Your order has been shipped",
-    "Server maintenance scheduled for midnight",
-    "Server maintenance scheduled for midnight",
-    "Server maintenance scheduled for midnight",
-    "Server maintenance scheduled for midnight",
-    "Server maintenance scheduled for midnight",
-    "Server maintenance scheduled for midnight",
-    "Server maintenance scheduled for midnight",
-    "Server maintenance scheduled for midnight",
-  ];
+  const fetchusernotificationfunc = async () => {
+    try {
+      const response = await fetchuserNotificationapicall();
+      if (response?.success) {
+        setusernotificationdata(response?.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchusernotificationfunc();
+  }, [0]);
 
   return (
     <div>
       <Badge
-        badgeContent={notifications.length}
+        badgeContent={usernotificationdata.length}
         sx={{
           margin: "0px 10px",
         }}
@@ -75,7 +84,7 @@ const NotificationDrawer = () => {
         <Container maxWidth="sm" sx={{p: 2}}>
           <Stack spacing={2}>
             <h3>Notifications</h3>
-            {notifications.map((notification, index) => (
+            {usernotificationdata.map((notification, index) => (
               <>
                 <Alert sx={{display: "flex", alignItems: "center"}}>
                   <Avatar
@@ -91,7 +100,7 @@ const NotificationDrawer = () => {
                     color="primary"
                     onClick={() => showNotification(notification)}
                   >
-                    {notification}
+                    {notification.Name}
                   </Typography>
                 </Alert>
               </>

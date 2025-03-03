@@ -19,7 +19,7 @@ import TableViewIcon from "@mui/icons-material/TableView";
 import Empty from "../../../common/EmptyFolder/Empty";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 
-const ProjectTable = ({isProjectdata}) => {
+const ProjectTable = ({isProjectdata, setIsModalOpen, setIsEdit}) => {
   const [viewMode, setViewMode] = useState("table");
   return (
     <>
@@ -70,6 +70,14 @@ const ProjectTable = ({isProjectdata}) => {
                           <Link to={`/project-info/${item.ProjectId}`}>
                             View
                           </Link>
+                          <Button
+                            onClick={() => {
+                              setIsEdit(item);
+                              setIsModalOpen(true);
+                            }}
+                          >
+                            Edit
+                          </Button>
                         </TableCell>
                       </TableRow>
                     ))
@@ -98,6 +106,14 @@ const ProjectTable = ({isProjectdata}) => {
                     <Typography>Phone: {item.Start_Date}</Typography>
                     <Typography>Address: {item.End_Date}</Typography>
                     <Link to={`/project-info/${item.ProjectId}`}>View</Link>
+                    <Button
+                      onClick={() => {
+                        setIsEdit(item);
+                        setIsModalOpen(true);
+                      }}
+                    >
+                      Edit
+                    </Button>
                   </CardContent>
                 </Card>
               </Grid>

@@ -20,6 +20,7 @@ import {Add, Remove} from "@mui/icons-material";
 
 const ManagerTimesheet = () => {
   const [IsOpen, setIsOpen] = useState(false);
+  const [selectedItems, setSelectedItems] = useState([]);
 
   const formik = useFormik({
     initialValues: {
@@ -76,10 +77,20 @@ const ManagerTimesheet = () => {
     formik.setValues({...formik.values, entries: updatedEntries});
   };
 
+  const handleCheckboxChange = (id) => {
+    setSelectedItems(
+      (prevSelected) =>
+        prevSelected.includes(id)
+          ? prevSelected.filter((item) => item !== id) // Remove if already selected
+          : [...prevSelected, id] // Add if not selected
+    );
+  };
+
   return (
     <Layout>
       <BreadCrumb pageName="ManagerTimesheet" />
       <Button onClick={() => setIsOpen(true)}>Fill Timesheet</Button>
+
       {IsOpen && (
         <Drawer open={IsOpen} onClose={() => setIsOpen(false)} anchor="right">
           <Container maxWidth="md" sx={{p: 3}}>
@@ -222,6 +233,26 @@ const ManagerTimesheet = () => {
           </Container>
         </Drawer>
       )}
+
+      {selectedItems.length > 0 ? (
+        <>
+          <Button>Approve</Button>
+          <Button>Disapprove</Button>
+
+          <Button
+            onClick={() => SendForApprovel()}
+            sx={{
+              background: "#31bb62",
+              padding: "8px 10px",
+              margin: "10px 10px",
+              color: "white",
+            }}
+          >
+            Send For Approved
+          </Button>
+          <Button>delete selected</Button>
+        </>
+      ) : null}
     </Layout>
   );
 };

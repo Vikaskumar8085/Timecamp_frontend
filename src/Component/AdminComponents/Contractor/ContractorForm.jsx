@@ -18,27 +18,28 @@ import {fetchdesignationapicall} from "../../../ApiServices/MasterApiServices/De
 import toast from "react-hot-toast";
 import {fetchstaffmemberapicall} from "../../../ApiServices/AdminApiServices/Admin";
 
-const ContractorForm = ({handleSubmit}) => {
+const ContractorForm = ({handleSubmit, IsEdit}) => {
   const [designations, setDesignations] = useState([]);
   const [Ismanagerid, setIsmanagerid] = useState([]);
 
   const formik = useFormik({
     initialValues: {
-      FirstName: "",
-      LastName: "",
-      Email: "",
-      Address: "",
-      Phone: "",
-      DesignationId: "",
-      Backlog_Entries: "",
-      Socail_Links: "",
-      Permission: false,
-      ManagerId: "",
-      Joining_Date: "",
-      Contractor_Company: "",
-      Hourly_Rate: "",
-      Supervisor: "",
+      FirstName: IsEdit?.FirstName || "",
+      LastName: IsEdit?.LastName || "",
+      Email: IsEdit?.Email || "",
+      Address: IsEdit?.Address || "",
+      Phone: IsEdit?.Phone || "",
+      DesignationId: IsEdit?.DesignationId || "",
+      Backlog_Entries: IsEdit?.Backlog_Entries || "",
+      Socail_Links: IsEdit?.Socail_Links || "",
+      Permission: IsEdit?.Permission || false,
+      ManagerId: IsEdit?.ManagerId || "",
+      Joining_Date: IsEdit?.Joining_Date || "",
+      Contractor_Company: IsEdit?.Contractor_Company || "",
+      Hourly_Rate: IsEdit?.Hourly_Rate || "",
+      Supervisor: IsEdit?.Supervisor || "",
     },
+    enableReinitialize: true,
     onSubmit: async (values) => {
       console.log("Submitted Data:", values);
       handleSubmit(values);
@@ -80,7 +81,7 @@ const ContractorForm = ({handleSubmit}) => {
     <Container maxWidth="md">
       <Box sx={{p: 2}}>
         <Typography sx={{mb: 3}} variant="h5">
-          Add Contractor
+          {IsEdit ? "Edit Contractor " : " Add Contractor"}
         </Typography>
 
         <form onSubmit={formik.handleSubmit}>
@@ -232,7 +233,7 @@ const ContractorForm = ({handleSubmit}) => {
                   "&:hover": {background: "#1a252f"},
                 }}
               >
-                Submit
+                {IsEdit ? "update  " : " Submit"}
               </Button>
             </Grid>
           </Grid>
