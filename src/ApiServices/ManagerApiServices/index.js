@@ -29,3 +29,11 @@ export const createManagerProjectapicall = async (value) => {
   );
   return response?.data;
 };
+
+export const managerfilltimesheetdataapicall = async (value) => {
+  const response = await apiInstance.post(
+    "/v2/manager/fill-manager-timesheet",
+    value
+  );
+  return response?.data;
+};

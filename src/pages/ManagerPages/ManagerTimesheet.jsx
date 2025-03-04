@@ -17,9 +17,15 @@ import {
   FormControl,
 } from "@mui/material";
 import {Add, Remove} from "@mui/icons-material";
+import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
+import {useDispatch} from "react-redux";
+import {managerfilltimesheetdataapicall} from "../../ApiServices/ManagerApiServices";
+import toast from "react-hot-toast";
+import moment from "moment";
 
 const ManagerTimesheet = () => {
   const [IsOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
   const [selectedItems, setSelectedItems] = useState([]);
 
   const formik = useFormik({
@@ -50,8 +56,42 @@ const ManagerTimesheet = () => {
         })
       ),
     }),
-    onSubmit: (values) => {
-      console.log("Final Submission:", values);
+    onSubmit: async (values) => {
+      try {
+        dispatch(setLoader(true));
+
+        const formData = new FormData();
+
+        values.entries.forEach((entry, index) => {
+          formData.append(`entries[${index}][ProjectId]`, entry.ProjectId);
+          formData.append(`entries[${index}][hours]`, entry.hours);
+          formData.append(
+            `entries[${index}][date]`,
+            moment(entry.date).format("YYYY-MM-DD")
+          );
+          formData.append(
+            `entries[${index}][Task_description]`,
+            entry.Task_description
+          );
+          formData.append(`entries[${index}][Description]`, entry.Description);
+          if (entry.fileattachment) {
+            formData.append(`entries[${index}][file]`, entry.fileattachment);
+          }
+        });
+
+        const response = await managerfilltimesheetdataapicall(formData);
+        if (response?.success) {
+          toast.success(response?.message);
+          setIsOpen(false);
+        } else {
+          toast.error(response?.message);
+        }
+      } catch (error) {
+        toast.error(error?.response?.data?.message || "Something went wrong");
+      } finally {
+        dispatch(setLoader(false));
+        formik.resetForm();
+      }
     },
   });
 
@@ -77,18 +117,14 @@ const ManagerTimesheet = () => {
     formik.setValues({...formik.values, entries: updatedEntries});
   };
 
-  const handleCheckboxChange = (id) => {
-    setSelectedItems(
-      (prevSelected) =>
-        prevSelected.includes(id)
-          ? prevSelected.filter((item) => item !== id) // Remove if already selected
-          : [...prevSelected, id] // Add if not selected
-    );
+  const handleFileChange = (event, index) => {
+    const file = event.currentTarget.files[0];
+    formik.setFieldValue(`entries[${index}].fileattachment`, file);
   };
 
   return (
     <Layout>
-      <BreadCrumb pageName="ManagerTimesheet" />
+      <BreadCrumb pageName="Manager Timesheet" />
       <Button onClick={() => setIsOpen(true)}>Fill Timesheet</Button>
 
       {IsOpen && (
@@ -130,34 +166,21 @@ const ManagerTimesheet = () => {
                           value={entry.hours}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          error={
-                            formik.touched.entries?.[index]?.hours &&
-                            Boolean(formik.errors.entries?.[index]?.hours)
-                          }
-                          helperText={
-                            formik.touched.entries?.[index]?.hours &&
-                            formik.errors.entries?.[index]?.hours
-                          }
+                          error={Boolean(formik.errors.entries?.[index]?.hours)}
+                          helperText={formik.errors.entries?.[index]?.hours}
                         />
                       </Grid>
                       <Grid item xs={12}>
                         <TextField
                           fullWidth
                           type="date"
-                          label="Date"
                           InputLabelProps={{shrink: true}}
                           name={`entries[${index}].date`}
                           value={entry.date}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          error={
-                            formik.touched.entries?.[index]?.date &&
-                            Boolean(formik.errors.entries?.[index]?.date)
-                          }
-                          helperText={
-                            formik.touched.entries?.[index]?.date &&
-                            formik.errors.entries?.[index]?.date
-                          }
+                          error={Boolean(formik.errors.entries?.[index]?.date)}
+                          helperText={formik.errors.entries?.[index]?.date}
                         />
                       </Grid>
                       <Grid item xs={12}>
@@ -168,14 +191,10 @@ const ManagerTimesheet = () => {
                           value={entry.Task_description}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          error={
-                            formik.touched.entries?.[index]?.Task_description &&
-                            Boolean(
-                              formik.errors.entries?.[index]?.Task_description
-                            )
-                          }
+                          error={Boolean(
+                            formik.errors.entries?.[index]?.Task_description
+                          )}
                           helperText={
-                            formik.touched.entries?.[index]?.Task_description &&
                             formik.errors.entries?.[index]?.Task_description
                           }
                         />
@@ -188,14 +207,20 @@ const ManagerTimesheet = () => {
                           value={entry.Description}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          error={
-                            formik.touched.entries?.[index]?.Description &&
-                            Boolean(formik.errors.entries?.[index]?.Description)
-                          }
+                          error={Boolean(
+                            formik.errors.entries?.[index]?.Description
+                          )}
                           helperText={
-                            formik.touched.entries?.[index]?.Description &&
                             formik.errors.entries?.[index]?.Description
                           }
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <input
+                          type="file"
+                          name={`entries[${index}].fileattachment`}
+                          onChange={(event) => handleFileChange(event, index)}
+                          onBlur={formik.handleBlur}
                         />
                       </Grid>
                       <Grid item xs={2}>
@@ -233,26 +258,6 @@ const ManagerTimesheet = () => {
           </Container>
         </Drawer>
       )}
-
-      {selectedItems.length > 0 ? (
-        <>
-          <Button>Approve</Button>
-          <Button>Disapprove</Button>
-
-          <Button
-            onClick={() => SendForApprovel()}
-            sx={{
-              background: "#31bb62",
-              padding: "8px 10px",
-              margin: "10px 10px",
-              color: "white",
-            }}
-          >
-            Send For Approved
-          </Button>
-          <Button>delete selected</Button>
-        </>
-      ) : null}
     </Layout>
   );
 };
