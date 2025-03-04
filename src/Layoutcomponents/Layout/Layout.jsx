@@ -1,15 +1,15 @@
-import React, {Suspense, useState} from "react";
+import React, { Suspense, useState } from "react";
 import "./style.css";
 import Sidebar from "./Sidebar/Sidebar";
 import Loader from "../../common/Loader/Loader";
-import {useDispatch, useSelector} from "react-redux";
-import {getuserapicall} from "../../ApiServices/UserApiServices/User";
-import {setUser} from "../../redux/User/UserSlice";
-import {Avatar, Badge, Chip, Typography} from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { getuserapicall } from "../../ApiServices/UserApiServices/User";
+import { setUser } from "../../redux/User/UserSlice";
+import { Avatar, Badge, Chip, Typography } from "@mui/material";
 import NotificationDrawer from "../../Component/Notificationcomponent/NotificationDrawer";
-import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
+import { setLoader } from "../../redux/LoaderSlices/LoaderSlices";
 import toast from "react-hot-toast";
-const Layout = ({children}) => {
+const Layout = ({ children }) => {
   const dispatch = useDispatch();
   const userdata = useSelector((state) => {
     return state.user.values;
@@ -66,7 +66,7 @@ const Layout = ({children}) => {
             <div className="header_box">
               <div
                 className="header_left_item"
-                style={{display: "flex", alignItems: "center", gap: "2"}}
+                style={{ display: "flex", alignItems: "center", gap: "2" }}
               >
                 <button
                   className="toggle_btn"
@@ -80,32 +80,28 @@ const Layout = ({children}) => {
                     src={"https://ignitivelabs.in/images/logo-1.png"}
                     alt=""
                     srcset=""
-                    style={{height: "60px", margin: "0px 20px ", flexGrow: 1}}
+                    style={{ height: "60px", margin: "0px 20px ", flexGrow: 1 }}
                   />
                 </div>
               </div>
 
               <div
                 className="header_right_item"
-                style={{display: "flex", alignItems: "center", gap: "20px"}}
+                style={{ display: "flex", alignItems: "center", gap: "20px" }}
               >
                 <NotificationDrawer />
 
                 {userdata?.Role === "Admin" && (
                   <div>
                     <p>{userdata?.FirstName}</p>
-                    <Chip label="success" color="success">
-                      {userdata?.Role}
-                    </Chip>
+                    <Chip label={userdata?.Role} color="success" />
                   </div>
                 )}
 
                 {userdata?.Role === "Client" && (
                   <div>
                     <p>{userdata?.Client_Name}</p>
-                    <Chip label="success" color="success">
-                      {userdata?.Role}
-                    </Chip>
+                    <Chip label={userdata?.Role} color="success" />
                   </div>
                 )}
 
@@ -114,9 +110,7 @@ const Layout = ({children}) => {
                   (userdata?.Role === "Manager" && (
                     <div>
                       <Typography>{userdata?.Client_Name}</Typography>
-                      <Chip label="success" color="success">
-                        {userdata?.Role}
-                      </Chip>
+                      <Chip label={userdata?.Role} color="success" />
                     </div>
                   ))}
 
@@ -124,7 +118,7 @@ const Layout = ({children}) => {
                   <Avatar
                     src={"https://via.placeholder.com/100"}
                     alt={"adsfk"}
-                    sx={{width: 60, height: 60}}
+                    sx={{ width: 60, height: 60 }}
                   />
                 </div>
               </div>
