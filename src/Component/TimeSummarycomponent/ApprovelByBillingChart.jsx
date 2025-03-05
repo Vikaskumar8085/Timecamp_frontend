@@ -30,7 +30,7 @@ const ApprovelByBillingChart = () => {
 
   const options = {
     chart: {
-      type: "bar",
+      type: "line",
       height: 350,
     },
     xaxis: {
@@ -43,6 +43,9 @@ const ApprovelByBillingChart = () => {
       title: {
         text: "Hours",
       },
+    },
+    stroke: {
+      curve: "smooth",
     },
     colors: ["#008FFB", "#FF4560"], // Blue for total hours, Red for billed hours
   };
@@ -63,7 +66,7 @@ const ApprovelByBillingChart = () => {
   }, [0]);
   return (
     <div>
-      <Chart options={options} series={series} type="bar" height={350} />
+      <Chart options={options} series={series} type="line" height={350} />
     </div>
   );
 };
