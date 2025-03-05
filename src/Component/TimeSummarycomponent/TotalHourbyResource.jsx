@@ -1,7 +1,7 @@
 import React from "react";
 import Chart from "react-apexcharts";
 
-const TotalHourbyResource = ({ istotalhourbyresourcedata }) => {
+const TotalHourbyResource = ({istotalhourbyresourcedata}) => {
   const categories = istotalhourbyresourcedata.map((item) => item.resourceName);
   const totalHours = istotalhourbyresourcedata.map((item) =>
     parseInt(item.totalHour, 10)

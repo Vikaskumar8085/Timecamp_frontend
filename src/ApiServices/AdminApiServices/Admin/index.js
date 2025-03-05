@@ -22,3 +22,30 @@ export const fetchuserNotificationapicall = async () => {
   const response = await apiInstance.get("/v1/user/fetch-user-notification");
   return response.data;
 };
+
+export const approvetimesheetbyadminapicall = async (value) => {
+  const response = await apiInstance.put(
+    `/v1/admin/approve-timesheet-by-admin/${value.id}`,
+    value.payload
+  );
+
+  return response?.data;
+};
+
+export const disapprovetimesheetbyadminapicall = async (value) => {
+  const response = await apiInstance.put(
+    `/v1/admin/disapprove-timesheet-by-admin/${value.id}`,
+    value.payload
+  );
+
+  return response?.data;
+};
+
+export const billedtimesheetbyadminapicall = async (value) => {
+  const response = await apiInstance.put(
+    `/v1/admin/billed-tiemsheet-by-admin/${value.id}`,
+    value.payload
+  );
+
+  return response?.data;
+};

@@ -30,6 +30,14 @@ const TimesheetList = ({data}) => {
     setCurrentPage(newPage);
   };
 
+  const approveclienttimesheet = async () => {
+    console.log(selectedItems, ">>>>>>>>");
+  };
+
+  const disapprovedclienttimesheet = async () => {
+    console.log(selectedItems, ">>>>>>>>");
+  };
+
   const handleCheckboxChange = (id) => {
     setSelectedItems(
       (prevSelected) =>
@@ -46,8 +54,8 @@ const TimesheetList = ({data}) => {
       </Typography>
       {selectedItems.length > 0 ? (
         <div>
-          <Button>Approve</Button>
-          <Button>Disapprove</Button>
+          <Button onClick={() => approveclienttimesheet()}>Approve</Button>
+          <Button onClick={() => disapprovedclienttimesheet()}>Disapprove</Button>
         </div>
       ) : null}
       {data?.result?.length === 0 ? (

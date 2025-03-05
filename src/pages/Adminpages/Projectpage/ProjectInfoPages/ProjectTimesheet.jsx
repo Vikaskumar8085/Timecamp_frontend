@@ -1,10 +1,24 @@
-import React, { useEffect } from "react";
+import React, {useEffect} from "react";
 import TimesheetTable from "./ProjectTimesheetComp/TimesheetTable";
 
-const ProjectTimesheet = ({ Isprojecttimesheetdata }) => {
+const ProjectTimesheet = ({
+  Isprojecttimesheetdata,
+  approveprojectfunc,
+  disapproveprojectfunc,
+  billedprojectfunc,
+  selectedItems,
+  setSelectedItems,
+}) => {
   return (
     <div>
-      <TimesheetTable data={Isprojecttimesheetdata} />
+      <TimesheetTable
+        approveprojectfunc={approveprojectfunc}
+        disapproveprojectfunc={disapproveprojectfunc}
+        billedprojectfunc={billedprojectfunc}
+        data={Isprojecttimesheetdata}
+        selectedItems={selectedItems}
+        setSelectedItems={setSelectedItems}
+      />
     </div>
   );
 };

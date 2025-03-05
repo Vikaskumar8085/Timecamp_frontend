@@ -14,10 +14,16 @@ import {
   Button,
 } from "@mui/material";
 
-const Timesheet = ({data}) => {
+const Timesheet = ({
+  data,
+  approveEmployeetimesheet,
+  disapproveEmployeetimesheet,
+  biiledEmployeetimesheet,
+  selectedItems,
+  setSelectedItems,
+}) => {
   const {employeeTimesheets, projectManagerTimesheet} = data[0];
   const timesheets = [...employeeTimesheets, ...projectManagerTimesheet];
-  const [selectedItems, setSelectedItems] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -53,6 +59,7 @@ const Timesheet = ({data}) => {
               margin: "10px 0px",
               padding: "5px 10px",
             }}
+            onClick={() => approveEmployeetimesheet(selectedItems)}
           >
             Approve
           </Button>
@@ -63,16 +70,19 @@ const Timesheet = ({data}) => {
               margin: "10px 10px",
               padding: "5px 10px",
             }}
+            onClick={() => disapproveEmployeetimesheet(selectedItems)}
           >
             DisApprove
           </Button>
+
           <Button
             sx={{
-              backgroundColor: "#008ab1",
+              backgroundColor: "skyblue",
               color: "white",
               margin: "10px 10px",
               padding: "5px 10px",
             }}
+            onClick={() => biiledEmployeetimesheet(selectedItems)}
           >
             Billed
           </Button>

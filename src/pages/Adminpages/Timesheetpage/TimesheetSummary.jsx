@@ -7,6 +7,12 @@ import BilledHoursByProject from "../../../Component/TimeSummarycomponent/Billed
 import {fetchtotalhourbyresourcesapicall} from "../../../ApiServices/TimesheetApiServices";
 import {useDispatch} from "react-redux";
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
+import BIlledandNotbilledproject from "../../../Component/TimeSummarycomponent/BIlledandNotbilledproject";
+import HourByProject from "../../../Component/TimeSummarycomponent/HourByProject";
+import DailyHours from "../../../Component/TimeSummarycomponent/DailyHours";
+import Hourbycompany from "../../../Component/TimeSummarycomponent/Hourbycompany";
+import ProjectTimeUtilization from "../../../Component/TimeSummarycomponent/ProjectTimeUtilization";
+import ApprovelByBillingChart from "../../../Component/TimeSummarycomponent/ApprovelByBillingChart";
 
 const TimesheetSummary = () => {
   const dispatch = useDispatch();
@@ -42,21 +48,29 @@ const TimesheetSummary = () => {
             istotalhourbyresourcedata={istotalhourbyresourcedata}
           />
         </Grid2>
-        <Grid2 size={{sm: 12}}></Grid2>
         <Grid2 size={{sm: 12}}>
-          <Typography variant="h5">hours By Company</Typography>
+          <Typography variant="h5">Hour by Company</Typography>
+          <Hourbycompany />
+        </Grid2>
+        <Grid2 size={{sm: 12}}>
+          <Typography variant="h5">hours By Project</Typography>
+          <HourByProject />
         </Grid2>
         <Grid2 size={{sm: 12}}>
           <Typography variant="h5">Billing Status Distribution</Typography>
+          <BIlledandNotbilledproject />
         </Grid2>
         <Grid2 size={{sm: 12}}>
           <Typography variant="h5">DailyHours</Typography>
+          <DailyHours />
         </Grid2>
         <Grid2 size={{sm: 12}}>
           <Typography variant="h5">Approval and Billing Over Time</Typography>
+          <ApprovelByBillingChart />
         </Grid2>
         <Grid2 size={{sm: 12}}>
           <Typography variant="h5">Project Time Utilization</Typography>
+          <ProjectTimeUtilization />
         </Grid2>
       </Grid2>
     </Layout>

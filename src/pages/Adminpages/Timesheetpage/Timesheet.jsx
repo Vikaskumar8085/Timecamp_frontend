@@ -24,12 +24,19 @@ import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import {fetchtimesheetapicall} from "../../../ApiServices/TimesheetApiServices";
 import toast from "react-hot-toast";
 import {uploadtimesheetcsvapicall} from "../../../ApiServices/Csvapiservices/csvapiservices";
+import apiInstance from "../../../ApiInstance/apiInstance";
+import {
+  approvetimesheetbyadminapicall,
+  billedtimesheetbyadminapicall,
+  disapprovetimesheetbyadminapicall,
+} from "../../../ApiServices/AdminApiServices/Admin";
 
 const Timesheet = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [IsTimesheetdata, setIsTimesheetdata] = useState([]);
-  const [selectedItems, setSelectedItems] = useState([]);
   const dispatch = useDispatch();
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [isProjectid, setProjectid] = useState(null);
 
   const exportToExcel = () => {
     const formattedData = IsTimesheetdata.map(({_id, __v, ...rest}) => ({
@@ -79,6 +86,75 @@ const Timesheet = () => {
     );
   };
 
+  const approvetimesheetfunc = async (values) => {
+    try {
+      dispatch(setLoader(true));
+      const val = {
+        id: isProjectid,
+        payload: values,
+      };
+      const response = await approvetimesheetbyadminapicall(val);
+      if (response?.success) {
+        dispatch(setLoader(false));
+        toast.success(response?.message);
+        fetchtimesheetfunc();
+      } else {
+        dispatch(setLoader(false));
+        toast.error(response?.message);
+        fetchtimesheetfunc();
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      toast.error(error?.response?.data?.message);
+    }
+  };
+
+  const disapprovetimesheetfunc = async (values) => {
+    try {
+      dispatch(setLoader(true));
+      const val = {
+        id: isProjectid,
+        payload: values,
+      };
+      const response = await disapprovetimesheetbyadminapicall(val);
+      if (response?.success) {
+        dispatch(setLoader(false));
+        toast.success(response?.message);
+        fetchtimesheetfunc();
+      } else {
+        dispatch(setLoader(false));
+        toast.error(response?.message);
+        fetchtimesheetfunc();
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      toast.error(error?.response?.data?.message);
+    }
+  };
+
+  const billedtimesheetfunc = async (values) => {
+    try {
+      dispatch(setLoader(true));
+      const val = {
+        id: isProjectid,
+        payload: values,
+      };
+      const response = await billedtimesheetbyadminapicall(val);
+      if (response?.success) {
+        dispatch(setLoader(false));
+        toast.success(response?.message);
+        fetchtimesheetfunc();
+      } else {
+        dispatch(setLoader(false));
+        toast.error(response?.message);
+        fetchtimesheetfunc();
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      toast.error(error?.response?.data?.message);
+    }
+  };
+
   useEffect(() => {
     fetchtimesheetfunc();
   }, [0]);
@@ -109,6 +185,44 @@ const Timesheet = () => {
           >
             <UploadTimesheet handleUploadTimesheet={handleUploadTimesheet} />
           </Drawer>
+        ) : null}
+        {selectedItems.length > 0 ? (
+          <div sx={{margin: "10px 0px"}}>
+            <Button
+              sx={{
+                backgroundColor: "Green",
+                color: "white",
+                margin: "10px 0px",
+                padding: "5px 10px",
+              }}
+              onClick={() => approvetimesheetfunc(selectedItems)}
+            >
+              Approve
+            </Button>
+            <Button
+              sx={{
+                backgroundColor: "red",
+                color: "white",
+                margin: "10px 10px",
+                padding: "5px 10px",
+              }}
+              onClick={() => disapprovetimesheetfunc(selectedItems)}
+            >
+              DisApprove
+            </Button>
+
+            <Button
+              sx={{
+                backgroundColor: "skyblue",
+                color: "white",
+                margin: "10px 10px",
+                padding: "5px 10px",
+              }}
+              onClick={() => billedtimesheetfunc(selectedItems)}
+            >
+              Billed
+            </Button>
+          </div>
         ) : null}
       </div>
 
@@ -159,9 +273,10 @@ const Timesheet = () => {
                       control={
                         <Checkbox
                           checked={selectedItems.includes(item.Timesheet_Id)}
-                          onChange={() =>
-                            handleCheckboxChange(item.Timesheet_Id)
-                          }
+                          onChange={() => {
+                            handleCheckboxChange(item.Timesheet_Id);
+                            setProjectid(item.project);
+                          }}
                         />
                       }
                       label={item.name}

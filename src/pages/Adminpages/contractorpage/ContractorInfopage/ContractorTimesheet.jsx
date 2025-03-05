@@ -14,10 +14,18 @@ import {
   Button,
 } from "@mui/material";
 
-const ContractorTimesheet = ({data}) => {
+import {useDispatch} from "react-redux";
+
+const ContractorTimesheet = ({
+  data,
+  approvecontractortimesheet,
+  disapprovecontractortimesheet,
+  biiledcontractortimesheet,
+  selectedItems,
+  setSelectedItems,
+}) => {
   const {employeeTimesheets, projectManagerTimesheet} = data[0];
   const timesheets = [...employeeTimesheets, ...projectManagerTimesheet];
-  const [selectedItems, setSelectedItems] = useState([]);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -55,6 +63,7 @@ const ContractorTimesheet = ({data}) => {
               margin: "10px 0px",
               padding: "5px 10px",
             }}
+            onClick={() => approvecontractortimesheet(selectedItems)}
           >
             Approve
           </Button>
@@ -65,6 +74,7 @@ const ContractorTimesheet = ({data}) => {
               margin: "10px 10px",
               padding: "5px 10px",
             }}
+            onClick={() => disapprovecontractortimesheet(selectedItems)}
           >
             DisApprove
           </Button>
@@ -76,6 +86,7 @@ const ContractorTimesheet = ({data}) => {
               margin: "10px 10px",
               padding: "5px 10px",
             }}
+            onClick={() => biiledcontractortimesheet(selectedItems)}
           >
             Billed
           </Button>
