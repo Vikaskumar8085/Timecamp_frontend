@@ -94,7 +94,7 @@ const UserProfile = ({user}) => {
         </Typography>
 
         {/* Action Buttons */}
-        <Grid container spacing={2} sx={{mt: 3}}>
+        {/* <Grid container spacing={2} sx={{mt: 3}}>
           <Grid item xs={6}>
             <Button fullWidth variant="contained" color="primary">
               Edit Profile
@@ -105,7 +105,7 @@ const UserProfile = ({user}) => {
               Logout
             </Button>
           </Grid>
-        </Grid>
+        </Grid> */}
       </CardContent>
     </Card>
   );

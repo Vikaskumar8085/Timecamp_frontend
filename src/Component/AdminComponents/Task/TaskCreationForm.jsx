@@ -1,5 +1,5 @@
 import React from "react";
-import { useFormik } from "formik";
+import {useFormik} from "formik";
 import * as Yup from "yup";
 import {
   Container,
@@ -14,12 +14,12 @@ import {
   Button,
 } from "@mui/material";
 
-const TaskCreationForm = ({ Isprojectmilestonedata, TaskHandlesubmit }) => {
+const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
   const formik = useFormik({
     initialValues: {
       ProjectId: "",
-      StaffId: "",
       MilestoneId: "",
+      Resource_Id: "",
       Task_Name: "",
       StartDate: "",
       EndDate: "",
@@ -27,7 +27,6 @@ const TaskCreationForm = ({ Isprojectmilestonedata, TaskHandlesubmit }) => {
       Priority: "",
       Task_Description: "",
       Attachment: null,
-      Resource_Id: "",
     },
 
     onSubmit: async (values) => {
@@ -52,7 +51,7 @@ const TaskCreationForm = ({ Isprojectmilestonedata, TaskHandlesubmit }) => {
   return (
     <>
       <Container maxWidth="md">
-        <Box sx={{ p: 2 }}>
+        <Box sx={{p: 2}}>
           <Typography variant="h5" gutterBottom>
             Add Task
           </Typography>
@@ -147,7 +146,7 @@ const TaskCreationForm = ({ Isprojectmilestonedata, TaskHandlesubmit }) => {
                   label="Start Date"
                   name="StartDate"
                   type="date"
-                  InputLabelProps={{ shrink: true }}
+                  InputLabelProps={{shrink: true}}
                   value={formik.values.StartDate}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -166,7 +165,7 @@ const TaskCreationForm = ({ Isprojectmilestonedata, TaskHandlesubmit }) => {
                   label="Expected End Date"
                   name="EndDate"
                   type="date"
-                  InputLabelProps={{ shrink: true }}
+                  InputLabelProps={{shrink: true}}
                   value={formik.values.EndDate}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}

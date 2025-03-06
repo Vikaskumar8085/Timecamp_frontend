@@ -18,6 +18,11 @@ const DashCounter = () => {
 
   const dataList = [
     {
+      label: "Total Hours",
+      value: getValue(dashdata?.totalHours),
+      icon: <PeopleIcon fontSize="large" color="primary" />,
+    },
+    {
       label: "Staff Number",
       value: getValue(dashdata?.staffNo),
       icon: <PeopleIcon fontSize="large" color="primary" />,
@@ -61,7 +66,7 @@ const DashCounter = () => {
     <div>
       <Grid container spacing={2}>
         {dataList.map((item, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
+          <Grid item xs={12} sm={6} md={3} key={index}>
             <Card
               sx={{p: 2, borderRadius: 2, boxShadow: 3, bgcolor: "#f5f5f5"}}
             >

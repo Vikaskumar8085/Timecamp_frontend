@@ -1,59 +1,68 @@
 import {Box, Typography} from "@mui/material";
-import React, {useEffect, useState} from "react";
-import ApexCharts from "react-apexcharts";
+import {useEffect, useState} from "react";
+import moment from "moment";
+import Chart from "react-apexcharts";
 import apiInstance from "../../../ApiInstance/apiInstance";
 const RecentProjects = () => {
-  const [chartData, setChartData] = useState({
-    categories: [],
-    series: [],
-  });
+  const [chartData, setChartData] = useState([]);
   const fetchProjects = async () => {
     try {
-      const {data} = await apiInstance.get(
+      const response = await apiInstance.get(
         "/v2/admin-dash/fetch-dash-recent-project"
       );
-      if (data.success) {
-        const categories = data.result.map((project) => project.Project_Name);
-
-        const startDates = data.result.map((project) => ({
+      if (response.data.success) {
+        const formattedData = response.data.result.map((project) => ({
           x: project.Project_Name,
-          y: moment(project.Start_Date).valueOf(), // Convert to timestamp
-        }));
-
-        const endDates = data.result.map((project) => ({
-          x: project.Project_Name,
-          y: moment(project.End_Date).valueOf(), // Convert to timestamp
-        }));
-        setChartData({
-          categories,
-          series: [
-            {name: "Start Date", data: startDates},
-            {name: "End Date", data: endDates},
+          y: [
+            new Date(project.Start_Date).getTime(),
+            new Date(project.End_Date).getTime(),
           ],
-        });
+          Start_Date: moment(project.Start_Date).format("YYYY-MM-DD"),
+          End_Date: moment(project.End_Date).format("YYYY-MM-DD"),
+        }));
+        setChartData(formattedData);
       }
     } catch (error) {
       console.error("Error fetching projects:", error);
     }
   };
+  const options = {
+    chart: {
+      type: "rangeBar",
+      height: 350,
+    },
+    plotOptions: {
+      bar: {
+        horizontal: true,
+      },
+    },
+    xaxis: {
+      type: "datetime",
+    },
+    tooltip: {
+      y: {
+        formatter: (value, {seriesIndex, dataPointIndex, w}) => {
+          const data = w.config.series[seriesIndex].data[dataPointIndex];
+          return `Start: ${data.Start_Date} <br> End: ${data.End_Date}`;
+        },
+      },
+    },
+    dataLabels: {
+      enabled: true,
+      formatter: (val, {seriesIndex, dataPointIndex, w}) => {
+        const data = w.config.series[seriesIndex].data[dataPointIndex];
+        return `${data.Start_Date} - ${data.End_Date}`;
+      },
+      style: {
+        fontSize: "12px",
+        colors: ["#fff"],
+      },
+    },
+  };
 
   useEffect(() => {
     fetchProjects();
   }, [0]);
-  const chartOptions = {
-    chart: {type: "line", height: 350},
-    xaxis: {categories: chartData.categories},
-    yaxis: {
-      labels: {
-        formatter: (val) => moment(val).format("DD MMM YYYY"), // Format using Moment.js
-      },
-    },
-    tooltip: {
-      y: {
-        formatter: (val) => moment(val).format("DD MMM YYYY"), // Format in tooltip
-      },
-    },
-  };
 
   return (
     <Box sx={{my: 2}}>
@@ -62,10 +71,10 @@ const RecentProjects = () => {
       </Typography>
 
       <div>
-        <ApexCharts
-          options={chartOptions}
-          series={chartData.series}
-          type="line"
+        <Chart
+          options={options}
+          series={[{data: chartData}]}
+          type="rangeBar"
           height={350}
         />
       </div>

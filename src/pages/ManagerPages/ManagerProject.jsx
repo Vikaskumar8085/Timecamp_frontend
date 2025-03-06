@@ -1,13 +1,7 @@
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   Paper,
   TablePagination,
   TextField,
@@ -19,17 +13,27 @@ import {
   Box,
   Button,
   Drawer,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  CircularProgress,
 } from "@mui/material";
+
 import apiInstance from "../../ApiInstance/apiInstance";
 import ManageProjectForm from "../../Component/ManagerComponents/ManageProjectForm";
-import { createManagerProjectapicall } from "../../ApiServices/ManagerApiServices";
-import { useDispatch } from "react-redux";
-import { setLoader } from "../../redux/LoaderSlices/LoaderSlices";
+import {createManagerProjectapicall} from "../../ApiServices/ManagerApiServices";
+import {useDispatch} from "react-redux";
+import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
+import {Link} from "react-router-dom";
 const ManagerProject = () => {
   const [IsOpen, setIsOpen] = useState(false);
-  const [managers, setManagers] = useState([]);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("name");
   const [order, setOrder] = useState("asc");
@@ -38,23 +42,15 @@ const ManagerProject = () => {
 
   const fetchprojects = async () => {
     try {
-      const { data } = await apiInstance.get(
-        "/v2/manager/fetch-manager-project",
-        {
-          params: {
-            page: page + 1, // API expects 1-based index
-            limit: rowsPerPage,
-            search,
-            sortBy,
-            order,
-          },
-        }
+      const response = await apiInstance.get(
+        "/v2/manager/fetch-manager-project"
       );
 
-      setManagers(data.result);
-      setTotalRecords(data.totalRecords);
+      setData(response.data.result);
     } catch (error) {
-      console.error("Error fetching managers:", error);
+      console.error("Error fetching projects:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -78,6 +74,18 @@ const ManagerProject = () => {
       toast.error(error?.response?.data?.message);
     }
   };
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const displayedProjects = data
+    .flatMap((item) => [...item.fetchproject, ...item.fetchteamproject])
+    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   useEffect(() => {
     fetchprojects();
@@ -103,97 +111,109 @@ const ManagerProject = () => {
           <ManageProjectForm handleSubmit={handleSubmit} />
         </Drawer>
       )}
-      <Paper sx={{ width: "100%", overflow: "hidden", padding: 2 }}>
+      <Paper sx={{width: "100%", overflow: "hidden", padding: 2}}>
         <Typography variant="h6" gutterBottom>
-          Manager Team List
+          Manager Team Listk
         </Typography>
 
-        {/* Search Input */}
-        <TextField
-          label="Search"
-          variant="outlined"
-          fullWidth
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          sx={{ marginBottom: 2 }}
-        />
-
-        {/* Sorting Options */}
-        <Box sx={{ display: "flex", gap: 2, marginBottom: 2 }}>
-          <FormControl sx={{ minWidth: 150 }}>
-            <InputLabel>Sort By</InputLabel>
-            <Select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-              <MenuItem value="name">Name</MenuItem>
-              <MenuItem value="email">Email</MenuItem>
-            </Select>
-          </FormControl>
-
-          <FormControl sx={{ minWidth: 150 }}>
-            <InputLabel>Order</InputLabel>
-            <Select value={order} onChange={(e) => setOrder(e.target.value)}>
-              <MenuItem value="asc">Ascending</MenuItem>
-              <MenuItem value="desc">Descending</MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
-
         {/* Data Table */}
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Projects</TableCell>
-                <TableCell>Team Projects</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {managers.map((manager) => (
-                <TableRow key={manager._id}>
-                  <TableCell>{manager.name}</TableCell>
-                  <TableCell>{manager.email}</TableCell>
+        <TableContainer sx={{mt: 3}}>
+          <Typography variant="h6" sx={{p: 2}}>
+            Project List
+          </Typography>
+          {loading ? (
+            <CircularProgress sx={{display: "block", margin: "20px auto"}} />
+          ) : (
+            <Table>
+              <TableHead>
+                <TableRow>
                   <TableCell>
-                    {manager.fetchproject.length > 0 ? (
-                      manager.fetchproject.map((proj) => (
-                        <Typography key={proj._id}>
-                          {proj.Project_Name}
-                        </Typography>
-                      ))
-                    ) : (
-                      <Typography color="textSecondary">No Projects</Typography>
-                    )}
+                    <b>Project Name</b>
                   </TableCell>
                   <TableCell>
-                    {manager.fetchteamproject.length > 0 ? (
-                      manager.fetchteamproject.map((proj) => (
-                        <Typography key={proj._id}>
-                          {proj.Project_Name}
-                        </Typography>
-                      ))
-                    ) : (
-                      <Typography color="textSecondary">
-                        No Team Projects
-                      </Typography>
-                    )}
+                    <b>Project Code</b>
                   </TableCell>
+                  <TableCell>
+                    <b>Start Date</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>End Date</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>Project Type</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>Hours</b>
+                  </TableCell>
+                  <TableCell>
+                    <b>Status</b>
+                  </TableCell>
+                  <TableCell>Action</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHead>
+              <TableBody>
+                {data.map((item, index) => (
+                  <>
+                    {item.fetchproject.map((project) => (
+                      <TableRow key={project._id}>
+                        <TableCell>{project.Project_Name}</TableCell>
+                        <TableCell>{project.Project_Code}</TableCell>
+                        <TableCell>{project.Start_Date}</TableCell>
+                        <TableCell>{project.End_Date}</TableCell>
+                        <TableCell>{project.Project_Type}</TableCell>
+                        <TableCell>{project.Project_Hours}</TableCell>
+                        <TableCell>
+                          {project.Project_Status ? "Active" : "Inactive"}
+                        </TableCell>
+                        <TableCell>
+                          <Link
+                            to={`/manager/project-info/${project?.ProjectId}`}
+                          >
+                            view
+                          </Link>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                    {item.fetchteamproject.map((teamProject) => (
+                      <TableRow key={teamProject._id}>
+                        <TableCell>{teamProject.Project_Name}</TableCell>
+                        <TableCell>{teamProject.Project_Code}</TableCell>
+                        <TableCell>{teamProject.Start_Date}</TableCell>
+                        <TableCell>{teamProject.End_Date}</TableCell>
+                        <TableCell>{teamProject.Project_Type}</TableCell>
+                        <TableCell>{teamProject.Project_Hours}</TableCell>
+                        <TableCell>
+                          {teamProject.Project_Status ? "Active" : "Inactive"}
+                        </TableCell>
+                        <TableCell>
+                          <Link
+                            to={`/manager/project-info/${teamProject?.ProjectId}`}
+                          >
+                            {" "}
+                            view
+                          </Link>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </TableContainer>
-
-        {/* Pagination Controls */}
         <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={totalRecords}
+          count={
+            data.flatMap((item) => [
+              ...item.fetchproject,
+              ...item.fetchteamproject,
+            ]).length
+          }
           rowsPerPage={rowsPerPage}
           page={page}
-          onPageChange={(e, newPage) => setPage(newPage)}
-          onRowsPerPageChange={(e) => {
-            setRowsPerPage(parseInt(e.target.value, 10));
-            setPage(0);
-          }}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
     </Layout>
@@ -201,3 +221,12 @@ const ManagerProject = () => {
 };
 
 export default ManagerProject;
+{
+  /* <TableCell>{manager.Project_Name}</TableCell>
+<TableCell>{manager.Project_Code}</TableCell>
+<TableCell>{manager.Start_Date}</TableCell>
+<TableCell>{manager.End_Date}</TableCell>
+<TableCell>{manager.Project_Status}</TableCell>
+<TableCell>{manager.Project_Hours}</TableCell>
+<TableCell>{manager.Project_Type}</TableCell> */
+}
