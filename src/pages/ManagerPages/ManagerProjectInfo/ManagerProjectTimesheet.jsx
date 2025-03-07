@@ -36,6 +36,16 @@ const ManagerProjectTimesheet = ({IsManagerProjectTimesheetdata}) => {
     <>
       <BreadCrumb pageName="Manager Timesheet" />
 
+      <Button
+        sx={{
+          background: "#2c3e50",
+          padding: "8px 10px",
+          margin: "10px 10px",
+          color: "white",
+        }}
+      >
+        Fill Timesheet
+      </Button>
       {selectedItems.length > 0 ? (
         <>
           <Button
