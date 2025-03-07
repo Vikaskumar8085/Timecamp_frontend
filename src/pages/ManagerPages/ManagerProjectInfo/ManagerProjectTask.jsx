@@ -4,16 +4,27 @@ import {Button, Drawer} from "@mui/material";
 import ManagerProjectMilestoneForm from "../../../Component/ManagerComponents/ManagerProjectinfoComponent/ManagerProjectMilestoneForm";
 import ManagerProjectTaskForm from "../../../Component/ManagerComponents/ManagerProjectinfoComponent/ManagerProjectTaskForm";
 import ManagerProjectTaskUploadForm from "../../../Component/ManagerComponents/ManagerProjectinfoComponent/ManagerProjectTaskUploadForm";
-
-const ManagerTask = () => {
+import {
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
+const ManagerTask = ({
+  handleaddtask,
+  isManagerprojecttask,
+  handleSubmitmilestone,
+  isMilestonoeresourcesdata,
+}) => {
   const [IsMilestoneOpen, setIsMilestoneOpen] = useState(false);
   const [IsOpen, setIsOpen] = useState(false);
   const [IsUploadTask, setIsUploadTask] = useState(false);
 
-  const [isMilestonoeresourcesdata, setisMilestonoeresourcesdata] = useState(
-    []
-  );
-
+  console.log(isMilestonoeresourcesdata, "isMilestonoeresourcesdata");
   return (
     <>
       <BreadCrumb pageName="Manager Task" />
@@ -41,7 +52,7 @@ const ManagerTask = () => {
         >
           Create Task
         </Button>
-        <Button
+        {/* <Button
           onClick={() => setIsUploadTask(true)}
           sx={{
             background: "#2c3e50",
@@ -51,7 +62,7 @@ const ManagerTask = () => {
           }}
         >
           Upload Task
-        </Button>
+        </Button> */}
       </div>
 
       {IsOpen && (
@@ -63,6 +74,7 @@ const ManagerTask = () => {
           anchor="right"
         >
           <ManagerProjectTaskForm
+            handleaddtask={handleaddtask}
             isMilestonoeresourcesdata={isMilestonoeresourcesdata}
           />
         </Drawer>
@@ -74,7 +86,9 @@ const ManagerTask = () => {
           onClose={() => setIsMilestoneOpen(false)}
           anchor="right"
         >
-          <ManagerProjectMilestoneForm />
+          <ManagerProjectMilestoneForm
+            handleSubmitmilestone={handleSubmitmilestone}
+          />
         </Drawer>
       )}
 
@@ -88,6 +102,66 @@ const ManagerTask = () => {
         >
           <ManagerProjectTaskUploadForm />
         </Drawer>
+      )}
+
+      {isManagerprojecttask.length > 0 ? (
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>
+                  <b>TasK Name</b>
+                </TableCell>
+                <TableCell>
+                  <b>Hours</b>
+                </TableCell>
+                <TableCell>
+                  <b>Task Description</b>
+                </TableCell>
+                <TableCell>
+                  <b>Description</b>
+                </TableCell>
+                <TableCell>
+                  <b>Approval Status</b>
+                </TableCell>
+                <TableCell>
+                  <b>Billing Status</b>
+                </TableCell>
+                <TableCell>
+                  <b>Start Time</b>
+                </TableCell>
+                <TableCell>
+                  <b>End Time</b>
+                </TableCell>
+                <TableCell>
+                  <b>Approved By</b>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {isManagerprojecttask.map((item) => {
+                return item.findTasks.map((entry, index) => {
+                  console.log("lkasdflksf", entry);
+                  return (
+                    <TableRow>
+                      <TableCell>{entry.Task_Name || "N/A"}</TableCell>
+                      <TableCell>{entry.hours || "N/A"}</TableCell>
+                      <TableCell>{entry.task_description || "N/A"}</TableCell>
+                      <TableCell>{entry.Description || "N/A"}</TableCell>
+                      <TableCell>{entry.approval_status || "N/A"}</TableCell>
+                      <TableCell>{entry.billing_status || "N/A"}</TableCell>
+                      <TableCell>{entry.start_time || "N/A"}</TableCell>
+                      <TableCell>{entry.end_time || "N/A"}</TableCell>
+                      <TableCell>{entry.approved_by || "N/A"}</TableCell>
+                    </TableRow>
+                  );
+                });
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : (
+        <Typography align="center">No timesheet data found.</Typography>
       )}
     </>
   );

@@ -1,263 +1,97 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
-import {useFormik} from "formik";
-import * as Yup from "yup";
+import apiInstance from "../../ApiInstance/apiInstance";
 import {
-  TextField,
-  Button,
-  Drawer,
-  Container,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Pagination,
   Typography,
-  Grid,
-  IconButton,
-  MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
+  CircularProgress,
 } from "@mui/material";
-import {Add, Remove} from "@mui/icons-material";
-import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
-import {useDispatch} from "react-redux";
-import {managerfilltimesheetdataapicall} from "../../ApiServices/ManagerApiServices";
-import toast from "react-hot-toast";
-import moment from "moment";
 
 const ManagerTimesheet = () => {
-  const [IsOpen, setIsOpen] = useState(false);
-  const dispatch = useDispatch();
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [timesheets, setTimesheets] = useState([]);
+  const [page, setPage] = useState(1);
+  const [limit] = useState(10);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [totalPages, setTotalPages] = useState(1);
 
-  const formik = useFormik({
-    initialValues: {
-      entries: [
-        {
-          ProjectId: "",
-          hours: "",
-          fileattachment: null,
-          date: "",
-          Task_description: "",
-          Description: "",
-        },
-      ],
-    },
-    validationSchema: Yup.object({
-      entries: Yup.array().of(
-        Yup.object({
-          ProjectId: Yup.string().required("Project ID is required"),
-          hours: Yup.number()
-            .required("Hours are required")
-            .positive("Must be positive"),
-          date: Yup.date().required("Date is required"),
-          Task_description: Yup.string().required(
-            "Task description is required"
-          ),
-          Description: Yup.string().required("Description is required"),
-        })
-      ),
-    }),
-    onSubmit: async (values) => {
+  useEffect(() => {
+    const fetchTimesheets = async () => {
+      setLoading(true);
       try {
-        dispatch(setLoader(true));
-
-        const formData = new FormData();
-
-        values.entries.forEach((entry, index) => {
-          formData.append(`entries[${index}][ProjectId]`, entry.ProjectId);
-          formData.append(`entries[${index}][hours]`, entry.hours);
-          formData.append(
-            `entries[${index}][date]`,
-            moment(entry.date).format("YYYY-MM-DD")
-          );
-          formData.append(
-            `entries[${index}][Task_description]`,
-            entry.Task_description
-          );
-          formData.append(`entries[${index}][Description]`, entry.Description);
-          if (entry.fileattachment) {
-            formData.append(`entries[${index}][file]`, entry.fileattachment);
-          }
-        });
-
-        const response = await managerfilltimesheetdataapicall(formData);
-        if (response?.success) {
-          toast.success(response?.message);
-          setIsOpen(false);
-        } else {
-          toast.error(response?.message);
-        }
-      } catch (error) {
-        toast.error(error?.response?.data?.message || "Something went wrong");
+        const response = await apiInstance.get(
+          `/v2/manager/timesheet?page=${page}&limit=${limit}`
+        );
+        setTimesheets(response.data.result);
+        setTotalPages(Math.ceil(response.data.total / limit));
+        setError(null);
+      } catch (err) {
+        setError(err.response?.data?.error || "Something went wrong");
       } finally {
-        dispatch(setLoader(false));
-        formik.resetForm();
+        setLoading(false);
       }
-    },
-  });
+    };
 
-  const handleAddEntry = () => {
-    formik.setValues({
-      ...formik.values,
-      entries: [
-        ...formik.values.entries,
-        {
-          ProjectId: "",
-          hours: "",
-          fileattachment: null,
-          date: "",
-          Task_description: "",
-          Description: "",
-        },
-      ],
-    });
-  };
-
-  const handleRemoveEntry = (index) => {
-    const updatedEntries = formik.values.entries.filter((_, i) => i !== index);
-    formik.setValues({...formik.values, entries: updatedEntries});
-  };
-
-  const handleFileChange = (event, index) => {
-    const file = event.currentTarget.files[0];
-    formik.setFieldValue(`entries[${index}].fileattachment`, file);
-  };
-
+    fetchTimesheets();
+  }, [page, limit]);
   return (
     <Layout>
       <BreadCrumb pageName="Manager Timesheet" />
-      <Button onClick={() => setIsOpen(true)}>Fill Timesheet</Button>
-
-      {IsOpen && (
-        <Drawer open={IsOpen} onClose={() => setIsOpen(false)} anchor="right">
-          <Container maxWidth="md" sx={{p: 3}}>
-            <Typography variant="h5" gutterBottom>
-              Multi-Add Form
-            </Typography>
-            <form onSubmit={formik.handleSubmit}>
-              <Grid container spacing={2}>
-                {formik.values.entries.map((entry, index) => (
-                  <Grid item xs={12} key={index}>
-                    <Grid container spacing={2} alignItems="center">
-                      <Grid item xs={12}>
-                        <FormControl fullWidth>
-                          <InputLabel>Project ID</InputLabel>
-                          <Select
-                            name={`entries[${index}].ProjectId`}
-                            value={entry.ProjectId}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            error={
-                              formik.touched.entries?.[index]?.ProjectId &&
-                              Boolean(formik.errors.entries?.[index]?.ProjectId)
-                            }
-                          >
-                            <MenuItem value="Project1">Project 1</MenuItem>
-                            <MenuItem value="Project2">Project 2</MenuItem>
-                            <MenuItem value="Project3">Project 3</MenuItem>
-                          </Select>
-                        </FormControl>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField
-                          fullWidth
-                          label="Hours"
-                          type="number"
-                          name={`entries[${index}].hours`}
-                          value={entry.hours}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          error={Boolean(formik.errors.entries?.[index]?.hours)}
-                          helperText={formik.errors.entries?.[index]?.hours}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField
-                          fullWidth
-                          type="date"
-                          InputLabelProps={{shrink: true}}
-                          name={`entries[${index}].date`}
-                          value={entry.date}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          error={Boolean(formik.errors.entries?.[index]?.date)}
-                          helperText={formik.errors.entries?.[index]?.date}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField
-                          fullWidth
-                          label="Task Description"
-                          name={`entries[${index}].Task_description`}
-                          value={entry.Task_description}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          error={Boolean(
-                            formik.errors.entries?.[index]?.Task_description
-                          )}
-                          helperText={
-                            formik.errors.entries?.[index]?.Task_description
-                          }
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField
-                          fullWidth
-                          label="Description"
-                          name={`entries[${index}].Description`}
-                          value={entry.Description}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          error={Boolean(
-                            formik.errors.entries?.[index]?.Description
-                          )}
-                          helperText={
-                            formik.errors.entries?.[index]?.Description
-                          }
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <input
-                          type="file"
-                          name={`entries[${index}].fileattachment`}
-                          onChange={(event) => handleFileChange(event, index)}
-                          onBlur={formik.handleBlur}
-                        />
-                      </Grid>
-                      <Grid item xs={2}>
-                        <IconButton
-                          color="error"
-                          onClick={() => handleRemoveEntry(index)}
-                          disabled={formik.values.entries.length === 1}
-                        >
-                          <Remove />
-                        </IconButton>
-                      </Grid>
-                    </Grid>
-                  </Grid>
+      <Paper sx={{padding: 2, margin: "auto"}}>
+        <Typography variant="h5" gutterBottom>
+          Manager Timesheets
+        </Typography>
+        {loading ? (
+          <CircularProgress />
+        ) : error ? (
+          <Typography color="error">{error}</Typography>
+        ) : (
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell> ID</TableCell>
+                  <TableCell>TS code</TableCell>
+                  <TableCell>Project Name</TableCell>
+                  <TableCell>Hours</TableCell>
+                  <TableCell>Billed Hours</TableCell>
+                  <TableCell>Ok Hours</TableCell>
+                  <TableCell>Blank Hours</TableCell>
+                  <TableCell>Day</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {timesheets.map((timesheet, index) => (
+                  <TableRow key={timesheet._id}>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{timesheet.ts_code}</TableCell>
+                    <TableCell>{timesheet?.projectName}</TableCell>
+                    <TableCell>{timesheet?.hours}</TableCell>
+                    <TableCell>{timesheet.billed_hours}</TableCell>
+                    <TableCell>{timesheet.ok_hours}</TableCell>
+                    <TableCell>{timesheet.blank_hours}</TableCell>
+                    <TableCell>{timesheet.day}</TableCell>
+                  </TableRow>
                 ))}
-                <Grid item xs={12}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleAddEntry}
-                    startIcon={<Add />}
-                  >
-                    Add Entry
-                  </Button>
-                </Grid>
-              </Grid>
-              <Button
-                type="submit"
-                variant="contained"
-                color="success"
-                sx={{mt: 2}}
-              >
-                Submit
-              </Button>
-            </form>
-          </Container>
-        </Drawer>
-      )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+        <Pagination
+          count={totalPages}
+          page={page}
+          onChange={(e, value) => setPage(value)}
+          sx={{marginTop: 2, display: "flex", justifyContent: "center"}}
+        />
+      </Paper>
     </Layout>
   );
 };

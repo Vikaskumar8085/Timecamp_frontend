@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import {Add, Remove} from "@mui/icons-material";
 
-const ManagerProjectMilestoneForm = () => {
+const ManagerProjectMilestoneForm = ({handleSubmitmilestone}) => {
   const formik = useFormik({
     initialValues: {
       milestones: [
@@ -32,9 +32,9 @@ const ManagerProjectMilestoneForm = () => {
     }),
     onSubmit: async (values) => {
       try {
-        // handleSubmit(values);
+        handleSubmitmilestone(values);
 
-        formik.resetForm();
+        // formik.resetForm();
       } catch (error) {
         console.log(error?.message);
       }

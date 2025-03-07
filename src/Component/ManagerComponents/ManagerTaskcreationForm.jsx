@@ -19,7 +19,7 @@ const ManagerTaskcreationForm = ({Isprojectmilestonedata}) => {
     initialValues: {
       ProjectId: "",
       StaffId: "",
-      MilestoneId: "",
+      MilestoneId: "1",
       Task_Name: "",
       StartDate: "",
       EndDate: "",
@@ -27,7 +27,7 @@ const ManagerTaskcreationForm = ({Isprojectmilestonedata}) => {
       Priority: "",
       Task_Description: "",
       Attachment: null,
-      Resource_Id: "",
+      Resource_Id: "1",
     },
 
     onSubmit: async (values) => {

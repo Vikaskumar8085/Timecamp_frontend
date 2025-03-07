@@ -14,10 +14,7 @@ import {
   Button,
 } from "@mui/material";
 
-const ManagerProjectTaskForm = ({
-  isMilestonoeresourcesdata,
-  TaskHandleSubmit,
-}) => {
+const ManagerProjectTaskForm = ({isMilestonoeresourcesdata, handleaddtask}) => {
   const resources = isMilestonoeresourcesdata[0]?.Resourcedata || [];
 
   const formik = useFormik({
@@ -44,7 +41,7 @@ const ManagerProjectTaskForm = ({
       formData.append("Task_Description", values.Task_Description);
       formData.append("file", values.Attachment);
       formData.append("Resource_Id", values.Resource_Id);
-    //   TaskHandleSubmit(formData);
+      handleaddtask(formData);
 
       formik.resetForm();
     },
