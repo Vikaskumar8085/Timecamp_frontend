@@ -1,5 +1,5 @@
 import React from "react";
-import {useFormik} from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
   TextField,
@@ -9,13 +9,13 @@ import {
   Grid,
   IconButton,
 } from "@mui/material";
-import {Add, Remove} from "@mui/icons-material";
+import { Add, Remove } from "@mui/icons-material";
 
-const ManagerProjectMilestoneForm = ({handleSubmitmilestone}) => {
+const ManagerProjectMilestoneForm = ({ handleSubmitmilestone }) => {
   const formik = useFormik({
     initialValues: {
       milestones: [
-        {MilestoneName: "", Description: "", StartDate: "", EndDate: ""},
+        { MilestoneName: "", Description: "", StartDate: "", EndDate: "" },
       ],
     },
     validationSchema: Yup.object({
@@ -33,7 +33,7 @@ const ManagerProjectMilestoneForm = ({handleSubmitmilestone}) => {
     onSubmit: async (values) => {
       try {
         handleSubmitmilestone(values);
-
+        console.log(values?.milestones, "vlaues");
         // formik.resetForm();
       } catch (error) {
         console.log(error?.message);
@@ -47,7 +47,7 @@ const ManagerProjectMilestoneForm = ({handleSubmitmilestone}) => {
       ...formik.values,
       milestones: [
         ...formik.values.milestones,
-        {MilestoneName: "", Description: "", StartDate: "", EndDate: ""},
+        { MilestoneName: "", Description: "", StartDate: "", EndDate: "" },
       ],
     });
   };
@@ -57,11 +57,11 @@ const ManagerProjectMilestoneForm = ({handleSubmitmilestone}) => {
     const updatedMilestones = formik.values.milestones.filter(
       (_, i) => i !== index
     );
-    formik.setValues({...formik.values, milestones: updatedMilestones});
+    formik.setValues({ ...formik.values, milestones: updatedMilestones });
   };
   return (
     <>
-      <Container maxWidth="md" sx={{p: 3}}>
+      <Container maxWidth="md" sx={{ p: 3 }}>
         <Typography variant="h5" gutterBottom>
           Milestone Form
         </Typography>
@@ -113,7 +113,7 @@ const ManagerProjectMilestoneForm = ({handleSubmitmilestone}) => {
                       fullWidth
                       type="date"
                       label="Start Date"
-                      InputLabelProps={{shrink: true}}
+                      InputLabelProps={{ shrink: true }}
                       name={`milestones[${index}].StartDate`}
                       value={milestone.StartDate}
                       onChange={formik.handleChange}
@@ -133,7 +133,7 @@ const ManagerProjectMilestoneForm = ({handleSubmitmilestone}) => {
                       fullWidth
                       type="date"
                       label="End Date"
-                      InputLabelProps={{shrink: true}}
+                      InputLabelProps={{ shrink: true }}
                       name={`milestones[${index}].EndDate`}
                       value={milestone.EndDate}
                       onChange={formik.handleChange}
@@ -175,7 +175,7 @@ const ManagerProjectMilestoneForm = ({handleSubmitmilestone}) => {
             type="submit"
             variant="contained"
             color="success"
-            sx={{mt: 2}}
+            sx={{ mt: 2 }}
           >
             Submit
           </Button>

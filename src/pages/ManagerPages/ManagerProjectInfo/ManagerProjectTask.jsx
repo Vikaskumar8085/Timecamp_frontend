@@ -1,6 +1,6 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import {Button, Drawer} from "@mui/material";
+import { Box, Button, Drawer } from "@mui/material";
 import ManagerProjectMilestoneForm from "../../../Component/ManagerComponents/ManagerProjectinfoComponent/ManagerProjectMilestoneForm";
 import ManagerProjectTaskForm from "../../../Component/ManagerComponents/ManagerProjectinfoComponent/ManagerProjectTaskForm";
 import ManagerProjectTaskUploadForm from "../../../Component/ManagerComponents/ManagerProjectinfoComponent/ManagerProjectTaskUploadForm";
@@ -13,18 +13,24 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Card,
+  CardContent,
 } from "@mui/material";
+import Grid2 from "@mui/material/Grid2";
+
 const ManagerTask = ({
   handleaddtask,
   isManagerprojecttask,
   handleSubmitmilestone,
+  Ismilestone,
   isMilestonoeresourcesdata,
+  IsOpen,
+  setIsOpen,
+  IsMilestoneOpen,
+  setIsMilestoneOpen,
 }) => {
-  const [IsMilestoneOpen, setIsMilestoneOpen] = useState(false);
-  const [IsOpen, setIsOpen] = useState(false);
   const [IsUploadTask, setIsUploadTask] = useState(false);
 
-  console.log(isMilestonoeresourcesdata, "isMilestonoeresourcesdata");
   return (
     <>
       <BreadCrumb pageName="Manager Task" />
@@ -104,55 +110,84 @@ const ManagerTask = ({
         </Drawer>
       )}
 
+      <Grid2 container spacing={2}>
+        <Grid2 size={{ sm: 12, md: 6 }}>
+          <Box sx={{ height: "300px", overflow: "auto" }}>
+            {Ismilestone.length > 0 ? (
+              Ismilestone.map((item, index) => (
+                <Card key={index} sx={{ mb: 1, p: 1, position: "relative" }}>
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                    }}
+                  ></Box>
+                  <CardContent>
+                    <Typography variant="h6" gutterBottom>
+                      {item.Name}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      {item.Description}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              ))
+            ) : (
+              <Typography color="textSecondary">
+                No milestones available
+              </Typography>
+            )}
+          </Box>
+        </Grid2>
+      </Grid2>
+
       {isManagerprojecttask.length > 0 ? (
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
               <TableRow>
+                <TableCell>ID</TableCell>
                 <TableCell>
-                  <b>TasK Name</b>
+                  <b>Task Name</b>
                 </TableCell>
                 <TableCell>
-                  <b>Hours</b>
+                  <b>Priority</b>
+                </TableCell>
+                <TableCell>
+                  <b>Start Date</b>
+                </TableCell>
+                <TableCell>
+                  <b>End Date</b>
                 </TableCell>
                 <TableCell>
                   <b>Task Description</b>
                 </TableCell>
                 <TableCell>
-                  <b>Description</b>
+                  <b> Description</b>
                 </TableCell>
                 <TableCell>
-                  <b>Approval Status</b>
-                </TableCell>
-                <TableCell>
-                  <b>Billing Status</b>
-                </TableCell>
-                <TableCell>
-                  <b>Start Time</b>
-                </TableCell>
-                <TableCell>
-                  <b>End Time</b>
-                </TableCell>
-                <TableCell>
-                  <b>Approved By</b>
+                  <b>Actions</b>
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {isManagerprojecttask.map((item) => {
-                return item.findTasks.map((entry, index) => {
-                  console.log("lkasdflksf", entry);
+                return item.findTasks.map((task, index) => {
                   return (
                     <TableRow>
-                      <TableCell>{entry.Task_Name || "N/A"}</TableCell>
-                      <TableCell>{entry.hours || "N/A"}</TableCell>
-                      <TableCell>{entry.task_description || "N/A"}</TableCell>
-                      <TableCell>{entry.Description || "N/A"}</TableCell>
-                      <TableCell>{entry.approval_status || "N/A"}</TableCell>
-                      <TableCell>{entry.billing_status || "N/A"}</TableCell>
-                      <TableCell>{entry.start_time || "N/A"}</TableCell>
-                      <TableCell>{entry.end_time || "N/A"}</TableCell>
-                      <TableCell>{entry.approved_by || "N/A"}</TableCell>
+                      <TableCell>{index + 1}</TableCell>
+                      <TableCell>{task.Task_Name}</TableCell>
+                      <TableCell>{task.Priority}</TableCell>
+                      <TableCell>
+                        {new Date(task.StartDate).toLocaleDateString()}
+                      </TableCell>
+                      <TableCell>
+                        {new Date(task.EndDate).toLocaleDateString()}
+                      </TableCell>
+                      <TableCell>{task.Task_description}</TableCell>
+                      <TableCell>{task.Description}</TableCell>
                     </TableRow>
                   );
                 });

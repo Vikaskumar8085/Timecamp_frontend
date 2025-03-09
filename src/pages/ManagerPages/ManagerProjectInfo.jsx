@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import TabComp from "../../common/TabComponent/TabComp";
@@ -8,6 +8,8 @@ import ManagerProjectInformation from "./ManagerProjectInfo/ManagerProjectInform
 import ManagerProjectTimesheet from "./ManagerProjectInfo/ManagerProjectTimesheet";
 import apiInstance from "../../ApiInstance/apiInstance";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { setLoader } from "../../redux/LoaderSlices/LoaderSlices";
 
 const ManagerProjectInfo = () => {
   const [isSubState, setisSubState] = useState(0);
@@ -20,8 +22,30 @@ const ManagerProjectInfo = () => {
   const [isMilestonoeresourcesdata, setisMilestonoeresourcesdata] = useState(
     []
   );
-  const {id} = useParams();
-  //
+  const dispatch = useDispatch();
+  const [IsMilestoneOpen, setIsMilestoneOpen] = useState(false);
+  const [IsOpen, setIsOpen] = useState(false);
+  const [Ismilestone, setIsmilestone] = useState([]);
+  const { id } = useParams();
+
+  // fetch manager milestone with resource func
+  const fetchmanagermilestonewithresourcesfunc = async () => {
+    try {
+      const response = await apiInstance.get(
+        `/v2/milestone/fetch-milestone-resources/${id}`
+      );
+      if (response.data.success) {
+        setisMilestonoeresourcesdata(response.data.result);
+      } else {
+        console.log(response.data.message);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
+
+  // fetch manager project
+
   const fetchmanagerprojectfunc = async () => {
     try {
       const response = await apiInstance.get(
@@ -64,7 +88,6 @@ const ManagerProjectInfo = () => {
   };
 
   // fetch manager milestone project
-
   const fetchmanagerprojectmilestonesfunc = async () => {
     try {
       const response = await apiInstance.get(
@@ -77,6 +100,20 @@ const ManagerProjectInfo = () => {
 
       if (response?.data?.success) {
         setisMilestonoeresourcesdata(response?.data?.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
+
+  // fetch milestones
+  const fetchmanagermilestonesfunc = async () => {
+    try {
+      const response = await apiInstance.get(
+        `/v2/manager/fetch-manager-project-milestone/${id}`
+      );
+      if (response?.data?.success) {
+        setIsmilestone(response?.data?.result);
       }
     } catch (error) {
       console.log(error?.message);
@@ -100,21 +137,29 @@ const ManagerProjectInfo = () => {
   // add milestone
   const handleaddtask = async (value) => {
     try {
-      console.log(value, ">>>>>>>>>>>>>>>>>>>>>>>>");
+      dispatch(setLoader(true));
       const response = await apiInstance.post(
         `/v2/manager/create-manager-project-task/${id}`,
         value
       );
-      console.log(response);
+      console.log(response, "manager task");
+      if (response?.data?.success) {
+        dispatch(setLoader(false));
+        toast.success(response?.data?.message);
+      } else {
+        dispatch(setLoader(false));
+        toast.error(response?.data?.message);
+      }
     } catch (error) {
+      dispatch(setLoader(false));
       toast.error(error?.response?.data?.message);
     }
   };
 
   const tabsheader = [
-    {title: "Project Info"},
-    {title: "TimeSheet Info"},
-    {title: "Task"},
+    { title: "Project Info" },
+    { title: "TimeSheet Info" },
+    { title: "Task" },
   ];
   const Tabsbody = [
     {
@@ -141,8 +186,13 @@ const ManagerProjectInfo = () => {
           <ManagerTask
             handleSubmitmilestone={handleSubmitmilestone}
             handleaddtask={handleaddtask}
+            Ismilestone={Ismilestone}
             isManagerprojecttask={isManagerprojecttask}
             isMilestonoeresourcesdata={isMilestonoeresourcesdata}
+            IsOpen={IsOpen}
+            setIsOpen={setIsOpen}
+            IsMilestoneOpen={IsMilestoneOpen}
+            setIsMilestoneOpen={setIsMilestoneOpen}
           />
         </>
       ),
@@ -154,6 +204,8 @@ const ManagerProjectInfo = () => {
     fetchmanagerprojecttimesheetfunc();
     fetchmanagerprojecttaskfunc();
     fetchmanagerprojectmilestonesfunc();
+    fetchmanagermilestonesfunc();
+    fetchmanagermilestonewithresourcesfunc();
   }, [0]);
   return (
     <Layout>

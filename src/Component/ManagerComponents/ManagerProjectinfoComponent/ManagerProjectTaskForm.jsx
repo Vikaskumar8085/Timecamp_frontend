@@ -1,5 +1,5 @@
 import React from "react";
-import {useFormik} from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
   Container,
@@ -14,7 +14,10 @@ import {
   Button,
 } from "@mui/material";
 
-const ManagerProjectTaskForm = ({isMilestonoeresourcesdata, handleaddtask}) => {
+const ManagerProjectTaskForm = ({
+  isMilestonoeresourcesdata,
+  handleaddtask,
+}) => {
   const resources = isMilestonoeresourcesdata[0]?.Resourcedata || [];
 
   const formik = useFormik({
@@ -32,6 +35,7 @@ const ManagerProjectTaskForm = ({isMilestonoeresourcesdata, handleaddtask}) => {
 
     onSubmit: async (values) => {
       const formData = new FormData();
+      console.log(values, ">>>>>>>>.. .............values");
       formData.append("MilestoneId", values.MilestoneId);
       formData.append("Task_Name", values.Task_Name);
       formData.append("StartDate", values.StartDate);
@@ -49,7 +53,7 @@ const ManagerProjectTaskForm = ({isMilestonoeresourcesdata, handleaddtask}) => {
 
   return (
     <Container maxWidth="md">
-      <Box sx={{p: 2}}>
+      <Box sx={{ p: 2 }}>
         <Typography variant="h5" gutterBottom>
           Add Task
         </Typography>
@@ -92,7 +96,7 @@ const ManagerProjectTaskForm = ({isMilestonoeresourcesdata, handleaddtask}) => {
                 label="Start Date"
                 name="StartDate"
                 type="date"
-                InputLabelProps={{shrink: true}}
+                InputLabelProps={{ shrink: true }}
                 value={formik.values.StartDate}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -109,7 +113,7 @@ const ManagerProjectTaskForm = ({isMilestonoeresourcesdata, handleaddtask}) => {
                 label="Expected End Date"
                 name="EndDate"
                 type="date"
-                InputLabelProps={{shrink: true}}
+                InputLabelProps={{ shrink: true }}
                 value={formik.values.EndDate}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
