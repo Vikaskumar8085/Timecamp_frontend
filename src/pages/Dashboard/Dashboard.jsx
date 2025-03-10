@@ -9,6 +9,7 @@ import EmployeeTimeHours from "../../Component/DashboardComponents/Admin/Employe
 import Managerdashboardheader from "../../Component/DashboardComponents/Manager/Managerdashboardheader";
 import {Box, Paper} from "@mui/material";
 import {Link} from "react-router-dom";
+import ManagerProductivityLeaderboard from "../../Component/DashboardComponents/Manager/ManagerProductivityLeaderboard";
 
 const Dashboard = () => {
   const userdata = useSelector((state) => state.user.values);
@@ -18,7 +19,6 @@ const Dashboard = () => {
       {Role === "Admin" && (
         <>
           <DashCounter />
-
           <ProductivityLeaderBoard />
           <RecentProjects />
           <RecentTimesheet />
@@ -44,6 +44,7 @@ const Dashboard = () => {
       {Role === "Manager" && (
         <div>
           <Managerdashboardheader />
+          <ManagerProductivityLeaderboard />
         </div>
       )}
     </Layout>

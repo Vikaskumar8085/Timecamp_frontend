@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import {admindashcounterapicall} from "../../../ApiServices/DashboardApiServices/admindashboard";
 import {setadminNumberofdashboarddata} from "../../../redux/DashboardSlices/dashSlices";
-import {PieChart, Pie, Cell, Tooltip, ResponsiveContainer} from "recharts";
+// import {PieChart, Pie, Cell, Tooltip, ResponsiveContainer} from "recharts";
 import PeopleIcon from "@mui/icons-material/People";
 import WorkIcon from "@mui/icons-material/Work";
 import BusinessIcon from "@mui/icons-material/Business";

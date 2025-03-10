@@ -19,23 +19,20 @@ import {
   Button,
 } from "@mui/material";
 
-const TimesheetList = ({data}) => {
+const TimesheetList = ({
+  data,
+  biiledclienttimesheet,
+  approveclienttimesheet,
+  disapprovedclienttimesheet,
+  setSelectedItems,
+  selectedItems,
+}) => {
   const [currentPage, setCurrentPage] = useState(0); // MUI pages start from 0
-  const [selectedItems, setSelectedItems] = useState([]);
-  console.log(selectedItems);
 
   const rowsPerPage = 5;
 
   const handleChangePage = (_, newPage) => {
     setCurrentPage(newPage);
-  };
-
-  const approveclienttimesheet = async () => {
-    console.log(selectedItems, ">>>>>>>>");
-  };
-
-  const disapprovedclienttimesheet = async () => {
-    console.log(selectedItems, ">>>>>>>>");
   };
 
   const handleCheckboxChange = (id) => {
@@ -54,8 +51,39 @@ const TimesheetList = ({data}) => {
       </Typography>
       {selectedItems.length > 0 ? (
         <div>
-          <Button onClick={() => approveclienttimesheet()}>Approve</Button>
-          <Button onClick={() => disapprovedclienttimesheet()}>Disapprove</Button>
+          <Button
+            sx={{
+              backgroundColor: "Green",
+              color: "white",
+              margin: "10px 0px",
+              padding: "5px 10px",
+            }}
+            onClick={() => approveclienttimesheet(selectedItems)}
+          >
+            Approve
+          </Button>
+          <Button
+            sx={{
+              backgroundColor: "red",
+              color: "white",
+              margin: "10px 10px",
+              padding: "5px 10px",
+            }}
+            onClick={() => disapprovedclienttimesheet(selectedItems)}
+          >
+            Disapprove
+          </Button>
+          <Button
+            sx={{
+              backgroundColor: "skyblue",
+              color: "white",
+              margin: "10px 10px",
+              padding: "5px 10px",
+            }}
+            onClick={() => biiledclienttimesheet(selectedItems)}
+          >
+            Billed
+          </Button>
         </div>
       ) : null}
       {data?.result?.length === 0 ? (

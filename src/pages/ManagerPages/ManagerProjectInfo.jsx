@@ -1,23 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
 import Layout from "../../Layoutcomponents/Layout/Layout";
-import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import TabComp from "../../common/TabComponent/TabComp";
 import ManagerTask from "./ManagerProjectInfo/ManagerProjectTask";
 import ManagerProjectInformation from "./ManagerProjectInfo/ManagerProjectInformation";
 import ManagerProjectTimesheet from "./ManagerProjectInfo/ManagerProjectTimesheet";
 import apiInstance from "../../ApiInstance/apiInstance";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { setLoader } from "../../redux/LoaderSlices/LoaderSlices";
+import {useDispatch} from "react-redux";
+import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
 
 const ManagerProjectInfo = () => {
   const [isSubState, setisSubState] = useState(0);
   const [IsManagerprojectinfo, setIsManagerProjectinfo] = useState([]);
-  console.log(IsManagerprojectinfo, "dfsdflsdfk");
   const [IsManagerProjectTimesheetdata, setIsManagerProjectTimesheetdata] =
     useState([]);
-  console.log(IsManagerProjectTimesheetdata, ">>>>>>>>>");
   const [isManagerprojecttask, setIsmanagerProjectTask] = useState([]);
   const [isMilestonoeresourcesdata, setisMilestonoeresourcesdata] = useState(
     []
@@ -26,7 +23,9 @@ const ManagerProjectInfo = () => {
   const [IsMilestoneOpen, setIsMilestoneOpen] = useState(false);
   const [IsOpen, setIsOpen] = useState(false);
   const [Ismilestone, setIsmilestone] = useState([]);
-  const { id } = useParams();
+  const [IsFillTimesheet, setIsFillTimesheet] = useState(false);
+
+  const {id} = useParams();
 
   // fetch manager milestone with resource func
   const fetchmanagermilestonewithresourcesfunc = async () => {
@@ -93,10 +92,6 @@ const ManagerProjectInfo = () => {
       const response = await apiInstance.get(
         `/v2/manager/fetch-manager-projectwithmilestone`
       );
-      console.log(
-        response,
-        ">>>>>>>>>>>>fetchmanagerprojectmilestonesfunc>>>>>>>>>"
-      );
 
       if (response?.data?.success) {
         setisMilestonoeresourcesdata(response?.data?.result);
@@ -156,10 +151,125 @@ const ManagerProjectInfo = () => {
     }
   };
 
+  const handlefilltimesheet = async (values) => {
+    try {
+      dispatch(setLoader(true));
+
+      const response = await apiInstance.post(
+        "/v2/manager/fill-manager-timesheet",
+        values
+      );
+      if (response?.data?.success) {
+        dispatch(setLoader(false));
+        toast.success(response?.data?.message);
+        setIsFillTimesheet(false);
+        fetchmanagerprojecttimesheetfunc();
+      } else {
+        dispatch(setLoader(false));
+        toast.error(response?.data?.message);
+        setIsFillTimesheet(false);
+        fetchmanagerprojecttimesheetfunc();
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      setIsFillTimesheet(false);
+      fetchmanagerprojecttimesheetfunc();
+      toast.error(error?.response?.data?.message);
+    }
+  };
+
+  // remove timesheet
+  const reomvemanagertimesheetfunc = async (value) => {
+    try {
+      const response = await apiInstance.delete(
+        `/v2/manager/remove-manager-timesheet/${value}`
+      );
+      if (response?.data?.success) {
+        toast.success(response?.data?.message);
+        fetchmanagerprojecttimesheetfunc();
+      } else {
+        toast.error(response?.data?.message);
+        fetchmanagerprojecttimesheetfunc();
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+      fetchmanagerprojecttimesheetfunc();
+    }
+  };
+
+  const sendforapprovelmanagettimesheetfunc = async (value) => {
+    try {
+      dispatch(setLoader(true));
+      const response = await apiInstance.put(
+        `/v2/manager/send-for-approvel-timesheet-by-manager/${id}`,
+        value
+      );
+      if (response?.data?.success) {
+        dispatch(setLoader(false));
+        toast.success(response?.data?.message);
+        fetchmanagerprojecttimesheetfunc();
+      } else {
+        dispatch(setLoader(false));
+
+        toast.error(response?.data?.message);
+        fetchmanagerprojecttimesheetfunc();
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+
+      toast.error(response?.data?.message);
+      fetchmanagerprojecttimesheetfunc();
+    }
+  };
+
+  const approvebymanagertimesheetfunc = async (value) => {
+    try {
+      dispatch(setLoader(true));
+      const response = await apiInstance.put(
+        `/v2/manager/approve-timesheet-by-manager/${id}`,
+        value
+      );
+      if (response?.data?.success) {
+        dispatch(setLoader(false));
+        toast.success(response?.data?.message);
+        fetchmanagerprojecttimesheetfunc();
+      } else {
+        dispatch(setLoader(false));
+        toast.error(response?.data?.message);
+        fetchmanagerprojecttimesheetfunc();
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      toast.error(error?.response?.data?.message);
+      fetchmanagerprojecttimesheetfunc();
+    }
+  };
+  const disapprovebymanagertimesheetfunc = async (value) => {
+    try {
+      dispatch(setLoader(true));
+      const response = await apiInstance.put(
+        `/v2/manager/disapprove-timesheet-by-manager/${id}`,
+        value
+      );
+      if (response?.data?.success) {
+        dispatch(setLoader(false));
+        toast.success(response?.data?.message);
+        fetchmanagerprojecttimesheetfunc();
+      } else {
+        dispatch(setLoader(false));
+        toast.error(response?.data?.message);
+        fetchmanagerprojecttimesheetfunc();
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      toast.error(error?.response?.data?.message);
+    }
+  };
+
   const tabsheader = [
-    { title: "Project Info" },
-    { title: "TimeSheet Info" },
-    { title: "Task" },
+    {title: "Project Info"},
+    {title: "TimeSheet Info"},
+    {title: "Task"},
   ];
   const Tabsbody = [
     {
@@ -176,6 +286,16 @@ const ManagerProjectInfo = () => {
         <>
           <ManagerProjectTimesheet
             IsManagerProjectTimesheetdata={IsManagerProjectTimesheetdata}
+            IsManagerprojectinfo={IsManagerprojectinfo}
+            handlefilltimesheet={handlefilltimesheet}
+            setIsFillTimesheet={setIsFillTimesheet}
+            IsFillTimesheet={IsFillTimesheet}
+            reomvemanagertimesheetfunc={reomvemanagertimesheetfunc}
+            sendforapprovelmanagettimesheetfunc={
+              sendforapprovelmanagettimesheetfunc
+            }
+            approvebymanagertimesheetfunc={approvebymanagertimesheetfunc}
+            disapprovebymanagertimesheetfunc={disapprovebymanagertimesheetfunc}
           />
         </>
       ),

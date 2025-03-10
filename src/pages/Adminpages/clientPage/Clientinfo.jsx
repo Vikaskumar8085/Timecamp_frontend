@@ -20,14 +20,23 @@ import {
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import TimesheetList from "./ClientTImesheet/TimesheetList";
+import {useDispatch} from "react-redux";
+import toast from "react-hot-toast";
+import {
+  approvetimesheetbyadminapicall,
+  billedtimesheetbyadminapicall,
+  disapprovetimesheetbyadminapicall,
+} from "../../../ApiServices/AdminApiServices/Admin";
+import { setLoader } from "../../../redux/LoaderSlices/LoaderSlices";
 
 const Clientinfo = () => {
   const {id} = useParams();
   const [IsClientdata, setIsclientdata] = useState([]);
   const [IsClientprojectsdata, setIsclientprojectsdata] = useState([]);
   const [isClientTimesheet, setIsClientTimesheets] = useState([]);
-  const [IsClientApprovedId, setIsClientApprovedId] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
 
+  const dispatch = useDispatch();
   const getClientInfo = async () => {
     try {
       const response = await fetchsignleclientapicall(id);
@@ -63,6 +72,79 @@ const Clientinfo = () => {
       console.log(error?.message);
     }
   };
+
+  const approvecontractortimesheet = async (value) => {
+    try {
+      dispatch(setLoader(true));
+      const val = {
+        id: id,
+        payload: value,
+      };
+      const response = await approvetimesheetbyadminapicall(val);
+      dispatch(setLoader(false));
+      if (response.success) {
+        dispatch(setLoader(false));
+        toast.success(response.message);
+        getclientTimesheet();
+      } else {
+        toast.error(response?.message);
+        dispatch(setLoader(false));
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      toast.error(error?.response?.data?.message);
+    }
+  };
+  const disapprovecontractortimesheet = async (values) => {
+    try {
+      dispatch(setLoader(true));
+      const val = {
+        id: id,
+        payload: values,
+      };
+      const response = await disapprovetimesheetbyadminapicall(val);
+      if (response?.success) {
+        dispatch(setLoader(false));
+        toast.success(response?.message);
+        getclientTimesheet();
+        setSelectedItems(null);
+      } else {
+        dispatch(setLoader(false));
+        toast.error(response?.message);
+        getclientTimesheet();
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      toast.error(error?.response?.data?.message);
+    }
+  };
+
+  const biiledclienttimesheet = async (values) => {
+    try {
+      dispatch(setLoader(true));
+      const val = {
+        id: id,
+        payload: values,
+      };
+      const response = await billedtimesheetbyadminapicall(val);
+      if (response?.success) {
+        dispatch(setLoader(false));
+        toast.success(response?.message);
+        getclientTimesheet();
+        setSelectedItems([]);
+      } else {
+        dispatch(setLoader(false));
+        toast.error(response?.message);
+        getclientTimesheet();
+        setSelectedItems([]);
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      setSelectedItems([]);
+      toast.error(error?.response?.data?.message);
+    }
+  };
+
   useEffect(() => {
     getClientInfo();
     getclientTimesheet();
@@ -114,7 +196,14 @@ const Clientinfo = () => {
         </TableContainer>
       </Box>
 
-      <TimesheetList data={isClientTimesheet} />
+      <TimesheetList
+        approvecontractortimesheet={approvecontractortimesheet}
+        disapprovecontractortimesheet={disapprovecontractortimesheet}
+        biiledclienttimesheet={biiledclienttimesheet}
+        data={isClientTimesheet}
+        setSelectedItems={setSelectedItems}
+        selectedItems={selectedItems}
+      />
     </Layout>
   );
 };

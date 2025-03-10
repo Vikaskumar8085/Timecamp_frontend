@@ -1,13 +1,6 @@
 import React from "react";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import {
-  CircularProgress,
-  Typography,
-  Card,
-  CardContent,
-  CardHeader,
-  Grid,
-} from "@mui/material";
+import {Typography, Card, CardContent, CardHeader, Grid} from "@mui/material";
 
 const ManagerProjectInformation = ({IsManagerprojectinfo}) => {
   return (

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
   Drawer,
   Button,
@@ -10,10 +10,14 @@ import {
   Container,
   Alert,
   Typography,
+  List,
+  ListItem,
+  ListItemText,
+  Paper,
 } from "@mui/material";
-import { Notifications } from "@mui/icons-material";
-import { fetchuserNotificationapicall } from "../../ApiServices/AdminApiServices/Admin";
-import { useSelector } from "react-redux";
+import {Notifications} from "@mui/icons-material";
+import {fetchuserNotificationapicall} from "../../ApiServices/AdminApiServices/Admin";
+import {useSelector} from "react-redux";
 import Empty from "../../common/EmptyFolder/Empty";
 import apiInstance from "../../ApiInstance/apiInstance";
 
@@ -124,7 +128,13 @@ const NotificationDrawer = () => {
   return (
     <div>
       <Badge
-        badgeContent={usernotificationdata.length}
+        badgeContent={
+          usernotificationdata.length ||
+          isclientnotificationdata.length ||
+          IsManagerNotification.length ||
+          isEmployeeNotificationdata.length ||
+          IsContractorNotification.length
+        }
         sx={{
           margin: "0px 10px",
         }}
@@ -149,7 +159,7 @@ const NotificationDrawer = () => {
           },
         }}
       >
-        <Container maxWidth="sm" sx={{ p: 2 }}>
+        <Container maxWidth="sm" sx={{p: 2}}>
           <Stack spacing={2}>
             <Typography variant="h5">Notifications</Typography>
             {userdata?.Role === "Admin" && (
@@ -157,10 +167,16 @@ const NotificationDrawer = () => {
                 {usernotificationdata.length > 0 ? (
                   usernotificationdata?.map((item, index) => {
                     return (
-                      <ul>
-                        <li>{item?.Name}</li>
-                        <li>{item?.Description}</li>
-                      </ul>
+                      <Paper elevation={3}>
+                        <List>
+                          <ListItem key={index} divider>
+                            <ListItemText
+                              primary={item?.Name}
+                              secondary={item?.Description}
+                            />
+                          </ListItem>
+                        </List>
+                      </Paper>
                     );
                   })
                 ) : (
@@ -173,10 +189,16 @@ const NotificationDrawer = () => {
                 {isclientnotificationdata?.length > 0 ? (
                   isclientnotificationdata.map((item, index) => {
                     return (
-                      <ul>
-                        <li>{item?.Name}</li>
-                        <li>{item?.Description}</li>
-                      </ul>
+                      <Paper elevation={3}>
+                        <List>
+                          <ListItem key={index} divider>
+                            <ListItemText
+                              primary={item?.Name}
+                              secondary={item?.Description}
+                            />
+                          </ListItem>
+                        </List>
+                      </Paper>
                     );
                   })
                 ) : (
@@ -189,10 +211,16 @@ const NotificationDrawer = () => {
                 {isEmployeeNotificationdata?.length > 0 ? (
                   isEmployeeNotificationdata.map((item, index) => {
                     return (
-                      <ul>
-                        <li>{item?.Name}</li>
-                        <li>{item?.Description}</li>
-                      </ul>
+                      <Paper elevation={3}>
+                        <List>
+                          <ListItem key={index} divider>
+                            <ListItemText
+                              primary={item?.Name}
+                              secondary={item?.Description}
+                            />
+                          </ListItem>
+                        </List>
+                      </Paper>
                     );
                   })
                 ) : (
@@ -205,10 +233,16 @@ const NotificationDrawer = () => {
                 {IsContractorNotification?.length > 0 ? (
                   IsContractorNotification.map((item, index) => {
                     return (
-                      <ul>
-                        <li>{item?.Name}</li>
-                        <li>{item?.Description}</li>
-                      </ul>
+                      <Paper elevation={3}>
+                        <List>
+                          <ListItem key={index} divider>
+                            <ListItemText
+                              primary={item?.Name}
+                              secondary={item?.Description}
+                            />
+                          </ListItem>
+                        </List>
+                      </Paper>
                     );
                   })
                 ) : (
@@ -221,10 +255,16 @@ const NotificationDrawer = () => {
                 {IsManagerNotification?.length > 0 ? (
                   IsManagerNotification.map((item, index) => {
                     return (
-                      <ul>
-                        <li>{item?.Name}</li>
-                        <li>{item?.Description}</li>
-                      </ul>
+                      <Paper elevation={3}>
+                        <List>
+                          <ListItem key={index} divider>
+                            <ListItemText
+                              primary={item?.Name}
+                              secondary={item?.Description}
+                            />
+                          </ListItem>
+                        </List>
+                      </Paper>
                     );
                   })
                 ) : (
@@ -242,7 +282,7 @@ const NotificationDrawer = () => {
         message={notification}
         autoHideDuration={4000}
         onClose={handleSnackbarClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        anchorOrigin={{vertical: "bottom", horizontal: "center"}}
       />
     </div>
   );

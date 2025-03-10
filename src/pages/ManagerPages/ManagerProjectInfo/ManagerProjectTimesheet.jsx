@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import { useFormik } from "formik";
+import {useFormik} from "formik";
 import * as Yup from "yup";
 import {
   Typography,
@@ -22,9 +22,19 @@ import {
   InputLabel,
   Select,
   TextField,
+  MenuItem,
 } from "@mui/material";
-const ManagerProjectTimesheet = ({ IsManagerProjectTimesheetdata }) => {
-  const [IsFillTimesheet, setIsFillTimesheet] = useState(false);
+const ManagerProjectTimesheet = ({
+  IsManagerProjectTimesheetdata,
+  IsManagerprojectinfo,
+  IsFillTimesheet,
+  setIsFillTimesheet,
+  handlefilltimesheet,
+  reomvemanagertimesheetfunc,
+  sendforapprovelmanagettimesheetfunc,
+  approvebymanagertimesheetfunc,
+  disapprovebymanagertimesheetfunc,
+}) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const handleCheckboxChange = (id) => {
     setSelectedItems(
@@ -37,13 +47,12 @@ const ManagerProjectTimesheet = ({ IsManagerProjectTimesheetdata }) => {
 
   const formik = useFormik({
     initialValues: {
-      Staff_Id: "",
       hours: "",
       project: "",
       day: "",
       Description: "",
       task_description: "",
-      attachement: null,
+      Attachment: null,
     },
     validationSchema: Yup.object({
       hours: Yup.string().required("Hours are required"),
@@ -51,27 +60,18 @@ const ManagerProjectTimesheet = ({ IsManagerProjectTimesheetdata }) => {
       day: Yup.string().required("Day is required"),
       Description: Yup.string().required("Description is required"),
       task_description: Yup.string().required("Task description is required"),
-      attachement: Yup.mixed().required("Attachment is required"),
+      Attachment: Yup.mixed().required("Attachment  is required"),
     }),
     onSubmit: async (values) => {
-      const formdata = new FormData();
-
-      formdata.append("Staff_Id", values.Staff_Id);
-      formdata.append("hours", values.hours);
-      formdata.append("project", values.project);
-      formdata.append("day", values.day);
-      formdata.append("Description", values.Description);
-      formdata.append("task_description", values.task_description);
-      formdata.append("file", values.attachement);
-      console.log("Form Data:", formdata);
-
       try {
-        // const response = await fillcontractorprojecttimesheetapicall(formdata);
-        // console.log(response, "?....................?");
-        // if (response.success) {
-        //   setIsOpen(false);
-        // }
-
+        const formdata = new FormData();
+        formdata.append("hours", values.hours);
+        formdata.append("project", values.project);
+        formdata.append("day", values.day);
+        formdata.append("Description", values.Description);
+        formdata.append("task_description", values.task_description);
+        formdata.append("file", values?.Attachment);
+        handlefilltimesheet(formdata);
         formik.resetForm();
       } catch (error) {
         console.log(error?.message);
@@ -101,23 +101,22 @@ const ManagerProjectTimesheet = ({ IsManagerProjectTimesheetdata }) => {
           open={IsFillTimesheet}
           onClose={() => setIsFillTimesheet(false)}
         >
-          <Container maxWidth="sm" sx={{ p: 2 }}>
+          <Container maxWidth="sm" sx={{p: 2}}>
             <form onSubmit={formik.handleSubmit}>
-              <FormControl fullWidth sx={{ mb: 2 }}>
+              <FormControl fullWidth sx={{mb: 2}}>
                 <InputLabel>Select Project</InputLabel>
                 <Select
                   {...formik.getFieldProps("project")}
                   value={formik.values.project}
                   onChange={formik.handleChange}
                 >
-                  {/* {[
-                    ...(Isemployeeprojects?.response || []),
-                    ...(Isemployeeprojects?.employeeactiveProjects || []),
-                  ].map((item) => (
-                    <MenuItem key={item.ProjectId} value={item.ProjectId}>
-                      {item.Project_Name}
-                    </MenuItem>
-                  ))} */}
+                  {IsManagerprojectinfo.map((item) => {
+                    return (
+                      <MenuItem key={item.ProjectId} value={item.ProjectId}>
+                        {item.Project_Name}
+                      </MenuItem>
+                    );
+                  })}
                 </Select>
               </FormControl>
 
@@ -138,7 +137,7 @@ const ManagerProjectTimesheet = ({ IsManagerProjectTimesheetdata }) => {
                 label="Day"
                 name="day"
                 type="date"
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{shrink: true}}
                 value={formik.values.day}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -184,24 +183,24 @@ const ManagerProjectTimesheet = ({ IsManagerProjectTimesheetdata }) => {
 
               <input
                 type="file"
-                name="attachement"
+                name="Attachment"
                 onChange={(event) =>
                   formik.setFieldValue(
-                    "attachement",
+                    "Attachment",
                     event.currentTarget.files[0]
                   )
                 }
                 onBlur={formik.handleBlur}
               />
-              {formik.touched.attachement && formik.errors.attachement && (
-                <div style={{ color: "red" }}>{formik.errors.attachement}</div>
+              {formik.touched.Attachment && formik.errors.Attachment && (
+                <div style={{color: "red"}}>{formik.errors.Attachment}</div>
               )}
 
               <Button
                 type="submit"
                 variant="contained"
                 color="primary"
-                style={{ marginTop: "15px" }}
+                style={{marginTop: "15px"}}
                 fullWidth
               >
                 Submit
@@ -213,6 +212,7 @@ const ManagerProjectTimesheet = ({ IsManagerProjectTimesheetdata }) => {
       {selectedItems.length > 0 ? (
         <>
           <Button
+            onClick={() => approvebymanagertimesheetfunc(selectedItems)}
             sx={{
               background: "green",
               padding: "8px 10px",
@@ -223,8 +223,9 @@ const ManagerProjectTimesheet = ({ IsManagerProjectTimesheetdata }) => {
             Approve
           </Button>
           <Button
+            onClick={() => disapprovebymanagertimesheetfunc(selectedItems)}
             sx={{
-              background: "red",
+              background: "#D97A5C",
               padding: "8px 10px",
               margin: "10px 10px",
               color: "white",
@@ -234,23 +235,24 @@ const ManagerProjectTimesheet = ({ IsManagerProjectTimesheetdata }) => {
           </Button>
 
           <Button
-            onClick={() => SendForApprovel()}
             sx={{
               background: "orange",
               padding: "8px 10px",
               margin: "10px 10px",
               color: "white",
             }}
+            onClick={() => sendforapprovelmanagettimesheetfunc(selectedItems)}
           >
             Send For Approved
           </Button>
           <Button
             sx={{
-              background: "#2c3e50",
+              background: "red",
               padding: "8px 10px",
               margin: "10px 10px",
               color: "white",
             }}
+            onClick={() => reomvemanagertimesheetfunc(selectedItems)}
           >
             delete selected
           </Button>
