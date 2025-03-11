@@ -7,7 +7,7 @@ import RecentProjects from "../../Component/DashboardComponents/Admin/RecentProj
 import RecentTimesheet from "../../Component/DashboardComponents/Admin/RecentTimesheet";
 import EmployeeTimeHours from "../../Component/DashboardComponents/Admin/EmployeeTimeHours";
 import Managerdashboardheader from "../../Component/DashboardComponents/Manager/Managerdashboardheader";
-import {Box, Paper} from "@mui/material";
+import {Box, Card, Paper} from "@mui/material";
 import {Link} from "react-router-dom";
 import ManagerProductivityLeaderboard from "../../Component/DashboardComponents/Manager/ManagerProductivityLeaderboard";
 
@@ -44,7 +44,12 @@ const Dashboard = () => {
       {Role === "Manager" && (
         <div>
           <Managerdashboardheader />
-          <ManagerProductivityLeaderboard />
+          <Card sx={{padding: 3, marginTop: 5, borderRadius: 2}}>
+            <Box sx={{px: 2}}>
+              <Link to={"/manager/productivity-leaderboard"}>view all</Link>
+            </Box>{" "}
+            <ManagerProductivityLeaderboard />
+          </Card>
         </div>
       )}
     </Layout>

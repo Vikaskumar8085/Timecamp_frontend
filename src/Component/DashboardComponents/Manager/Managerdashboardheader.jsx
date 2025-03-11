@@ -3,32 +3,34 @@ import React, {useEffect, useState} from "react";
 import toast from "react-hot-toast";
 import apiInstance from "../../../ApiInstance/apiInstance";
 import PeopleIcon from "@mui/icons-material/People";
+import WorkIcon from "@mui/icons-material/Work";
+import BusinessIcon from "@mui/icons-material/Business";
 
 const Managerdashboardheader = () => {
   const [isdata, setisdata] = useState([]);
   const getValue = (value) => value || 0;
 
   const dataList = [
-    // {
-    //   label: "Total Hours",
-    //   value: getValue(isdata?.totalHours),
-    //   icon: <PeopleIcon fontSize="large" color="primary" />,
-    // },
+    {
+      label: "Total Hours",
+      value: getValue(isdata?.totalHours),
+      icon: <PeopleIcon fontSize="large" color="primary" />,
+    },
     {
       label: "Staff Number",
       value: getValue(isdata?.staffNo),
       icon: <PeopleIcon fontSize="large" color="primary" />,
     },
-    // {
-    //   label: "Project Number",
-    //   value: getValue(isdata?.projectNo),
-    //   icon: <WorkIcon fontSize="large" color="secondary" />,
-    // },
-    // {
-    //   label: "Client Number",
-    //   value: getValue(isdata?.clientNo),
-    //   icon: <BusinessIcon fontSize="large" color="success" />,
-    // },
+    {
+      label: "Project Number",
+      value: getValue(isdata?.projectNo),
+      icon: <WorkIcon fontSize="large" color="secondary" />,
+    },
+    {
+      label: "Total Timesheet",
+      value: getValue(isdata?.totalTask),
+      icon: <BusinessIcon fontSize="large" color="success" />,
+    },
   ];
 
   const fetchmanagerdashboardcounterfunc = async () => {
