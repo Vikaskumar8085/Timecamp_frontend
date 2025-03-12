@@ -71,6 +71,11 @@ import Taskpage from "./pages/ManagerPages/Taskpage";
 import ProductivityLeaderboardpage from "./pages/Dashboard/ProductivityLeaderboardpage";
 import ManagerProductivityLeaderboard from "./pages/ManagerPages/ManagerProductivityLeaderboardPage";
 import ManagerProductivityLeaderboardPage from "./pages/ManagerPages/ManagerProductivityLeaderboardPage";
+import ContractorTimeSummary from "./pages/ContractorPages/ContractorTimeSummary";
+import ContractorProjectTimesheet from "./pages/ContractorPages/ContractorSubPages/ContractorProjectTimesheet";
+import ContractorProjectTime from "./pages/ContractorPages/ContractorProjectTime";
+import EmployeeProjectTime from "./pages/EmployeePages/EmployeeProjectTime";
+import EmployeeTimesummary from "./pages/EmployeePages/EmployeeTimesummary";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -172,6 +177,15 @@ const App = () => {
           path="/employee/employee-project-info/:id"
           element={<EmployeeProjectinfo />}
         />
+
+        <Route
+          path="/employee/employee-project-Time"
+          element={<EmployeeProjectTime />}
+        />
+        <Route
+          path="/employee/employee-time-summary"
+          element={<EmployeeTimesummary />}
+        />
         {/* employee Pages */}
 
         {/* contractor  */}
@@ -189,6 +203,14 @@ const App = () => {
         <Route
           path="/contractor/contractor-project-info/:id"
           element={<ContractorProjectInfo />}
+        />
+        <Route
+          path="/contractor/contractor-timesummary"
+          element={<ContractorTimeSummary />}
+        />
+        <Route
+          path="/contractor/contractor-project-time"
+          element={<ContractorProjectTime />}
         />
         {/* contractor  */}
 

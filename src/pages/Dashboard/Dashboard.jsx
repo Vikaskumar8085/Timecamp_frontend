@@ -10,6 +10,7 @@ import Managerdashboardheader from "../../Component/DashboardComponents/Manager/
 import {Box, Card, Paper} from "@mui/material";
 import {Link} from "react-router-dom";
 import ManagerProductivityLeaderboard from "../../Component/DashboardComponents/Manager/ManagerProductivityLeaderboard";
+import ContractordashboardCounter from "../../Component/DashboardComponents/Contractor/ContractordashboardCounter";
 
 const Dashboard = () => {
   const userdata = useSelector((state) => state.user.values);
@@ -40,7 +41,11 @@ const Dashboard = () => {
           </div>
         </>
       )}
-      {Role === "Contractor" && <div>Dashboard:{userdata?.Role}</div>}
+      {Role === "Contractor" && (
+        <div>
+          <ContractordashboardCounter />
+        </div>
+      )}
       {Role === "Manager" && (
         <div>
           <Managerdashboardheader />

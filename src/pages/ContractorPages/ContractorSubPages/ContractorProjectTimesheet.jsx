@@ -1,12 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import { useFormik } from "formik";
-import { Button, Container, Drawer } from "@mui/material";
+import {useFormik} from "formik";
+import {
+  Button,
+  Container,
+  Drawer,
+  FormControl,
+  InputLabel,
+  Select,
+  TextField,
+} from "@mui/material";
 import * as Yup from "yup";
-import { fillcontractorprojecttimesheetapicall } from "../../../ApiServices/ContractorApiServices/ContractorApiServices";
+import {fillcontractorprojecttimesheetapicall} from "../../../ApiServices/ContractorApiServices/ContractorApiServices";
 
-const ContractorProjectTimesheet = ({ id }) => {
+const ContractorProjectTimesheet = ({id}) => {
   const [isContractoractiveproject, setIsContractoractiveproject] = useState(
     []
   );
@@ -89,23 +97,23 @@ const ContractorProjectTimesheet = ({ id }) => {
       </Button>
       {IsOpen && (
         <Drawer open={IsOpen} anchor="right" onClose={() => setIsOpen(false)}>
-          <Container maxWidth="sm" sx={{ p: 2 }}>
+          <Container maxWidth="sm" sx={{p: 2}}>
             <form onSubmit={formik.handleSubmit}>
-              <FormControl fullWidth sx={{ mb: 2 }}>
+              <FormControl fullWidth sx={{mb: 2}}>
                 <InputLabel>Select Project</InputLabel>
                 <Select
                   {...formik.getFieldProps("project")}
                   value={formik.values.project}
                   onChange={formik.handleChange}
                 >
-                  {[
+                  {/* {[
                     ...(Isemployeeprojects?.response || []),
                     ...(Isemployeeprojects?.employeeactiveProjects || []),
                   ].map((item) => (
                     <MenuItem key={item.ProjectId} value={item.ProjectId}>
                       {item.Project_Name}
                     </MenuItem>
-                  ))}
+                  ))} */}
                 </Select>
               </FormControl>
 
@@ -126,7 +134,7 @@ const ContractorProjectTimesheet = ({ id }) => {
                 label="Day"
                 name="day"
                 type="date"
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{shrink: true}}
                 value={formik.values.day}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -182,14 +190,14 @@ const ContractorProjectTimesheet = ({ id }) => {
                 onBlur={formik.handleBlur}
               />
               {formik.touched.attachement && formik.errors.attachement && (
-                <div style={{ color: "red" }}>{formik.errors.attachement}</div>
+                <div style={{color: "red"}}>{formik.errors.attachement}</div>
               )}
 
               <Button
                 type="submit"
                 variant="contained"
                 color="primary"
-                style={{ marginTop: "15px" }}
+                style={{marginTop: "15px"}}
                 fullWidth
               >
                 Submit

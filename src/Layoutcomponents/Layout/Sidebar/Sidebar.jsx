@@ -398,16 +398,53 @@ const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen, Role}) => {
                   </li>
                 </ul>
               </li>
-              <li>
-                <NavLink
-                  to={"/employee/Timesheet"}
-                  className="nav_link"
-                  style={({isActive}) => ({
-                    color: isActive ? "greenyellow" : "white",
-                  })}
+
+              <li className="dropdown">
+                <button
+                  className="dropdown_btn"
+                  onClick={() => toggleDropdown("Timesheet")}
                 >
-                  Timesheets
-                </NavLink>
+                  TimeSheets <span>{dropdownOpen.masters ? "▲" : "▼"}</span>
+                </button>
+                <ul
+                  className={`dropdown_menu ${
+                    dropdownOpen.Timesheet ? "show" : "hide"
+                  }`}
+                >
+                  <li>
+                    <NavLink
+                      to="/employee/Timesheet"
+                      style={({isActive}) => ({
+                        color: isActive ? "greenyellow" : "white",
+                      })}
+                      className="nav_link"
+                    >
+                      <FaUserTie className="icon" /> Time Sheet
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/employee/employee-project-Time"
+                      className="nav_link"
+                      style={({isActive}) => ({
+                        color: isActive ? "greenyellow" : "white",
+                      })}
+                    >
+                      <FaBuilding className="icon" /> Project Time
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/employee/employee-time-summary"
+                      className="nav_link"
+                      style={({isActive}) => ({
+                        color: isActive ? "greenyellow" : "white",
+                      })}
+                    >
+                      <FaUserShield className="icon" /> Time Summary
+                    </NavLink>
+                  </li>
+                </ul>
               </li>
             </ul>
           </>
@@ -449,18 +486,53 @@ const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen, Role}) => {
                 </NavLink>
               </li>
 
-              <li>
-                <NavLink
-                  to={"/contractor/Timesheet"}
-                  className="nav_link"
-                  style={({isActive}) => ({
-                    color: isActive ? "greenyellow" : "white",
-                  })}
+              <li className="dropdown">
+                <button
+                  className="dropdown_btn"
+                  onClick={() => toggleDropdown("Timesheet")}
                 >
-                  Timesheets
-                </NavLink>
+                  TimeSheets <span>{dropdownOpen.masters ? "▲" : "▼"}</span>
+                </button>
+                <ul
+                  className={`dropdown_menu ${
+                    dropdownOpen.Timesheet ? "show" : "hide"
+                  }`}
+                >
+                  <li>
+                    <NavLink
+                      to="/contractor/Timesheet"
+                      style={({isActive}) => ({
+                        color: isActive ? "greenyellow" : "white",
+                      })}
+                      className="nav_link"
+                    >
+                      <FaUserTie className="icon" /> Time Sheet
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/contractor/contractor-project-time"
+                      className="nav_link"
+                      style={({isActive}) => ({
+                        color: isActive ? "greenyellow" : "white",
+                      })}
+                    >
+                      <FaBuilding className="icon" /> Project Time
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/contractor/contractor-timesummary"
+                      className="nav_link"
+                      style={({isActive}) => ({
+                        color: isActive ? "greenyellow" : "white",
+                      })}
+                    >
+                      <FaUserShield className="icon" /> Time Summary
+                    </NavLink>
+                  </li>
+                </ul>
               </li>
-
               <li className="dropdown">
                 <button
                   className="dropdown_btn"
