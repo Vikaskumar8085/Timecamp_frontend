@@ -11,6 +11,8 @@ import {Box, Card, Paper} from "@mui/material";
 import {Link} from "react-router-dom";
 import ManagerProductivityLeaderboard from "../../Component/DashboardComponents/Manager/ManagerProductivityLeaderboard";
 import ContractordashboardCounter from "../../Component/DashboardComponents/Contractor/ContractordashboardCounter";
+import Clientdashboarheader from "../../Component/DashboardComponents/Client/Clientdashboarheader";
+import RecentProject from "../../Component/DashboardComponents/Client/RecentProject";
 
 const Dashboard = () => {
   const userdata = useSelector((state) => state.user.values);
@@ -26,7 +28,12 @@ const Dashboard = () => {
           <EmployeeTimeHours />
         </>
       )}
-      {Role === "Client" && <div>Dashboard:{userdata?.Role}</div>}
+      {Role === "Client" && (
+        <div>
+          <Clientdashboarheader />
+          <RecentProject />
+        </div>
+      )}
       {Role === "Employee" && (
         <>
           {" "}

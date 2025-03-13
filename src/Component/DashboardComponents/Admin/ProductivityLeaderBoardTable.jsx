@@ -29,7 +29,7 @@ const ProductivityLeaderBoardTable = () => {
       const response = await apiInstance.get(
         "/v2/admin-dash/fetch-dash-productivity-leadearboard"
       );
-      console.log(response, ">>>>>>>>>>>>>>>>>>>>>");
+
       if (response.data.success) {
         setLeaderboard(response.data.result);
       } else {

@@ -2,15 +2,17 @@ import React, {useState} from "react";
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import TabComp from "../../common/TabComponent/TabComp";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
-import ProductivityLeaderBoard from "../../Component/DashboardComponents/Admin/ProductivityLeaderBoard";
 import ProductivityLeaderBoardTable from "../../Component/DashboardComponents/Admin/ProductivityLeaderBoardTable";
+import Projectroi from "../../Component/DashboardComponents/Admin/ProjectRoi/Projectroi";
+import TotalActualandTotalEstimatedHours from "../../Component/DashboardComponents/Admin/ProjectRoi/TotalActualandTotalEstimatedHours";
+import ProjectROIChart from "../../Component/DashboardComponents/Admin/ProjectRoi/ProjectRoiChart";
 
 const ProductivityLeaderboardpage = () => {
   const [isSubState, setisSubState] = useState(0);
 
   const tabsheader = [
     {title: "Productivity Leader Board"},
-    // {title: "Project ROI"},
+    {title: "Project ROI"},
   ];
   const Tabsbody = [
     {
@@ -21,7 +23,13 @@ const ProductivityLeaderboardpage = () => {
       ),
     },
     {
-      content: <>Project Roi</>,
+      content: (
+        <>
+          <TotalActualandTotalEstimatedHours />
+          <ProjectROIChart />
+          <Projectroi />
+        </>
+      ),
     },
   ];
   return (
