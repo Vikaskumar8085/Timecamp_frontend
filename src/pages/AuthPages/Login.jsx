@@ -119,6 +119,10 @@ const Login = () => {
               <strong>registration ?</strong>
             </Link>
             <br />
+            <Link to="/forget-password">
+              <strong>Forget password </strong>
+            </Link>
+            <br />
             <div className="mb-3">
               <Button onClick={() => login()}>google Login</Button>
             </div>

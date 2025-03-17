@@ -195,7 +195,7 @@ const Company = () => {
   const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(null);
   const [iscompanydata, setIscompanydata] = useState({});
-  console.log(iscompanydata);
+  const [isId, setIsId] = useState(null);
 
   const getcompany = async () => {
     try {
@@ -233,6 +233,7 @@ const Company = () => {
         setIsOpen={setIsOpen}
         setIsEdit={setIsEdit}
         company={iscompanydata}
+        setIsId={setIsId}
       />
 
       {IsOpen && (
@@ -240,10 +241,12 @@ const Company = () => {
           open={IsOpen}
           onClose={() => {
             setIsOpen(false);
+            isEdit(false);
+            isId = null;
           }}
           anchor="right"
         >
-          <CompanyEditForm isEdit={isEdit} />
+          <CompanyEditForm getcompany={getcompany} isId={isId} setIsOpen={setIsOpen} isEdit={isEdit} />
         </Drawer>
       )}
     </Layout>

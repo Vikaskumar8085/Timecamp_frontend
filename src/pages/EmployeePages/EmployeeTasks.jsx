@@ -12,6 +12,7 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
+import {Link} from "react-router-dom";
 const EmployeeTasks = () => {
   const [IsEmployeeTaskdata, setIsEmployeeTaskdata] = useState([]);
   console.log(IsEmployeeTaskdata, "Task data");
@@ -79,6 +80,9 @@ const EmployeeTasks = () => {
                       }}
                     />
                   )}
+                </TableCell>
+                <TableCell>
+                  <Link to={`/employee/task-view/${task.task_Id}`}>view</Link>
                 </TableCell>
               </TableRow>
             ))}

@@ -8,8 +8,13 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
+import apiInstance from "../../ApiInstance/apiInstance";
+import toast from "react-hot-toast";
+import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
+import {useDispatch} from "react-redux";
 
-const CompanyEditForm = ({isEdit}) => {
+const CompanyEditForm = ({isEdit, isId, setIsOpen, getcompany}) => {
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       Company_Name: isEdit?.Company_Name || "",
@@ -24,7 +29,29 @@ const CompanyEditForm = ({isEdit}) => {
       Tex_Number: isEdit?.Tex_Number || "", // Fixed key name
     },
     onSubmit: async (values) => {
-      console.log(values, ">>>>>>>>");
+      try {
+        dispatch(setLoader(true));
+        const response = await apiInstance.put(
+          `/v1/user/update-company/${isId}`,
+          values
+        );
+        if (response?.data.success) {
+          setIsOpen(false);
+          dispatch(setLoader(false));
+          getcompany();
+          toast.success(response?.data?.message);
+        } else {
+          dispatch(setLoader(false));
+          getcompany();
+          setIsOpen(false);
+          toast.error(response?.data?.message);
+        }
+      } catch (error) {
+        dispatch(setLoader(false));
+        getcompany();
+        setIsOpen(false);
+        toast.error(response?.data?.message);
+      }
     },
   });
 
@@ -32,7 +59,6 @@ const CompanyEditForm = ({isEdit}) => {
     <Container maxWidth="md">
       <Box sx={{p: 2}}>
         <Typography sx={{py: 3}}>Edit Company</Typography>
-
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>

@@ -274,16 +274,53 @@ const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen, Role}) => {
                 Profile
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to={"/client/TimeSheet"}
-                className="nav_link"
-                style={({isActive}) => ({
-                  color: isActive ? "greenyellow" : "white",
-                })}
+
+            <li className="dropdown">
+              <button
+                className="dropdown_btn"
+                onClick={() => toggleDropdown("Timesheet")}
               >
-                Timesheet
-              </NavLink>
+                TimeSheets <span>{dropdownOpen.masters ? "▲" : "▼"}</span>
+              </button>
+              <ul
+                className={`dropdown_menu ${
+                  dropdownOpen.Timesheet ? "show" : "hide"
+                }`}
+              >
+                <li>
+                  <NavLink
+                    to={"/client/TimeSheet"}
+                    style={({isActive}) => ({
+                      color: isActive ? "greenyellow" : "white",
+                    })}
+                    className="nav_link"
+                  >
+                    <FaUserTie className="icon" /> Time Sheet
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/client/client-project-Time"
+                    className="nav_link"
+                    style={({isActive}) => ({
+                      color: isActive ? "greenyellow" : "white",
+                    })}
+                  >
+                    <FaBuilding className="icon" /> Project Time
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/client/client-time-summary"
+                    className="nav_link"
+                    style={({isActive}) => ({
+                      color: isActive ? "greenyellow" : "white",
+                    })}
+                  >
+                    <FaUserShield className="icon" /> Time Summary
+                  </NavLink>
+                </li>
+              </ul>
             </li>
             <li>
               <NavLink

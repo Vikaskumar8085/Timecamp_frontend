@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
-import apiInstance from "../../../ApiInstance/apiInstance";
+import apiInstance from "../../ApiInstance/apiInstance";
 import ApexCharts from "react-apexcharts";
 import {Paper, Typography, CircularProgress, Grid} from "@mui/material";
-const ManagerProjectTimeUtilization = () => {
+
+const ClientProjectTimeutilization = () => {
   const [loading, setLoading] = useState(true);
   const [checkprojects, setCheckprojects] = useState([]);
   const [chartOptions, setChartOptions] = useState({
@@ -42,10 +43,10 @@ const ManagerProjectTimeUtilization = () => {
     },
   ]);
 
-  const fetchmanagerprojecttimeutilizationfunc = async () => {
+  const fetchclientprojecttimeutilizationfunc = async () => {
     try {
       const response = await apiInstance.get(
-        "/v2/manager/manager-project-time-utilization"
+        "/v2/client/fetch-client-project-time-utilization"
       );
       const projectData = response.data.Projects; // Assuming your API returns a list of projects
 
@@ -77,10 +78,12 @@ const ManagerProjectTimeUtilization = () => {
     }
   };
   useEffect(() => {
-    fetchmanagerprojecttimeutilizationfunc();
+    fetchclientprojecttimeutilizationfunc();
   }, [0]);
+
   return (
     <div>
+      {" "}
       <Paper sx={{padding: 4, marginTop: 3}}>
         <Typography variant="h5" gutterBottom>
           Project Time Utilization
@@ -104,4 +107,4 @@ const ManagerProjectTimeUtilization = () => {
   );
 };
 
-export default ManagerProjectTimeUtilization;
+export default ClientProjectTimeutilization;

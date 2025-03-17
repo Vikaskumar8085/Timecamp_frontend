@@ -21,10 +21,11 @@ import EditIcon from "@mui/icons-material/Edit";
 
 // Function to handle null values
 const getValue = (value) => value || "No data available";
-function CompanyTable({company, setIsOpen, setIsEdit}) {
+function CompanyTable({company, setIsOpen, setIsEdit, setIsId}) {
   const handleclick = (value) => {
     setIsOpen(true);
     setIsEdit(value);
+    setIsId(value.Company_Id);
   };
   return (
     <>

@@ -76,6 +76,8 @@ import ContractorProjectTimesheet from "./pages/ContractorPages/ContractorSubPag
 import ContractorProjectTime from "./pages/ContractorPages/ContractorProjectTime";
 import EmployeeProjectTime from "./pages/EmployeePages/EmployeeProjectTime";
 import EmployeeTimesummary from "./pages/EmployeePages/EmployeeTimesummary";
+import ClientProjectTime from "./pages/ClientPages/ClientProjectTime";
+import ClientTimeSummary from "./pages/ClientPages/ClientTimeSummary";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -101,7 +103,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forget-password" element={<Forget />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
         <Route path="/verify/:id" element={<VerifyPage />} />
 
         {/* auth pages */}
@@ -158,6 +160,14 @@ const App = () => {
           path="/client/client-pageinfo/:id"
           element={<ClientPageinfo />}
         />
+        <Route
+          path="/client/client-project-Time"
+          element={<ClientProjectTime />}
+        />
+        <Route
+          path="/client/client-time-summary"
+          element={<ClientTimeSummary />}
+        />
         {/* client pages */}
 
         {/* employee Pages */}
@@ -186,6 +196,7 @@ const App = () => {
           path="/employee/employee-time-summary"
           element={<EmployeeTimesummary />}
         />
+        <Route path="/employee/task-view/:id" element={<h1>task view</h1>} />
         {/* employee Pages */}
 
         {/* contractor  */}
@@ -237,6 +248,7 @@ const App = () => {
           element={<ManagerProductivityLeaderboardPage />}
         />
         <Route path="/manager/task" element={<Taskpage />} />
+        <Route path="/manager/view-task/:id" element={<h1>view task</h1>} />
         {/* Manager */}
         <Route path="*" element={<Nopage />} />
       </Routes>

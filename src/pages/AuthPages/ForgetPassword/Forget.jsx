@@ -7,6 +7,7 @@ import {
   Box,
   Alert,
 } from "@mui/material";
+import apiInstance from "../../../ApiInstance/apiInstance";
 
 const Forget = () => {
   const [email, setEmail] = useState("");
@@ -24,8 +25,10 @@ const Forget = () => {
     }
 
     // Mock API request
+    let val = {Email: email};
     try {
-      // Simulate API call delay
+      const response = await apiInstance.post("/v1/user/forget-password", val);
+      console.log(response, "response");
       await new Promise((resolve) => setTimeout(resolve, 1000));
       setSuccess("If this email is registered, a reset link has been sent.");
     } catch (err) {
