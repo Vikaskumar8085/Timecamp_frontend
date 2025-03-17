@@ -13,6 +13,7 @@ import {useFormik} from "formik";
 import * as Yup from "yup";
 import {useParams} from "react-router-dom";
 import apiInstance from "../../../ApiInstance/apiInstance";
+import toast from "react-hot-toast";
 
 const ResetPassword = () => {
   const {resetToken} = useParams();
@@ -41,8 +42,14 @@ const ResetPassword = () => {
           `/v1/user/reset-password/${resetToken}`,
           values
         );
-        console.log(response, "response");
-      } catch (error) {}
+        if (response?.data?.success) {
+          toast.success(response?.data?.message);
+        } else {
+          toast.error(response?.data?.message);
+        }
+      } catch (error) {
+        toast.error(error?.response?.data?.message);
+      }
     },
   });
 
