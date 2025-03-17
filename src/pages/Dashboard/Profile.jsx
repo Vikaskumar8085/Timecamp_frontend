@@ -7,6 +7,7 @@ import UserProfile from "../../Component/DashboardComponents/ProfileComponent/Us
 const Profile = () => {
   const userdata = useSelector((state) => state.user.values);
   let Role = userdata.Role;
+
   return (
     <>
       <Layout>

@@ -21,6 +21,7 @@ import {
 } from "../../../ApiServices/TaskApiServices";
 import {useDispatch} from "react-redux";
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
+import {Link} from "react-router-dom";
 
 const Task = () => {
   const [IsOpen, setIsOpen] = useState(false);
@@ -117,6 +118,7 @@ const Task = () => {
                 <TableCell>Resource Name</TableCell>
                 <TableCell>Status</TableCell>
                 <TableCell>Attachment</TableCell>
+                <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -147,6 +149,9 @@ const Task = () => {
                         }}
                       />
                     )}
+                  </TableCell>
+                  <TableCell>
+                    <Link to={`/task-view/${task.task_Id}`}>view</Link>
                   </TableCell>
                 </TableRow>
               ))}

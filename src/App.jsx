@@ -78,6 +78,7 @@ import EmployeeProjectTime from "./pages/EmployeePages/EmployeeProjectTime";
 import EmployeeTimesummary from "./pages/EmployeePages/EmployeeTimesummary";
 import ClientProjectTime from "./pages/ClientPages/ClientProjectTime";
 import ClientTimeSummary from "./pages/ClientPages/ClientTimeSummary";
+import Taskview from "./pages/Adminpages/TaskPage/Taskview";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -136,6 +137,7 @@ const App = () => {
         <Route path="/project-upload" element={<ProjectUpload />} />
         <Route path="/task" element={<Task />} />
         <Route path="task-upload" element={<Taskupload />} />
+        <Route path="/task-view/:id" element={<Taskview />} />
         <Route path="/timesheet" element={<Timesheet />} />
         <Route path="/timesheet/project-time" element={<ProjectTime />} />
         <Route path="/timesheet/time-summary" element={<TimesheetSummary />} />

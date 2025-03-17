@@ -54,13 +54,21 @@ const ResetPassword = () => {
   });
 
   return (
-    <div>
+    <div
+      style={{
+        display: "grid",
+        placeItems: "center",
+        alignItems: "center",
+        height: "100vh",
+        width: "100%",
+      }}
+    >
       <Container maxWidth="sm">
         <Box
           sx={{mt: 5, p: 3, boxShadow: 3, borderRadius: 2, textAlign: "center"}}
         >
           <Typography variant="h5" gutterBottom>
-            Password Form
+            Please reset your password
           </Typography>
           <form onSubmit={formik.handleSubmit}>
             {/* Password Field */}
