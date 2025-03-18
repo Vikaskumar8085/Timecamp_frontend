@@ -38,7 +38,7 @@ const Dashboard = () => {
         <>
           {" "}
           <div>
-            <h1>employee header counter</h1>
+            <ContractordashboardCounter />
           </div>
           <div>
             <h1>Employee Project Time hour</h1>

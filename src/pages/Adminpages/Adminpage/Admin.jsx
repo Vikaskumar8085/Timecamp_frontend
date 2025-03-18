@@ -75,11 +75,14 @@ import {
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import UserList from "../../../Component/AdminComponents/Admin/UserList";
+import {useDispatch} from "react-redux";
+import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
+import toast from "react-hot-toast";
 
 const Admin = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [isAdmindata, setIsAdmindata] = React.useState([]);
-
+  const dispatch = useDispatch();
   // fetch admin
 
   const fetchadmin = async () => {
@@ -97,14 +100,23 @@ const Admin = () => {
   // create admin
   const handleSubmit = async (value) => {
     try {
+      dispatch(setLoader(true));
       const response = await createadminapicall(value);
 
       if (response.success) {
+        dispatch(setLoader(false));
+        toast.success(response?.message);
+
         fetchadmin();
+        setIsModalOpen(false);
+      } else {
+        dispatch(setLoader(false));
+        toast.error(response?.message);
         setIsModalOpen(false);
       }
     } catch (error) {
-      console.log(error?.message);
+      dispatch(setLoader(false));
+      toast.error(error?.response?.data?.message);
       setIsModalOpen(false);
     }
   };

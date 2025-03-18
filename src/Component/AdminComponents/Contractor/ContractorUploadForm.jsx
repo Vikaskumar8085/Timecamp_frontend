@@ -8,12 +8,39 @@ import {
 } from "@mui/material";
 import React, {useState} from "react";
 import DownloadIcon from "@mui/icons-material/Download";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
+import Papa from "papaparse";
 
-const ContractorUploadForm = ({uploadcontractorcsvupload}) => {
-  const [file, setFile] = useState(null);
+const ContractorUploadForm = ({uploadcontractorcsvupload, setIsUpload}) => {
+    const [csvData, setCsvData] = useState([]);
+    const [file, setFile] = useState(null);
+    const [openDialog, setOpenDialog] = useState(false);
   // Handle file selection
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
+
+    const file = event.target.files[0];
+    if (!file) return;
+
+    Papa.parse(file, {
+      complete: (result) => {
+        setCsvData(result.data), setOpenDialog(true);
+      },
+      header: true,
+      skipEmptyLines: true,
+    });
   };
   console.log(file, "///////////");
 
@@ -27,7 +54,6 @@ const ContractorUploadForm = ({uploadcontractorcsvupload}) => {
     formData.append("file", file);
     console.log(formData, "afsaldflksdfl");
     uploadcontractorcsvupload(formData);
-
     setFile(null);
   };
   const getcontractorcsvformate = async () => {
@@ -62,57 +88,107 @@ const ContractorUploadForm = ({uploadcontractorcsvupload}) => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box
-        sx={{
-          mt: 2,
-          p: 1,
-        }}
-      >
-        <Typography variant="h5">Upload Contractor</Typography>
-        <form onSubmit={handleSubmit}>
-          <Grid2 container spacing={1}>
-            <Grid2 size={{sm: 12}}>
-              <TextField
-                type="file"
-                inputProps={{accept: ".csv"}}
-                fullWidth
-                onChange={handleFileChange}
-                // value={""}
-              />
-            </Grid2>
-            <Grid2 size={{sm: 12}}>
-              <Button
-                onClick={() => getcontractorcsvformate()}
-                startIcon={<DownloadIcon />}
-                sx={{
-                  background: "#2c3e50",
-                  padding: "8px 10px",
-                  color: "white",
-                  textTransform: "capitalize",
-                }}
-              >
-                Contractor Csv formate
-              </Button>
-            </Grid2>
+    <>
+      <Container maxWidth="sm">
+        <Box
+          sx={{
+            mt: 2,
+            p: 1,
+          }}
+        >
+          <Typography variant="h5">Upload Contractor</Typography>
+          <form onSubmit={handleSubmit}>
+            <Grid2 container spacing={1}>
+              <Grid2 size={{sm: 12}}>
+                <TextField
+                  type="file"
+                  inputProps={{accept: ".csv"}}
+                  fullWidth
+                  onChange={handleFileChange}
+                  // value={""}
+                />
+              </Grid2>
+              <Grid2 size={{sm: 12}}>
+                <Button
+                  onClick={() => getcontractorcsvformate()}
+                  startIcon={<DownloadIcon />}
+                  sx={{
+                    background: "#2c3e50",
+                    padding: "8px 10px",
+                    color: "white",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  Contractor Csv formate
+                </Button>
+              </Grid2>
 
-            <Grid2 size={{sm: 12}}>
-              <Button
-                sx={{
-                  background: "#2c3e50",
-                  padding: "8px 10px",
-                  color: "white",
-                  width: "100%",
-                }}
-                type="submit"
-              >
-                submit
-              </Button>
+              <Grid2 size={{sm: 12}}>
+                <Button
+                  sx={{
+                    background: "#2c3e50",
+                    padding: "8px 10px",
+                    color: "white",
+                    width: "100%",
+                  }}
+                  type="submit"
+                >
+                  submit
+                </Button>
+              </Grid2>
             </Grid2>
-          </Grid2>
-        </form>
-      </Box>
-    </Container>
+          </form>
+        </Box>
+      </Container>
+      <Dialog
+        open={openDialog}
+        onClose={() => {
+          setOpenDialog(false);
+        }}
+        maxWidth="xl"
+        fullWidth
+      >
+        <DialogTitle>Client Upload and Preview CSV File</DialogTitle>
+        <DialogContent>
+          {csvData.length > 0 && (
+            <TableContainer component={Paper} sx={{mt: 2}}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    {Object.keys(csvData[0]).map((key, index) => (
+                      <TableCell key={index} sx={{fontWeight: "bold"}}>
+                        {key}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {csvData.map((row, rowIndex) => (
+                    <TableRow key={rowIndex}>
+                      {Object.values(row).map((val, colIndex) => (
+                        <TableCell key={colIndex}>{val}</TableCell>
+                      ))}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              setIsUpload(false), setOpenDialog(false);
+            }}
+          >
+            close
+          </Button>
+          <Button onClick={() => setOpenDialog(false)} color="secondary">
+            ok
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 };
 

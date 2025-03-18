@@ -158,7 +158,7 @@ const Employee = () => {
           onClose={() => setIsUpload(false)}
           anchor="right"
         >
-          <EmployeeUploadForm uploadhandlesubmit={uploadhandlesubmit} />
+          <EmployeeUploadForm setIsUpload={setIsUpload} uploadhandlesubmit={uploadhandlesubmit} />
         </Drawer>
       )}
 

@@ -22,13 +22,20 @@ import {
 const UserList = ({users}) => {
   return (
     <Box
-      sx={{display: "flex", flexWrap: "wrap"}}
+      sx={{display: "flex", flexWrap: "wrap", justifyContent: "start"}}
       gap={3}
       gridTemplateColumns="repeat(auto-fit, minmax(320px, 1fr))"
       p={3}
     >
       {users.map((user) => (
-        <Card key={user._id} sx={{p: 2, borderRadius: 4, boxShadow: 3}}>
+        <Card
+          key={user._id}
+          sx={{
+            p: 2,
+            borderRadius: 4,
+            boxShadow: 3,
+          }}
+        >
           <CardContent>
             {/* User Avatar and Name */}
             <Grid container spacing={2} alignItems="center">
@@ -107,28 +114,22 @@ const UserList = ({users}) => {
             </Typography>
 
             {/* Action Buttons */}
-            {/* <Grid container spacing={2} sx={{mt: 3}}>
-              <Grid item xs={6}>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  startIcon={<Edit />}
-                >
-                  Edit
-                </Button>
+
+            {user?.IsAdmin === false && (
+              <Grid container spacing={2} sx={{mt: 3}}>
+                <Grid item xs={6}></Grid>
+                <Grid item xs={6}>
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    color="error"
+                    // startIcon={<Delete />}
+                  >
+                    block
+                  </Button>
+                </Grid>
               </Grid>
-              <Grid item xs={6}>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  color="error"
-                  startIcon={<Delete />}
-                >
-                  Delete
-                </Button>
-              </Grid>
-            </Grid> */}
+            )}
           </CardContent>
         </Card>
       ))}

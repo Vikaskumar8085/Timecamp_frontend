@@ -183,7 +183,10 @@ const Timesheet = () => {
             onClose={() => setIsModalOpen(false)}
             anchor="right"
           >
-            <UploadTimesheet handleUploadTimesheet={handleUploadTimesheet} />
+            <UploadTimesheet
+              setIsModalOpen={setIsModalOpen}
+              handleUploadTimesheet={handleUploadTimesheet}
+            />
           </Drawer>
         ) : null}
         {selectedItems.length > 0 ? (

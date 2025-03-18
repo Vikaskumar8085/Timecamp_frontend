@@ -199,7 +199,7 @@ const ProjectTask = ({id}) => {
           onClose={() => setIsUploadTaskOpen(false)}
           anchor="right"
         >
-          <UploadTask uploadTaskhandlesubmit={uploadTaskhandlesubmit} />
+          <UploadTask setIsUploadTaskOpen={setIsUploadTaskOpen} uploadTaskhandlesubmit={uploadTaskhandlesubmit} />
         </Drawer>
       )}
 

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { Drawer, TextField } from "@mui/material";
-import { useFormik } from "formik";
+import React, {useState} from "react";
+import {Drawer, TextField} from "@mui/material";
+import {useFormik} from "formik";
 import * as Yup from "yup";
 import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
-import { Button } from "@mui/material";
+import {Button} from "@mui/material";
 import {
   Table,
   TableBody,
@@ -21,15 +21,15 @@ import {
   fetchcontractorapicall,
   updatecontractorapicall,
 } from "../../../ApiServices/AdminApiServices/Contractor";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import ContractorUploadForm from "../../../Component/AdminComponents/Contractor/ContractorUploadForm";
 import ContractorTable from "../../../Component/AdminComponents/Contractor/ContractorTable";
-import { uploadcontractorcsvapicall } from "../../../ApiServices/Csvapiservices/csvapiservices";
+import {uploadcontractorcsvapicall} from "../../../ApiServices/Csvapiservices/csvapiservices";
 import ContractorForm from "../../../Component/AdminComponents/Contractor/ContractorForm";
-import { useDispatch } from "react-redux";
-import { setLoader } from "../../../redux/LoaderSlices/LoaderSlices";
+import {useDispatch} from "react-redux";
+import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 
 const Contractor = () => {
   const [Iscontractordata, setIscontractordata] = useState([]);
@@ -158,6 +158,7 @@ const Contractor = () => {
           anchor="right"
         >
           <ContractorUploadForm
+            setIsUpload={setIsUpload}
             uploadcontractorcsvupload={uploadcontractorcsvupload}
           />
         </Drawer>

@@ -20,6 +20,7 @@ import {fetchuserNotificationapicall} from "../../ApiServices/AdminApiServices/A
 import {useSelector} from "react-redux";
 import Empty from "../../common/EmptyFolder/Empty";
 import apiInstance from "../../ApiInstance/apiInstance";
+import {Link} from "react-router-dom";
 
 const NotificationDrawer = () => {
   const userdata = useSelector((state) => {
@@ -166,18 +167,29 @@ const NotificationDrawer = () => {
               <>
                 {usernotificationdata.length > 0 ? (
                   usernotificationdata?.map((item, index) => {
-                    return (
+                    const content = item?.IsRead === false && (
                       <Paper elevation={3}>
                         <List>
                           <ListItem key={index} divider>
                             <ListItemText
                               primary={item?.Name}
-                              secondary={item?.Description}
+                              secondary={item?.Description.slice(0, 30)}
                             />
                           </ListItem>
+                          <Link
+                            style={{
+                              fontSize: "0.7em",
+                              textDecoration: "none",
+                              padding: "0px 10px",
+                            }}
+                            to="/notification"
+                          >
+                            Read More
+                          </Link>
                         </List>
                       </Paper>
                     );
+                    return <div>{content}</div>;
                   })
                 ) : (
                   <Empty />

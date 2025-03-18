@@ -169,6 +169,7 @@ const Client = () => {
           anchor="right"
         >
           <ClientUploadForm
+            setIsUpload={setIsUpload}
             uploadclientcsvhandlesubmit={uploadclientcsvhandlesubmit}
           />
         </Drawer>

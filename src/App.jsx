@@ -79,6 +79,7 @@ import EmployeeTimesummary from "./pages/EmployeePages/EmployeeTimesummary";
 import ClientProjectTime from "./pages/ClientPages/ClientProjectTime";
 import ClientTimeSummary from "./pages/ClientPages/ClientTimeSummary";
 import Taskview from "./pages/Adminpages/TaskPage/Taskview";
+import NotificationPage from "./pages/Dashboard/NotificationPage";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -252,6 +253,8 @@ const App = () => {
         <Route path="/manager/task" element={<Taskpage />} />
         <Route path="/manager/view-task/:id" element={<h1>view task</h1>} />
         {/* Manager */}
+
+        <Route path="/notification" element={<NotificationPage />} />
         <Route path="*" element={<Nopage />} />
       </Routes>
       <Toaster />
