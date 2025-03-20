@@ -5,23 +5,29 @@ export const createclientapicall = async (value) => {
   return response.data;
 };
 
-export const fetchclientapicall = async () => {
-  const response = await apiInstance.get("/v1/admin/fetch-client");
+export const fetchclientapicall = async (value) => {
+  const response = await apiInstance.get("/v1/admin/fetch-client", value);
   return response.data;
 };
 
-export const fetchactiveclientapicall = async () => {
-  const response = await apiInstance.get("/v1/admin/fetch-active-client");
+export const fetchactiveclientapicall = async (value) => {
+  const response = await apiInstance.get(
+    "/v1/admin/fetch-active-client",
+    value
+  );
   return response.data;
 };
 
-export const fetchinactiveclientapicall = async () => {
-  const response = await apiInstance.get("/v1/admin/fetch-inactive-client");
+export const fetchinactiveclientapicall = async (value) => {
+  const response = await apiInstance.get(
+    "/v1/admin/fetch-inactive-client",
+    value
+  );
   return response.data;
 };
 
-export const fetchdeadclientapicall = async () => {
-  const response = await apiInstance.get("/v1/admin/fetch-dead-client");
+export const fetchdeadclientapicall = async (value) => {
+  const response = await apiInstance.get("/v1/admin/fetch-dead-client", value);
   return response.data;
 };
 

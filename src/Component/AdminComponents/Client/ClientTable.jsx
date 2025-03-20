@@ -11,6 +11,8 @@ import {
   CardContent,
   Typography,
   Button,
+  TablePagination,
+  TextField,
 } from "@mui/material";
 import {Link} from "react-router-dom";
 import Grid from "@mui/material/Grid2";
@@ -18,8 +20,20 @@ import GridViewIcon from "@mui/icons-material/GridView";
 import TableViewIcon from "@mui/icons-material/TableView";
 import Empty from "../../../common/EmptyFolder/Empty";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
-
-const ClientTable = ({Isclientdata, handleOpen, removeclientfunc}) => {
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
+const ClientTable = ({
+  Isclientdata,
+  handleOpen,
+  removeclientfunc,
+  setSearch,
+  search,
+  setRowsPerPage,
+  totalClients,
+  rowsPerPage,
+  page,
+  setPage,
+}) => {
   const [viewMode, setViewMode] = useState("table");
 
   return (
@@ -37,6 +51,17 @@ const ClientTable = ({Isclientdata, handleOpen, removeclientfunc}) => {
           {viewMode === "table" ? <GridViewIcon /> : <TableViewIcon />}
         </Button>
       </HeaderTab>
+      <TextField
+        label="Search Clients"
+        variant="outlined"
+        fullWidth
+        value={search}
+        onChange={(e) => {
+          setSearch(e.target.value);
+          setPage(0); // Reset page when searching
+        }}
+        sx={{mb: 2}}
+      />
 
       {viewMode === "table" ? (
         <Grid container spacing={2}>
@@ -70,16 +95,25 @@ const ClientTable = ({Isclientdata, handleOpen, removeclientfunc}) => {
                         <TableCell>{item.Client_Postal_Code}</TableCell>
                         <TableCell>{item.GstNumber}</TableCell>
                         <TableCell>{item.Client_Status}</TableCell>
-                        <TableCell>
-                          <Link to={`/client-info/${item.Client_Id}`}>
-                            View
+                        <TableCell
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Link
+                            style={{textDecoration: "none"}}
+                            to={`/client-info/${item.Client_Id}`}
+                          >
+                            <VisibilityIcon />
                           </Link>
 
                           <Button
                             onClick={() => handleOpen(item)}
                             color="primary"
                           >
-                            Edit
+                            <EditIcon />
                           </Button>
                           {/* <Button
                             onClick={() => {
@@ -120,12 +154,15 @@ const ClientTable = ({Isclientdata, handleOpen, removeclientfunc}) => {
                     </Typography>
                     <Typography>Gst Number: {item.GstNumber}</Typography>
                     <Typography>Status: {item.Client_Status}</Typography>
-                    <Link to={`/client-info/${item.Client_Id}`}>
-                      View Details
+                    <Link
+                      style={{textDecoration: "none"}}
+                      to={`/client-info/${item.Client_Id}`}
+                    >
+                      <VisibilityIcon />
                     </Link>
-                    {/* <Button onClick={() => handleOpen(item)} color="primary">
-                      edit
-                    </Button> */}
+                    <Button onClick={() => handleOpen(item)} color="primary">
+                      <EditIcon />
+                    </Button>
                   </CardContent>
                 </Card>
               </Grid>
@@ -137,6 +174,18 @@ const ClientTable = ({Isclientdata, handleOpen, removeclientfunc}) => {
           )}
         </Grid>
       )}
+
+      <TablePagination
+        component="div"
+        count={totalClients}
+        page={page}
+        onPageChange={(_, newPage) => setPage(newPage)}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={(e) => {
+          setRowsPerPage(parseInt(e.target.value, 10));
+          setPage(0);
+        }}
+      />
     </div>
   );
 };

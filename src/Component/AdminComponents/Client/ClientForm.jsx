@@ -52,7 +52,11 @@ const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
 
     if (!values.GstNumber.trim()) {
       errors.GstNumber = "GST Number is required";
-    } else if (!/^GST[0-9]{6,10}$/.test(values.GstNumber)) {
+    } else if (
+      !/^[0-3][0-9][A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/.test(
+        values.GstNumber
+      )
+    ) {
       errors.GstNumber = "Invalid GST Number format";
     }
     // if (!values.System_Access) {

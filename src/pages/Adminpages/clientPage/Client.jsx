@@ -23,19 +23,33 @@ const Client = () => {
   const [isUpload, setIsUpload] = useState(false);
   const [Isclientdata, setIsclientdata] = useState([]);
   const [isEdit, setIsEdit] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [totalClients, setTotalClients] = useState(0);
   const dispatch = useDispatch();
   // fetch client
 
   const fetchclientfucntion = async () => {
     try {
-      const response = await fetchclientapicall();
+      const response = await fetchclientapicall({
+        params: {
+          search,
+          page: page + 1, // Backend expects 1-based index
+          limit: rowsPerPage,
+        },
+      });
       console.log(response, "client");
 
       if (response.success) {
+        setTotalClients(response.totalClients);
         setIsclientdata(response.result);
       }
     } catch (error) {
       console.log(error?.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -46,6 +60,7 @@ const Client = () => {
       if (response.success) {
         setIsOpen(false);
         fetchclientfucntion();
+        setIsEdit(null);
         dispatch(setLoader(false));
       } else {
         console.log(response.message);
@@ -60,12 +75,18 @@ const Client = () => {
   const uploadclientcsvhandlesubmit = async (value) => {
     try {
       const response = await uploadclientcsvapicall(value);
-      alert("File uploaded successfully!");
-      console.log(response.data);
-      fetchclientfucntion();
-      setIsUpload(false);
+      if (response?.success) {
+        console.log(response.data);
+        fetchclientfucntion();
+        setIsUpload(false);
+        toast.success("file uploaded successfully");
+      } else {
+        fetchclientfucntion();
+        setIsUpload(false);
+        toast.error(response?.message);
+      }
     } catch (error) {
-      console.log(error?.message);
+      toast.error(error?.response?.data.message);
     }
   };
 
@@ -123,7 +144,7 @@ const Client = () => {
 
   useEffect(() => {
     fetchclientfucntion();
-  }, [0]);
+  }, [search, page, rowsPerPage]);
 
   return (
     <Layout>
@@ -154,7 +175,15 @@ const Client = () => {
         Upload Client
       </Button>
       {IsOpen && (
-        <Drawer open={IsOpen} onClose={() => setIsOpen(false)} anchor="right">
+        <Drawer
+          open={IsOpen}
+          onClose={() => {
+            setIsEdit(null);
+
+            setIsOpen(false);
+          }}
+          anchor="right"
+        >
           <ClientForm
             isEdit={isEdit}
             handleUpdate={handleUpdate}
@@ -178,6 +207,13 @@ const Client = () => {
         removeclientfunc={removeclientfunc}
         handleOpen={handleOpen}
         Isclientdata={Isclientdata}
+        setPage={setPage}
+        setRowsPerPage={setRowsPerPage}
+        rowsPerPage={rowsPerPage}
+        totalClients={totalClients}
+        setSearch={setSearch}
+        search={search}
+        page={page}
       />
     </Layout>
   );
