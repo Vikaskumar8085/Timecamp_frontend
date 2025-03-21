@@ -90,7 +90,6 @@ function RolesTable({isRoledata, removeRoles, handleOpen}) {
                     <DeleteIcon />
                   </Button>
                   <Button onClick={() => handleOpen(item)}>
-                    {" "}
                     <EditIcon />
                   </Button>
                 </CardContent>
