@@ -1,27 +1,13 @@
 import React, {useState} from "react";
 import {Drawer, TextField} from "@mui/material";
-import {useFormik} from "formik";
-import * as Yup from "yup";
-import DefaultLayout from "../../../Layoutcomponents/DefaultLayout/DefaultLayout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import {Button} from "@mui/material";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-} from "@mui/material";
-import TModal from "../../../common/Modal/TModal";
 import {
   addContractorapicall,
   fetchcontractorapicall,
   updatecontractorapicall,
 } from "../../../ApiServices/AdminApiServices/Contractor";
-import {Link} from "react-router-dom";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import ContractorUploadForm from "../../../Component/AdminComponents/Contractor/ContractorUploadForm";
@@ -36,16 +22,30 @@ const Contractor = () => {
   const [isUpload, setIsUpload] = useState(false);
   const [IsOpen, setIsOpen] = useState(false);
   const [IsEdit, setIsEdit] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [totalCount, setTotalCount] = useState(0);
+
   const dispatch = useDispatch();
   const getcontractor = async () => {
     try {
-      const response = await fetchcontractorapicall();
-      console.log(response);
+      const response = await fetchcontractorapicall({
+        params: {
+          search,
+          page: page + 1,
+          limit: rowsPerPage,
+        },
+      });
       if (response.success) {
         setIscontractordata(response.result);
+        setTotalCount(response.totalCount || 0);
       }
     } catch (error) {
       console.log(error?.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -105,7 +105,7 @@ const Contractor = () => {
 
   React.useEffect(() => {
     getcontractor();
-  }, [0]);
+  }, [search, page, rowsPerPage]);
   return (
     <Layout>
       <BreadCrumb pageName="Contractor" />
@@ -169,6 +169,16 @@ const Contractor = () => {
         setIsOpen={setIsOpen}
         setIsEdit={setIsEdit}
         Iscontractordata={Iscontractordata}
+        setLoading={setLoading}
+        loading={loading}
+        setSearch={setSearch}
+        search={search}
+        setPage={setPage}
+        page={page}
+        setTotalCount={setTotalCount}
+        totalCount={totalCount}
+        setRowsPerPage={setRowsPerPage}
+        rowsPerPage={rowsPerPage}
       />
     </Layout>
   );

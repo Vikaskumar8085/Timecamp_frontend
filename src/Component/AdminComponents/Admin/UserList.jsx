@@ -115,7 +115,7 @@ const UserList = ({users}) => {
 
             {/* Action Buttons */}
 
-            {user?.IsAdmin === false && (
+            {/* {user?.IsAdmin === false && (
               <Grid container spacing={2} sx={{mt: 3}}>
                 <Grid item xs={6}></Grid>
                 <Grid item xs={6}>
@@ -129,7 +129,7 @@ const UserList = ({users}) => {
                   </Button>
                 </Grid>
               </Grid>
-            )}
+            )} */}
           </CardContent>
         </Card>
       ))}

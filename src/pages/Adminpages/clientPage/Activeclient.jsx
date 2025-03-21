@@ -24,6 +24,7 @@ import {
   TablePagination,
   CircularProgress,
   Box,
+  Chip,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
@@ -137,7 +138,19 @@ const Activeclient = () => {
                         <TableCell>{item.Client_Address}</TableCell>
                         <TableCell>{item.Client_Postal_Code}</TableCell>
                         <TableCell>{item.GstNumber}</TableCell>
-                        <TableCell>{item.Client_Status}</TableCell>
+                        <TableCell>
+                          {" "}
+                          <Chip
+                            label={item.Client_Status}
+                            color={
+                              item.Client_Status === "Active"
+                                ? "success"
+                                : item.Client_Status === "InActive"
+                                ? "warning"
+                                : "error"
+                            }
+                          />
+                        </TableCell>
                         <TableCell>
                           <Link
                             style={{textDecoration: "none"}}
@@ -178,7 +191,19 @@ const Activeclient = () => {
                       Postal Code: {item.Client_Postal_Code}
                     </Typography>
                     <Typography>Gst Number: {item.GstNumber}</Typography>
-                    <Typography>Status: {item.Client_Status}</Typography>
+                    <Typography>
+                      Status:{" "}
+                      <Chip
+                        label={item.Client_Status}
+                        color={
+                          item.Client_Status === "Active"
+                            ? "success"
+                            : item.Client_Status === "InActive"
+                            ? "warning"
+                            : "error"
+                        }
+                      />
+                    </Typography>
                     <Link
                       style={{textDecoration: "none"}}
                       to={`/client-info/${item.Client_Id}`}

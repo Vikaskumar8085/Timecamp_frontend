@@ -11,6 +11,9 @@ import {
   Card,
   CardContent,
   Typography,
+  TextField,
+  Pagination,
+  CircularProgress,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import GridViewIcon from "@mui/icons-material/GridView";
@@ -18,7 +21,18 @@ import TableViewIcon from "@mui/icons-material/TableView";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-function RolesTable({isRoledata, removeRoles, handleOpen}) {
+function RolesTable({
+  isRoledata,
+  removeRoles,
+  handleOpen,
+  loading,
+  search,
+  page,
+  totalPages,
+  setPage,
+  setTotalPages,
+  setSearch,
+}) {
   const [viewMode, setViewMode] = useState("table");
 
   return (
@@ -36,7 +50,17 @@ function RolesTable({isRoledata, removeRoles, handleOpen}) {
           {viewMode === "table" ? <GridViewIcon /> : <TableViewIcon />}
         </Button>
       </HeaderTab>
-      {viewMode === "table" ? (
+
+      <TextField
+        label="Search"
+        fullWidth
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        sx={{mb: 2}}
+      />
+      {loading ? (
+        <CircularProgress />
+      ) : viewMode === "table" ? (
         <Grid container spacing={2}>
           <Grid size={{sm: 12}}>
             <TableContainer component={Paper}>
@@ -98,6 +122,12 @@ function RolesTable({isRoledata, removeRoles, handleOpen}) {
           ))}
         </Grid>
       )}
+      <Pagination
+        count={totalPages}
+        page={page}
+        onChange={(e, val) => setPage(val)}
+        sx={{mt: 2, display: "flex", justifyContent: "center"}}
+      />
     </>
   );
 }

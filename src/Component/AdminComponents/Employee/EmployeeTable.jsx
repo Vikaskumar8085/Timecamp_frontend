@@ -1,16 +1,21 @@
 import React, {useState} from "react";
 import {
-  Table,
-  TableBody,
-  TableCell,
   TableContainer,
+  Table,
   TableHead,
   TableRow,
+  TableCell,
+  TableBody,
   Paper,
+  Button,
   Card,
   CardContent,
   Typography,
-  Button,
+  TextField,
+  Pagination,
+  CircularProgress,
+  TablePagination,
+  Chip,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import GridViewIcon from "@mui/icons-material/GridView";
@@ -18,8 +23,21 @@ import TableViewIcon from "@mui/icons-material/TableView";
 import {Link} from "react-router-dom";
 import Empty from "../../../common/EmptyFolder/Empty";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
-
-const EmployeeTable = ({IsEmployeeData, setIsEdit, setisOpen}) => {
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
+const EmployeeTable = ({
+  IsEmployeeData,
+  setIsEdit,
+  setisOpen,
+  loading,
+  search,
+  page,
+  rowsPerPage,
+  totalCount,
+  setRowsPerPage,
+  setPage,
+  setSearch,
+}) => {
   const [viewMode, setViewMode] = useState("table");
 
   return (
@@ -38,6 +56,13 @@ const EmployeeTable = ({IsEmployeeData, setIsEdit, setisOpen}) => {
           {viewMode === "table" ? <GridViewIcon /> : <TableViewIcon />}
         </Button>
       </HeaderTab>
+      <TextField
+        label="Search"
+        fullWidth
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        sx={{mb: 2}}
+      />
       {viewMode === "table" ? (
         <Grid container spacing={2}>
           <Grid size={{sm: 12}}>
@@ -66,12 +91,17 @@ const EmployeeTable = ({IsEmployeeData, setIsEdit, setisOpen}) => {
                         <TableCell>{item.UserName}</TableCell>
                         <TableCell>{item.Email}</TableCell>
                         <TableCell>{item.Phone}</TableCell>
-                        <TableCell>{item.Manager}</TableCell>
+                        <TableCell>
+                          <Chip
+                            label={item.Manager || "NA"}
+                            color={item.Manager ? "success" : "error"}
+                          />
+                        </TableCell>
 
                         <TableCell>{item.Address}</TableCell>
                         <TableCell>
                           <Link to={`/employee-info/${item.staff_Id}`}>
-                            View
+                            <VisibilityIcon />
                           </Link>
 
                           <Button
@@ -80,7 +110,7 @@ const EmployeeTable = ({IsEmployeeData, setIsEdit, setisOpen}) => {
                               setisOpen(true);
                             }}
                           >
-                            Edit
+                            <EditIcon />
                           </Button>
                         </TableCell>
                       </TableRow>
@@ -109,9 +139,16 @@ const EmployeeTable = ({IsEmployeeData, setIsEdit, setisOpen}) => {
                     </Typography>
                     <Typography>Email: {item.Email}</Typography>
                     <Typography>Phone: {item.Phone}</Typography>
+                    <Typography>
+                      Manager:
+                      <Chip
+                        label={item.Manager || "NA"}
+                        color={item.Manager ? "success" : "error"}
+                      />
+                    </Typography>
                     <Typography>Address: {item.Address}</Typography>
                     <Link to={`/employee-info/${item.staff_Id}`}>
-                      View Details
+                      <VisibilityIcon />
                     </Link>
 
                     <Button
@@ -119,7 +156,7 @@ const EmployeeTable = ({IsEmployeeData, setIsEdit, setisOpen}) => {
                         setIsEdit(item);
                       }}
                     >
-                      Edit
+                      <EditIcon />
                     </Button>
                   </CardContent>
                 </Card>
@@ -132,6 +169,18 @@ const EmployeeTable = ({IsEmployeeData, setIsEdit, setisOpen}) => {
           )}
         </Grid>
       )}
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25, 50, 100]}
+        component="div"
+        count={totalCount}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={(event, newPage) => setPage(newPage)}
+        onRowsPerPageChange={(event) => {
+          setRowsPerPage(parseInt(event.target.value, 10));
+          setPage(0); // Reset page to 0 when changing rows per page
+        }}
+      />
     </div>
   );
 };

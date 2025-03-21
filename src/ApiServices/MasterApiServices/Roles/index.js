@@ -6,8 +6,8 @@ export const createrolesapicall = async (value) => {
 };
 
 // fetch designation
-export const fetchroleapicall = async () => {
-  const response = await apiInstance.get("/v1/master/fetch-roles");
+export const fetchroleapicall = async (value) => {
+  const response = await apiInstance.get("/v1/master/fetch-roles", value);
   return response.data;
 };
 

@@ -11,6 +11,11 @@ import {
   Card,
   CardContent,
   Typography,
+  TextField,
+  Pagination,
+  CircularProgress,
+  TablePagination,
+  Chip,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import GridViewIcon from "@mui/icons-material/GridView";
@@ -18,8 +23,21 @@ import TableViewIcon from "@mui/icons-material/TableView";
 import {Link} from "react-router-dom";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import Empty from "../../../common/EmptyFolder/Empty";
-
-const ContractorTable = ({Iscontractordata, setIsEdit, setIsOpen}) => {
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
+const ContractorTable = ({
+  Iscontractordata,
+  setIsEdit,
+  setIsOpen,
+  loading,
+  search,
+  page,
+  rowsPerPage,
+  totalCount,
+  setRowsPerPage,
+  setPage,
+  setSearch,
+}) => {
   const [viewMode, setViewMode] = useState("table"); // "table" or "grid"
 
   return (
@@ -39,9 +57,18 @@ const ContractorTable = ({Iscontractordata, setIsEdit, setIsOpen}) => {
           {viewMode === "table" ? <GridViewIcon /> : <TableViewIcon />}
         </Button>
       </HeaderTab>
+      <TextField
+        label="Search"
+        fullWidth
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        sx={{mb: 2}}
+      />
 
       {/* Table View */}
-      {viewMode === "table" ? (
+      {loading ? (
+        <CircularProgress />
+      ) : viewMode === "table" ? (
         <Grid container spacing={2}>
           <Grid size={{sm: 12}}>
             <TableContainer component={Paper}>
@@ -54,6 +81,7 @@ const ContractorTable = ({Iscontractordata, setIsEdit, setIsOpen}) => {
                     <TableCell align="left">Username</TableCell>
                     <TableCell align="left">Email</TableCell>
                     <TableCell align="left">Phone</TableCell>
+                    <TableCell align="left">Manager</TableCell>
                     <TableCell align="left">Address</TableCell>
                     <TableCell align="left">Action</TableCell>
                   </TableRow>
@@ -68,10 +96,16 @@ const ContractorTable = ({Iscontractordata, setIsEdit, setIsOpen}) => {
                         <TableCell>{item.UserName}</TableCell>
                         <TableCell>{item.Email}</TableCell>
                         <TableCell>{item.Phone}</TableCell>
+                        <TableCell>
+                          <Chip
+                            label={item.Manager || "NA"}
+                            color={item.Manager ? "success" : "error"}
+                          />
+                        </TableCell>
                         <TableCell>{item.Address}</TableCell>
                         <TableCell>
                           <Link to={`/contractor-info/${item.staff_Id}`}>
-                            View
+                            <VisibilityIcon />
                           </Link>
 
                           <Button
@@ -80,7 +114,7 @@ const ContractorTable = ({Iscontractordata, setIsEdit, setIsOpen}) => {
                               setIsOpen(true);
                             }}
                           >
-                            Edit
+                            <EditIcon />
                           </Button>
                         </TableCell>
                       </TableRow>
@@ -111,10 +145,17 @@ const ContractorTable = ({Iscontractordata, setIsEdit, setIsOpen}) => {
                     <Typography variant="body2">Email: {item.Email}</Typography>
                     <Typography variant="body2">Phone: {item.Phone}</Typography>
                     <Typography variant="body2">
+                      Manager:{" "}
+                      <Chip
+                        label={item.Manager || "NA"}
+                        color={item.Manager ? "success" : "error"}
+                      />
+                    </Typography>
+                    <Typography variant="body2">
                       Address: {item.Address}
                     </Typography>
                     <Link to={`/contractor-info/${item.staff_Id}`}>
-                      View Details
+                      <VisibilityIcon />
                     </Link>
 
                     <Button
@@ -123,7 +164,7 @@ const ContractorTable = ({Iscontractordata, setIsEdit, setIsOpen}) => {
                         setIsOpen(true);
                       }}
                     >
-                      Edit
+                      <EditIcon />
                     </Button>
                   </CardContent>
                 </Card>
@@ -136,6 +177,18 @@ const ContractorTable = ({Iscontractordata, setIsEdit, setIsOpen}) => {
           )}
         </Grid>
       )}
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25, 50, 100]}
+        component="div"
+        count={totalCount}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={(event, newPage) => setPage(newPage)}
+        onRowsPerPageChange={(event) => {
+          setRowsPerPage(parseInt(event.target.value, 10));
+          setPage(0); // Reset page to 0 when changing rows per page
+        }}
+      />
     </>
   );
 };

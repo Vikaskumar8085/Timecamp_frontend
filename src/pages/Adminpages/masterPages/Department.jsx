@@ -1,5 +1,5 @@
-import { Button, Container, Drawer, Input, TextField } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import {Button, Container, Drawer, Input, TextField} from "@mui/material";
+import React, {useEffect, useState} from "react";
 import TModal from "../../../common/Modal/TModal";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
@@ -14,8 +14,8 @@ import {
 } from "../../../ApiServices/MasterApiServices/Department";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import AddDepartment from "../../../Component/MasterComponent/Department/AddDepartment";
-import { useDispatch } from "react-redux";
-import { setLoader } from "../../../redux/LoaderSlices/LoaderSlices";
+import {useDispatch} from "react-redux";
+import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import toast from "react-hot-toast";
 
 const Department = () => {
@@ -23,15 +23,24 @@ const Department = () => {
   const [isdepartmentdata, setIsdepartmentdata] = useState([]);
   const [IsOpen, setIsOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(null);
-
+  const [loading, setLoading] = React.useState(false);
+  const [search, setSearch] = React.useState("");
+  const [page, setPage] = React.useState(1);
+  const [totalPages, setTotalPages] = React.useState(1);
   const getdepartment = async () => {
     try {
-      const response = await fetchdepartmentapicall();
+      setLoading(true);
+      const response = await fetchdepartmentapicall({
+        params: {search, page, limit: 10},
+      });
       if (response.success) {
         setIsdepartmentdata(response.result);
+        setTotalPages(response.totalPages);
       }
     } catch (error) {
       console.log(error?.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -102,7 +111,7 @@ const Department = () => {
   };
   useEffect(() => {
     getdepartment();
-  }, [0]);
+  }, [search, page]);
   return (
     <Layout>
       <BreadCrumb pageName="Department" />
@@ -143,6 +152,14 @@ const Department = () => {
         handleOpen={handleOpen}
         deleteDepartment={deleteDepartment}
         isdepartmentdata={isdepartmentdata}
+        setLoading={setLoading}
+        loading={loading}
+        setSearch={setSearch}
+        search={search}
+        setPage={setPage}
+        page={page}
+        setTotalPages={setTotalPages}
+        totalPages={totalPages}
       />
     </Layout>
   );

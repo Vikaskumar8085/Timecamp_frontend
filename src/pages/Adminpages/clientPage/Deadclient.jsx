@@ -15,6 +15,7 @@ import {
   Card,
   CardContent,
   Typography,
+  Chip,
   Button,
   TextField,
   TablePagination,
@@ -106,6 +107,7 @@ const Deadclient = () => {
                   <TableCell>Phone</TableCell>
                   <TableCell>Address</TableCell>
                   <TableCell>Postal Code</TableCell>
+                  <TableCell>Status</TableCell>
                   <TableCell>Action</TableCell>
                 </TableRow>
               </TableHead>
@@ -120,6 +122,18 @@ const Deadclient = () => {
                       <TableCell>{item.Client_Phone}</TableCell>
                       <TableCell>{item.Client_Address}</TableCell>
                       <TableCell>{item.Client_Postal_Code}</TableCell>
+                      <TableCell>
+                        <Chip
+                          label={item.Client_Status}
+                          color={
+                            item.Client_Status === "Active"
+                              ? "success"
+                              : item.Client_Status === "InActive"
+                              ? "warning"
+                              : "error"
+                          }
+                        />
+                      </TableCell>
                       <TableCell>
                         <Link
                           style={{textDecoration: "none"}}
@@ -154,6 +168,19 @@ const Deadclient = () => {
                       <Typography>Address: {item.Client_Address}</Typography>
                       <Typography>
                         Postal Code: {item.Client_Postal_Code}
+                      </Typography>
+                      <Typography>
+                        Status:
+                        <Chip
+                          label={item.Client_Status}
+                          color={
+                            item.Client_Status === "Active"
+                              ? "success"
+                              : item.Client_Status === "InActive"
+                              ? "warning"
+                              : "error"
+                          }
+                        />
                       </Typography>
                       <Link to={`/client-info/${item.Client_Id}`}>
                         View Details

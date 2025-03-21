@@ -18,6 +18,8 @@ import GridViewIcon from "@mui/icons-material/GridView";
 import TableViewIcon from "@mui/icons-material/TableView";
 import Empty from "../../../common/EmptyFolder/Empty";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
+import EditIcon from "@mui/icons-material/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const ProjectTable = ({isProjectdata, setIsModalOpen, setIsEdit}) => {
   const [viewMode, setViewMode] = useState("table");
@@ -68,7 +70,7 @@ const ProjectTable = ({isProjectdata, setIsModalOpen, setIsEdit}) => {
                         <TableCell align="left">{item.End_Date}</TableCell>
                         <TableCell align="left">
                           <Link to={`/project-info/${item.ProjectId}`}>
-                            View
+                            <VisibilityIcon />
                           </Link>
                           <Button
                             onClick={() => {
@@ -76,7 +78,7 @@ const ProjectTable = ({isProjectdata, setIsModalOpen, setIsEdit}) => {
                               setIsModalOpen(true);
                             }}
                           >
-                            Edit
+                            <EditIcon />
                           </Button>
                         </TableCell>
                       </TableRow>
@@ -105,14 +107,17 @@ const ProjectTable = ({isProjectdata, setIsModalOpen, setIsEdit}) => {
                     <Typography>Email: {item.Project_Hours}</Typography>
                     <Typography>Phone: {item.Start_Date}</Typography>
                     <Typography>Address: {item.End_Date}</Typography>
-                    <Link to={`/project-info/${item.ProjectId}`}>View</Link>
+                    <Link to={`/project-info/${item.ProjectId}`}>
+                      {" "}
+                      <VisibilityIcon />
+                    </Link>
                     <Button
                       onClick={() => {
                         setIsEdit(item);
                         setIsModalOpen(true);
                       }}
                     >
-                      Edit
+                      <EditIcon />
                     </Button>
                   </CardContent>
                 </Card>

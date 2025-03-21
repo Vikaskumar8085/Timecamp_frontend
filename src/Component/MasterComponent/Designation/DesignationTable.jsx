@@ -11,6 +11,9 @@ import {
   Card,
   CardContent,
   Typography,
+  TextField,
+  Pagination,
+  CircularProgress,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import GridViewIcon from "@mui/icons-material/GridView";
@@ -22,6 +25,12 @@ const DesignationTable = ({
   isdesignationdata,
   removeDesignation,
   handleOpen,
+  loading,
+  search,
+  page,
+  totalPages,
+  setPage,
+  setSearch,
 }) => {
   const [viewMode, setViewMode] = useState("table"); // "table" or "grid"
 
@@ -39,45 +48,46 @@ const DesignationTable = ({
           {viewMode === "table" ? <GridViewIcon /> : <TableViewIcon />}
         </Button>
       </HeaderTab>
-
-      {viewMode === "table" ? (
-        <Grid container spacing={2}>
-          <Grid size={{sm: 12}}>
-            <TableContainer component={Paper}>
-              <Table sx={{minWidth: 650}} aria-label="designation table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="left">ID</TableCell>
-                    <TableCell align="left">Designation Name</TableCell>
-                    <TableCell align="left">Actions</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {isdesignationdata.map((item, index) => (
-                    <TableRow key={index}>
-                      <TableCell>{index + 1}</TableCell>
-                      <TableCell align="left">
-                        {item.Designation_Name}
-                      </TableCell>
-                      <TableCell align="left">
-                        <Button
-                          onClick={() => removeDesignation(item.Designation_Id)}
-                          color="error"
-                        >
-                          <DeleteIcon />
-                        </Button>
-                        <Button onClick={() => handleOpen(item)}>
-                          {" "}
-                          <EditIcon />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Grid>
-        </Grid>
+      <TextField
+        label="Search"
+        fullWidth
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        sx={{mb: 2}}
+      />
+      {loading ? (
+        <CircularProgress />
+      ) : viewMode === "table" ? (
+        <TableContainer component={Paper}>
+          <Table sx={{minWidth: 650}} aria-label="designation table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="left">ID</TableCell>
+                <TableCell align="left">Designation Name</TableCell>
+                <TableCell align="left">Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {isdesignationdata.map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell align="left">{item.Designation_Name}</TableCell>
+                  <TableCell align="left">
+                    <Button
+                      onClick={() => removeDesignation(item.Designation_Id)}
+                      color="error"
+                    >
+                      <DeleteIcon />
+                    </Button>
+                    <Button onClick={() => handleOpen(item)}>
+                      <EditIcon />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       ) : (
         <Grid container spacing={2} sx={{mt: 2}}>
           {isdesignationdata.map((item, index) => (
@@ -93,11 +103,9 @@ const DesignationTable = ({
                     color="error"
                     sx={{mt: 1}}
                   >
-                    {" "}
                     <DeleteIcon />
                   </Button>
                   <Button onClick={() => handleOpen(item)}>
-                    {" "}
                     <EditIcon />
                   </Button>
                 </CardContent>
@@ -106,6 +114,13 @@ const DesignationTable = ({
           ))}
         </Grid>
       )}
+
+      <Pagination
+        count={totalPages}
+        page={page}
+        onChange={(e, val) => setPage(val)}
+        sx={{mt: 2, display: "flex", justifyContent: "center"}}
+      />
     </div>
   );
 };

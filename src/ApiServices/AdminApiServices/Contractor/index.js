@@ -14,14 +14,17 @@ export const updatecontractorapicall = async (value) => {
   return response.data;
 };
 // fetch contractor
-export const fetchcontractorapicall = async () => {
-  const response = await apiInstance.get("/v1/admin/fetch-contractor");
+export const fetchcontractorapicall = async (value) => {
+  const response = await apiInstance.get("/v1/admin/fetch-contractor", value);
   return response.data;
 };
 
 // fetch active contractor
-export const fetchactivecontractorapicall = async () => {
-  const response = await apiInstance.get("/v1/admin/fetch-active-contractor");
+export const fetchactivecontractorapicall = async (value) => {
+  const response = await apiInstance.get(
+    "/v1/admin/fetch-active-contractor",
+    value
+  );
   return response.data;
 };
 

@@ -8,8 +8,8 @@ export const createdepartmentapicall = async (value) => {
   return response.data;
 };
 
-export const fetchdepartmentapicall = async () => {
-  const response = await apiInstance.get("/v1/master/fetch-department");
+export const fetchdepartmentapicall = async (value) => {
+  const response = await apiInstance.get("/v1/master/fetch-department", value);
   return response.data;
 };
 

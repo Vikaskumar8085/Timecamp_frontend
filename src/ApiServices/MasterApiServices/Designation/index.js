@@ -13,8 +13,8 @@ export const createdesignationapicall = async (value) => {
 };
 
 // fetch designation
-export const fetchdesignationapicall = async () => {
-  const response = await apiInstance.get("/v1/master/fetch-designation");
+export const fetchdesignationapicall = async (value) => {
+  const response = await apiInstance.get("/v1/master/fetch-designation", value);
   return response.data;
 };
 

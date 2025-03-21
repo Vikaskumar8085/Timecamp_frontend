@@ -1,9 +1,18 @@
-import React from "react";
-import { TextField, Button, Container, Box, Typography } from "@mui/material";
+import React, {useState} from "react";
+import {
+  TextField,
+  Button,
+  Container,
+  Box,
+  Typography,
+  Avatar,
+} from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import { useFormik } from "formik";
-
-const AdminForm = ({ handleSubmit }) => {
+import {useFormik} from "formik";
+import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
+const AdminForm = ({handleSubmit}) => {
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(null);
   const validate = (values) => {
     const errors = {};
     if (!values.FirstName.trim()) {
@@ -41,7 +50,7 @@ const AdminForm = ({ handleSubmit }) => {
     validate,
     onSubmit: (values) => {
       try {
-        const { ConfirmPassword, ...formValues } = values; // Exclude ConfirmPassword before submission
+        const {ConfirmPassword, ...formValues} = values; // Exclude ConfirmPassword before submission
         handleSubmit(formValues);
 
         formik.resetForm();
@@ -51,6 +60,14 @@ const AdminForm = ({ handleSubmit }) => {
     },
   });
 
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImage(file);
+      setPreview(URL.createObjectURL(file)); // Create image preview URL
+    }
+  };
+
   return (
     <Container maxWidth="sm">
       <Box
@@ -59,13 +76,14 @@ const AdminForm = ({ handleSubmit }) => {
           p: 1,
         }}
       >
-        <Typography variant="h5" sx={{ margin: "10px 0px" }}>
+        <Typography variant="h5" sx={{margin: "10px 0px"}}>
           Add Admin
         </Typography>
 
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={2}>
-            <Grid size={{ sm: 12 }}>
+            {/* First Name */}
+            <Grid item size={{sm: 12}}>
               <TextField
                 fullWidth
                 label="First Name"
@@ -76,7 +94,9 @@ const AdminForm = ({ handleSubmit }) => {
                 helperText={formik.touched.FirstName && formik.errors.FirstName}
               />
             </Grid>
-            <Grid size={{ sm: 12 }}>
+
+            {/* Last Name */}
+            <Grid item size={{sm: 12}}>
               <TextField
                 fullWidth
                 label="Last Name"
@@ -87,7 +107,9 @@ const AdminForm = ({ handleSubmit }) => {
                 helperText={formik.touched.LastName && formik.errors.LastName}
               />
             </Grid>
-            <Grid size={{ sm: 12 }}>
+
+            {/* Email */}
+            <Grid item size={{sm: 12}}>
               <TextField
                 fullWidth
                 label="Email"
@@ -97,7 +119,9 @@ const AdminForm = ({ handleSubmit }) => {
                 helperText={formik.touched.Email && formik.errors.Email}
               />
             </Grid>
-            <Grid size={{ sm: 12 }}>
+
+            {/* Password */}
+            <Grid item size={{sm: 12}}>
               <TextField
                 fullWidth
                 label="Password"
@@ -109,7 +133,9 @@ const AdminForm = ({ handleSubmit }) => {
                 helperText={formik.touched.Password && formik.errors.Password}
               />
             </Grid>
-            <Grid size={{ sm: 12 }}>
+
+            {/* Confirm Password */}
+            <Grid item size={{sm: 12}}>
               <TextField
                 fullWidth
                 label="Confirm Password"
@@ -125,15 +151,46 @@ const AdminForm = ({ handleSubmit }) => {
                 }
               />
             </Grid>
-            <Grid size={{ sm: 12 }}>
+
+            {/* Image Upload */}
+            <Grid item size={{sm: 12}} textAlign="center">
+              <input
+                accept="image/*"
+                style={{display: "none"}}
+                id="upload-image"
+                type="file"
+                onChange={handleImageUpload}
+              />
+              <label htmlFor="upload-image">
+                <Button
+                  variant="contained"
+                  component="span"
+                  startIcon={<PhotoCameraIcon />}
+                  sx={{mb: 2}}
+                >
+                  Choose Image
+                </Button>
+              </label>
+
+              {preview && (
+                <Box
+                  mt={2}
+                  display="flex"
+                  flexDirection="column"
+                  alignItems="center"
+                >
+                  <Avatar src={preview} sx={{width: 120, height: 120, mb: 1}} />
+                  <Typography variant="body2">{image?.name}</Typography>
+                </Box>
+              )}
+            </Grid>
+
+            {/* Submit Button */}
+            <Grid item size={{sm: 12}}>
               <Button
                 fullWidth
                 variant="contained"
-                sx={{
-                  background: "#2c3e50",
-                  padding: "8px 10px",
-                  color: "white",
-                }}
+                sx={{bgcolor: "#2c3e50", color: "white"}}
                 type="submit"
               >
                 Register
@@ -147,3 +204,36 @@ const AdminForm = ({ handleSubmit }) => {
 };
 
 export default AdminForm;
+// / const [image, setImage] = useState(null);
+// const [preview, setPreview] = useState(null);
+
+// const handleImageUpload = (event) => {
+//   const file = event.target.files[0];
+//   if (file) {
+//     setImage(file);
+//     setPreview(URL.createObjectURL(file));
+//   }
+// };
+
+// const formik = useFormik({
+//   initialValues: {
+//     FirstName: "",
+//     LastName: "",
+//     Email: "",
+//     Password: "",
+//     ConfirmPassword: "",
+//   },
+//   validationSchema: Yup.object({
+//     FirstName: Yup.string().required("First Name is required"),
+//     LastName: Yup.string().required("Last Name is required"),
+//     Email: Yup.string().email("Invalid email").required("Email is required"),
+//     Password: Yup.string().min(6, "Minimum 6 characters").required("Password is required"),
+//     ConfirmPassword: Yup.string()
+//       .oneOf([Yup.ref("Password"), null], "Passwords must match")
+//       .required("Confirm Password is required"),
+//   }),
+//   onSubmit: (values) => {
+//     console.log("Form Submitted:", values);
+//     console.log("Selected Image:", image);
+//   },
+// });

@@ -3,8 +3,8 @@ import Button from "@mui/material/Button";
 import TModal from "../../../common/Modal/TModal";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
-import { Container, Drawer, TextField } from "@mui/material";
-import { useFormik } from "formik";
+import {Container, Drawer, TextField} from "@mui/material";
+import {useFormik} from "formik";
 import DesignationTable from "../../../Component/MasterComponent/Designation/DesignationTable";
 import {
   createdesignationapicall,
@@ -15,23 +15,31 @@ import {
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import AddDesignation from "../../../Component/MasterComponent/Designation/AddDesignation";
-import { useDispatch } from "react-redux";
-import { setLoader } from "../../../redux/LoaderSlices/LoaderSlices";
+import {useDispatch} from "react-redux";
+import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import toast from "react-hot-toast";
-import { addDesignationitem } from "../../../redux/Masterslices/DesignationSlice";
+import {addDesignationitem} from "../../../redux/Masterslices/DesignationSlice";
 
 const Designation = () => {
   const dispatch = useDispatch();
   const [isdesignationdata, setisdesignationdata] = React.useState([]);
   const [IsOpen, setIsOpen] = React.useState(false);
   const [isEdit, setIsEdit] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
+  const [search, setSearch] = React.useState("");
+  const [page, setPage] = React.useState(1);
+  const [totalPages, setTotalPages] = React.useState(1);
 
   const getdesignation = async () => {
     try {
+      setLoading(true);
       dispatch(setLoader(true));
-      const response = await fetchdesignationapicall();
+      const response = await fetchdesignationapicall({
+        params: {search, page, limit: 10},
+      });
       if (response.success) {
         dispatch(setLoader(false));
+        setTotalPages(response.totalPages);
         setisdesignationdata(response.result);
       } else {
         dispatch(setLoader(false));
@@ -40,6 +48,8 @@ const Designation = () => {
     } catch (error) {
       dispatch(setLoader(false));
       toast.error(err.response?.data?.message || "Something went wrong.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -110,7 +120,7 @@ const Designation = () => {
 
   React.useEffect(() => {
     getdesignation();
-  }, [dispatch]);
+  }, [search, page]);
   return (
     <Layout>
       <BreadCrumb pageName="Designation" />
@@ -148,6 +158,14 @@ const Designation = () => {
         removeDesignation={removeDesignation}
         handleOpen={handleOpen}
         isdesignationdata={isdesignationdata}
+        setLoading={setLoading}
+        loading={loading}
+        setSearch={setSearch}
+        search={search}
+        setPage={setPage}
+        page={page}
+        setTotalPages={setTotalPages}
+        totalPages={totalPages}
       />
     </Layout>
   );

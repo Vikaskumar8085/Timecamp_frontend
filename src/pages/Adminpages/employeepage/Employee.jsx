@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Drawer, TextField } from "@mui/material";
-import { useFormik } from "formik";
+import React, {useState} from "react";
+import {Drawer, TextField} from "@mui/material";
+import {useFormik} from "formik";
 import * as Yup from "yup";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import { Button } from "@mui/material";
+import {Button} from "@mui/material";
 import {
   addemployeeapicall,
   fetchemployeeapicall,
@@ -14,10 +14,10 @@ import Layout from "../../../Layoutcomponents/Layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import EmployeeUploadForm from "../../../Component/AdminComponents/Employee/EmployeeUploadForm";
-import { uploademployeecsvapicall } from "../../../ApiServices/Csvapiservices/csvapiservices";
+import {uploademployeecsvapicall} from "../../../ApiServices/Csvapiservices/csvapiservices";
 import EmployeeForm from "../../../Component/AdminComponents/Employee/EmployeeForm";
-import { useDispatch } from "react-redux";
-import { setLoader } from "../../../redux/LoaderSlices/LoaderSlices";
+import {useDispatch} from "react-redux";
+import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import toast from "react-hot-toast";
 
 const Employee = () => {
@@ -25,16 +25,30 @@ const Employee = () => {
   const [IsEmployeeData, setIsEmployeeData] = useState([]);
   const [IsOpen, setIsOpen] = React.useState(false);
   const [IsEdit, setIsEdit] = React.useState(null);
+  const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(0); // Page starts from 0 in TablePagination
+  const [rowsPerPage, setRowsPerPage] = useState(10); // Default rows per page
+  const [totalCount, setTotalCount] = useState(0);
 
   const dispatch = useDispatch();
   const getemployee = async () => {
     try {
-      const response = await fetchemployeeapicall();
+      const response = await fetchemployeeapicall({
+        params: {
+          search,
+          page: page + 1,
+          limit: rowsPerPage,
+        },
+      });
       if (response.success) {
         setIsEmployeeData(response.result);
+        setTotalCount(response.totalCount || 0);
       }
     } catch (error) {
       console.log(error?.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -100,7 +114,7 @@ const Employee = () => {
 
   React.useEffect(() => {
     getemployee();
-  }, [0]);
+  }, [search, page, rowsPerPage]);
   return (
     <Layout>
       <BreadCrumb pageName="Employee" />
@@ -158,7 +172,10 @@ const Employee = () => {
           onClose={() => setIsUpload(false)}
           anchor="right"
         >
-          <EmployeeUploadForm setIsUpload={setIsUpload} uploadhandlesubmit={uploadhandlesubmit} />
+          <EmployeeUploadForm
+            setIsUpload={setIsUpload}
+            uploadhandlesubmit={uploadhandlesubmit}
+          />
         </Drawer>
       )}
 
@@ -166,6 +183,16 @@ const Employee = () => {
         setIsEdit={setIsEdit}
         setisOpen={setIsOpen}
         IsEmployeeData={IsEmployeeData}
+        setLoading={setLoading}
+        loading={loading}
+        setSearch={setSearch}
+        search={search}
+        setPage={setPage}
+        page={page}
+        setTotalCount={setTotalCount}
+        totalCount={totalCount}
+        setRowsPerPage={setRowsPerPage}
+        rowsPerPage={rowsPerPage}
       />
     </Layout>
   );

@@ -11,7 +11,7 @@ export const fetchtotalhourbyresourcesapicall = async () => {
   return response.data;
 };
 
-export const fetchProjectTimeapicall = async () => {
-  const response = await apiInstance.get("/v1/admin/fetch-project-time");
+export const fetchProjectTimeapicall = async (value) => {
+  const response = await apiInstance.get("/v1/admin/fetch-project-time", value);
   return response.data;
 };

@@ -13,6 +13,7 @@ import {
   Button,
   TablePagination,
   TextField,
+  Chip,
 } from "@mui/material";
 import {Link} from "react-router-dom";
 import Grid from "@mui/material/Grid2";
@@ -94,7 +95,19 @@ const ClientTable = ({
                         <TableCell>{item.Client_Address}</TableCell>
                         <TableCell>{item.Client_Postal_Code}</TableCell>
                         <TableCell>{item.GstNumber}</TableCell>
-                        <TableCell>{item.Client_Status}</TableCell>
+                        <TableCell>
+                          {" "}
+                          <Chip
+                            label={item.Client_Status}
+                            color={
+                              item.Client_Status === "Active"
+                                ? "success"
+                                : item.Client_Status === "InActive"
+                                ? "warning"
+                                : "error"
+                            }
+                          />
+                        </TableCell>
                         <TableCell
                           style={{
                             display: "flex",
@@ -148,12 +161,24 @@ const ClientTable = ({
                     <Typography>Name: {item.Client_Name}</Typography>
                     <Typography>Email: {item.Client_Email}</Typography>
                     <Typography>Phone: {item.Client_Phone}</Typography>
-                    <Typography>Address: {item.Address}</Typography>
+                    <Typography>Address: {item.Client_Address}</Typography>
                     <Typography>
                       Postal Code: {item.Client_Postal_Code}
                     </Typography>
                     <Typography>Gst Number: {item.GstNumber}</Typography>
-                    <Typography>Status: {item.Client_Status}</Typography>
+                    <Typography>
+                      Status:{" "}
+                      <Chip
+                        label={item.Client_Status}
+                        color={
+                          item.Client_Status === "Active"
+                            ? "success"
+                            : item.Client_Status === "InActive"
+                            ? "warning"
+                            : "error"
+                        }
+                      />
+                    </Typography>
                     <Link
                       style={{textDecoration: "none"}}
                       to={`/client-info/${item.Client_Id}`}

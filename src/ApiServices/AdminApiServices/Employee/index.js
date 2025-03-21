@@ -17,15 +17,18 @@ export const updateEmployeeapicall = async (value) => {
 
 // fetch employee api call
 
-export const fetchemployeeapicall = async () => {
-  const repsonse = await apiInstance.get("/v1/admin/fetch-employee");
+export const fetchemployeeapicall = async (value) => {
+  const repsonse = await apiInstance.get("/v1/admin/fetch-employee", value);
   return repsonse.data;
 };
 
 // fetch active employee api call
 
-export const fetchactiveemployeeapicall = async () => {
-  const repsonse = await apiInstance.get("/v1/admin/fetch-active-employee");
+export const fetchactiveemployeeapicall = async (value) => {
+  const repsonse = await apiInstance.get(
+    "/v1/admin/fetch-active-employee",
+    value
+  );
   return repsonse.data;
 };
 
