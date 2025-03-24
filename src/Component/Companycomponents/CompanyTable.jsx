@@ -38,7 +38,8 @@ function CompanyTable({company, setIsOpen, setIsEdit, setIsId}) {
               <Grid2 xs={12} sm={4} display="flex" justifyContent="center">
                 <Avatar
                   src={
-                    company.Company_Logo || "https://via.placeholder.com/100"
+                    `${company.Company_Logo} ` ||
+                    "https://via.placeholder.com/100"
                   }
                   alt={company.Company_Name}
                   sx={{width: 100, height: 100}}
