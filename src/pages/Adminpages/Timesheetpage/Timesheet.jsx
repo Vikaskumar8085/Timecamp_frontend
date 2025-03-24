@@ -175,7 +175,7 @@ const Timesheet = () => {
         >
           Upload Timesheet
         </Button>
-        <Button onClick={() => exportToExcel()}>Export to Excel</Button>
+        {/* <Button onClick={() => exportToExcel()}>Export to Excel</Button> */}
 
         {isModalOpen ? (
           <Drawer

@@ -66,7 +66,7 @@ const DashCounter = () => {
     <div>
       <Grid container spacing={2}>
         {dataList.map((item, index) => (
-          <Grid item xs={12} sm={6} md={3} key={index}>
+          <Grid item xs={12} sm={12} md={3} key={index}>
             <Card
               sx={{p: 2, borderRadius: 2, boxShadow: 3, bgcolor: "#f5f5f5"}}
             >
