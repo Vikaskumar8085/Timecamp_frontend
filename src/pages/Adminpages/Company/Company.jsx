@@ -1,6 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {useFormik} from "formik";
-import {TextField, Button, Container, Grid, Drawer} from "@mui/material";
+import {
+  TextField,
+  Button,
+  Container,
+  Grid,
+  Drawer,
+  Typography,
+} from "@mui/material";
 import "./company.scss";
 import {
   createcompanyapicall,
@@ -11,6 +18,7 @@ import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import CompanyTable from "../../../Component/Companycomponents/CompanyTable";
 import CompanyEditForm from "../../../Component/Companycomponents/CompanyEditForm";
+import toast from "react-hot-toast";
 
 const CompanyForm = ({handlesubmit}) => {
   const formik = useFormik({
@@ -20,7 +28,7 @@ const CompanyForm = ({handlesubmit}) => {
       Address: "",
       Postal_Code: "",
       Phone: "",
-      Company_Logo: "",
+      Company_Logo: null,
       Employee_No: "",
       Established_date: "",
       CompanyWesite: "",
@@ -59,13 +67,56 @@ const CompanyForm = ({handlesubmit}) => {
         errors.Tex_Number = "Tax Number is required";
       }
 
+      if (!values.Company_Logo) {
+        errors.Company_Logo = "Company Logo is required";
+      }
+
       return errors;
     },
     onSubmit: (values) => {
       console.log("Form submitted with values:", values);
-      handlesubmit(values);
+
+      const formData = new FormData();
+
+      formData.append("Company_Name", values?.Company_Name);
+      formData.append("Company_Email", values?.Company_Email);
+      formData.append("Address", values?.Address);
+      formData.append("Postal_Code", values?.Postal_Code);
+      formData.append("Phone", values?.Phone);
+      formData.append("Employee_No", values?.Employee_No);
+      formData.append("Established_date", values?.Established_date);
+      formData.append("CompanyWesite", values?.CompanyWesite);
+      formData.append("Tex_Number", values?.Tex_Number);
+
+      if (values.Company_Logo) {
+        formData.append("Company_Logo", values.Company_Logo); // File
+      }
+
+      console.log("Submitting FormData:");
+      for (let pair of formData.entries()) {
+        console.log(pair[0], pair[1], "values");
+      }
+
+      handlesubmit(formData);
     },
   });
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const validExtensions = ["jpg", "jpeg", "png"];
+      const fileExtension = file.name.split(".").pop().toLowerCase();
+
+      if (validExtensions.includes(fileExtension)) {
+        formik.setFieldValue("Company_Logo", file);
+      } else {
+        formik.setFieldError(
+          "Company_Logo",
+          "Only JPG, JPEG, and PNG files are allowed"
+        );
+      }
+    }
+  };
 
   return (
     <Container>
@@ -130,12 +181,17 @@ const CompanyForm = ({handlesubmit}) => {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <TextField
-              label="Company Logo URL"
+            <input
+              accept="image/jpeg, image/png"
               type="file"
-              fullWidth
-              {...formik.getFieldProps("Company_Logo")}
+              onChange={handleFileChange}
+              style={{display: "block", marginTop: "8px"}}
             />
+            {formik.errors.Company_Logo && (
+              <Typography color="error">
+                {formik.errors.Company_Logo}
+              </Typography>
+            )}
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
@@ -213,12 +269,15 @@ const Company = () => {
     try {
       const response = await createcompanyapicall(value);
       if (response.success) {
+        toast.success(response?.message);
         navigate("/dashboard");
       } else {
         navigate("/company");
+        toast.error(response?.message);
       }
     } catch (error) {
       console.log(error?.message);
+      toast.error(error?.response?.data?.message);
     }
   };
 
@@ -246,7 +305,12 @@ const Company = () => {
           }}
           anchor="right"
         >
-          <CompanyEditForm getcompany={getcompany} isId={isId} setIsOpen={setIsOpen} isEdit={isEdit} />
+          <CompanyEditForm
+            getcompany={getcompany}
+            isId={isId}
+            setIsOpen={setIsOpen}
+            isEdit={isEdit}
+          />
         </Drawer>
       )}
     </Layout>
