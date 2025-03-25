@@ -182,17 +182,16 @@ const Task = () => {
                   </TableCell>
                   <TableCell>
                     {task.Attachment && (
-                      <img
-                        src={`/uploads/${task.Attachment}`}
-                        alt="Task Attachment"
-                        style={{
-                          width: "50px",
-                          height: "50px",
-                          borderRadius: "5px",
-                        }}
-                      />
+                      <a
+                        href={task.Attachment}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        attachment
+                      </a>
                     )}
                   </TableCell>
+
                   <TableCell>
                     <Link
                       style={{textDecoration: "none", color: "#2c3e50"}}

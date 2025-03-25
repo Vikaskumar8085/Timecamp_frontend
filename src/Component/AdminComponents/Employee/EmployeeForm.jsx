@@ -12,13 +12,13 @@ import {
   Button,
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
-import { fetchdesignationapicall } from "../../../ApiServices/MasterApiServices/Designation";
+import {useFormik} from "formik";
+import React, {useEffect, useState} from "react";
+import {fetchdesignationapicall} from "../../../ApiServices/MasterApiServices/Designation";
 import toast from "react-hot-toast";
-import { fetchstaffmemberapicall } from "../../../ApiServices/AdminApiServices/Admin";
+import {fetchstaffmemberapicall} from "../../../ApiServices/AdminApiServices/Admin";
 
-const EmployeeForm = ({ handleSubmit, IsEdit, updateEmployeeFunc }) => {
+const EmployeeForm = ({handleSubmit, IsEdit, updateEmployeeFunc}) => {
   const [designations, setDesignations] = useState([]);
   const [Ismanagerid, setIsmanagerid] = useState([]);
 
@@ -34,16 +34,20 @@ const EmployeeForm = ({ handleSubmit, IsEdit, updateEmployeeFunc }) => {
       Socail_Links: IsEdit?.Socail_Links || "",
       Permission: IsEdit?.Permission || false,
       ManagerId: IsEdit?.ManagerId || "",
+      Profile: IsEdit?.Profile || null,
       Joining_Date: IsEdit?.Joining_Date || "",
     },
     enableReinitialize: true,
     onSubmit: async (values) => {
+      const formData = new FormData();
+      Object.keys(values).forEach((key) => {
+        formData.append(key, values[key]);
+      });
       if (IsEdit) {
-        console.log(values, ">>>>>>>>>>>>>>>>>>>>. update data");
-        updateEmployeeFunc(values);
+        updateEmployeeFunc(formData);
         formik.resetForm();
       } else {
-        handleSubmit(values);
+        handleSubmit(formData);
         formik.resetForm();
       }
     },
@@ -81,8 +85,8 @@ const EmployeeForm = ({ handleSubmit, IsEdit, updateEmployeeFunc }) => {
 
   return (
     <Container maxWidth="md">
-      <Box sx={{ p: 2 }}>
-        <Typography sx={{ mb: 3 }} variant="h5">
+      <Box sx={{p: 2}}>
+        <Typography sx={{mb: 3}} variant="h5">
           {IsEdit ? "Edit Employee" : "Add Employee"}
         </Typography>
 
@@ -121,6 +125,16 @@ const EmployeeForm = ({ handleSubmit, IsEdit, updateEmployeeFunc }) => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
+              <input
+                type="file"
+                accept="image/png, image/jpeg, image/jpg"
+                onChange={(event) =>
+                  formik.setFieldValue("Profile", event.currentTarget.files[0])
+                }
+              />
+              <Typography variant="body2">Upload Profile Picture</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
               <TextField
                 label="Address"
                 placeholder="Address"
@@ -133,7 +147,7 @@ const EmployeeForm = ({ handleSubmit, IsEdit, updateEmployeeFunc }) => {
                 label="Joining Date"
                 type="date"
                 fullWidth
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{shrink: true}}
                 {...formik.getFieldProps("Joining_Date")}
               />
             </Grid>
@@ -208,7 +222,7 @@ const EmployeeForm = ({ handleSubmit, IsEdit, updateEmployeeFunc }) => {
                   padding: "8px 10px",
                   margin: "10px 0px",
                   color: "white",
-                  "&:hover": { background: "#1a252f" },
+                  "&:hover": {background: "#1a252f"},
                 }}
               >
                 {" "}

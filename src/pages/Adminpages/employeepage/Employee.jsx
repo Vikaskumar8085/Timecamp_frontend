@@ -62,6 +62,8 @@ const Employee = () => {
         getemployee();
         dispatch(setLoader(false));
       } else {
+        setIsOpen(false);
+        dispatch(setLoader(false));
         toast.error(response?.message || "Something went wrong.");
       }
       console.log(value, "values");

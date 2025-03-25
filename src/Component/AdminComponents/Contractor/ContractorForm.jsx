@@ -12,13 +12,13 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
-import { fetchdesignationapicall } from "../../../ApiServices/MasterApiServices/Designation";
+import {useFormik} from "formik";
+import React, {useEffect, useState} from "react";
+import {fetchdesignationapicall} from "../../../ApiServices/MasterApiServices/Designation";
 import toast from "react-hot-toast";
-import { fetchstaffmemberapicall } from "../../../ApiServices/AdminApiServices/Admin";
+import {fetchstaffmemberapicall} from "../../../ApiServices/AdminApiServices/Admin";
 
-const ContractorForm = ({ handleSubmit, IsEdit, udpatecontractorfunc }) => {
+const ContractorForm = ({handleSubmit, IsEdit, udpatecontractorfunc}) => {
   const [designations, setDesignations] = useState([]);
   const [Ismanagerid, setIsmanagerid] = useState([]);
 
@@ -36,16 +36,22 @@ const ContractorForm = ({ handleSubmit, IsEdit, udpatecontractorfunc }) => {
       ManagerId: IsEdit?.ManagerId || "",
       Joining_Date: IsEdit?.Joining_Date || "",
       Contractor_Company: IsEdit?.Contractor_Company || "",
+      Profile: IsEdit?.Profile || null,
       Hourly_Rate: IsEdit?.Hourly_Rate || "",
       Supervisor: IsEdit?.Supervisor || "",
     },
     enableReinitialize: true,
     onSubmit: async (values) => {
+      const formData = new FormData();
+      Object.keys(values).forEach((key) => {
+        formData.append(key, values[key]);
+      });
+
       if (IsEdit) {
-        udpatecontractorfunc(values);
+        udpatecontractorfunc(formData);
         formik.resetForm();
       } else {
-        handleSubmit(values);
+        handleSubmit(formData);
         formik.resetForm();
       }
     },
@@ -83,8 +89,8 @@ const ContractorForm = ({ handleSubmit, IsEdit, udpatecontractorfunc }) => {
 
   return (
     <Container maxWidth="md">
-      <Box sx={{ p: 2 }}>
-        <Typography sx={{ mb: 3 }} variant="h5">
+      <Box sx={{p: 2}}>
+        <Typography sx={{mb: 3}} variant="h5">
           {IsEdit ? "Edit Contractor " : " Add Contractor"}
         </Typography>
 
@@ -131,11 +137,21 @@ const ContractorForm = ({ handleSubmit, IsEdit, udpatecontractorfunc }) => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
+              <input
+                type="file"
+                accept="image/png, image/jpeg, image/jpg"
+                onChange={(event) =>
+                  formik.setFieldValue("Profile", event.currentTarget.files[0])
+                }
+              />
+              <Typography variant="body2">Upload Profile Picture</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
               <TextField
                 label="Joining Date"
                 type="date"
                 fullWidth
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{shrink: true}}
                 {...formik.getFieldProps("Joining_Date")}
               />
             </Grid>
@@ -234,7 +250,7 @@ const ContractorForm = ({ handleSubmit, IsEdit, udpatecontractorfunc }) => {
                   padding: "8px 10px",
                   margin: "10px 0px",
                   color: "white",
-                  "&:hover": { background: "#1a252f" },
+                  "&:hover": {background: "#1a252f"},
                 }}
               >
                 {IsEdit ? "update  " : " Submit"}

@@ -4,6 +4,7 @@ import {
   Avatar,
   Card,
   CardContent,
+  Chip,
   CircularProgress,
   Table,
   TableBody,
@@ -12,6 +13,7 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Link,
   Box,
 } from "@mui/material";
 const Employeeinformation = ({isEmployeedata, isEmployeeprojectdata}) => {
@@ -23,19 +25,26 @@ const Employeeinformation = ({isEmployeedata, isEmployeeprojectdata}) => {
           p: 3,
           display: "flex",
           alignItems: "center",
-          // gap: 3,
-          // maxWidth: 400,
+          gap: 2,
         }}
       >
+        {/* Profile Avatar */}
         <Avatar
-          src={isEmployeedata.ProfileImage}
+          src={isEmployeedata.Photos?.[0]}
           alt={isEmployeedata.FirstName}
           sx={{width: 80, height: 80}}
         />
+
+        {/* Employee Info */}
         <CardContent sx={{flex: 1}}>
           <Typography variant="h6" fontWeight="bold">
             {isEmployeedata.FirstName} {isEmployeedata.LastName}
           </Typography>
+          <Chip
+            label={isEmployeedata.IsActive}
+            color={isEmployeedata.IsActive === "Active" ? "success" : "error"}
+            sx={{mt: 1}}
+          />
           <Typography variant="body2" color="text.secondary">
             📞 {isEmployeedata.Phone}
           </Typography>
@@ -43,8 +52,31 @@ const Employeeinformation = ({isEmployeedata, isEmployeeprojectdata}) => {
             ✉️ {isEmployeedata.Email}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            🗓 Joining Date: {isEmployeedata.Joining_Date}
+            🏠 {isEmployeedata.Address}
           </Typography>
+          <Typography variant="body2" color="text.secondary">
+            🗓 Joining Date:{" "}
+            {isEmployeedata.Joining_Date === "Invalid date"
+              ? "Not Available"
+              : isEmployeedata.Joining_Date}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            🎭 Role: {isEmployeedata.Role}
+          </Typography>
+
+          {/* Social Link */}
+          {isEmployeedata.Socail_Links && (
+            <Typography variant="body2" color="primary" sx={{mt: 1}}>
+              🔗{" "}
+              <Link
+                href={isEmployeedata.Socail_Links}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View Profile
+              </Link>
+            </Typography>
+          )}
         </CardContent>
       </Card>
     </>

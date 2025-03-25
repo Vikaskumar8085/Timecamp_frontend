@@ -4,6 +4,8 @@ import {
   Card,
   CardContent,
   CircularProgress,
+  Chip,
+  Link,
   Table,
   TableBody,
   TableCell,
@@ -95,35 +97,64 @@ const ContractorInformation = ({isContractordata, iscontractorprojectdata}) => {
   );
   return (
     <>
-      <div>
-        <Card
-          sx={{
-            p: 3,
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <Avatar
-            src={isContractordata.ProfileImage}
-            alt={isContractordata.FirstName}
-            sx={{width: 80, height: 80}}
+      <Card
+        sx={{
+          p: 3,
+          display: "flex",
+          alignItems: "center",
+          gap: 2,
+        }}
+      >
+        {/* Profile Avatar */}
+        <Avatar
+          src={isContractordata.Photos?.[0]}
+          alt={isContractordata.FirstName}
+          sx={{width: 80, height: 80}}
+        />
+        {/* Employee Info */}
+        <CardContent sx={{flex: 1}}>
+          <Typography variant="h6" fontWeight="bold">
+            {isContractordata.FirstName} {isContractordata.LastName}
+          </Typography>
+          <Chip
+            label={isContractordata.IsActive}
+            color={isContractordata.IsActive === "Active" ? "success" : "error"}
+            sx={{mt: 1}}
           />
-          <CardContent sx={{flex: 1}}>
-            <Typography variant="h6" fontWeight="bold">
-              {isContractordata.FirstName} {isContractordata.LastName}
+          <Typography variant="body2" color="text.secondary">
+            📞 {isContractordata.Phone}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            ✉️ {isContractordata.Email}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            🏠 {isContractordata.Address}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            🗓 Joining Date:{" "}
+            {isContractordata.Joining_Date === "Invalid date"
+              ? "Not Available"
+              : isContractordata.Joining_Date}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            🎭 Role: {isContractordata.Role}
+          </Typography>
+
+          {/* Social Link */}
+          {isContractordata.Socail_Links && (
+            <Typography variant="body2" color="primary" sx={{mt: 1}}>
+              🔗{" "}
+              <Link
+                href={isContractordata.Socail_Links}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View Profile
+              </Link>
             </Typography>
-            <Typography variant="body2" color="text.secondary">
-              📞 {isContractordata.Phone}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              ✉️ {isContractordata.Email}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              🗓 Joining Date: {isContractordata.Joining_Date}
-            </Typography>
-          </CardContent>
-        </Card>
-      </div>
+          )}
+        </CardContent>
+      </Card>
       <div>{contractorprojectdata}</div>
       <div>{ContractorManagerprojects}</div>
     </>

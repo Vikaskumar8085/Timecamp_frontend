@@ -16,6 +16,7 @@ import {uploadcontractorcsvapicall} from "../../../ApiServices/Csvapiservices/cs
 import ContractorForm from "../../../Component/AdminComponents/Contractor/ContractorForm";
 import {useDispatch} from "react-redux";
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
+import toast from "react-hot-toast";
 
 const Contractor = () => {
   const [Iscontractordata, setIscontractordata] = useState([]);
@@ -58,6 +59,8 @@ const Contractor = () => {
         setIsOpen(false);
         getcontractor();
       } else {
+        setIsOpen(false);
+        dispatch(setLoader(false));
         toast.error(response?.message || "Something went wrong.");
       }
     } catch (error) {
@@ -94,6 +97,9 @@ const Contractor = () => {
         dispatch(setLoader(false));
         toast.success(response?.message);
       } else {
+        setIsOpen(false);
+        setIsEdit(null);
+        getcontractor();
         dispatch(setLoader(false));
         toast.error(response?.message);
       }

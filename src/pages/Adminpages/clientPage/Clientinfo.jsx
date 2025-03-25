@@ -15,7 +15,11 @@ import {
   Box,
   TableHead,
   TableRow,
+  CardContent,
+  Typography,
+  Divider,
   Paper,
+  Grid,
 } from "@mui/material";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
@@ -27,7 +31,7 @@ import {
   billedtimesheetbyadminapicall,
   disapprovetimesheetbyadminapicall,
 } from "../../../ApiServices/AdminApiServices/Admin";
-import { setLoader } from "../../../redux/LoaderSlices/LoaderSlices";
+import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 
 const Clientinfo = () => {
   const {id} = useParams();
@@ -154,12 +158,69 @@ const Clientinfo = () => {
     <Layout>
       <BreadCrumb pageName="Client Information" />
       <Card>
-        <div className="card_data">
-          <p>Client Name: {IsClientdata?.Client_Name}</p>
-          <p>Client Email: {IsClientdata?.Client_Email}</p>
-          <p> Company Name: {IsClientdata?.Company_Name}</p>
-          <p>Client Phone: {IsClientdata?.Client_Phone}</p>{" "}
-        </div>
+        <CardContent sx={{p: 3}}>
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: "bold",
+              textAlign: "Start",
+              mb: 2,
+            }}
+          >
+            Client Information
+          </Typography>
+          <Divider sx={{mb: 2}} />
+
+          <Grid container spacing={2}>
+            {[
+              {label: "Client Name", value: IsClientdata?.Client_Name},
+              {label: "Client Email", value: IsClientdata?.Client_Email},
+              {label: "Company Name", value: IsClientdata?.Company_Name},
+              {label: "Client Phone", value: IsClientdata?.Client_Phone},
+              {label: "Client Status", value: IsClientdata?.Client_Status},
+              {label: "Postal Code", value: IsClientdata?.Client_Postal_Code},
+              {
+                label: "System Access",
+                value: (
+                  <span
+                    style={{
+                      color: IsClientdata?.System_Access ? "green" : "red",
+                    }}
+                  >
+                    {IsClientdata?.System_Access ? "Yes" : "No"}
+                  </span>
+                ),
+              },
+              {label: "GST Number", value: IsClientdata?.GstNumber},
+            ].map((item, index) => (
+              <Grid item xs={12} sm={6} key={index}>
+                <Box
+                  sx={{
+                    p: 1.5,
+                    borderRadius: 2,
+                    backgroundColor: "#f9f9f9",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
+                    variant="body1"
+                    sx={{fontWeight: 600, color: "#333"}}
+                  >
+                    {item.label}:
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    sx={{color: "#555", fontWeight: 500}}
+                  >
+                    {item.value || "N/A"}
+                  </Typography>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+        </CardContent>
       </Card>
 
       <Box>
