@@ -5,21 +5,24 @@ export const createprojectapicall = async (value) => {
   return response.data;
 };
 
-export const fetchprojectapicall = async () => {
-  const response = await apiInstance.get("/v1/admin/fetch-projects");
+export const fetchprojectapicall = async (value) => {
+  const response = await apiInstance.get("/v1/admin/fetch-projects", value);
   return response.data;
 };
 
 // Active projects
-export const fetchactiveprojectsapicall = async () => {
-  const response = await apiInstance.get("/v1/admin/fetch-active-projects");
+export const fetchactiveprojectsapicall = async (value) => {
+  const response = await apiInstance.get(
+    "/v1/admin/fetch-active-projects",
+    value
+  );
   return response.data;
 };
 
 // In active projects
 
-export const fetchinactiveprojectsapicall = async () => {
-  const response = await apiInstance.get("/v1/admin/fetch-inactive-projects");
+export const fetchinactiveprojectsapicall = async (value) => {
+  const response = await apiInstance.get("/v1/admin/fetch-inactive-projects",value);
   return response.data;
 };
 // fetch single project api call
@@ -38,8 +41,9 @@ export const fetchstaffmembersapicall = async () => {
   return response.data;
 };
 
-
-export const fetchprojecttimesheetapicall = async(value)=>{
-  const response = await apiInstance.get(`/v1/admin/fetch-project-timesheet/${value}`);
+export const fetchprojecttimesheetapicall = async (value) => {
+  const response = await apiInstance.get(
+    `/v1/admin/fetch-project-timesheet/${value}`
+  );
   return response.data;
-}
+};

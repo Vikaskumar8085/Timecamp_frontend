@@ -4,7 +4,7 @@ import * as XLSX from "xlsx";
 import {
   Button,
   Drawer,
-  Grid2,
+  Grid,
   TableContainer,
   Table,
   TableHead,
@@ -13,7 +13,12 @@ import {
   TableBody,
   Paper,
   FormControlLabel,
+  Card,
   Checkbox,
+  Typography,
+  TextField,
+  MenuItem,
+  TablePagination,
 } from "@mui/material";
 import moment from "moment";
 import UploadTimesheet from "../../../Component/AdminComponents/Timesheet/UploadTimesheet";
@@ -24,19 +29,28 @@ import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import {fetchtimesheetapicall} from "../../../ApiServices/TimesheetApiServices";
 import toast from "react-hot-toast";
 import {uploadtimesheetcsvapicall} from "../../../ApiServices/Csvapiservices/csvapiservices";
-import apiInstance from "../../../ApiInstance/apiInstance";
 import {
   approvetimesheetbyadminapicall,
   billedtimesheetbyadminapicall,
   disapprovetimesheetbyadminapicall,
 } from "../../../ApiServices/AdminApiServices/Admin";
-
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import ListIcon from "@mui/icons-material/List";
+import ReceiptIcon from "@mui/icons-material/Receipt";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 const Timesheet = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [IsTimesheetdata, setIsTimesheetdata] = useState([]);
   const dispatch = useDispatch();
   const [selectedItems, setSelectedItems] = useState([]);
   const [isProjectid, setProjectid] = useState(null);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [totalPages, setTotalPages] = useState(0);
+  const [search, setSearch] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [status, setStatus] = useState("");
 
   const exportToExcel = () => {
     const formattedData = IsTimesheetdata.map(({_id, __v, ...rest}) => ({
@@ -48,14 +62,51 @@ const Timesheet = () => {
     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
     XLSX.writeFile(workbook, "Timesheet.xlsx");
   };
-
+  const stats = [
+    {
+      label: "Total Hours",
+      value: IsTimesheetdata.reduce((sum, item) => sum + (item.hours || 0), 0),
+      icon: <AccessTimeIcon color="primary" />,
+    },
+    {
+      label: "Total Entries",
+      value: IsTimesheetdata.length,
+      icon: <ListIcon color="secondary" />,
+    },
+    {
+      label: "Total Billed Hours",
+      value: IsTimesheetdata.reduce(
+        (sum, item) => sum + (item.billed_hours || 0),
+        0
+      ),
+      icon: <ReceiptIcon color="success" />,
+    },
+    {
+      label: "Total OK Hours",
+      value: IsTimesheetdata.reduce(
+        (sum, item) => sum + (item.ok_hours || 0),
+        0
+      ),
+      icon: <CheckCircleIcon color="primary" />,
+    },
+  ];
   const fetchtimesheetfunc = async () => {
     try {
       dispatch(setLoader(true));
-      const response = await fetchtimesheetapicall();
+      const response = await fetchtimesheetapicall({
+        params: {
+          page: page + 1,
+          limit: rowsPerPage,
+          search,
+          start_date: startDate,
+          end_date: endDate,
+          status,
+        },
+      });
       if (response.success) {
         dispatch(setLoader(false));
         setIsTimesheetdata(response.result);
+        setTotalPages(response.totalPages);
       }
       console.log(response);
     } catch (error) {
@@ -155,13 +206,44 @@ const Timesheet = () => {
     }
   };
 
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleRowsPerPageChange = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
   useEffect(() => {
     fetchtimesheetfunc();
-  }, [0]);
+  }, [page, rowsPerPage, search, startDate, endDate, status]);
 
   return (
     <Layout>
       <BreadCrumb pageName="TimeSheet" />
+      <Grid container spacing={2} sx={{my: 1}}>
+        {stats.map((stat, index) => (
+          <Grid item sm={12} md={3} lg={3} key={index}>
+            <Card
+              sx={{
+                p: 2,
+                textAlign: "center",
+                backgroundColor: "#fff",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 1,
+              }}
+            >
+              {stat.icon}
+              <Typography variant="h6">
+                {stat.label}: {stat.value}
+              </Typography>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+
       <div>
         <Button
           startIcon={<FileUploadIcon />}
@@ -229,21 +311,48 @@ const Timesheet = () => {
         ) : null}
       </div>
 
-      <Grid2 container spacing={2}>
-        <Grid2 item sm={12} md={3} lg={3}>
-          1
-        </Grid2>
-        <Grid2 item sm={12} md={3} lg={3}>
-          2
-        </Grid2>
-        <Grid2 item sm={12} md={3} lg={3}>
-          3
-        </Grid2>
-        <Grid2 item sm={12} md={3} lg={3}>
-          4
-        </Grid2>
-      </Grid2>
-
+      <div style={{display: "flex", gap: "1rem", marginBottom: "1rem"}}>
+        <TextField
+          label="Search"
+          variant="outlined"
+          size="small"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <TextField
+          label="Start Date"
+          type="date"
+          variant="outlined"
+          size="small"
+          InputLabelProps={{shrink: true}}
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+        />
+        <TextField
+          label="End Date"
+          type="date"
+          variant="outlined"
+          size="small"
+          InputLabelProps={{shrink: true}}
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
+        />
+        <TextField
+          select
+          label="Status"
+          variant="outlined"
+          size="small"
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+        >
+          <MenuItem value="">All</MenuItem>
+          <MenuItem value="Active">Active</MenuItem>
+          <MenuItem value="Inactive">Inactive</MenuItem>
+        </TextField>
+        <Button variant="contained" onClick={fetchtimesheetfunc}>
+          Apply Filters
+        </Button>
+      </div>
       <TableContainer component={Paper}>
         <Table sx={{minWidth: 650}} aria-label="client table">
           <TableHead>
@@ -288,10 +397,10 @@ const Timesheet = () => {
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{item.ts_code}</TableCell>
                   <TableCell>
-                    {moment(item.created_at).format("DD-MM-YYYY")}
+                    {moment(item.created_at).format("DD/MM/YYYY")}
                   </TableCell>
-                  <TableCell>{item.ProjectName.join(", ")}</TableCell>
-                  <TableCell>{item.StaffName.join(", ")}</TableCell>
+                  <TableCell>{item.ProjectName}</TableCell>
+                  <TableCell>{item.StaffName}</TableCell>
                   <TableCell>{item.Description}</TableCell>
                   <TableCell>{item.hours}</TableCell>
                   <TableCell>{item.billed_hours}</TableCell>
@@ -300,6 +409,19 @@ const Timesheet = () => {
                   <TableCell>{item.approval_status}</TableCell>
                   <TableCell>{item.billing_status}</TableCell>
                   <TableCell>{item.remarks}</TableCell>
+                  <TableCell>
+                    {item.attachement ? (
+                      <a
+                        href={item.attachement}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        View
+                      </a>
+                    ) : (
+                      "No Attachment"
+                    )}
+                  </TableCell>
                 </TableRow>
               ))
             ) : (
@@ -312,6 +434,14 @@ const Timesheet = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <TablePagination
+        component="div"
+        count={totalPages * rowsPerPage}
+        page={page}
+        onPageChange={handlePageChange}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={handleRowsPerPageChange}
+      />
     </Layout>
   );
 };

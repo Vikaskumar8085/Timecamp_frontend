@@ -5,24 +5,13 @@ import ProjectForm from "../../../Component/AdminComponents/Project/ProjectForm"
 import UploadProjectForm from "../../../Component/AdminComponents/Project/UploadProjectForm";
 import AddIcons from "@mui/icons-material/Add";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-} from "@mui/material";
-import {
   createprojectapicall,
   fetchprojectapicall,
 } from "../../../ApiServices/ProjectApiServices";
-import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import ProjectTable from "../../../Component/AdminComponents/Project/ProjectTable";
-import MilestoneForm from "./ProjectInfoPages/MilestoneForm";
 import ProjectUploadForm from "../../../Component/AdminComponents/Project/ProjectUploadForm";
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import toast from "react-hot-toast";
@@ -35,9 +24,15 @@ const Project = () => {
   const [isProjectdata, setIsProjectdata] = useState([]);
   const [IsProjectUploadModelOpen, setIsProjectUploadModelOpen] =
     useState(false);
-
   const [IsEdit, setIsEdit] = useState(null);
   const dispatch = useDispatch();
+  // project data
+  const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [totalPages, setTotalPages] = useState(1);
+  // project data
 
   const handleSubmit = async (values) => {
     try {
@@ -62,12 +57,18 @@ const Project = () => {
 
   const getProjectapicall = async () => {
     try {
-      const response = await fetchprojectapicall();
+      setLoading(true);
+      const response = await fetchprojectapicall({
+        params: {search, page, limit},
+      });
       if (response.success) {
-        setIsProjectdata(response.result);
+        setIsProjectdata(response.result || []);
+        setTotalPages(response.totalPages || 1);
       }
     } catch (error) {
       console.log(error?.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -94,7 +95,7 @@ const Project = () => {
 
   useEffect(() => {
     getProjectapicall();
-  }, [0]);
+  }, [page, search, limit]);
 
   return (
     <Layout>
@@ -157,6 +158,15 @@ const Project = () => {
         setIsModalOpen={setIsModalOpen}
         setIsEdit={setIsEdit}
         isProjectdata={isProjectdata}
+        setSearch={setSearch}
+        search={search}
+        setPage={setPage}
+        page={page}
+        setLimit={setLimit}
+        limit={limit}
+        loading={loading}
+        totalPages={totalPages}
+        setTotalPages={setTotalPages}
       />
     </Layout>
   );
