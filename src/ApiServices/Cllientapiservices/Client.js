@@ -1,16 +1,19 @@
 import apiInstance from "../../ApiInstance/apiInstance";
 
-export const fetchclientprojectapicall = async () => {
-  const response = await apiInstance.get("/v2/client/client-project");
+export const fetchclientprojectapicall = async (value) => {
+  const response = await apiInstance.get("/v2/client/client-project", value);
   return response.data;
 };
-export const fetchclientactiveprojectapicall = async () => {
-  const response = await apiInstance.get("/v2/client/client-active-project");
+export const fetchclientactiveprojectapicall = async (value) => {
+  const response = await apiInstance.get("/v2/client/client-active-project",value);
   return response.data;
 };
 
-export const fetchclientinactiveprojectapicall = async () => {
-  const response = await apiInstance.get("/v2/client/client-inactive-project");
+export const fetchclientinactiveprojectapicall = async (value) => {
+  const response = await apiInstance.get(
+    "/v2/client/client-inactive-project",
+    value
+  );
   return response.data;
 };
 
@@ -61,7 +64,3 @@ export const disapprovetimesheetapicall = async (value) => {
   );
   return response.data;
 };
-
-
-
-

@@ -18,6 +18,9 @@ import {
   billedtimesheetbyadminapicall,
   disapprovetimesheetbyadminapicall,
 } from "../../../ApiServices/AdminApiServices/Admin";
+import apiInstance from "../../../ApiInstance/apiInstance";
+import Chart from "react-apexcharts";
+import {Card, CardContent, Typography, CircularProgress} from "@mui/material";
 
 const Projectinfo = () => {
   const {id} = useParams();
@@ -26,6 +29,8 @@ const Projectinfo = () => {
   const [IsprojectInfodata, setIsprojectInfodata] = useState([]);
   const [Isprojecttimesheetdata, setIsprojecttimesheetdata] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
+  const [chartData, setChartData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   console.log(Isprojecttimesheetdata, "?>>>>>>>>>>>>...");
 
@@ -134,9 +139,51 @@ const Projectinfo = () => {
   };
 
   // approved and disapproved and billed
+  // fetch project info chart
+
+  const fetchprojectinfochartfunc = async () => {
+    try {
+      const response = await apiInstance.get(
+        `/v1/admin/fetch-project-staff-chart/${id}`
+      );
+      if (response.data.success) {
+        const data = response?.data.result;
+        const categories = data.map((item) => item.FirstName);
+        const hours = data.map((item) => item.hours);
+        const billedHours = data.map((item) => item.billedHours);
+        setChartData({
+          options: {
+            chart: {
+              type: "bar",
+              toolbar: {show: false},
+            },
+            xaxis: {
+              categories,
+            },
+            colors: ["#2196f3", "#00695c"],
+            title: {
+              text: "Project Hours Overview",
+              align: "center",
+              style: {fontSize: "18px"},
+            },
+          },
+          series: [
+            {name: "Hours Worked", data: hours},
+            {name: "Billed Hours", data: billedHours},
+          ],
+        });
+
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log(error?.message);
+      setLoading(false);
+    }
+  };
   useEffect(() => {
     getsingleprojectfunc();
     fetchprojecttimesheetfunc();
+    fetchprojectinfochartfunc();
   }, [0]);
 
   const tabsheader = [
@@ -149,6 +196,22 @@ const Projectinfo = () => {
       content: (
         <>
           <ProjectInformation IsprojectInfodata={IsprojectInfodata} />
+          <Card>
+            <CardContent>
+              {loading ? (
+                <CircularProgress
+                  style={{display: "block", margin: "20px auto"}}
+                />
+              ) : (
+                <Chart
+                  options={chartData.options}
+                  series={chartData.series}
+                  type="bar"
+                  height={350}
+                />
+              )}
+            </CardContent>
+          </Card>
         </>
       ),
     },

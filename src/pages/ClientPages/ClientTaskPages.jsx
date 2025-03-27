@@ -44,9 +44,9 @@ const ClientTaskPages = () => {
               <TableCell>
                 <strong>Task ID</strong>
               </TableCell>
-              <TableCell>
+              {/* <TableCell>
                 <strong>Project ID</strong>
-              </TableCell>
+              </TableCell> */}
               <TableCell>
                 <strong>Task Name</strong>
               </TableCell>
@@ -71,7 +71,7 @@ const ClientTaskPages = () => {
               <TableCell>
                 <strong>Completed Time</strong>
               </TableCell>
-              <TableCell>
+              {/* <TableCell>
                 <strong>Milestone ID</strong>
               </TableCell>
               <TableCell>
@@ -79,7 +79,7 @@ const ClientTaskPages = () => {
               </TableCell>
               <TableCell>
                 <strong>Company ID</strong>
-              </TableCell>
+              </TableCell> */}
               <TableCell>
                 <strong>Created At</strong>
               </TableCell>
@@ -89,7 +89,7 @@ const ClientTaskPages = () => {
             {IsClientTask?.map((task, index) => (
               <TableRow key={index}>
                 <TableCell>{index + 1}</TableCell>
-                <TableCell>{task.ProjectId}</TableCell>
+                {/* <TableCell>{task.ProjectId}</TableCell> */}
                 <TableCell>{task.Task_Name}</TableCell>
                 <TableCell>{task.Task_description}</TableCell>
                 <TableCell>
@@ -108,9 +108,9 @@ const ClientTaskPages = () => {
                 <TableCell>{task.EndDate}</TableCell>
                 <TableCell>{task.Estimated_Time} hrs</TableCell>
                 <TableCell>{task.Completed_time} hrs</TableCell>
-                <TableCell>{task.MilestoneId}</TableCell>
+                {/* <TableCell>{task.MilestoneId}</TableCell>
                 <TableCell>{task.Resource_Id}</TableCell>
-                <TableCell>{task.Company_Id}</TableCell>
+                <TableCell>{task.Company_Id}</TableCell> */}
                 <TableCell>
                   {new Date(task.createdAt).toLocaleDateString()}
                 </TableCell>

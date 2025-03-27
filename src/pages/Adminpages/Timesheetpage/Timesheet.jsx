@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import * as XLSX from "xlsx";
 import {
   Button,
   Drawer,
@@ -52,20 +51,13 @@ const Timesheet = () => {
   const [endDate, setEndDate] = useState("");
   const [status, setStatus] = useState("");
 
-  const exportToExcel = () => {
-    const formattedData = IsTimesheetdata.map(({_id, __v, ...rest}) => ({
-      ...rest,
-      CompanyImage: "https://example.com/company-logo.png", // Replace with actual image URL if available
-    }));
-    const worksheet = XLSX.utils.json_to_sheet(formattedData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-    XLSX.writeFile(workbook, "Timesheet.xlsx");
-  };
   const stats = [
     {
       label: "Total Hours",
-      value: IsTimesheetdata.reduce((sum, item) => sum + (item.hours || 0), 0),
+      value: IsTimesheetdata.reduce(
+        (sum, item) => sum + (parseInt(item.hours) || 0),
+        0
+      ),
       icon: <AccessTimeIcon color="primary" />,
     },
     {

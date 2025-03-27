@@ -11,8 +11,13 @@ import {
   TablePagination,
   FormControlLabel,
   Checkbox,
+  Card,
+  Grid2,
   Button,
 } from "@mui/material";
+import * as XLSX from "xlsx";
+import {AccessTime, List, Receipt, CheckCircle} from "@mui/icons-material";
+import DownloadIcon from "@mui/icons-material/Download";
 
 const TimesheetTable = ({
   data,
@@ -24,6 +29,31 @@ const TimesheetTable = ({
 }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const totalHoursSum = data.reduce(
+    (sum, item) => sum + parseInt(item.hours),
+    0
+  );
+  const totalEntriesSum = data.length;
+  const totalBilledHoursSum = data.reduce(
+    (sum, item) => sum + item.billed_hours,
+    0
+  );
+  const totalOkHoursSum = data.reduce((sum, item) => sum + item.ok_hours, 0);
+
+  // export to excel
+  const exportToExcel = () => {
+    const formattedData = data.map(({_id, __v, ...rest}) => ({
+      ...rest,
+      CompanyImage: "https://example.com/company-logo.png", // Replace with actual image URL if available
+    }));
+    const worksheet = XLSX.utils.json_to_sheet(formattedData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    XLSX.writeFile(workbook, "Timesheet.xlsx");
+  };
+
+  // export to excel
 
   const handleCheckboxChange = (id) => {
     setSelectedItems(
@@ -45,6 +75,86 @@ const TimesheetTable = ({
 
   return (
     <>
+      <Grid2 container spacing={2} sx={{my: 2}}>
+        <Grid2 item sm={12} md={3} lg={3}>
+          <Card
+            sx={{
+              p: 2,
+              textAlign: "center",
+              backgroundColor: "#fff",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 1,
+            }}
+          >
+            <AccessTime color="primary" />
+            <Typography variant="h6">Total Hours: {totalHoursSum}</Typography>
+          </Card>
+        </Grid2>
+        <Grid2 item sm={12} md={3} lg={3}>
+          <Card
+            sx={{
+              p: 2,
+              textAlign: "center",
+              backgroundColor: "#fff",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 1,
+            }}
+          >
+            <List color="secondary" />
+            <Typography variant="h6">
+              Total Entries: {totalEntriesSum}
+            </Typography>
+          </Card>
+        </Grid2>
+        <Grid2 item sm={12} md={3} lg={3}>
+          <Card
+            sx={{
+              p: 2,
+              textAlign: "center",
+              backgroundColor: "#fff",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 1,
+            }}
+          >
+            <Receipt color="success" />
+            <Typography variant="h6">
+              Total Billed Hours: {totalBilledHoursSum}
+            </Typography>
+          </Card>
+        </Grid2>
+        <Grid2 item sm={12} md={3} lg={3}>
+          <Card
+            sx={{
+              p: 2,
+              textAlign: "center",
+              backgroundColor: "#fff",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 1,
+            }}
+          >
+            <CheckCircle color="primary" />
+            <Typography variant="h6">
+              Total OK Hours: {totalOkHoursSum}
+            </Typography>
+          </Card>
+        </Grid2>
+      </Grid2>
+      <Button
+        variant="contained"
+        sx={{backgroundColor: "#2c3e50", my: 1}}
+        onClick={exportToExcel}
+      >
+        <DownloadIcon />
+      </Button>
+
       {selectedItems.length > 0 ? (
         <div sx={{margin: "10px 0px"}}>
           <Button
@@ -69,7 +179,6 @@ const TimesheetTable = ({
           >
             DisApprove
           </Button>
-
           <Button
             sx={{
               backgroundColor: "skyblue",
@@ -89,7 +198,6 @@ const TimesheetTable = ({
             <TableHead>
               <TableRow>
                 <TableCell>Select Id</TableCell>
-
                 <TableCell>Project Name</TableCell>
                 <TableCell>Staff Name</TableCell>
                 <TableCell>Task Description</TableCell>

@@ -9,8 +9,13 @@ import {
   Paper,
   Typography,
   Chip,
+  Grid,
+  Card,
 } from "@mui/material";
-
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import ListIcon from "@mui/icons-material/List";
+import ReceiptIcon from "@mui/icons-material/Receipt";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import {fetchclientprojecttimesheetapicall} from "../../ApiServices/Cllientapiservices/Client";
@@ -29,6 +34,41 @@ const ClientTimesheet = () => {
     }
   };
 
+  // timesheet
+
+  const stats = [
+    {
+      label: "Total Hours",
+      value: isClientTimesheetdata.reduce(
+        (sum, item) => sum + (parseInt(item.hours) || 0),
+        0
+      ),
+      icon: <AccessTimeIcon color="primary" />,
+    },
+    {
+      label: "Total Entries",
+      value: isClientTimesheetdata.length,
+      icon: <ListIcon color="secondary" />,
+    },
+    {
+      label: "Total Billed Hours",
+      value: isClientTimesheetdata.reduce(
+        (sum, item) => sum + (item.billed_hours || 0),
+        0
+      ),
+      icon: <ReceiptIcon color="success" />,
+    },
+    {
+      label: "Total OK Hours",
+      value: isClientTimesheetdata.reduce(
+        (sum, item) => sum + (item.ok_hours || 0),
+        0
+      ),
+      icon: <CheckCircleIcon color="primary" />,
+    },
+  ];
+  // timesheet
+
   useEffect(() => {
     fetchclienttimesheetfunc();
   }, [0]);
@@ -36,6 +76,28 @@ const ClientTimesheet = () => {
   return (
     <Layout>
       <BreadCrumb pageName="Client Timesheet" />
+      <Grid container spacing={2} sx={{my: 1}}>
+        {stats.map((stat, index) => (
+          <Grid item sm={12} md={3} lg={3} key={index}>
+            <Card
+              sx={{
+                p: 2,
+                textAlign: "center",
+                backgroundColor: "#fff",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 1,
+              }}
+            >
+              {stat.icon}
+              <Typography variant="h6">
+                {stat.label}: {stat.value}
+              </Typography>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
 
       <TableContainer
         component={Paper}
