@@ -5,7 +5,10 @@ export const fetchclientprojectapicall = async (value) => {
   return response.data;
 };
 export const fetchclientactiveprojectapicall = async (value) => {
-  const response = await apiInstance.get("/v2/client/client-active-project",value);
+  const response = await apiInstance.get(
+    "/v2/client/client-active-project",
+    value
+  );
   return response.data;
 };
 
@@ -18,8 +21,11 @@ export const fetchclientinactiveprojectapicall = async (value) => {
 };
 
 // fetch client Task
-export const fetchclientprojectaskapicall = async () => {
-  const response = await apiInstance.get("/v2/client/client-project-task");
+export const fetchclientprojectaskapicall = async (value) => {
+  const response = await apiInstance.get(
+    "/v2/client/client-project-task",
+    value
+  );
   return response.data;
 };
 
