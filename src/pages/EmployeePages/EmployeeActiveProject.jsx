@@ -106,6 +106,13 @@ const EmployeeActiveProject = () => {
                   </>
                 );
               })}
+              {!isemployeeActiveproject.length && (
+                <TableRow>
+                  <TableCell colSpan={30} align="center">
+                    <Empty />
+                  </TableCell>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </TableContainer>

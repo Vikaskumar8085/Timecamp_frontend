@@ -27,6 +27,7 @@ import {
   MenuItem,
   Button,
   Drawer,
+  TablePagination,
 } from "@mui/material";
 import {useDispatch} from "react-redux";
 import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
@@ -36,7 +37,13 @@ import toast from "react-hot-toast";
 const Taskpage = () => {
   const [IsOpen, setIsOpen] = useState(false);
   const [tasks, setTasks] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(10);
+
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const [Isprojectmilestonedata, setIsprojectmilestonedata] = useState([]);
@@ -109,8 +116,12 @@ const Taskpage = () => {
 
   const fetchTasks = async () => {
     try {
-      const response = await apiInstance.get("/v2/manager/fetch-manager-task");
+      const response = await apiInstance.get("/v2/manager/fetch-manager-task", {
+        params: {search, page: page + 1, limit},
+      });
       setTasks(response.data.result);
+      setTotalPages(response.data.pagination.totalPages);
+      setTotalRecords(response.data.pagination.totalRecords);
     } catch (err) {
       setError(err.response?.data?.error || "Failed to fetch tasks");
     } finally {
@@ -121,7 +132,7 @@ const Taskpage = () => {
   useEffect(() => {
     fetchmanagertaskmilestonesfunc();
     fetchTasks();
-  }, [0]);
+  }, [page, limit, search]);
   return (
     <Layout>
       <BreadCrumb pageName=" Manager Task" />
@@ -394,6 +405,14 @@ const Taskpage = () => {
         </Drawer>
       )}
 
+      <TextField
+        label="Search Tasks"
+        variant="outlined"
+        fullWidth
+        margin="normal"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
       <TableContainer component={Paper} sx={{mt: 4, p: 2}}>
         <Typography variant="h5" gutterBottom>
           Manager Tasks
@@ -451,6 +470,17 @@ const Taskpage = () => {
           </Table>
         )}
       </TableContainer>
+      <TablePagination
+        component="div"
+        count={totalRecords}
+        page={page}
+        rowsPerPage={limit}
+        onPageChange={(event, newPage) => setPage(newPage)}
+        onRowsPerPageChange={(event) => {
+          setLimit(parseInt(event.target.value, 10));
+          setPage(0);
+        }}
+      />
     </Layout>
   );
 };

@@ -12,6 +12,7 @@ import {
   TableBody,
   Paper,
 } from "@mui/material";
+import Empty from "../../common/EmptyFolder/Empty";
 
 const EmployeeTimesheets = () => {
   const [IsEmployeeTimesheetData, setIsEmployeeTimesheetData] = useState([]);
@@ -75,8 +76,8 @@ const EmployeeTimesheets = () => {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={10} align="center">
-                  {/* <Empty /> */}
+                <TableCell colSpan={30} align="center">
+                  <Empty />
                 </TableCell>
               </TableRow>
             )}

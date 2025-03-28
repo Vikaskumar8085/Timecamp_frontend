@@ -13,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import {Link} from "react-router-dom";
+import Empty from "../../common/EmptyFolder/Empty";
 const EmployeeTasks = () => {
   const [IsEmployeeTaskdata, setIsEmployeeTaskdata] = useState([]);
   console.log(IsEmployeeTaskdata, "Task data");
@@ -86,6 +87,15 @@ const EmployeeTasks = () => {
                 </TableCell>
               </TableRow>
             ))}
+            {!IsEmployeeTaskdata.length && (
+              <>
+                <TableRow>
+                  <TableCell colSpan={30} align="center">
+                    <Empty />
+                  </TableCell>
+                </TableRow>
+              </>
+            )}
           </TableBody>
         </Table>
       </TableContainer>

@@ -13,6 +13,9 @@ import ManagerProductivityLeaderboard from "../../Component/DashboardComponents/
 import ContractordashboardCounter from "../../Component/DashboardComponents/Contractor/ContractordashboardCounter";
 import Clientdashboarheader from "../../Component/DashboardComponents/Client/Clientdashboarheader";
 import RecentProject from "../../Component/DashboardComponents/Client/RecentProject";
+import Employeedashboardcounter from "../../Component/DashboardComponents/Employee/Employeedashboardcounter";
+import EmployeeTotalHourByResources from "../../Component/DashboardComponents/Employee/EmployeeTotalHourByResources";
+import EmployeeRecentProject from "../../Component/DashboardComponents/Employee/EmployeeRecentProject";
 
 const Dashboard = () => {
   const userdata = useSelector((state) => state.user.values);
@@ -38,13 +41,13 @@ const Dashboard = () => {
         <>
           {" "}
           <div>
-            <ContractordashboardCounter />
+            <Employeedashboardcounter />
           </div>
           <div>
-            <h1>Employee Project Time hour</h1>
+            <EmployeeTotalHourByResources />
           </div>
           <div>
-            <h1>Recent Project</h1>
+            <EmployeeRecentProject />
           </div>
         </>
       )}

@@ -13,8 +13,13 @@ import {
   Pagination,
   Typography,
   CircularProgress,
+  Grid,
+  Card,
 } from "@mui/material";
-
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import ListIcon from "@mui/icons-material/List";
+import ReceiptIcon from "@mui/icons-material/Receipt";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 const ManagerTimesheet = () => {
   const [timesheets, setTimesheets] = useState([]);
   const [page, setPage] = useState(1);
@@ -22,6 +27,35 @@ const ManagerTimesheet = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [totalPages, setTotalPages] = useState(1);
+
+  const stats = [
+    {
+      label: "Total Hours",
+      value: timesheets.reduce(
+        (sum, item) => sum + (parseInt(item.hours) || 0),
+        0
+      ),
+      icon: <AccessTimeIcon color="primary" />,
+    },
+    {
+      label: "Total Entries",
+      value: timesheets.length,
+      icon: <ListIcon color="secondary" />,
+    },
+    {
+      label: "Total Billed Hours",
+      value: timesheets.reduce(
+        (sum, item) => sum + (item.billed_hours || 0),
+        0
+      ),
+      icon: <ReceiptIcon color="success" />,
+    },
+    {
+      label: "Total OK Hours",
+      value: timesheets.reduce((sum, item) => sum + (item.ok_hours || 0), 0),
+      icon: <CheckCircleIcon color="primary" />,
+    },
+  ];
 
   useEffect(() => {
     const fetchTimesheets = async () => {
@@ -45,10 +79,31 @@ const ManagerTimesheet = () => {
   return (
     <Layout>
       <BreadCrumb pageName="Manager Timesheet" />
+
+      <Grid container spacing={2} sx={{my: 1}}>
+        {stats.map((stat, index) => (
+          <Grid item sm={12} md={3} lg={3} key={index}>
+            <Card
+              sx={{
+                p: 2,
+                textAlign: "center",
+                backgroundColor: "#fff",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 1,
+              }}
+            >
+              {stat.icon}
+              <Typography variant="h6">
+                {stat.label}: {stat.value}
+              </Typography>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+
       <Paper sx={{padding: 2, margin: "auto"}}>
-        <Typography variant="h5" gutterBottom>
-          Manager Timesheets
-        </Typography>
         {loading ? (
           <CircularProgress />
         ) : error ? (

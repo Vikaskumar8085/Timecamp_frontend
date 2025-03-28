@@ -34,18 +34,20 @@ const ManagerProject = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [search, setSearch] = useState("");
-  const [sortBy, setSortBy] = useState("name");
-  const [order, setOrder] = useState("asc");
   const [totalRecords, setTotalRecords] = useState(0);
   const dispatch = useDispatch();
 
   const fetchprojects = async () => {
     try {
       const response = await apiInstance.get(
-        "/v2/manager/fetch-manager-project"
+        "/v2/manager/fetch-manager-project",
+        {
+          params: {page: page + 1, limit: rowsPerPage, search: search.trim()},
+        }
       );
 
       setData(response.data.result);
+      setTotalRecords(response.data.totalRecords);
     } catch (error) {
       console.error("Error fetching projects:", error);
     } finally {
@@ -73,6 +75,10 @@ const ManagerProject = () => {
       toast.error(error?.response?.data?.message);
     }
   };
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value);
+  };
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -88,7 +94,7 @@ const ManagerProject = () => {
 
   useEffect(() => {
     fetchprojects();
-  }, [page, rowsPerPage, search, sortBy, order]);
+  }, [page, rowsPerPage, search]);
 
   return (
     <Layout>
@@ -111,11 +117,17 @@ const ManagerProject = () => {
         </Drawer>
       )}
       <Paper sx={{width: "100%", overflow: "hidden", padding: 2}}>
-        <Typography variant="h6" gutterBottom>
-          Manager Team Listk
-        </Typography>
+        <TextField
+          label="Search by Name"
+          variant="outlined"
+          fullWidth
+          value={search}
+          onChange={handleSearchChange}
+          sx={{marginBottom: 2}}
+        />
 
         {/* Data Table */}
+
         <TableContainer sx={{mt: 3}}>
           <Typography variant="h6" sx={{p: 2}}>
             Project List
@@ -201,14 +213,9 @@ const ManagerProject = () => {
           )}
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[10, 25, 50]}
           component="div"
-          count={
-            data.flatMap((item) => [
-              ...item.fetchproject,
-              ...item.fetchteamproject,
-            ]).length
-          }
+          count={totalRecords}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

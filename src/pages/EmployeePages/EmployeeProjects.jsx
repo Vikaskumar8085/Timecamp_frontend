@@ -17,6 +17,7 @@ import {
 import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
 import EmpProjectForm from "../../Component/EmployeeComponents/EmpProjectForm";
+import Empty from "../../common/EmptyFolder/Empty";
 
 const EmployeeProjects = () => {
   const userdata = useSelector((state) => state?.user.values);
@@ -127,6 +128,15 @@ const EmployeeProjects = () => {
                   </>
                 );
               })}
+              {!Isemployeeprojectdata.length && (
+                <>
+                  <TableRow>
+                    <TableCell colSpan={30} align="center">
+                      <Empty />
+                    </TableCell>
+                  </TableRow>
+                </>
+              )}
             </TableBody>
           </Table>
         </TableContainer>
