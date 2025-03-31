@@ -18,8 +18,6 @@ const ContractorProjectTimesheet = ({id}) => {
   const [isContractoractiveproject, setIsContractoractiveproject] = useState(
     []
   );
-
-  console.log(isContractoractiveproject, "?>>>>>>>>>>??>>>>>>>>>>>>>>>");
   const [IsOpen, setIsOpen] = useState(false);
 
   const fetchcontractorprojecttimesheetFunc = async () => {
@@ -106,14 +104,15 @@ const ContractorProjectTimesheet = ({id}) => {
                   value={formik.values.project}
                   onChange={formik.handleChange}
                 >
-                  {/* {[
-                    ...(Isemployeeprojects?.response || []),
-                    ...(Isemployeeprojects?.employeeactiveProjects || []),
+                  {[
+                    ...(isContractoractiveproject?.response || []),
+                    ...(isContractoractiveproject?.employeeactiveProjects ||
+                      []),
                   ].map((item) => (
                     <MenuItem key={item.ProjectId} value={item.ProjectId}>
                       {item.Project_Name}
                     </MenuItem>
-                  ))} */}
+                  ))}
                 </Select>
               </FormControl>
 

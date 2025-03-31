@@ -4,7 +4,7 @@ import apiInstance from "../../../ApiInstance/apiInstance";
 import {Box} from "@mui/material";
 import moment from "moment";
 
-const EmployeeRecentProject = () => {
+const ContractorRecentProject = () => {
   const [projects, setProjects] = useState([]);
   const [chartData, setChartData] = useState({
     series: [],
@@ -30,10 +30,11 @@ const EmployeeRecentProject = () => {
       },
     },
   });
-  const fetchemployeerecentprojectfunc = async () => {
+
+  const fetchcontractorrecentProjectfunc = async () => {
     try {
       const response = await apiInstance.get(
-        "/v2/employee/fetch-employee-recent-project"
+        "/v2/contractor/fetch-contractor-recent-project"
       );
       const {result} = response.data;
 
@@ -46,7 +47,7 @@ const EmployeeRecentProject = () => {
   };
 
   useEffect(() => {
-    fetchemployeerecentprojectfunc();
+    fetchcontractorrecentProjectfunc();
   }, [0]);
   useEffect(() => {
     // Format data for the range bar
@@ -69,8 +70,9 @@ const EmployeeRecentProject = () => {
       }));
     }
   }, [projects]);
+
   return (
-    <div>
+    <>
       <Box my={3}>
         <ApexCharts
           options={chartData.options}
@@ -79,8 +81,8 @@ const EmployeeRecentProject = () => {
           height={450}
         />
       </Box>
-    </div>
+    </>
   );
 };
 
-export default EmployeeRecentProject;
+export default ContractorRecentProject;

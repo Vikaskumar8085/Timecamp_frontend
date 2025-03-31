@@ -16,6 +16,8 @@ import RecentProject from "../../Component/DashboardComponents/Client/RecentProj
 import Employeedashboardcounter from "../../Component/DashboardComponents/Employee/Employeedashboardcounter";
 import EmployeeTotalHourByResources from "../../Component/DashboardComponents/Employee/EmployeeTotalHourByResources";
 import EmployeeRecentProject from "../../Component/DashboardComponents/Employee/EmployeeRecentProject";
+import ContractorRecentProject from "../../Component/DashboardComponents/Contractor/ContractorRecentProject";
+import ContractorHourbyResources from "../../Component/DashboardComponents/Contractor/ContractorHourbyResources";
 
 const Dashboard = () => {
   const userdata = useSelector((state) => state.user.values);
@@ -54,6 +56,8 @@ const Dashboard = () => {
       {Role === "Contractor" && (
         <div>
           <ContractordashboardCounter />
+          <ContractorRecentProject />
+          <ContractorHourbyResources />
         </div>
       )}
       {Role === "Manager" && (

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { fetchcontractorinactiveprojectapicall } from "../../ApiServices/ContractorApiServices/ContractorApiServices";
+import React, {useEffect, useState} from "react";
+import {fetchcontractorinactiveprojectapicall} from "../../ApiServices/ContractorApiServices/ContractorApiServices";
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import {
   Table,
   TableBody,
@@ -13,6 +13,7 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
+import {VisibilitySharp} from "@mui/icons-material";
 const ContractorInactiveProject = () => {
   const [isContractoractiveprojectdata, setIscontractoractiveprojectdata] =
     useState([]);
@@ -33,7 +34,7 @@ const ContractorInactiveProject = () => {
     <Layout>
       <BreadCrumb pageName="Contractor Inactive Project" />
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table sx={{minWidth: 650}} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell align="left">Id</TableCell>
@@ -50,11 +51,12 @@ const ContractorInactiveProject = () => {
             {isContractoractiveprojectdata?.response?.map((item, index) => {
               return (
                 <>
-                  <TableRow key={item._id}>
+                  <TableRow key={index}>
+                    <TableCell>{index + 1}</TableCell>
                     <TableCell>{item.Project_Name}</TableCell>
                     <TableCell>{item.Project_Code}</TableCell>
                     <TableCell>
-                      {item.Project_Status ? "Active" : "InActive"}
+                      {item.Project_Status === true ? "Active" : "InActive"}
                     </TableCell>
                     <TableCell>{item.Project_Type}</TableCell>
                     <TableCell>
@@ -67,7 +69,7 @@ const ContractorInactiveProject = () => {
                       <Link
                         to={`/contractor/contractor-project-info/${item.ProjectId}`}
                       >
-                        view
+                        <VisibilitySharp />
                       </Link>
                     </TableCell>
                   </TableRow>
@@ -78,7 +80,8 @@ const ContractorInactiveProject = () => {
               (item, index) => {
                 return (
                   <>
-                    <TableRow key={item._id}>
+                    <TableRow key={index}>
+                      <TableCell>{index + 1}</TableCell>
                       <TableCell>{item.Project_Name}</TableCell>
                       <TableCell>{item.Project_Code}</TableCell>
                       <TableCell>{item.Project_Status}</TableCell>
@@ -93,7 +96,7 @@ const ContractorInactiveProject = () => {
                         <Link
                           to={`/contractor/contractor-project-info/${item.ProjectId}`}
                         >
-                          view
+                          <VisibilitySharp />
                         </Link>
                       </TableCell>
                     </TableRow>

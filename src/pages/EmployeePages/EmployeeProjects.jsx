@@ -18,6 +18,7 @@ import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
 import EmpProjectForm from "../../Component/EmployeeComponents/EmpProjectForm";
 import Empty from "../../common/EmptyFolder/Empty";
+import {VisibilitySharp} from "@mui/icons-material";
 
 const EmployeeProjects = () => {
   const userdata = useSelector((state) => state?.user.values);
@@ -84,7 +85,7 @@ const EmployeeProjects = () => {
                       <TableCell>{item.Project_Code}</TableCell>
                       <TableCell>{item.Project_Status}</TableCell>
                       <TableCell>
-                        {item.Project_Status ? "Active" : "InActive"}
+                        {item.Project_Status === true ? "Active" : "InActive"}
                       </TableCell>
                       <TableCell>
                         {new Date(item.Start_Date).toLocaleDateString()}
@@ -96,7 +97,7 @@ const EmployeeProjects = () => {
                         <Link
                           to={`/employee/employee-project-info/${item.ProjectId}`}
                         >
-                          view
+                          <VisibilitySharp />
                         </Link>
                       </TableCell>
                     </TableRow>
@@ -109,7 +110,9 @@ const EmployeeProjects = () => {
                     <TableRow key={item._id}>
                       <TableCell>{item.Project_Name}</TableCell>
                       <TableCell>{item.Project_Code}</TableCell>
-                      <TableCell>{item.Project_Status}</TableCell>
+                      <TableCell>
+                        {item.Project_Status === true ? "Active" : "InActive"}
+                      </TableCell>
                       <TableCell>{item.Project_Type}</TableCell>
                       <TableCell>
                         {new Date(item.Start_Date).toLocaleDateString()}
@@ -121,22 +124,13 @@ const EmployeeProjects = () => {
                         <Link
                           to={`/employee/employee-project-info/${item.ProjectId}`}
                         >
-                          view
+                          <VisibilitySharp />
                         </Link>
                       </TableCell>
                     </TableRow>
                   </>
                 );
               })}
-              {!Isemployeeprojectdata.length && (
-                <>
-                  <TableRow>
-                    <TableCell colSpan={30} align="center">
-                      <Empty />
-                    </TableCell>
-                  </TableRow>
-                </>
-              )}
             </TableBody>
           </Table>
         </TableContainer>

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { fetchcontractortaskapicall } from "../../ApiServices/ContractorApiServices/ContractorApiServices";
+import React, {useEffect, useState} from "react";
+import {fetchcontractortaskapicall} from "../../ApiServices/ContractorApiServices/ContractorApiServices";
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import {
@@ -11,30 +11,75 @@ import {
   TableRow,
   Paper,
   Typography,
+  TablePagination,
+  TextField,
+  Link,
 } from "@mui/material";
+
 const ContractorTasks = () => {
   const [IsContracotorTaskdata, setIsContractorTaskdata] = useState([]);
+  const [totalTasks, setTotalTasks] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [search, setSearch] = useState("");
+
+  // Function to fetch contractor tasks
   const fetchContractorTaskfunc = async () => {
     try {
-      const response = await fetchcontractortaskapicall();
+      const response = await fetchcontractortaskapicall({
+        params: {
+          page: page + 1,
+          limit,
+          search,
+        },
+      });
       if (response.success) {
         setIsContractorTaskdata(response.result);
+        setTotalTasks(response.pagination.totalTasks);
+        setTotalPages(response.pagination.totalPages);
       }
     } catch (error) {
-      console.log(error?.message);
+      console.error("Error fetching tasks:", error?.message);
     }
+  };
+
+  // Handle page change
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  // Handle rows per page change
+  const handleChangeRowsPerPage = (event) => {
+    setLimit(parseInt(event.target.value, 10));
+    setPage(0); // Reset to first page when rows per page changes
+  };
+
+  // Handle search input change
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value);
   };
 
   useEffect(() => {
     fetchContractorTaskfunc();
-  }, [0]);
+  }, [page, limit, search]);
 
   return (
     <div>
       <Layout>
         <BreadCrumb pageName="Contractor Task" />
-        <TableContainer component={Paper} sx={{ mt: 3 }}>
-          <Typography variant="h6" sx={{ p: 2 }}>
+        {/* Search bar */}
+        <TextField
+          label="Search Tasks"
+          variant="outlined"
+          fullWidth
+          value={search}
+          onChange={handleSearchChange}
+          sx={{marginBottom: 2}}
+        />
+        {/* Task List Table */}
+        <TableContainer component={Paper} sx={{mt: 3}}>
+          <Typography variant="h6" sx={{p: 2}}>
             Task List
           </Typography>
           <Table>
@@ -54,11 +99,11 @@ const ContractorTasks = () => {
             </TableHead>
             <TableBody>
               {IsContracotorTaskdata.map((task, index) => (
-                <TableRow key={task._id}>
+                <TableRow key={index}>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{task.Task_Name}</TableCell>
-                  <TableCell>{task.ProjectName?.join(", ")}</TableCell>
-                  <TableCell>{task.MilestoneName?.join(", ")}</TableCell>
+                  <TableCell>{task.project?.join(", ")}</TableCell>
+                  <TableCell>{task.milestones?.join(", ")}</TableCell>
                   <TableCell>{task.Priority}</TableCell>
                   <TableCell>
                     {new Date(task.StartDate).toLocaleDateString()}
@@ -66,19 +111,21 @@ const ContractorTasks = () => {
                   <TableCell>
                     {new Date(task.EndDate).toLocaleDateString()}
                   </TableCell>
-                  <TableCell>{task.ResourceName?.join(", ")}</TableCell>
+                  <TableCell>{task.resources?.join(", ")}</TableCell>
                   <TableCell>{task.Status}</TableCell>
                   <TableCell>
-                    {task.Attachment && (
-                      <img
-                        src={`/uploads/${task.Attachment}`}
-                        alt="Task Attachment"
-                        style={{
-                          width: "50px",
-                          height: "50px",
-                          borderRadius: "5px",
-                        }}
-                      />
+                    {/* Handle attachment (File or Image) */}
+                    {task.Attachment ? (
+                      <Link
+                        href={`${task.Attachment}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        sx={{textDecoration: "none", color: "blue"}}
+                      >
+                        View Attachment
+                      </Link>
+                    ) : (
+                      <Typography>No Attachment</Typography>
                     )}
                   </TableCell>
                 </TableRow>
@@ -86,6 +133,17 @@ const ContractorTasks = () => {
             </TableBody>
           </Table>
         </TableContainer>
+
+        {/* Pagination */}
+        <TablePagination
+          rowsPerPageOptions={[10, 20, 50]}
+          component="div"
+          count={totalTasks}
+          rowsPerPage={limit}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </Layout>
     </div>
   );

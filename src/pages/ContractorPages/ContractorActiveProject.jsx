@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import {Link} from "react-router-dom";
 import {fetchcontractoractiveprojectapicall} from "../../ApiServices/ContractorApiServices/ContractorApiServices";
+import {VisibilitySharp} from "@mui/icons-material";
 
 const ContractorActiveProject = () => {
   const [isContractoractiveproject, setIsContractoractiveproject] = useState(
@@ -55,11 +56,12 @@ const ContractorActiveProject = () => {
               {isContractoractiveproject?.response?.map((item, index) => {
                 return (
                   <>
-                    <TableRow key={item._id}>
+                    <TableRow key={index}>
+                      <TableCell>{index + 1}</TableCell>
                       <TableCell>{item.Project_Name}</TableCell>
                       <TableCell>{item.Project_Code}</TableCell>
                       <TableCell>
-                        {item.Project_Status ? "Active" : "InActive"}
+                        {item.Project_Status === true ? "Active" : "InActive"}
                       </TableCell>
                       <TableCell>{item.Project_Type}</TableCell>
                       <TableCell>
@@ -72,7 +74,7 @@ const ContractorActiveProject = () => {
                         <Link
                           to={`/contractor/contractor-project-info/${item.ProjectId}`}
                         >
-                          view
+                          <VisibilitySharp />
                         </Link>
                       </TableCell>
                     </TableRow>
@@ -83,10 +85,14 @@ const ContractorActiveProject = () => {
                 (item, index) => {
                   return (
                     <>
-                      <TableRow key={item._id}>
+                      <TableRow key={index}>
+                        <TableCell>{index + 1}</TableCell>
                         <TableCell>{item.Project_Name}</TableCell>
                         <TableCell>{item.Project_Code}</TableCell>
-                        <TableCell>{item.Project_Status}</TableCell>
+                        <TableCell>
+                          {item.Project_Status === true ? "Active" : "InActive"}
+                        </TableCell>
+
                         <TableCell>{item.Project_Type}</TableCell>
                         <TableCell>
                           {new Date(item.Start_Date).toLocaleDateString()}
@@ -98,7 +104,7 @@ const ContractorActiveProject = () => {
                           <Link
                             to={`/contractor/contractor-project-info/${item.ProjectId}`}
                           >
-                            view
+                            <VisibilitySharp />
                           </Link>
                         </TableCell>
                       </TableRow>

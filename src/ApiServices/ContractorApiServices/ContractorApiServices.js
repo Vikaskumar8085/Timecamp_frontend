@@ -59,9 +59,9 @@ export const fillcontractorprojecttimesheetapicall = async (value) => {
   return response.data;
 };
 
-export const fetchcontractortaskapicall = async () => {
+export const fetchcontractortaskapicall = async (value) => {
   const response = await apiInstance.get(
-    "/v2/contractor/fetch-contractor-tasks"
+    "/v2/contractor/fetch-contractor-tasks",value
   );
   return response.data;
 };

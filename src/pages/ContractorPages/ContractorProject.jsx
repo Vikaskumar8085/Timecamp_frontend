@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { fetchContractorprojectsapicall } from "../../ApiServices/ContractorApiServices/ContractorApiServices";
+import React, {useEffect, useState} from "react";
+import {fetchContractorprojectsapicall} from "../../ApiServices/ContractorApiServices/ContractorApiServices";
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import {
@@ -10,9 +10,9 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import {VisibilitySharp} from "@mui/icons-material";
+import {Link} from "react-router-dom";
 const ContractorProject = () => {
   const [IsContractorProjectdata, setIsContractorProjectdata] = useState([]);
 
@@ -34,7 +34,7 @@ const ContractorProject = () => {
     <Layout>
       <BreadCrumb pageName="Contractor Project" />
 
-      <TableContainer component={Paper} sx={{ mt: 3 }}>
+      <TableContainer component={Paper} sx={{mt: 3}}>
         <Table>
           <TableHead>
             <TableRow>
@@ -52,11 +52,12 @@ const ContractorProject = () => {
             {IsContractorProjectdata?.response?.map((item, index) => {
               return (
                 <>
-                  <TableRow key={item._id}>
+                  <TableRow key={index}>
+                    <TableCell>{index + 1}</TableCell>
                     <TableCell>{item.Project_Name}</TableCell>
                     <TableCell>{item.Project_Code}</TableCell>
                     <TableCell>
-                      {item.Project_Status ? "Active" : "InActive"}
+                      {item.Project_Status === true ? "Active" : "InActive"}
                     </TableCell>
                     <TableCell>{item.Project_Type}</TableCell>
                     <TableCell>
@@ -69,7 +70,7 @@ const ContractorProject = () => {
                       <Link
                         to={`/contractor/contractor-project-info/${item.ProjectId}`}
                       >
-                        view
+                        <VisibilitySharp />
                       </Link>
                     </TableCell>
                   </TableRow>
@@ -79,10 +80,13 @@ const ContractorProject = () => {
             {IsContractorProjectdata?.contractorProjects?.map((item, index) => {
               return (
                 <>
-                  <TableRow key={item._id}>
+                  <TableRow key={index}>
+                    <TableCell>{index + 1}</TableCell>
                     <TableCell>{item.Project_Name}</TableCell>
                     <TableCell>{item.Project_Code}</TableCell>
-                    <TableCell>{item.Project_Status}</TableCell>
+                    <TableCell>
+                      {item.Project_Status === true ? "Active" : "InActive"}
+                    </TableCell>
                     <TableCell>{item.Project_Type}</TableCell>
                     <TableCell>
                       {new Date(item.Start_Date).toLocaleDateString()}
@@ -94,7 +98,7 @@ const ContractorProject = () => {
                       <Link
                         to={`/contractor/contractor-project-info/${item.ProjectId}`}
                       >
-                        view
+                        <VisibilitySharp />
                       </Link>
                     </TableCell>
                   </TableRow>

@@ -11,12 +11,31 @@ import {
   TableCell,
   TableBody,
   Paper,
+  Grid,
+  Typography,
+  Card,
 } from "@mui/material";
 import Empty from "../../common/EmptyFolder/Empty";
-
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import ListIcon from "@mui/icons-material/List";
 const EmployeeTimesheets = () => {
   const [IsEmployeeTimesheetData, setIsEmployeeTimesheetData] = useState([]);
-  console.log(IsEmployeeTimesheetData, "//////////employee timesheet");
+
+  const stats = [
+    {
+      label: "Total Hours",
+      value: IsEmployeeTimesheetData.reduce(
+        (sum, item) => sum + (parseInt(item.hours) || 0),
+        0
+      ),
+      icon: <AccessTimeIcon color="primary" />,
+    },
+    {
+      label: "Total Entries",
+      value: IsEmployeeTimesheetData.length,
+      icon: <ListIcon color="secondary" />,
+    },
+  ];
   const fetchemployeetimesheetfunc = async () => {
     try {
       const response = await fetchemployeetimesheetapicall();
@@ -33,6 +52,32 @@ const EmployeeTimesheets = () => {
   return (
     <Layout>
       <BreadCrumb pageName="Employee Timesheet" />
+
+      {/* timesheet data */}
+      <Grid container spacing={2} sx={{my: 1}}>
+        {stats.map((stat, index) => (
+          <Grid item sm={12} md={3} lg={3} key={index}>
+            <Card
+              sx={{
+                p: 2,
+                textAlign: "center",
+                backgroundColor: "#fff",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 1,
+              }}
+            >
+              {stat.icon}
+              <Typography variant="h6">
+                {stat.label}: {stat.value}
+              </Typography>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+      {/* timesheet data */}
+
       <TableContainer component={Paper}>
         <Table sx={{minWidth: 650}} aria-label="client table">
           <TableHead>

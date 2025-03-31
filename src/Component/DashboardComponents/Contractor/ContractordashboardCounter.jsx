@@ -15,21 +15,21 @@ const ContractordashboardCounter = () => {
       value: getValue(Isdata?.totalhours),
       icon: <PeopleIcon fontSize="large" color="primary" />,
     },
-    // {
-    //   label: "Staff Number",
-    //   value: getValue(Isdata?.staffNo),
-    //   icon: <PeopleIcon fontSize="large" color="primary" />,
-    // },
+    {
+      label: "Staff Number",
+      value: getValue(Isdata?.staffNo),
+      icon: <PeopleIcon fontSize="large" color="primary" />,
+    },
     {
       label: "Project Number",
       value: getValue(Isdata?.totalproject),
       icon: <WorkIcon fontSize="large" color="secondary" />,
     },
-    // {
-    //   label: "Total Timesheet",
-    //   value: getValue(Isdata?.totalTask),
-    //   icon: <BusinessIcon fontSize="large" color="success" />,
-    // },
+    {
+      label: "Total Timesheet",
+      value: getValue(Isdata?.totalTask),
+      icon: <BusinessIcon fontSize="large" color="success" />,
+    },
   ];
 
   const fetchdashcounterfunc = async () => {

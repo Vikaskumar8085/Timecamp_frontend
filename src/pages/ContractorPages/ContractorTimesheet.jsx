@@ -11,14 +11,34 @@ import {
   TableRow,
   TableBody,
   Paper,
+  Grid,
+  Typography,
+  Card,
 } from "@mui/material";
 import Empty from "../../common/EmptyFolder/Empty";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import ListIcon from "@mui/icons-material/List";
 
 const ContractorTimesheet = () => {
   const [isContractorTimesheetdata, setIsContractorTimesheetdata] = useState(
     []
   );
 
+  const stats = [
+    {
+      label: "Total Hours",
+      value: isContractorTimesheetdata.reduce(
+        (sum, item) => sum + (parseInt(item.hours) || 0),
+        0
+      ),
+      icon: <AccessTimeIcon color="primary" />,
+    },
+    {
+      label: "Total Entries",
+      value: isContractorTimesheetdata.length,
+      icon: <ListIcon color="secondary" />,
+    },
+  ];
   const fetchcontractorTimesheetfunc = async () => {
     try {
       const response = await fetchcontractortimesheetapicall();
@@ -37,6 +57,31 @@ const ContractorTimesheet = () => {
     <div>
       <Layout>
         <BreadCrumb pageName="Contractor Timesheet" />
+
+        {/* timesheet */}
+        <Grid container spacing={2} sx={{my: 1}}>
+          {stats.map((stat, index) => (
+            <Grid item sm={12} md={3} lg={3} key={index}>
+              <Card
+                sx={{
+                  p: 2,
+                  textAlign: "center",
+                  backgroundColor: "#fff",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 1,
+                }}
+              >
+                {stat.icon}
+                <Typography variant="h6">
+                  {stat.label}: {stat.value}
+                </Typography>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+        {/* timesheet */}
         <TableContainer component={Paper}>
           <Table sx={{minWidth: 650}} aria-label="client table">
             <TableHead>
@@ -64,7 +109,7 @@ const ContractorTimesheet = () => {
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>{item.ts_code}</TableCell>
                     <TableCell>
-                      {moment(item.created_at).format("DD-MM-YYYY")}
+                      {moment(item.created_at).format("DD/MM/YYYY")}
                     </TableCell>
                     <TableCell>{item.ProjectName || null}</TableCell>
                     <TableCell>{item.StaffName || null}</TableCell>
@@ -80,7 +125,7 @@ const ContractorTimesheet = () => {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={10} align="center">
+                  <TableCell colSpan={30} align="center">
                     <Empty />
                   </TableCell>
                 </TableRow>
