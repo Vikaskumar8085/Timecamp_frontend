@@ -99,7 +99,7 @@ const ContractorProjectTimesheet = ({id}) => {
             <form onSubmit={formik.handleSubmit}>
               <FormControl fullWidth sx={{mb: 2}}>
                 <InputLabel>Select Project</InputLabel>
-                <Select
+                {/* <Select
                   {...formik.getFieldProps("project")}
                   value={formik.values.project}
                   onChange={formik.handleChange}
@@ -113,7 +113,7 @@ const ContractorProjectTimesheet = ({id}) => {
                       {item.Project_Name}
                     </MenuItem>
                   ))}
-                </Select>
+                </Select> */}
               </FormControl>
 
               <TextField

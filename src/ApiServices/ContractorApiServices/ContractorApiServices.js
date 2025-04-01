@@ -44,9 +44,10 @@ export const fetchcontractorprojecttasksapicall = async (value) => {
 };
 
 // fetch contractor timesheet api call
-export const fetchcontractortimesheetapicall = async () => {
+export const fetchcontractortimesheetapicall = async (value) => {
   const response = await apiInstance.get(
-    "/v2/contractor/fetch-contractor-timesheet"
+    "/v2/contractor/fetch-contractor-timesheet",
+    value
   );
   return response.data;
 };
@@ -61,7 +62,8 @@ export const fillcontractorprojecttimesheetapicall = async (value) => {
 
 export const fetchcontractortaskapicall = async (value) => {
   const response = await apiInstance.get(
-    "/v2/contractor/fetch-contractor-tasks",value
+    "/v2/contractor/fetch-contractor-tasks",
+    value
   );
   return response.data;
 };
