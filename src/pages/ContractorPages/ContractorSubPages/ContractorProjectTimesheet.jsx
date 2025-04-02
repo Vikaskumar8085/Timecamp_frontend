@@ -9,26 +9,65 @@ import {
   FormControl,
   InputLabel,
   Select,
+  TablePagination,
+} from "@mui/material";
+import {
   TextField,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Pagination,
+  CircularProgress,
 } from "@mui/material";
 import * as Yup from "yup";
 import {fillcontractorprojecttimesheetapicall} from "../../../ApiServices/ContractorApiServices/ContractorApiServices";
-
+import apiInstance from "../../../ApiInstance/apiInstance";
+import moment from "moment";
 const ContractorProjectTimesheet = ({id}) => {
   const [isContractoractiveproject, setIsContractoractiveproject] = useState(
     []
   );
+  console.log(isContractoractiveproject, "dadsf");
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(0); // TablePagination uses zero-based index
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [search, setSearch] = useState("");
   const [IsOpen, setIsOpen] = useState(false);
 
   const fetchcontractorprojecttimesheetFunc = async () => {
     try {
-      const response = await fillcontractorprojecttimesheetapicall(id);
-      if (response.success) {
-        setIsContractoractiveproject(response.result);
+      setLoading(true);
+      const response = await apiInstance.get(
+        `/v2/contractor/fetch-contractor-timesheet/${id}`,
+        {
+          params: {
+            page: page + 1,
+            limit: rowsPerPage,
+            search: search.trim()
+              ? {
+                  $or: [
+                    {task_description: {$regex: search, $options: "i"}},
+                    {task_Name: {$regex: search, $options: "i"}},
+                  ],
+                }
+              : undefined,
+          },
+        }
+      );
+
+      if (response.data.success) {
+        setIsContractoractiveproject(response.data.result);
+        setTotalRecords(response.data.totalRecords);
       }
     } catch (error) {
       console.log(error?.message);
     }
+    setLoading(false);
   };
 
   const formik = useFormik({
@@ -77,10 +116,11 @@ const ContractorProjectTimesheet = ({id}) => {
 
   useEffect(() => {
     fetchcontractorprojecttimesheetFunc();
-  }, [0]);
+  }, [page, rowsPerPage, search]);
   return (
     <>
       <BreadCrumb pageName="Contractor Project Timesheet" />
+
       <Button
         onClick={() => setIsOpen(true)}
         // startIcon={<AddIcon />}
@@ -93,6 +133,20 @@ const ContractorProjectTimesheet = ({id}) => {
       >
         Fill Timesheet
       </Button>
+      <TextField
+        label="Search Tasks"
+        variant="outlined"
+        fullWidth
+        margin="normal"
+        value={search}
+        onChange={(e) => {
+          setSearch(e.target.value);
+          setPage(0); // Reset to first page when searching
+        }}
+      />
+
+      
+
       {IsOpen && (
         <Drawer open={IsOpen} anchor="right" onClose={() => setIsOpen(false)}>
           <Container maxWidth="sm" sx={{p: 2}}>
@@ -205,6 +259,88 @@ const ContractorProjectTimesheet = ({id}) => {
           </Container>
         </Drawer>
       )}
+
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell>Timesheet No.</TableCell>
+                <TableCell>Day</TableCell>
+                <TableCell>Project</TableCell>
+                <TableCell>Resource</TableCell>
+                <TableCell>Task Description</TableCell>
+                <TableCell>Total Hours</TableCell>
+                <TableCell>Billed Hours</TableCell>
+                <TableCell>Ok Hours</TableCell>
+                <TableCell>Blank Hours</TableCell>
+                <TableCell>Approval Status</TableCell>
+                <TableCell>Billing Status</TableCell>
+                <TableCell>Remarks</TableCell>
+                <TableCell>Attachement</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {isContractoractiveproject.length > 0 ? (
+                isContractoractiveproject.map((item, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{item.ts_code}</TableCell>
+                    <TableCell>
+                      {moment(item.created_at).format("DD/MM/YYYY")}
+                    </TableCell>
+                    <TableCell>{item.ProjectName || null}</TableCell>
+                    <TableCell>{item.StaffName || null}</TableCell>
+                    <TableCell>{item.Description || null}</TableCell>
+                    <TableCell>{item.hours || null}</TableCell>
+                    <TableCell>{item?.billed_hours || null}</TableCell>
+                    <TableCell>{item.ok_hours || null}</TableCell>
+                    <TableCell>{item.blank_hours}</TableCell>
+                    <TableCell>{item.approval_status}</TableCell>
+                    <TableCell>{item.billing_status}</TableCell>
+                    <TableCell>{item.remarks}</TableCell>
+                    <TableCell>
+                      {item.attachement ? (
+                        <a
+                          href={`${item.attachement}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          View
+                        </a>
+                      ) : (
+                        <span>No Attachment</span>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={4} align="center">
+                    No timesheets found
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={totalRecords}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={(event, newPage) => setPage(newPage)}
+        onRowsPerPageChange={(event) => {
+          setRowsPerPage(parseInt(event.target.value, 10));
+          setPage(0); // Reset to first page when changing rows per page
+        }}
+      />
     </>
   );
 };
