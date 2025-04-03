@@ -3,24 +3,44 @@ import {fetchemployeetimesheetapicall} from "../../ApiServices/EmployeeApiservic
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import moment from "moment";
+import {useFormik} from "formik";
 import {
-  TableContainer,
   Table,
+  TableCell,
+  TableContainer,
   TableHead,
   TableRow,
-  TableCell,
   TableBody,
   Paper,
   Grid,
   Typography,
   Card,
+  Button,
+  Drawer,
+  Container,
+  FormControl,
+  TextField,
+  Select,
+  MenuItem,
+  InputLabel,
+  TablePagination,
 } from "@mui/material";
 import Empty from "../../common/EmptyFolder/Empty";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import AddIcon from "@mui/icons-material/Add";
+import * as Yup from "yup";
 import ListIcon from "@mui/icons-material/List";
+import apiInstance from "../../ApiInstance/apiInstance";
+import toast from "react-hot-toast";
 const EmployeeTimesheets = () => {
   const [IsEmployeeTimesheetData, setIsEmployeeTimesheetData] = useState([]);
-
+  const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [IsEmployeeProjectdata, setIsEmployeeProjectdata] = useState([]);
+  const [IsOpenfirst, setIsOpenfirst] = useState(false);
   const stats = [
     {
       label: "Total Hours",
@@ -38,14 +58,20 @@ const EmployeeTimesheets = () => {
   ];
   const fetchemployeetimesheetfunc = async () => {
     try {
-      const response = await fetchemployeetimesheetapicall();
+      const response = await fetchemployeetimesheetapicall({
+        params: {page: page + 1, limit: rowsPerPage, search},
+      });
       if (response.success) {
         setIsEmployeeTimesheetData(response.result);
+        setTotalRecords(response.totalRecords);
       }
     } catch (error) {
       console.log(error?.message);
     }
+    setLoading(false);
   };
+
+  
   useEffect(() => {
     fetchemployeetimesheetfunc();
   }, [0]);

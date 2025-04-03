@@ -80,6 +80,7 @@ import ClientProjectTime from "./pages/ClientPages/ClientProjectTime";
 import ClientTimeSummary from "./pages/ClientPages/ClientTimeSummary";
 import Taskview from "./pages/Adminpages/TaskPage/Taskview";
 import NotificationPage from "./pages/Dashboard/NotificationPage";
+import ContractorTaskInfo from "./pages/ContractorPages/ContractorTaskInfo";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -225,6 +226,10 @@ const App = () => {
         <Route
           path="/contractor/contractor-project-time"
           element={<ContractorProjectTime />}
+        />
+        <Route
+          path="/contracotr/taskinfo/:id"
+          element={<ContractorTaskInfo />}
         />
         {/* contractor  */}
 

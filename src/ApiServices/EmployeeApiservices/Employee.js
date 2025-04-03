@@ -45,9 +45,10 @@ export const fetchemployeeprojecttaskapicall = async (value) => {
 
 // fetch employee timesheet api call
 
-export const fetchemployeetimesheetapicall = async () => {
+export const fetchemployeetimesheetapicall = async (value) => {
   const response = await apiInstance.get(
-    "/v2/employee/fetch-employee-timesheet"
+    "/v2/employee/fetch-employee-timesheet",
+    value
   );
   return response.data;
 };

@@ -121,13 +121,11 @@ const EmployeeProjectTimesheet = ({id}) => {
   // remove timesheet
 
   const RemoveTimesheetFunc = async (value) => {
-    console.log(value, "?>>>>>>>>>>>>>>");
     try {
       dispatch(setLoader(true));
       const response = await apiInstance.delete(
         `/v2/employee/remove-employee-timesheet/${value}`
       );
-      console.log(response, "?>>>?>>>>?>?>?>?>");
       if (response.data?.success) {
         dispatch(setLoader(false));
         fetchEmployeeProjectTimesheet();

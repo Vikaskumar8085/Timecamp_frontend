@@ -198,7 +198,7 @@ const ContractorProjectTask = ({id}) => {
                       <TableCell>
                         <Link
                           style={{textDecoration: "none", color: "#2c3e50"}}
-                          to={`/task-view/${task.task_Id}`}
+                          to={`/contracotr/taskinfo/${task.task_Id}`}
                         >
                           <VisibilityIcon />
                         </Link>
