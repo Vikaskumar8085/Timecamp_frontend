@@ -11,6 +11,8 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import {Link} from "react-router-dom";
 const EmployeeProjectTask = ({id}) => {
   const [IsEmployeeProjectTaskdata, setIsEmployeeProjectTaskdata] = useState(
     []
@@ -33,7 +35,7 @@ const EmployeeProjectTask = ({id}) => {
   return (
     <div>
       <>
-        <BreadCrumb pageName="Employee Project Information" />
+        <BreadCrumb pageName="Employee Task" />
         <TableContainer
           component={Paper}
           sx={{mt: 2, boxShadow: 3, borderRadius: 2}}
@@ -71,6 +73,9 @@ const EmployeeProjectTask = ({id}) => {
                 <TableCell>
                   <strong>Attachment</strong>
                 </TableCell>
+                <TableCell>
+                  <strong>Action</strong>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -98,6 +103,14 @@ const EmployeeProjectTask = ({id}) => {
                       ) : (
                         "No Attachment"
                       )}
+                    </TableCell>
+                    <TableCell>
+                      <Link
+                        style={{textDecoration: "none", color: "#2c3e50"}}
+                        to={`/employee/taskinfo/${task.task_Id}`}
+                      >
+                        <VisibilityIcon />
+                      </Link>
                     </TableCell>
                   </TableRow>
                 ))

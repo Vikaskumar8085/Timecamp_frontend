@@ -77,6 +77,7 @@ const ProjectTask = ({id}) => {
       if (response.data.success) {
         console.log(response);
         fetchmilestonefunc();
+        fetchmilestonewithresourcesfunc();
         setIsMieStoneOpen(false);
       }
     } catch (error) {
@@ -199,7 +200,10 @@ const ProjectTask = ({id}) => {
           onClose={() => setIsUploadTaskOpen(false)}
           anchor="right"
         >
-          <UploadTask setIsUploadTaskOpen={setIsUploadTaskOpen} uploadTaskhandlesubmit={uploadTaskhandlesubmit} />
+          <UploadTask
+            setIsUploadTaskOpen={setIsUploadTaskOpen}
+            uploadTaskhandlesubmit={uploadTaskhandlesubmit}
+          />
         </Drawer>
       )}
 

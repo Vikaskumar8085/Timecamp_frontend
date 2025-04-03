@@ -80,7 +80,8 @@ const EmployeeProjects = () => {
               {Isemployeeprojectdata?.response?.map((item, index) => {
                 return (
                   <>
-                    <TableRow key={item._id}>
+                    <TableRow key={index}>
+                      <TableCell>{index + 1}</TableCell>
                       <TableCell>{item.Project_Name}</TableCell>
                       <TableCell>{item.Project_Code}</TableCell>
                       <TableCell>{item.Project_Status}</TableCell>
@@ -107,7 +108,8 @@ const EmployeeProjects = () => {
               {Isemployeeprojectdata?.employeeProjects?.map((item, index) => {
                 return (
                   <>
-                    <TableRow key={item._id}>
+                    <TableRow key={index}>
+                      <TableCell>{index + 1}</TableCell>
                       <TableCell>{item.Project_Name}</TableCell>
                       <TableCell>{item.Project_Code}</TableCell>
                       <TableCell>

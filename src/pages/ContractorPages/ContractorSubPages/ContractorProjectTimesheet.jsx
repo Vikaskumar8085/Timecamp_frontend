@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import Layout from "../../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import {useFormik} from "formik";
 import {
@@ -144,8 +143,6 @@ const ContractorProjectTimesheet = ({id}) => {
           setPage(0); // Reset to first page when searching
         }}
       />
-
-      
 
       {IsOpen && (
         <Drawer open={IsOpen} anchor="right" onClose={() => setIsOpen(false)}>
