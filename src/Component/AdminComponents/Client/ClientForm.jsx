@@ -50,15 +50,16 @@ const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
       errors.Client_Postal_Code = "Postal Code must be 5 or 6 digits";
     }
 
-    if (!values.GstNumber.trim()) {
-      errors.GstNumber = "GST Number is required";
-    } else if (
-      !/^[0-3][0-9][A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/.test(
-        values.GstNumber
-      )
-    ) {
-      errors.GstNumber = "Invalid GST Number format";
-    }
+    // if (!values.GstNumber.trim()) {
+    //   errors.GstNumber = "GST Number is required";
+    // }
+    //  else if (
+    //   !/^[0-3][0-9][A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/.test(
+    //     values.GstNumber
+    //   )
+    // ) {
+    //   errors.GstNumber = "Invalid GST Number format";
+    // }
     // if (!values.System_Access) {
     // errors.System_Access = "System Access is required";
     // }
