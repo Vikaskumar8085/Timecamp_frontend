@@ -1,12 +1,26 @@
 import React, {useEffect, useState} from "react";
-import {Card, CardContent, Typography, Grid, Chip, Box} from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  CircularProgress,
+  Chip,
+  Box,
+  Paper,
+} from "@mui/material";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import {fetchemployeeprojectinformationapicall} from "../../../ApiServices/EmployeeApiservices/Employee";
+import apiInstance from "../../../ApiInstance/apiInstance";
+
+import Chart from "react-apexcharts";
 const EmployeeProjectInformation = ({id}) => {
   const [
     IsEmployeeProjectInformationdata,
     setIsEmployeeProjectInformationdata,
   ] = useState([]);
+
+  const [chartData, setChartData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const fetchEmployeeprojectinfofunc = async () => {
     try {
@@ -19,9 +33,66 @@ const EmployeeProjectInformation = ({id}) => {
     }
   };
 
+  const fetchemployeeesingleprojectchartfunc = async () => {
+    try {
+      const response = await apiInstance.get(
+        `/v2/employee/fetch-employee-single-project-info-chart/${id}`
+      );
+      if (response.data.success) {
+        const result = response.data.result;
+
+        setChartData([
+          {
+            x: result.ProjectName,
+            y: [
+              new Date(result.Start_Date).getTime(),
+              new Date(result.End_Date).getTime(),
+            ],
+          },
+        ]);
+      }
+    } catch (error) {
+      console.error("Error fetching contractor chart data:", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchEmployeeprojectinfofunc();
   }, [0]);
+  useEffect(() => {
+    fetchemployeeesingleprojectchartfunc();
+  }, [id]);
+
+  const options = {
+    chart: {
+      type: "rangeBar",
+    },
+    plotOptions: {
+      bar: {
+        horizontal: true,
+      },
+    },
+    xaxis: {
+      type: "datetime",
+    },
+    dataLabels: {
+      enabled: true,
+      formatter: function (val, opts) {
+        const start = new Date(val[0]);
+        const end = new Date(val[1]);
+        return `${start.toLocaleDateString()} - ${end.toLocaleDateString()}`;
+      },
+    },
+  };
+
+  const series = [
+    {
+      name: "Project Duration",
+      data: chartData || [],
+    },
+  ];
 
   const content = IsEmployeeProjectInformationdata.map((project, index) => {
     return (
@@ -77,6 +148,11 @@ const EmployeeProjectInformation = ({id}) => {
     <>
       <BreadCrumb pageName="Employee Project Information" />
       {content}
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <Chart options={options} series={series} type="rangeBar" height={200} />
+      )}
     </>
   );
 };

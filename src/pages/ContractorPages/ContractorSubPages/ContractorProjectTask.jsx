@@ -33,6 +33,10 @@ const ContractorProjectTask = ({id}) => {
   const [totalRecords, setTotalRecords] = useState(0);
   const [search, setSearch] = useState("");
 
+  // const
+
+  const [isteamdata, setIsteamdata] = useState([]);
+
   const fetchcontractorprojecttaskfunc = async () => {
     try {
       setLoading(true);
@@ -76,8 +80,23 @@ const ContractorProjectTask = ({id}) => {
     }
   };
 
+  // fetch recent team
+  const fetchcontractorrecentprojectTeamfunc = async () => {
+    try {
+      const response = await apiInstance.get(
+        `/v2/contractor/fetch-contractor-team/${id}`
+      );
+      if (response?.data?.success) {
+        setIsteamdata(response?.data?.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
+
   useEffect(() => {
     fetchcontractorprojectmilestonesfunc();
+    fetchcontractorrecentprojectTeamfunc();
   }, [0]);
   useEffect(() => {
     fetchcontractorprojecttaskfunc();
@@ -88,6 +107,9 @@ const ContractorProjectTask = ({id}) => {
       <Grid2 container spacing={2}>
         <Grid2 size={{sm: 12, md: 6}}>
           <Box sx={{height: "300px", overflow: "auto"}}>
+            <Typography variant="h6" gutterBottom>
+              Milestone
+            </Typography>
             {iscontractormilestonedata.length > 0 ? (
               iscontractormilestonedata.map((item, index) => (
                 <Card key={index} sx={{mb: 1, p: 1, position: "relative"}}>
@@ -116,6 +138,25 @@ const ContractorProjectTask = ({id}) => {
             )}
           </Box>
         </Grid2>
+        <Grid2 size={{sm: 12, md: 6}}>
+          <Grid2 xs={12}>
+            <Typography variant="h6" gutterBottom>
+              Alloted Task Memeber
+            </Typography>
+          </Grid2>
+          {isteamdata?.map((item, index) => (
+            <Grid2 key={index} xs={12} sm={6} md={6}>
+              <Paper
+                elevation={3}
+                sx={{p: 2, display: "flex", alignItems: "center"}}
+              >
+                <Typography variant="body1" fontWeight="bold">
+                  {item}
+                </Typography>
+              </Paper>
+            </Grid2>
+          ))}
+        </Grid2>
       </Grid2>
       <Paper sx={{p: 2, boxShadow: 3, borderRadius: 2}}>
         <TextField
@@ -132,7 +173,7 @@ const ContractorProjectTask = ({id}) => {
         {loading ? (
           <CircularProgress />
         ) : (
-          <TableContainer >
+          <TableContainer>
             <Table>
               <TableHead sx={{backgroundColor: "#e0e0e0"}}>
                 <TableRow>

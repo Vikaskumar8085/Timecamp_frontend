@@ -1,8 +1,6 @@
 import React, {useState} from "react";
-import {fetchinactiveemployeeapicall} from "../../ApiServices/AdminApiServices/Employee";
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
-import Empty from "../../common/EmptyFolder/Empty";
 import {Link} from "react-router-dom";
 import {
   Table,
@@ -14,6 +12,7 @@ import {
   Paper,
 } from "@mui/material";
 import {VisibilitySharp} from "@mui/icons-material";
+import {fetchemployeeinactiveprojectapicall} from "../../ApiServices/EmployeeApiservices/Employee";
 const EmployeeInactiveProjects = () => {
   const [isemployleeInactiveprojects, setIsemployeeInactiveprojects] = useState(
     []
@@ -21,7 +20,7 @@ const EmployeeInactiveProjects = () => {
 
   const fetchinactiveemployeeproject = async () => {
     try {
-      const response = await fetchinactiveemployeeapicall();
+      const response = await fetchemployeeinactiveprojectapicall();
       if (response.success) {
         setIsemployeeInactiveprojects(response.result);
       }

@@ -7,6 +7,7 @@ import {
   Drawer,
   FormControl,
   InputLabel,
+  MenuItem,
   Select,
   TablePagination,
 } from "@mui/material";
@@ -23,13 +24,17 @@ import {
   CircularProgress,
 } from "@mui/material";
 import * as Yup from "yup";
-import {fillcontractorprojecttimesheetapicall} from "../../../ApiServices/ContractorApiServices/ContractorApiServices";
+import {
+  fetchcontractorprojectinformationapicall,
+  fillcontractorprojecttimesheetapicall,
+} from "../../../ApiServices/ContractorApiServices/ContractorApiServices";
 import apiInstance from "../../../ApiInstance/apiInstance";
 import moment from "moment";
 const ContractorProjectTimesheet = ({id}) => {
   const [isContractoractiveproject, setIsContractoractiveproject] = useState(
     []
   );
+  const [isprojectinfodata, setIsprojectInfodata] = useState([]);
   console.log(isContractoractiveproject, "dadsf");
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0); // TablePagination uses zero-based index
@@ -69,9 +74,20 @@ const ContractorProjectTimesheet = ({id}) => {
     setLoading(false);
   };
 
+  console.log(isprojectinfodata, "fasldkfslkd");
+  const fetchcontractorprojectinfofunc = async () => {
+    try {
+      const response = await fetchcontractorprojectinformationapicall(id);
+      if (response.success) {
+        setIsprojectInfodata(response.result);
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "something went wrong");
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
-      Staff_Id: id,
       hours: "",
       project: "",
       day: "",
@@ -100,9 +116,12 @@ const ContractorProjectTimesheet = ({id}) => {
       console.log("Form Data:", formdata);
 
       try {
-        const response = await fillcontractorprojecttimesheetapicall(formdata);
+        const response = await apiInstance.post(
+          "/v2/contractor/contractor-v1-fill-timesheet",
+          formdata
+        );
         console.log(response, "?....................?");
-        if (response.success) {
+        if (response.data.success) {
           setIsOpen(false);
         }
 
@@ -115,6 +134,7 @@ const ContractorProjectTimesheet = ({id}) => {
 
   useEffect(() => {
     fetchcontractorprojecttimesheetFunc();
+    fetchcontractorprojectinfofunc();
   }, [page, rowsPerPage, search]);
   return (
     <>
@@ -150,21 +170,17 @@ const ContractorProjectTimesheet = ({id}) => {
             <form onSubmit={formik.handleSubmit}>
               <FormControl fullWidth sx={{mb: 2}}>
                 <InputLabel>Select Project</InputLabel>
-                {/* <Select
+                <Select
                   {...formik.getFieldProps("project")}
                   value={formik.values.project}
                   onChange={formik.handleChange}
                 >
-                  {[
-                    ...(isContractoractiveproject?.response || []),
-                    ...(isContractoractiveproject?.employeeactiveProjects ||
-                      []),
-                  ].map((item) => (
+                  {isprojectinfodata.map((item) => (
                     <MenuItem key={item.ProjectId} value={item.ProjectId}>
                       {item.Project_Name}
                     </MenuItem>
                   ))}
-                </Select> */}
+                </Select>
               </FormControl>
 
               <TextField

@@ -11,16 +11,22 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Typography,
+  TextField,
+  TablePagination,
 } from "@mui/material";
 import {VisibilitySharp} from "@mui/icons-material";
 
 const EmployeeActiveProject = () => {
   const [isemployeeActiveproject, setIsemployeeactiveproject] = useState([]);
-  console.log(isemployeeActiveproject, "?????????..........");
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [search, setSearch] = useState("");
+  const [totalProjects, setTotalProjects] = useState(0);
   const fetchemployeeactiveproject = async () => {
     try {
-      const response = await fetchemployeeactiveprojectapicall();
+      const response = await fetchemployeeactiveprojectapicall({
+        params: {limit: rowsPerPage, page: page + 1, search},
+      });
       if (response.success) {
         setIsemployeeactiveproject(response.result);
       }
@@ -28,13 +34,38 @@ const EmployeeActiveProject = () => {
       console.log(error?.message);
     }
   };
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    setPage(0); // Reset to first page when searching
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   useEffect(() => {
     fetchemployeeactiveproject();
-  }, [0]);
+  }, [page, rowsPerPage, search]);
   return (
     <>
       <Layout>
         <BreadCrumb pageName="Employee Active Project" />
+        {/* text field */}
+        <TextField
+          label="Search Projects"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={search}
+          onChange={handleSearch}
+        />
+        {/* text fields */}
         <TableContainer component={Paper}>
           <Table sx={{minWidth: 650}} aria-label="simple table">
             <TableHead>
@@ -114,6 +145,14 @@ const EmployeeActiveProject = () => {
             </TableBody>
           </Table>
         </TableContainer>
+        <TablePagination
+          component="div"
+          count={totalProjects}
+          page={page}
+          onPageChange={handleChangePage}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </Layout>
     </>
   );

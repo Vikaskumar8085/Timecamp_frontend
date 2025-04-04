@@ -1,20 +1,25 @@
 import apiInstance from "../../ApiInstance/apiInstance";
 
-export const fetchemployeeprojectsapicall = async () => {
-  const response = await apiInstance.get("/v2/employee/employee-project");
-  return response.data;
-};
-
-export const fetchemployeeactiveprojectapicall = async () => {
+export const fetchemployeeprojectsapicall = async (value) => {
   const response = await apiInstance.get(
-    "/v2/employee/employee-active-project"
+    "/v2/employee/employee-project",
+    value
   );
   return response.data;
 };
 
-export const fetchemployeeinactiveprojectapicall = async () => {
+export const fetchemployeeactiveprojectapicall = async (value) => {
   const response = await apiInstance.get(
-    "/v2/employee/employee-inactive-project"
+    "/v2/employee/employee-active-project",
+    value
+  );
+  return response.data;
+};
+
+export const fetchemployeeinactiveprojectapicall = async (value) => {
+  const response = await apiInstance.get(
+    "/v2/employee/employee-inactive-project",
+    value
   );
   return response.data;
 };
