@@ -35,7 +35,7 @@ const EmployeedashboardCounter = () => {
   const fetchdashcounterfunc = async () => {
     try {
       const response = await apiInstance.get(
-        "/v2/contractor/fetch-contractor-dash-counter"
+        "/v2/employee/fetch-contractor-dash-counter"
       );
       if (response?.data?.success) {
         setIsdata(response?.data?.result);

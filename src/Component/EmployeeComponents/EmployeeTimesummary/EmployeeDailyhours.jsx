@@ -55,7 +55,7 @@ const EmployeeDailyhours = () => {
   const fetchmanagerdailyhoursfunc = async () => {
     try {
       const response = await apiInstance.get(
-        "/v2/contractor/fetch-employee-daily-hours"
+        "/v2/employee/fetch-employee-daily-hours"
       );
       const {totalhours, days} = response.data;
 

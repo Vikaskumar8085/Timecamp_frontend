@@ -216,6 +216,21 @@ const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen, Role}) => {
                     <FaUserShield className="icon" /> Roles
                   </NavLink>
                 </li>
+                <li>
+                  <NavLink to="/master/weekoffdays" className={"nav_link"}>
+                    <FaUserShield className="icon" /> Week Off Days
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/master/holiday" className={"nav_link"}>
+                    <FaUserShield className="icon" /> holiday
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/master/color" className={"nav_link"}>
+                    <FaUserShield className="icon" /> color
+                  </NavLink>
+                </li>
               </ul>
             </li>
             <li className="dropdown">

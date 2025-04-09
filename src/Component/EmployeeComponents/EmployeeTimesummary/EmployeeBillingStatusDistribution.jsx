@@ -29,7 +29,7 @@ const EmployeeBillingStatusDistribution = () => {
   const fetchcontractorbillingstatusdistributionfunc = async () => {
     try {
       const response = await apiInstance.get(
-        "/v2/contractor/fetch-employee-billing-status-distribution"
+        "/v2/employee/fetch-employee-billing-status-distribution"
       );
       if (response?.data?.success) {
         const {BILLED, NOT_BILLED} = response.data.data;

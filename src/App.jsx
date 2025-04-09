@@ -82,6 +82,9 @@ import Taskview from "./pages/Adminpages/TaskPage/Taskview";
 import NotificationPage from "./pages/Dashboard/NotificationPage";
 import ContractorTaskInfo from "./pages/ContractorPages/ContractorTaskInfo";
 import EmployeeTaskinfo from "./pages/EmployeePages/EmployeeTaskinfo";
+import Holiday from "./pages/Adminpages/masterPages/Holiday";
+import ColorPage from "./pages/Adminpages/masterPages/ColorPage";
+import WeekoffDays from "./pages/Adminpages/masterPages/WeekoffDays";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -147,6 +150,9 @@ const App = () => {
         <Route path="/master/designation" element={<Designation />} />
         <Route path="/master/department" element={<Department />} />
         <Route path="/master/roles" element={<Roles />} />
+        <Route path="/master/holiday" element={<Holiday />} />
+        <Route path="/master/weekoffdays" element={<WeekoffDays />} />
+        <Route path="/master/color" element={<ColorPage />} />
         {/* Admin pages */}
         {/* client pages */}
         <Route

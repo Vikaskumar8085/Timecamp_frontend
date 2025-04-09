@@ -1,4 +1,4 @@
-import {Box, Button, Drawer, Grid2} from "@mui/material";
+import {Box, Button, Card, Drawer, Grid2} from "@mui/material";
 import {
   Table,
   TableBody,
@@ -7,6 +7,7 @@ import {
   TableHead,
   TableRow,
   Paper,
+  CardContent,
   Typography,
 } from "@mui/material";
 import React, {useState} from "react";
@@ -27,6 +28,7 @@ const ProjectTask = ({id}) => {
   const [isMilestonoeresourcesdata, setIsMilestonoeresourcesdata] = useState(
     []
   );
+  const [isAllotedMemberdata, setIsallotedMemberdata] = useState([]);
   let dispatch = useDispatch();
   const [tasks, setTasks] = useState([]);
   const fetchTasks = async () => {
@@ -103,6 +105,24 @@ const ProjectTask = ({id}) => {
     }
   };
 
+  // fetch alloted task members
+  const fetchallotedtaskmemebersfunc = async () => {
+    try {
+      const response = await apiInstance.get(
+        `/v1/admin/fetch-alloted-task-memebrs/${id}`
+      );
+
+      if (response.data.success) {
+        setIsallotedMemberdata(response?.data?.result);
+      }
+      console.log(response, "data task alloted");
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
+
+  // fetch alloted task members
+
   const uploadTaskhandlesubmit = async (value) => {
     try {
       dispatch(setLoader(true));
@@ -131,6 +151,7 @@ const ProjectTask = ({id}) => {
     }
   };
   React.useEffect(() => {
+    fetchallotedtaskmemebersfunc();
     fetchmilestonefunc();
     fetchmilestonewithresourcesfunc();
     fetchTasks();
@@ -210,8 +231,39 @@ const ProjectTask = ({id}) => {
       <div>
         <Grid2 container spacing={2}>
           <Grid2 size={{sm: 12, md: 6}}>
+            <Typography component={Paper}>Milstones Name</Typography>
             <Box sx={{height: "300px", overflow: "auto"}}>
               <MilestoneList milestones={Ismilestonedata} />
+            </Box>
+          </Grid2>
+
+          <Grid2 size={{sm: 12, md: 6}}>
+            <Box sx={{height: "300px", overflow: "auto"}}>
+              <Typography component={Paper}>Alloted Task Member</Typography>
+
+              {isAllotedMemberdata.length > 0 ? (
+                isAllotedMemberdata.map((item, index) => (
+                  <Card key={index} sx={{mb: 1, p: 1, position: "relative"}}>
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                      }}
+                    ></Box>
+                    <CardContent>
+                      <Typography variant="h6" gutterBottom>
+                        {item.FirstName}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                ))
+              ) : (
+                <Typography color="textSecondary">
+                  No milestones available
+                </Typography>
+              )}
             </Box>
           </Grid2>
         </Grid2>

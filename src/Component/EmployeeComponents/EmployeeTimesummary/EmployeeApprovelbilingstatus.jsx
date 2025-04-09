@@ -59,7 +59,7 @@ const EmployeeApprovelbilingstatus = () => {
   const fetchmanagerapprovelbillingstatusfunc = async () => {
     try {
       const response = await apiInstance.get(
-        "/v2/contractor/fetch-employee-approvel-billed-hour-over-time"
+        "/v2/employee/fetch-employee-approvel-billed-hour-over-time"
       );
       const {total_hours, billed_hours, days} = response.data;
 

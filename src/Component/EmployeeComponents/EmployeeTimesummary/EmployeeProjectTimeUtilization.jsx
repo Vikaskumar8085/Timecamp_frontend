@@ -50,7 +50,7 @@ const EmployeeProjectTimeUtilization = () => {
   const fetchcontractorprojecttimeutilizationfunc = async () => {
     try {
       const response = await apiInstance.get(
-        "/v2/contractor/fetch-employee-project-time-utilization"
+        "/v2/employee/fetch-employee-project-time-utilization"
       );
       const projectData = response.data.Projects; // Assuming your API returns a list of projects
 

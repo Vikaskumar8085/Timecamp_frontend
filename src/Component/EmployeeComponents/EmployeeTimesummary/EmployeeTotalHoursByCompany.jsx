@@ -39,7 +39,7 @@ const EmployeeTotalHoursByCompany = () => {
   const fetchContractorTotalHoursByCompany = async () => {
     try {
       const response = await apiInstance.get(
-        "/v2/contractor/fetch-employee-total-hour-by-company"
+        "/v2/employee/fetch-employee-total-hour-by-company"
       );
       const metrics = response.data;
       const metricData = [

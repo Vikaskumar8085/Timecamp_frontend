@@ -17,7 +17,7 @@ const EmployeeTotalHoursByResources = () => {
   const fetchcontractortotalhoursbyresourcesfunc = async () => {
     try {
       const response = await apiInstance.get(
-        "/v2/contractor/fetch-employee-total-hours-by-resources"
+        "/v2/employee/fetch-employee-total-hours-by-resources"
       );
       if (response.data.success) {
         const {StaffName, totalHours, totalBilledHours} = response.data.result;
