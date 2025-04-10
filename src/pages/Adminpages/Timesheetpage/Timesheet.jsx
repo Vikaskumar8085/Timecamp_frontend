@@ -40,6 +40,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 const Timesheet = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [IsTimesheetdata, setIsTimesheetdata] = useState([]);
+  console.log(IsTimesheetdata, "Is timesheet data");
   const dispatch = useDispatch();
   const [selectedItems, setSelectedItems] = useState([]);
   const [isProjectid, setProjectid] = useState(null);
@@ -120,14 +121,28 @@ const Timesheet = () => {
     }
   };
 
-  const handleCheckboxChange = (id) => {
-    setSelectedItems(
-      (prevSelected) =>
-        prevSelected.includes(id)
-          ? prevSelected.filter((item) => item !== id) // Remove if already selected
-          : [...prevSelected, id] // Add if not selected
-    );
+  const handleCheckboxChange = (timesheetId) => {
+    setSelectedItems((prevSelected) => {
+      if (prevSelected.includes(timesheetId)) {
+        return prevSelected.filter((id) => id !== timesheetId);
+      }
+      return [...prevSelected, timesheetId];
+    });
   };
+
+  const handleSelectAllChange = (event) => {
+    if (event.target.checked) {
+      const allIds = IsTimesheetdata.map((item) => item.Timesheet_Id);
+      setSelectedItems(allIds);
+    } else {
+      setSelectedItems([]);
+    }
+  };
+
+  const isAllSelected =
+    IsTimesheetdata?.length > 0 &&
+    selectedItems.length === IsTimesheetdata.length;
+  // handlecheck box change all
 
   const approvetimesheetfunc = async (values) => {
     try {
@@ -349,7 +364,23 @@ const Timesheet = () => {
         <Table sx={{minWidth: 650}} aria-label="client table">
           <TableHead>
             <TableRow>
-              <TableCell>Select </TableCell>
+              <TableCell>
+                select{" "}
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={isAllSelected}
+                      onChange={handleSelectAllChange}
+                      indeterminate={
+                        selectedItems.length > 0 &&
+                        selectedItems.length < IsTimesheetdata?.length
+                      }
+                    />
+                  }
+                  label="Select All"
+                />
+                ;
+              </TableCell>
               <TableCell>ID</TableCell>
               <TableCell>Timesheet No.</TableCell>
               <TableCell>Day</TableCell>
@@ -371,7 +402,6 @@ const Timesheet = () => {
               IsTimesheetdata?.map((item, index) => (
                 <TableRow key={index}>
                   <TableCell>
-                    {" "}
                     <FormControlLabel
                       key={item.Timesheet_Id}
                       control={

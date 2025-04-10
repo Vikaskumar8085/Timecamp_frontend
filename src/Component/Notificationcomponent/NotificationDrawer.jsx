@@ -208,7 +208,17 @@ const NotificationDrawer = () => {
                               primary={item?.Name}
                               secondary={item?.Description}
                             />
-                          </ListItem>
+                          </ListItem>{" "}
+                          <Link
+                            style={{
+                              fontSize: "0.7em",
+                              textDecoration: "none",
+                              padding: "0px 10px",
+                            }}
+                            to="/notification"
+                          >
+                            Read More
+                          </Link>
                         </List>
                       </Paper>
                     );
@@ -230,7 +240,17 @@ const NotificationDrawer = () => {
                               primary={item?.Name}
                               secondary={item?.Description}
                             />
-                          </ListItem>
+                          </ListItem>{" "}
+                          <Link
+                            style={{
+                              fontSize: "0.7em",
+                              textDecoration: "none",
+                              padding: "0px 10px",
+                            }}
+                            to="/notification"
+                          >
+                            Read More
+                          </Link>
                         </List>
                       </Paper>
                     );
@@ -252,7 +272,17 @@ const NotificationDrawer = () => {
                               primary={item?.Name}
                               secondary={item?.Description}
                             />
-                          </ListItem>
+                          </ListItem>{" "}
+                          <Link
+                            style={{
+                              fontSize: "0.7em",
+                              textDecoration: "none",
+                              padding: "0px 10px",
+                            }}
+                            to="/notification"
+                          >
+                            Read More
+                          </Link>
                         </List>
                       </Paper>
                     );
@@ -274,7 +304,17 @@ const NotificationDrawer = () => {
                               primary={item?.Name}
                               secondary={item?.Description}
                             />
-                          </ListItem>
+                          </ListItem>{" "}
+                          <Link
+                            style={{
+                              fontSize: "0.7em",
+                              textDecoration: "none",
+                              padding: "0px 10px",
+                            }}
+                            to="/notification"
+                          >
+                            Read More
+                          </Link>
                         </List>
                       </Paper>
                     );

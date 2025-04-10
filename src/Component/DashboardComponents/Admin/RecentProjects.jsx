@@ -1,4 +1,4 @@
-import {Box, Typography} from "@mui/material";
+import {Box, Paper, Typography} from "@mui/material";
 import {useEffect, useState} from "react";
 import moment from "moment";
 import Chart from "react-apexcharts";
@@ -10,6 +10,7 @@ const RecentProjects = () => {
       const response = await apiInstance.get(
         "/v2/admin-dash/fetch-dash-recent-project"
       );
+      console.log("recenter project", response);
       if (response.data.success) {
         const formattedData = response.data.result.map((project) => ({
           x: project.Project_Name,
@@ -65,7 +66,7 @@ const RecentProjects = () => {
   }, [0]);
 
   return (
-    <Box sx={{my: 2}}>
+    <Box sx={{my: 2}} component={Paper}>
       <Typography>
         <strong>Recent Project</strong>
       </Typography>

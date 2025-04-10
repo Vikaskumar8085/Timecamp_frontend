@@ -148,3 +148,86 @@ const Layout = ({children}) => {
 };
 
 export default Layout;
+
+// import {
+//   AppBar,
+//   Toolbar,
+//   Typography,
+//   IconButton,
+//   Avatar,
+//   Box,
+//   Badge,
+//   Menu,
+//   MenuItem,
+//   Chip,
+// } from "@mui/material";
+// import {Notifications, ArrowDropDown} from "@mui/icons-material";
+
+// const [anchorEl, setAnchorEl] = useState(null);
+// const userRole = "Admin";
+// const handleMenuOpen = (event) => {
+//   setAnchorEl(event.currentTarget);
+// };
+
+// const handleMenuClose = () => {
+//   setAnchorEl(null);
+// };
+
+// <AppBar
+// position="static"
+// elevation={1}
+// sx={{backgroundColor: "#ffffff", color: "#333"}}
+// >
+// <Toolbar
+//   sx={{display: "flex", justifyContent: "space-between", px: 2}}
+// >
+//   {/* Left: Logo/Title */}
+//   <Typography
+//     variant="h6"
+//     noWrap
+//     component="div"
+//     sx={{fontWeight: 600}}
+//   >
+//     Admin Dashboard
+//   </Typography>
+
+//   {/* Right: Icons + Avatar Dropdown */}
+//   <Box sx={{display: "flex", alignItems: "center", gap: 2}}>
+//     <IconButton size="large" color="inherit">
+//       <Badge badgeContent={3} color="error">
+//         <Notifications />
+//       </Badge>
+//     </IconButton>
+//     <Box
+//       sx={{
+//         display: "flex",
+//         alignItems: "center",
+//         cursor: "pointer",
+//       }}
+//       onClick={handleMenuOpen}
+//     >
+//       <Avatar
+//         alt="Admin"
+//         src="https://i.pravatar.cc/150?img=32"
+//       />
+//       <ArrowDropDown sx={{color: "#333"}} />
+//     </Box>
+//     <Chip
+//       label={userRole}
+//       color={userRole === "Admin" ? "primary" : "success"}
+//       size="small"
+//       sx={{fontWeight: 500}}
+//     />
+//     <Menu
+//       anchorEl={anchorEl}
+//       open={Boolean(anchorEl)}
+//       onClose={handleMenuClose}
+//       anchorOrigin={{vertical: "bottom", horizontal: "right"}}
+//       transformOrigin={{vertical: "top", horizontal: "right"}}
+//     >
+//       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+//       <MenuItem onClick={handleMenuClose}>Sign Out</MenuItem>
+//     </Menu>
+//   </Box>
+// </Toolbar>
+// </AppBar>
