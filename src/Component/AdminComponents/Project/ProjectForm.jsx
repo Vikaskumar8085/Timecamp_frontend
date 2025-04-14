@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useFormik } from "formik";
+import React, {useEffect, useState} from "react";
+import {useFormik} from "formik";
 import * as Yup from "yup";
 import {
   TextField,
@@ -11,18 +11,20 @@ import {
   MenuItem,
   Select,
   IconButton,
+  FormControlLabel,
+  Checkbox,
   ListItemText,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import { AddCircleOutline, RemoveCircleOutline } from "@mui/icons-material";
-import { fetchclientapicall } from "../../../ApiServices/AdminApiServices/Client/index";
+import {AddCircleOutline, RemoveCircleOutline} from "@mui/icons-material";
+import {fetchclientapicall} from "../../../ApiServices/AdminApiServices/Client/index";
 import {
   createprojectapicall,
   fetchstaffmembersapicall,
 } from "../../../ApiServices/ProjectApiServices";
-import { fetchroleapicall } from "../../../ApiServices/MasterApiServices/Roles";
+import {fetchroleapicall} from "../../../ApiServices/MasterApiServices/Roles";
 
-const ProjectForm = ({ handleSubmit, IsEdit }) => {
+const ProjectForm = ({handleSubmit, IsEdit}) => {
   const [clients, setClients] = useState([]);
   const [IsStaffdata, setIsstaffdata] = useState([]);
   const [IsRoledata, setIsRoledata] = useState([]);
@@ -67,74 +69,103 @@ const ProjectForm = ({ handleSubmit, IsEdit }) => {
       Start_Date: IsEdit?.Start_Date ?? "",
       End_Date: IsEdit?.End_Date ?? "",
       Project_Hours: IsEdit?.Project_Hours ?? "",
+      roleProjectMangare:
+        Array.isArray(IsEdit?.roleProjectMangare) &&
+        IsEdit.roleProjectMangare.length > 0
+          ? IsEdit.roleProjectMangare.map((resource) => ({
+              RRId: resource?.RRId ?? "",
+              RId: resource?.RId ?? "",
+              billable: resource?.billable ?? false,
+              Units: resource?.Units ?? "",
+              Currency: resource?.Currency ?? "",
+              Rate: resource?.Rate ?? "",
+              Type: resource?.Type ?? "",
+            }))
+          : [
+              {
+                RRId: "",
+                RId: "",
+                billable: false,
+                Units: "",
+                Currency: "",
+                Rate: "",
+                Type: "",
+              },
+            ],
+
       roleResources:
         Array.isArray(IsEdit?.roleResources) && IsEdit.roleResources.length > 0
           ? IsEdit.roleResources.map((resource) => ({
               RRId: resource?.RRId ?? "",
               RId: resource?.RId ?? "",
+              billable: resource?.billable ?? false,
+              Units: resource?.Units ?? "",
+              Currency: resource?.Currency ?? "",
+              Rate: resource?.Rate ?? "",
+              Type: resource?.Type ?? "",
             }))
-          : [{ RRId: "", RId: "" }],
+          : [
+              {
+                RRId: "",
+                RId: "",
+                billable: false,
+                Units: "",
+                Currency: "",
+                Rate: "",
+                Type: "",
+              },
+            ],
     },
     enableReinitialize: true,
-    validationSchema: Yup.object({
-      Project_Name: Yup.string().required("Project Name is required"),
-      clientId: Yup.string().required("Client ID is required"),
-      Project_ManagersId: Yup.string().required("Client ID is required"),
-      Start_Date: Yup.date().required("Start Date is required"),
-      End_Date: Yup.date()
-        .min(Yup.ref("Start_Date"), "End Date must be after Start Date")
-        .required("End Date is required"),
-      Project_Hours: Yup.number()
-        .positive("Hours must be a positive number")
-        .required("Project Hours are required"),
-      roleResources: Yup.array().of(
-        Yup.object({
-          RRId: Yup.number()
-            .required("Required")
-            .test(
-              "not-same-as-manager",
-              "RR ID cannot be the same as Project Manager ID",
-              function (value) {
-                return value !== this.parent.Project_ManagersId;
-              }
-            ),
-          RId: Yup.number().required("Required"),
-        })
-      ),
-    }),
-    validate: (values) => {
-      let errors = {};
-      values.roleResources.forEach((role, index) => {
-        if (role.RRId === values.Project_ManagersId) {
-          if (!errors.roleResources) errors.roleResources = [];
-          errors.roleResources[index] = {
-            RRId: "Cannot select Project Manager as a Role Resource",
-          };
-        }
-      });
-      return errors;
-    },
     onSubmit: async (values) => {
-      console.log("Form Submitted", values);
-      handleSubmit(values);
+      // handleSubmit(values);
+      console.log(values, "vlaues");
       formik.resetForm();
     },
   });
 
-  // Function to add a new RoleResource entry
   const addRoleResource = () => {
     formik.setValues({
       ...formik.values,
-      roleResources: [...formik.values.roleResources, { RRId: "", RId: "" }],
+      roleResources: [
+        ...formik.values.roleResources,
+        {
+          RRId: "",
+          RId: "",
+          billable: false,
+          Units: "",
+          Currency: "",
+          Rate: "",
+          Type: "",
+        },
+      ],
     });
   };
 
-  // Function to remove a RoleResource entry
+  //
+  const addroleProjectMangare = () => {
+    formik.setValues({
+      ...formik.values,
+      roleProjectMangare: [
+        ...formik.values.roleProjectMangare,
+        {
+          RRId: "",
+          RId: "",
+          billable: false,
+          Units: "",
+          Currency: "",
+          Rate: "",
+          Type: "",
+        },
+      ],
+    });
+  };
   const removeRoleResource = (index) => {
     const updatedRoles = [...formik.values.roleResources];
     updatedRoles.splice(index, 1);
-    formik.setValues({ ...formik.values, roleResources: updatedRoles });
+    formik.setValues({...formik.values, roleResources: updatedRoles});
   };
+
   useEffect(() => {
     getclientdata();
     getstaffdata();
@@ -142,15 +173,16 @@ const ProjectForm = ({ handleSubmit, IsEdit }) => {
   }, [0]);
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="lg">
       <Typography variant="h4" gutterBottom>
-        Project Form
+        Add Project
       </Typography>
 
       <form action="" onSubmit={formik.handleSubmit}>
         <Grid container spacing={2}>
-          <Grid size={{ sm: 12 }}>
+          <Grid size={{sm: 12, xs: 12, md: 6}}>
             <TextField
+              margin="normal"
               fullWidth
               label="Project Name"
               name="Project_Name"
@@ -166,9 +198,10 @@ const ProjectForm = ({ handleSubmit, IsEdit }) => {
               }
             />
           </Grid>
-          <Grid size={{ sm: 12 }}>
+          <Grid size={{sm: 12, md: 6, xs: 12}}>
             <TextField
               fullWidth
+              margin="normal"
               label="Project Hours"
               name="Project_Hours"
               type="number"
@@ -183,7 +216,7 @@ const ProjectForm = ({ handleSubmit, IsEdit }) => {
               }
             />
           </Grid>
-          <Grid size={{ sm: 12 }}>
+          <Grid size={{sm: 12, md: 6, xs: 12}}>
             <FormControl fullWidth margin="normal">
               <InputLabel id="client-select-label">Select Client</InputLabel>
               <Select
@@ -203,13 +236,14 @@ const ProjectForm = ({ handleSubmit, IsEdit }) => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid size={{ sm: 12 }}>
+          <Grid size={{sm: 12, xs: 12, md: 6}}>
             <TextField
               fullWidth
+              margin="normal"
               type="date"
               label="Start Date"
               name="Start_Date"
-              InputLabelProps={{ shrink: true }}
+              InputLabelProps={{shrink: true}}
               value={formik.values.Start_Date}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -219,13 +253,14 @@ const ProjectForm = ({ handleSubmit, IsEdit }) => {
               helperText={formik.touched.Start_Date && formik.errors.Start_Date}
             />
           </Grid>
-          <Grid size={{ sm: 12 }}>
+          <Grid size={{sm: 12, xs: 12, md: 6}}>
             <TextField
               fullWidth
+              margin="normal"
               type="date"
               label="End Date"
               name="End_Date"
-              InputLabelProps={{ shrink: true }}
+              InputLabelProps={{shrink: true}}
               value={formik.values.End_Date}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -233,7 +268,7 @@ const ProjectForm = ({ handleSubmit, IsEdit }) => {
               helperText={formik.touched.End_Date && formik.errors.End_Date}
             />
           </Grid>
-          <Grid size={{ sm: 12 }}>
+          <Grid size={{sm: 12, xs: 12, md: 6}}>
             <FormControl fullWidth margin="normal">
               <InputLabel>Select Project Manager</InputLabel>
               <Select
@@ -249,7 +284,7 @@ const ProjectForm = ({ handleSubmit, IsEdit }) => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid size={{ sm: 12 }}>
+          <Grid size={{sm: 12}}>
             <FormControl fullWidth margin="normal">
               <InputLabel id="select-project-type">
                 Select Project Type
@@ -273,22 +308,19 @@ const ProjectForm = ({ handleSubmit, IsEdit }) => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid size={{ sm: 12 }}>
-            <Grid size={{ xs: 12, sm: 12 }}>
+          <Grid size={{sm: 12}}>
+            <Grid size={{xs: 12, sm: 12}}>
+              <Typography variant="h6">Select Project Managers</Typography>
+
               {formik.values.roleResources.map((role, index) => (
                 <Grid container spacing={2} key={index} alignItems="center">
-                  <Grid size={{ xs: 6 }}>
+                  <Grid item size={{sm: 12, xs: 12, md: 6}}>
                     <FormControl fullWidth margin="normal">
                       <InputLabel>Select Resource</InputLabel>
                       <Select
                         name={`roleResources[${index}].RRId`}
                         value={role.RRId}
                         onChange={formik.handleChange}
-                        error={
-                          formik.errors.roleResources &&
-                          formik.errors.roleResources[index] &&
-                          Boolean(formik.errors.roleResources[index].RRId)
-                        }
                       >
                         {IsStaffdata.filter(
                           (item) =>
@@ -299,46 +331,79 @@ const ProjectForm = ({ handleSubmit, IsEdit }) => {
                           </MenuItem>
                         ))}
                       </Select>
-                      {formik.errors.roleResources &&
-                        formik.errors.roleResources[index] &&
-                        formik.errors.roleResources[index].RRId && (
-                          <Typography color="error">
-                            {formik.errors.roleResources[index].RRId}
-                          </Typography>
-                        )}
                     </FormControl>
                   </Grid>
-                  <Grid size={{ xs: 6 }}>
+                  <Grid item size={{sm: 12, xs: 12, md: 6}}>
                     <FormControl fullWidth margin="normal">
-                      <InputLabel id="Role-resourse-select-label">
-                        Role Name
-                      </InputLabel>
+                      <InputLabel>Role Name</InputLabel>
                       <Select
-                        labelId="recourses-select-label"
-                        id="resourse-select"
-                        label="Resource ID"
                         name={`roleResources[${index}].RId`}
                         value={role.RId}
                         onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        error={
-                          formik.touched.roleResources?.[index]?.RId &&
-                          Boolean(formik.errors.roleResources?.[index]?.RId)
-                        }
-                        helperText={
-                          formik.touched.roleResources?.[index]?.RId &&
-                          formik.errors.roleResources?.[index]?.RId
-                        }
                       >
                         {IsRoledata.map((item) => (
                           <MenuItem key={item.RoleId} value={item.RoleId}>
-                            <ListItemText primary={item.RoleName} />
+                            {item.RoleName}
                           </MenuItem>
                         ))}
                       </Select>
                     </FormControl>
                   </Grid>
-                  <Grid size={{ xs: 12, sm: 6 }}>
+                  <Grid item xs={12}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          name={`roleResources[${index}].billable`}
+                          checked={role.billable}
+                          onChange={formik.handleChange}
+                          color="primary"
+                        />
+                      }
+                      label="Billable"
+                    />
+                  </Grid>
+                  {role.billable && (
+                    <>
+                      <Grid item xs={6}>
+                        <TextField
+                          fullWidth
+                          label="Units"
+                          name={`roleResources[${index}].Units`}
+                          value={role.Units}
+                          onChange={formik.handleChange}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField
+                          fullWidth
+                          label="Currency"
+                          name={`roleResources[${index}].Currency`}
+                          value={role.Currency}
+                          onChange={formik.handleChange}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField
+                          fullWidth
+                          label="Rate"
+                          name={`roleResources[${index}].Rate`}
+                          type="number"
+                          value={role.Rate}
+                          onChange={formik.handleChange}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField
+                          fullWidth
+                          label="Type"
+                          name={`roleResources[${index}].Type`}
+                          value={role.Type}
+                          onChange={formik.handleChange}
+                        />
+                      </Grid>
+                    </>
+                  )}
+                  <Grid item xs={12} sm={6}>
                     <IconButton
                       onClick={() => removeRoleResource(index)}
                       color="secondary"
@@ -348,18 +413,137 @@ const ProjectForm = ({ handleSubmit, IsEdit }) => {
                   </Grid>
                 </Grid>
               ))}
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <Button
-                onClick={addRoleResource}
-                variant="outlined"
-                startIcon={<AddCircleOutline />}
-              >
-                Add Role
-              </Button>
+
+              <Grid item xs={12} sm={6}>
+                <Button
+                  onClick={addRoleResource}
+                  variant="outlined"
+                  startIcon={<AddCircleOutline />}
+                >
+                  Add Role
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
-          <Grid size={{ sm: 12 }}>
+
+          <Grid size={{sm: 12}}>
+            <Grid size={{xs: 12, sm: 12}}>
+              <Typography variant="h6">Select Resources</Typography>
+
+              {formik.values.roleProjectMangare.map((role, index) => (
+                <Grid container spacing={2} key={index} alignItems="center">
+                  <Grid item size={{sm: 12, xs: 12, md: 6}}>
+                    <FormControl fullWidth margin="normal">
+                      <InputLabel>Select Resource</InputLabel>
+                      <Select
+                        name={`roleProjectMangare[${index}].RRId`}
+                        value={role.RRId}
+                        onChange={formik.handleChange}
+                      >
+                        {IsStaffdata.filter(
+                          (item) =>
+                            item.staff_Id !== formik.values.Project_ManagersId
+                        ).map((item) => (
+                          <MenuItem key={item.staff_Id} value={item.staff_Id}>
+                            {item.FirstName}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item size={{sm: 12, xs: 12, md: 6}}>
+                    <FormControl fullWidth margin="normal">
+                      <InputLabel>Role Name</InputLabel>
+                      <Select
+                        name={`roleProjectMangare[${index}].RId`}
+                        value={role.RId}
+                        onChange={formik.handleChange}
+                      >
+                        {IsRoledata.map((item) => (
+                          <MenuItem key={item.RoleId} value={item.RoleId}>
+                            {item.RoleName}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          name={`roleProjectMangare[${index}].billable`}
+                          checked={role.billable}
+                          onChange={formik.handleChange}
+                          color="primary"
+                        />
+                      }
+                      label="Billable"
+                    />
+                  </Grid>
+                  {role.billable && (
+                    <>
+                      <Grid item xs={6}>
+                        <TextField
+                          fullWidth
+                          label="Units"
+                          name={`roleProjectMangare[${index}].Units`}
+                          value={role.Units}
+                          onChange={formik.handleChange}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField
+                          fullWidth
+                          label="Currency"
+                          name={`roleProjectMangare[${index}].Currency`}
+                          value={role.Currency}
+                          onChange={formik.handleChange}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField
+                          fullWidth
+                          label="Rate"
+                          name={`roleProjectMangare[${index}].Rate`}
+                          type="number"
+                          value={role.Rate}
+                          onChange={formik.handleChange}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField
+                          fullWidth
+                          label="Type"
+                          name={`roleProjectMangare[${index}].Type`}
+                          value={role.Type}
+                          onChange={formik.handleChange}
+                        />
+                      </Grid>
+                    </>
+                  )}
+                  <Grid item xs={12} sm={6}>
+                    <IconButton
+                      onClick={() => removeRoleResource(index)}
+                      color="secondary"
+                    >
+                      <RemoveCircleOutline />
+                    </IconButton>
+                  </Grid>
+                </Grid>
+              ))}
+
+              <Grid item xs={12} sm={6}>
+                <Button
+                  onClick={addroleProjectMangare}
+                  variant="outlined"
+                  startIcon={<AddCircleOutline />}
+                >
+                  Add Resources
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid size={{sm: 12}}>
             <Button
               fullWidth
               type="submit"

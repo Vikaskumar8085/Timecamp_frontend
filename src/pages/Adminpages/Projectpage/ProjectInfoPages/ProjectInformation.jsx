@@ -4,22 +4,24 @@ import {
   CardContent,
   Typography,
   Grid,
+  Button,
   Chip,
   Divider,
 } from "@mui/material";
 
-const ProjectInformation = ({ IsprojectInfodata }) => {
+const ProjectInformation = ({IsprojectInfodata}) => {
   const content = IsprojectInfodata.map((item, index) => {
     return (
       <div>
         {" "}
+        <Button>Report</Button>
         <Card>
           <CardContent>
             <Typography variant="h5" gutterBottom>
               {item.Project_Name}
             </Typography>
 
-            <Divider sx={{ mb: 2 }} />
+            <Divider sx={{mb: 2}} />
 
             <Grid container spacing={2}>
               <Grid item xs={6}>

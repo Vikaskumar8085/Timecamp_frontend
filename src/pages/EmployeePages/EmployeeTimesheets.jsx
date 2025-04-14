@@ -24,6 +24,8 @@ import {
   MenuItem,
   InputLabel,
   TablePagination,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import Empty from "../../common/EmptyFolder/Empty";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -41,6 +43,11 @@ const EmployeeTimesheets = () => {
   const [totalRecords, setTotalRecords] = useState(0);
   const [IsEmployeeProjectdata, setIsEmployeeProjectdata] = useState([]);
   const [IsOpenfirst, setIsOpenfirst] = useState(false);
+
+  //
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [isProjectid, setProjectid] = useState(null);
+  //
   const stats = [
     {
       label: "Total Hours",
@@ -71,13 +78,42 @@ const EmployeeTimesheets = () => {
     setLoading(false);
   };
 
-  
+  const handleCheckboxChange = (timesheetId) => {
+    setSelectedItems((prevSelected) => {
+      if (prevSelected.includes(timesheetId)) {
+        return prevSelected.filter((id) => id !== timesheetId);
+      }
+      return [...prevSelected, timesheetId];
+    });
+  };
+
+  const handleSelectAllChange = (event) => {
+    if (event.target.checked) {
+      const allIds = IsEmployeeTimesheetData.map((item) => item.Timesheet_Id);
+      setSelectedItems(allIds);
+    } else {
+      setSelectedItems([]);
+    }
+  };
+
+  const isAllSelected =
+    IsEmployeeTimesheetData?.length > 0 &&
+    selectedItems.length === IsEmployeeTimesheetData.length;
+
   useEffect(() => {
     fetchemployeetimesheetfunc();
   }, [0]);
   return (
     <Layout>
       <BreadCrumb pageName="Employee Timesheet" />
+
+      {selectedItems.length > 0 ? (
+        <>
+          <Button>Approve</Button>
+          <Button>dis Approve</Button>
+          <Button>Billed</Button>
+        </>
+      ) : null}
 
       {/* timesheet data */}
       <Grid container spacing={2} sx={{my: 1}}>
@@ -108,6 +144,22 @@ const EmployeeTimesheets = () => {
         <Table sx={{minWidth: 650}} aria-label="client table">
           <TableHead>
             <TableRow>
+              <TableCell>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={isAllSelected}
+                      onChange={handleSelectAllChange}
+                      indeterminate={
+                        selectedItems.length > 0 &&
+                        selectedItems.length < IsEmployeeTimesheetData?.length
+                      }
+                    />
+                  }
+                  label="sr.No"
+                />
+                ;
+              </TableCell>
               <TableCell>ID</TableCell>
               <TableCell>Timesheet No.</TableCell>
               <TableCell>Day</TableCell>
@@ -128,6 +180,21 @@ const EmployeeTimesheets = () => {
             {IsEmployeeTimesheetData.length > 0 ? (
               IsEmployeeTimesheetData.map((item, index) => (
                 <TableRow key={index}>
+                  <TableCell>
+                    <FormControlLabel
+                      key={item.Timesheet_Id}
+                      control={
+                        <Checkbox
+                          checked={selectedItems.includes(item.Timesheet_Id)}
+                          onChange={() => {
+                            handleCheckboxChange(item.Timesheet_Id);
+                            setProjectid(item.project);
+                          }}
+                        />
+                      }
+                      label={item.name}
+                    />
+                  </TableCell>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{item.ts_code}</TableCell>
                   <TableCell>

@@ -3,9 +3,11 @@ import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import {useFormik} from "formik";
 import {
   Button,
+  Checkbox,
   Container,
   Drawer,
   FormControl,
+  FormControlLabel,
   InputLabel,
   MenuItem,
   Select,
@@ -42,6 +44,8 @@ const ContractorProjectTimesheet = ({id}) => {
   const [totalRecords, setTotalRecords] = useState(0);
   const [search, setSearch] = useState("");
   const [IsOpen, setIsOpen] = useState(false);
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [isProjectid, setProjectid] = useState(null);
 
   const fetchcontractorprojecttimesheetFunc = async () => {
     try {
@@ -131,6 +135,28 @@ const ContractorProjectTimesheet = ({id}) => {
       }
     },
   });
+
+  const handleCheckboxChange = (timesheetId) => {
+    setSelectedItems((prevSelected) => {
+      if (prevSelected.includes(timesheetId)) {
+        return prevSelected.filter((id) => id !== timesheetId);
+      }
+      return [...prevSelected, timesheetId];
+    });
+  };
+
+  const handleSelectAllChange = (event) => {
+    if (event.target.checked) {
+      const allIds = isContractoractiveproject.map((item) => item.Timesheet_Id);
+      setSelectedItems(allIds);
+    } else {
+      setSelectedItems([]);
+    }
+  };
+
+  const isAllSelected =
+    isContractoractiveproject?.length > 0 &&
+    selectedItems.length === isContractoractiveproject.length;
 
   useEffect(() => {
     fetchcontractorprojecttimesheetFunc();
@@ -280,6 +306,23 @@ const ContractorProjectTimesheet = ({id}) => {
           <Table>
             <TableHead>
               <TableRow>
+                <TableCell>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={isAllSelected}
+                        onChange={handleSelectAllChange}
+                        indeterminate={
+                          selectedItems.length > 0 &&
+                          selectedItems.length <
+                            isContractoractiveproject?.length
+                        }
+                      />
+                    }
+                    label="sr.No"
+                  />
+                  ;
+                </TableCell>
                 <TableCell>ID</TableCell>
                 <TableCell>Timesheet No.</TableCell>
                 <TableCell>Day</TableCell>
@@ -300,6 +343,21 @@ const ContractorProjectTimesheet = ({id}) => {
               {isContractoractiveproject.length > 0 ? (
                 isContractoractiveproject.map((item, index) => (
                   <TableRow key={index}>
+                    <TableCell>
+                      <FormControlLabel
+                        key={item.Timesheet_Id}
+                        control={
+                          <Checkbox
+                            checked={selectedItems.includes(item.Timesheet_Id)}
+                            onChange={() => {
+                              handleCheckboxChange(item.Timesheet_Id);
+                              setProjectid(item.project);
+                            }}
+                          />
+                        }
+                        label={item.name}
+                      />
+                    </TableCell>
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>{item.ts_code}</TableCell>
                     <TableCell>
