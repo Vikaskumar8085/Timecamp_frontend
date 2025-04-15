@@ -13,6 +13,7 @@ const ProductivityLeaderboardpage = () => {
   const tabsheader = [
     {title: "Productivity Leader Board"},
     {title: "Project ROI"},
+    {title: "Project Report"},
   ];
   const Tabsbody = [
     {
@@ -28,6 +29,13 @@ const ProductivityLeaderboardpage = () => {
           <TotalActualandTotalEstimatedHours />
           <ProjectROIChart />
           <Projectroi />
+        </>
+      ),
+    },
+    {
+      content: (
+        <>
+          <h1>hello</h1>
         </>
       ),
     },

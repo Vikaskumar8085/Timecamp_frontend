@@ -32,6 +32,18 @@ const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen, Role}) => {
                 Company
               </NavLink>
             </li>
+
+            <li>
+              <NavLink
+                to={"/Invoice"}
+                className="nav_link"
+                style={({isActive}) => ({
+                  color: isActive ? "greenyellow" : "white",
+                })}
+              >
+                Invoice
+              </NavLink>
+            </li>
             <li>
               <NavLink
                 to={"/profile"}
