@@ -10,7 +10,7 @@ import {
 import Grid from "@mui/material/Grid2";
 import {useFormik} from "formik";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
-const AdminForm = ({handleSubmit}) => {
+const AdminForm = ({handleSubmit, IsEdit, setIsEdit}) => {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const validate = (values) => {
@@ -41,10 +41,10 @@ const AdminForm = ({handleSubmit}) => {
 
   const formik = useFormik({
     initialValues: {
-      FirstName: "",
-      LastName: "",
-      Email: "",
-      Password: "",
+      FirstName: IsEdit.FirstName ?? "",
+      LastName: IsEdit.LastName ?? "",
+      Email: IsEdit?.Email ?? "",
+      Password: IsEdit?.Password ?? "",
       ConfirmPassword: "",
     },
     validate,

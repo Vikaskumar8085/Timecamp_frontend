@@ -19,7 +19,7 @@ import {
   Edit,
 } from "@mui/icons-material";
 
-const UserList = ({users}) => {
+const UserList = ({users, handleEdit}) => {
   return (
     <Box
       sx={{display: "flex", flexWrap: "wrap", justifyContent: "start"}}
@@ -112,10 +112,10 @@ const UserList = ({users}) => {
             >
               {user.Term ? "Accepted Terms & Conditions" : "Terms Not Accepted"}
             </Typography>
-
+            <button onClick={() => handleEdit(user)}>edit</button>
             {/* Action Buttons */}
 
-            {/* {user?.IsAdmin === false && (
+            {user?.IsAdmin === false && (
               <Grid container spacing={2} sx={{mt: 3}}>
                 <Grid item xs={6}></Grid>
                 <Grid item xs={6}>
@@ -129,7 +129,7 @@ const UserList = ({users}) => {
                   </Button>
                 </Grid>
               </Grid>
-            )} */}
+            )}
           </CardContent>
         </Card>
       ))}

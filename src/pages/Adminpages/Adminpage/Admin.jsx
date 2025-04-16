@@ -82,6 +82,7 @@ import toast from "react-hot-toast";
 const Admin = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [isAdmindata, setIsAdmindata] = React.useState([]);
+  const [IsEdit, setIsEdit] = React.useState(null);
   const dispatch = useDispatch();
   // fetch admin
 
@@ -97,6 +98,10 @@ const Admin = () => {
     }
   };
 
+  const handleEdit = (value) => {
+    setIsEdit(value);
+    setIsModalOpen(true);
+  };
   // create admin
   const handleSubmit = async (value) => {
     try {
@@ -145,11 +150,15 @@ const Admin = () => {
           // title={"Add Admin"}
           anchor="right"
         >
-          <AdminForm handleSubmit={handleSubmit} />
+          <AdminForm
+            IsEdit={IsEdit}
+            setIsEdit={setIsEdit}
+            handleSubmit={handleSubmit}
+          />
         </Drawer>
       ) : null}
 
-      <UserList users={isAdmindata} />
+      <UserList handleEdit={handleEdit} users={isAdmindata} />
     </Layout>
   );
 };

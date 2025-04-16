@@ -77,7 +77,17 @@ const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen, Role}) => {
                 Task
               </NavLink>
             </li>
-
+            <li>
+              <NavLink
+                to="/forecast-report"
+                className={"nav_link"}
+                style={({isActive}) => ({
+                  color: isActive ? "greenyellow" : "white",
+                })}
+              >
+                Forecast
+              </NavLink>
+            </li>
             <li className="dropdown">
               <button
                 className="dropdown_btn"
@@ -236,6 +246,11 @@ const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen, Role}) => {
                 <li>
                   <NavLink to="/master/holiday" className={"nav_link"}>
                     <FaUserShield className="icon" /> holiday
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/master/standard" className={"nav_link"}>
+                    <FaUserShield className="icon" /> Standard
                   </NavLink>
                 </li>
                 <li>

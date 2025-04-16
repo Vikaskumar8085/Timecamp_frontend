@@ -38,6 +38,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
       console.log(error?.message);
     }
   };
+  
 
   const getroledata = async () => {
     try {
@@ -174,7 +175,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
 
   return (
     <Container maxWidth="lg">
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h6" gutterBottom>
         Add Project
       </Typography>
 
@@ -269,21 +270,14 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
             />
           </Grid>
           <Grid size={{sm: 12, xs: 12, md: 6}}>
-            <FormControl fullWidth margin="normal">
-              <InputLabel>Select Project Manager</InputLabel>
-              <Select
-                name="Project_ManagersId"
-                value={formik.values.Project_ManagersId}
-                onChange={formik.handleChange}
-              >
-                {IsStaffdata.map((item) => (
-                  <MenuItem key={item.staff_Id} value={item.staff_Id}>
-                    {item.FirstName}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Currency"
+              onChange={formik.handleChange}
+            />
           </Grid>
+
           <Grid size={{sm: 12}}>
             <FormControl fullWidth margin="normal">
               <InputLabel id="select-project-type">
@@ -301,12 +295,25 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
                   Boolean(formik.errors.Project_Type)
                 }
               >
+                <MenuItem value="Fixed">Fixed</MenuItem>
+                <MenuItem value="Bucket">Bucket</MenuItem>s
                 <MenuItem value="Full Time Resources">
                   Full Time Resources
                 </MenuItem>
                 <MenuItem value="Time and Material">Time and Material</MenuItem>
               </Select>
             </FormControl>
+
+            {formik.values.Project_Type === "Fixed" && (
+              <>
+                <TextField
+                  fullWidth
+                  type="text"
+                  label="Project Estimate Hours"
+                  name="Project_Estimate_Hours"
+                />
+              </>
+            )}
           </Grid>
           <Grid size={{sm: 12}}>
             <Grid size={{xs: 12, sm: 12}}>
@@ -373,15 +380,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
                           onChange={formik.handleChange}
                         />
                       </Grid>
-                      <Grid item xs={6}>
-                        <TextField
-                          fullWidth
-                          label="Currency"
-                          name={`roleResources[${index}].Currency`}
-                          value={role.Currency}
-                          onChange={formik.handleChange}
-                        />
-                      </Grid>
+
                       <Grid item xs={6}>
                         <TextField
                           fullWidth

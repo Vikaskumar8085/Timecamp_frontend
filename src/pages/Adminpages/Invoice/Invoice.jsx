@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import * as Yup from "yup";
@@ -6,7 +6,19 @@ import {
   Button,
   Container,
   Drawer,
+  FormControl,
   Grid2,
+  InputLabel,
+  ListItemText,
+  MenuItem,
+  Paper,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   TextField,
   Typography,
 } from "@mui/material";
@@ -14,6 +26,10 @@ import moment from "moment";
 import {useFormik} from "formik";
 import AddIcon from "@mui/icons-material/Add";
 import apiInstance from "../../../ApiInstance/apiInstance";
+import {useDispatch} from "react-redux";
+import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
+import toast from "react-hot-toast";
+import {fetchclientapicall} from "../../../ApiServices/AdminApiServices/Client";
 const validationSchema = Yup.object({
   clientId: Yup.string().required("Invoice clientId is required"),
   startDate: Yup.date().required("Start Date is required"),
@@ -26,7 +42,19 @@ const validationSchema = Yup.object({
 });
 const Invoice = () => {
   const [IsOpen, setIsOpen] = useState(false);
-
+  const [Isinvoicedata, setIsinvoicedata] = useState([]);
+  const [clients, setClients] = useState([]);
+  const dispatch = useDispatch();
+  const getclientdata = async () => {
+    try {
+      const response = await fetchclientapicall();
+      if (response.success) {
+        setClients(response.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
   const formik = useFormik({
     initialValues: {
       clientId: "",
@@ -38,20 +66,56 @@ const Invoice = () => {
     },
     // validationSchema,
     onSubmit: async (values) => {
-      console.log("Form submitted:", values);
-      // you can replace this with your API call
-      const formattedData = {
-        ...values,
-        startDate: moment(values.startDate).format("DD/MM/YYYY"),
-        endDate: moment(values.endDate).format("DD/MM/YYYY"),
-      };
-      const response = await apiInstance.post(
-        "/v1/admin/create-invoice",
-        formattedData
-      );
-      console.log(response, "dtaF");
+      try {
+        dispatch(setLoader(true));
+        // you can replace this with your API call
+        const formattedData = {
+          ...values,
+          startDate: moment(values.startDate).format("DD/MM/YYYY"),
+          endDate: moment(values.endDate).format("DD/MM/YYYY"),
+        };
+        const response = await apiInstance.post(
+          "/v1/admin/create-invoice",
+          formattedData
+        );
+        if (response?.data?.success) {
+          dispatch(setLoader(false));
+          setIsOpen(false);
+        } else {
+          setIsOpen(false);
+          dispatch(setLoader(false));
+          toast.error(response?.data?.message);
+        }
+      } catch (error) {
+        setIsOpen(false);
+        dispatch(setLoader(false));
+        toast.error(error?.response?.data?.message);
+      }
     },
   });
+
+  const fetchinvoicefunc = async () => {
+    try {
+      dispatch(setLoader(true));
+
+      const response = await apiInstance.get("/v1/admin/fetch-invoice");
+      console.log(response, "response ");
+      if (response.data?.success) {
+        dispatch(setLoader(false));
+        setIsinvoicedata(response?.data?.success);
+      } else {
+        dispatch(setLoader(false));
+        toast.error(response?.data?.message);
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+      dispatch(setLoader(false));
+    }
+  };
+  useEffect(() => {
+    fetchinvoicefunc();
+    getclientdata();
+  }, [0]);
   return (
     <Layout>
       <BreadCrumb pageName="Invoice" />
@@ -67,7 +131,7 @@ const Invoice = () => {
       >
         Create Invoice
       </Button>
-
+      {/* create invoice */}
       {IsOpen && (
         <Drawer open={IsOpen} anchor="right" onClose={() => setIsOpen(false)}>
           <Container maxWidth="md">
@@ -77,22 +141,29 @@ const Invoice = () => {
               </Typography>
               <Grid2 spacing={2} container>
                 <Grid2 size={{sm: 12, xs: 12}}>
-                  <TextField
-                    label="Client ID"
-                    type="text"
-                    fullWidth
-                    id="clientId"
-                    name="clientId"
-                    value={formik.values.clientId}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.clientId && Boolean(formik.errors.clientId)
-                    }
-                    helperText={
-                      formik.touched.clientId && formik.errors.clientId
-                    }
-                  />
+                  <FormControl fullWidth margin="normal">
+                    <InputLabel id="client-select-label">
+                      Select Client
+                    </InputLabel>
+                    <Select
+                      labelId="client-select-label"
+                      id="client-select"
+                      name="clientId"
+                      value={formik.values.clientId}
+                      onChange={formik.handleChange}
+                      label="Select Client"
+                      fullWidth
+                    >
+                      {clients.map((client) => (
+                        <MenuItem
+                          key={client.Client_Id}
+                          value={client.Client_Id}
+                        >
+                          <ListItemText primary={client.Client_Name} />
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                 </Grid2>
 
                 <Grid2 size={{md: 6, sm: 12, xs: 12}}>
@@ -209,6 +280,29 @@ const Invoice = () => {
           </Container>
         </Drawer>
       )}
+      {/* create invoice */}
+
+      {/* table of Invoice */}
+
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Client</TableCell>
+              <TableCell>Start Date</TableCell>
+              <TableCell>End Date</TableCell>
+              <TableCell>Rate</TableCell>
+              <TableCell>Percentage</TableCell>
+              <TableCell>Terms</TableCell>
+              <TableCell>Action</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow></TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Layout>
   );
 };

@@ -86,6 +86,8 @@ import Holiday from "./pages/Adminpages/masterPages/Holiday";
 import ColorPage from "./pages/Adminpages/masterPages/ColorPage";
 import WeekoffDays from "./pages/Adminpages/masterPages/WeekoffDays";
 import Invoice from "./pages/Adminpages/Invoice/invoice";
+import Standard from "./pages/Adminpages/masterPages/Standard";
+import ForcastingPage from "./pages/Adminpages/ForeCasting/ForcastingPage";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -154,7 +156,9 @@ const App = () => {
         <Route path="/master/holiday" element={<Holiday />} />
         <Route path="/master/weekoffdays" element={<WeekoffDays />} />
         <Route path="/master/color" element={<ColorPage />} />
+        <Route path="/master/standard" element={<Standard />} />
         <Route path="/Invoice" element={<Invoice />} />
+        <Route path="/forecast-report" element={<ForcastingPage />} />
         {/* Admin pages */}
         {/* client pages */}
         <Route
