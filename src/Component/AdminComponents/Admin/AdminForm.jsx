@@ -41,8 +41,8 @@ const AdminForm = ({handleSubmit, IsEdit, setIsEdit}) => {
 
   const formik = useFormik({
     initialValues: {
-      FirstName: IsEdit.FirstName ?? "",
-      LastName: IsEdit.LastName ?? "",
+      FirstName: IsEdit?.FirstName ?? "",
+      LastName: IsEdit?.LastName ?? "",
       Email: IsEdit?.Email ?? "",
       Password: IsEdit?.Password ?? "",
       ConfirmPassword: "",

@@ -200,6 +200,27 @@ const ContractorForm = ({handleSubmit, IsEdit, udpatecontractorfunc}) => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
+                label="Currency"
+                fullWidth
+                {...formik.getFieldProps("Currency")}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="unit"
+                fullWidth
+                {...formik.getFieldProps("unit")}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Cost"
+                fullWidth
+                {...formik.getFieldProps("Cost")}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
                 label="Company Name "
                 placeholder="Enter your Company Name"
                 fullWidth

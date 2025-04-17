@@ -202,6 +202,27 @@ const EmployeeForm = ({handleSubmit, IsEdit, updateEmployeeFunc}) => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
+              <TextField
+                label="Currency"
+                fullWidth
+                {...formik.getFieldProps("Currency")}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="unit"
+                fullWidth
+                {...formik.getFieldProps("unit")}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Cost"
+                fullWidth
+                {...formik.getFieldProps("Cost")}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
               <FormControlLabel
                 control={
                   <Checkbox
