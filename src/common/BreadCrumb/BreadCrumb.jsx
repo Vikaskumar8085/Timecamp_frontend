@@ -10,7 +10,7 @@ const Breadcrumb = ({pageName}) => {
         <ol className="breadcrumb-nav">
           <li>
             <Link className="breadcrumb-link" to="/dashboard">
-              Dashboard /
+              Dashboard {">"}
             </Link>
           </li>
           <li className="breadcrumb-current">{pageName}</li>

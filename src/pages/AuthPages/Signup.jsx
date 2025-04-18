@@ -1,7 +1,6 @@
 import React, {useEffect} from "react";
 import {
   TextField,
-  Button,
   Checkbox,
   FormControlLabel,
   Avatar,
@@ -14,6 +13,7 @@ import toast from "react-hot-toast";
 import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
 import {useDispatch} from "react-redux";
 import {Link} from "react-router-dom";
+import Button from "../../common/Button/Button";
 
 const validate = (values) => {
   const errors = {};

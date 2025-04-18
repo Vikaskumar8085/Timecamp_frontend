@@ -88,6 +88,7 @@ import WeekoffDays from "./pages/Adminpages/masterPages/WeekoffDays";
 import Invoice from "./pages/Adminpages/Invoice/invoice";
 import Standard from "./pages/Adminpages/masterPages/Standard";
 import ForcastingPage from "./pages/Adminpages/ForeCasting/ForcastingPage";
+import Home from "./pages/Home";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -109,6 +110,7 @@ const App = () => {
       {loadspinner && <SpinnerLoader />}
       <Routes>
         {/* auth pages */}
+        <Route path="/index" element={<Home />} />
         <Route index element={<Layout />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

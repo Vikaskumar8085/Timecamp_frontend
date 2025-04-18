@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Button, Container} from "@mui/material";
+import {Container} from "@mui/material";
 import {useFormik} from "formik";
 import {loginapicall} from "../../ApiServices/Authapiservices";
 import {useGoogleLogin} from "@react-oauth/google";
@@ -7,7 +7,9 @@ import {useDispatch} from "react-redux";
 import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
 import {GoogleLoginAuth} from "../../ApiServices/UserApiServices/User";
 import {Link} from "react-router-dom";
+import Button from "../../common/Button/Button";
 import toast from "react-hot-toast";
+import CardOne from "../../common/cardOne/CardOne";
 const validate = (values) => {
   const errors = {};
 
@@ -112,7 +114,7 @@ const Login = () => {
               </p>
             </div>
             <div className="mb-3">
-              <button type="submit">Submit</button>
+              <Button>Submit</Button>
             </div>
             <br />
             <Link to="/signup">
@@ -124,7 +126,7 @@ const Login = () => {
             </Link>
             <br />
             <div className="mb-3">
-              <Button onClick={() => login()}>google Login</Button>
+              <Button onclick={() => login()}>google Login</Button>
             </div>
           </form>
         </Container>
