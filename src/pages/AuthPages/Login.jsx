@@ -10,6 +10,8 @@ import {Link} from "react-router-dom";
 import Button from "../../common/Button/Button";
 import toast from "react-hot-toast";
 import CardOne from "../../common/cardOne/CardOne";
+import Input from "../../common/Input/Input";
+import InputPassword from "../../common/InputPassword/InputPassword";
 const validate = (values) => {
   const errors = {};
 
@@ -88,9 +90,9 @@ const Login = () => {
         <Container>
           <form onSubmit={formik.handleSubmit}>
             <div className="mb-3">
-              <label htmlFor="Email">Email</label>
-              <input
-                type="text"
+              <Input
+                type="Email"
+                labelText="Email"
                 id="Email"
                 {...formik.getFieldProps("Email")}
               />
@@ -101,9 +103,9 @@ const Login = () => {
               </p>
             </div>
             <div className="mb-3">
-              <label htmlFor="Password">Password</label>
-              <input
+              <InputPassword
                 type="password"
+                labelText="Password"
                 id="Password"
                 {...formik.getFieldProps("Password")}
               />

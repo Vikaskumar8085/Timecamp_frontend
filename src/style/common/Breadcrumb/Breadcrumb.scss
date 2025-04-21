@@ -38,8 +38,8 @@ $background-color_1: #f8f9fa;
   display: flex;
   flex-direction: column;
   padding: 16px;
-  // background-color: $background-color_1;
-  // border-bottom: 1px solid #ddd;
+  background-color: $background-color_1;
+  border-bottom: 1px solid #ddd;
 }
 .breadcrumb-title {
   font-size: 20px;

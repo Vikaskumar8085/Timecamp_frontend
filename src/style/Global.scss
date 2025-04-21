@@ -1,6 +1,7 @@
 @import "./common/index";
 @import "./Auth/index";
 @import "./DeafultLayout/DeafultLayout";
+
 * {
   margin: 0px;
   padding: 0px;
@@ -8,6 +9,7 @@
 
 :root {
   --primary-color: #{#6560f0};
+  --color-one: #{#0b0b0b};
 }
 
 h1,
