@@ -128,7 +128,14 @@ const Login = () => {
             </Link>
             <br />
             <div className="mb-3">
-              <Button onclick={() => login()}>google Login</Button>
+              <Button onclick={() => login()} className="google-btn">
+                <img
+                  src="https://www.google.com/images/icons/product/search-32.gif"
+                  alt="Google logo"
+                  className="google-icon"
+                />
+                <span>Sign in with Google</span>
+              </Button>
             </div>
           </form>
         </Container>

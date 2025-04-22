@@ -1,12 +1,26 @@
 import React from "react";
 import {NavLink} from "react-router-dom";
 import {FaUserTie, FaBuilding, FaUserShield} from "react-icons/fa";
+import logo from "../../../assets/auth/Logo.png";
 const Sidebar = ({setDropdownOpen, isOpen, dropdownOpen, Role}) => {
   const toggleDropdown = (menu) => {
     setDropdownOpen((prev) => ({...prev, [menu]: !prev[menu]}));
   };
   return (
     <div className={`layout_wrapper_sidebar ${isOpen ? "open" : "closed"}`}>
+      <div
+        className="logo-box"
+        style={{
+          margin: "0 auto",
+          display: "flex",
+          justifyContent: "center",
+          justifyItems: "center",
+          padding: "30px 0px",
+        }}
+      >
+        <img src={logo} alt="" srcset="" />
+      </div>
+
       <nav className="sidebar_menu">
         {Role === "Admin" && (
           <ul>

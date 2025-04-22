@@ -9,6 +9,7 @@ import {
   FormHelperText,
   Grid2,
 } from "@mui/material";
+import "@fontsource/quicksand";
 import PhoneInput from "react-phone-input-2";
 import * as Yup from "yup";
 import "react-phone-input-2/lib/style.css";
@@ -22,9 +23,13 @@ import Button from "../../common/Button/Button";
 import Input from "../../common/Input/Input";
 import InputPassword from "../../common/InputPassword/InputPassword";
 import signupimage from "../../assets/auth/signupImage-removebg-preview.png";
-
+import {useMediaQuery, useTheme} from "@mui/material";
+import timecamplogo from "../../assets/auth/Screenshot from 2025-04-22 17-26-29.png";
 const Signup = () => {
   const dispatch = useDispatch();
+  const theme = useTheme();
+  const isMd = useMediaQuery(theme.breakpoints.only("md"));
+
   const formik = useFormik({
     initialValues: {
       FirstName: "",
@@ -87,14 +92,20 @@ const Signup = () => {
   return (
     <>
       <div className="signup_wrapper">
+        <div className="signup_wrapper_logo">
+          <img src={timecamplogo} alt="no-image" srcset="" />
+        </div>
         <div className="signup_box">
-          <Grid2 container>
-            <Grid2 size={{md: 6, lg: 6}}>
+          <Grid2 container justifyContent={"center"}>
+            <Grid2 size={{md: 12, lg: 6}}>
               <div className="signup_left_side">
                 <form onSubmit={formik.handleSubmit}>
                   <div className="singup_left_side_title">
-                    <h1> Sign Up</h1>
-                    <p>
+                    <h1 sx={{fontFamily: "Quicksand, sans-serif"}}>
+                      {" "}
+                      Sign Up!
+                    </h1>
+                    <p sx={{fontFamily: "Quicksand, sans-serif"}}>
                       Alerady have an account?
                       <Link to="/login">Login here</Link>
                     </p>
@@ -135,7 +146,15 @@ const Signup = () => {
                         inputStyle={{width: "100%"}}
                       />
                       {formik.touched.Phone && formik.errors.Phone && (
-                        <div style={{color: "red"}}>{formik.errors.Phone}</div>
+                        <div
+                          style={{
+                            color: "#d32f2f",
+                            fontSize: "12px",
+                            margin: "10px 0px",
+                          }}
+                        >
+                          {formik.errors.Phone}
+                        </div>
                       )}
                     </Grid2>
 
@@ -204,7 +223,18 @@ const Signup = () => {
                 </form>
               </div>
             </Grid2>
-            <Grid2 size={{md: 6, lg: 6}} sx={{backgroundColor: "#f7f8f9"}}>
+            <Grid2
+              size={{md: 12, lg: 6}}
+              sx={{
+                backgroundColor: "#f7f8f9",
+                display: {
+                  xs: "none",
+                  sm: "none",
+                  md: "none",
+                  lg: "block", // or 'flex' depending on layout
+                },
+              }}
+            >
               <div className="signup_right_side">
                 <div className="signup_right_side_box">
                   <h6>Start managing your task faster & better!</h6>
