@@ -6,6 +6,7 @@ const Empty = () => {
     <div className="Empty_wrapper">
       <div className="Empty_box">
         <img src={Emptyfolder} alt="no-image" />
+        <p>No data is available</p>
       </div>
     </div>
   );
