@@ -217,7 +217,9 @@ const Signup = () => {
                     </Grid2>
 
                     <Grid2 size={{xs: 12, sm: 12}}>
-                      <Button type="submit">Submit</Button>
+                      <Button style={{width: "100%"}} type="submit">
+                        Submit
+                      </Button>
                     </Grid2>
                   </Grid2>
                 </form>

@@ -132,7 +132,9 @@ const Login = () => {
                     </p>
                   </div>
                   <div className="mb-3">
-                    <Button>Submit</Button>
+                    <Button type={"submit"} style={{width: "100%"}}>
+                      Submit
+                    </Button>
                   </div>
 
                   <br />

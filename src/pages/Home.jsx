@@ -1,14 +1,16 @@
 import React from "react";
 import "./Home.scss";
-import {Badge, Grid2} from "@mui/material";
+import {Badge, Grid2, TextField} from "@mui/material";
 import logo from "../assets/auth/logo.png";
 import BreadCrumb from "../common/BreadCrumb/BreadCrumb";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import {Link} from "react-router-dom";
+import Button from "../common/Button/Button";
+import TModal from "../common/Modal/TModal";
 
 const Home = () => {
   const [show, setShow] = React.useState(false);
-
+  const [isOpenmodel, setisopenModle] = React.useState(false);
   const [isopen, setisopen] = React.useState(false);
   return (
     <>
@@ -86,6 +88,47 @@ const Home = () => {
           {/* sidebar */}
           <div className="wrapper_content">
             <BreadCrumb pageName="Home" />
+
+            <Button onClick={() => setisopenModle(true)}>Open Model</Button>
+            <TModal
+              title={"add Client"}
+              onClose={() => setisopenModle(false)}
+              open={isOpenmodel}
+            >
+              <div className="model_body">
+                <Grid2 container spacing={2}>
+                  <Grid2 xs={12}>
+                    <TextField
+                      fullWidth
+                      type="text"
+                      placeholder="Client Name"
+                    />
+                  </Grid2>
+                  <Grid2 xs={12}>
+                    <TextField
+                      fullWidth
+                      type="email"
+                      placeholder="Client Email"
+                    />
+                  </Grid2>
+                  <Grid2 xs={12}>
+                    <TextField
+                      fullWidth
+                      type="text"
+                      placeholder="Client Phone"
+                    />
+                  </Grid2>
+                  <Grid2 xs={12}>
+                    <TextField
+                      fullWidth
+                      type="text"
+                      placeholder="Client Address"
+                    />
+                  </Grid2>
+                </Grid2>
+              </div>
+              <Button type={"submit"}>Submit</Button>
+            </TModal>
           </div>
         </div>
       </div>
