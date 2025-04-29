@@ -23,6 +23,7 @@ import {useDispatch} from "react-redux";
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import apiInstance from "../../../ApiInstance/apiInstance";
 import toast from "react-hot-toast";
+import TModal from "../../../common/Modal/TModal";
 const Standard = () => {
   const [IsOpen, setIsOpen] = useState(false);
   const [Isdata, setIsdata] = useState([]);
@@ -131,11 +132,13 @@ const Standard = () => {
         Add
       </Button>
       {IsOpen && (
-        <Drawer anchor="right" onClose={() => setIsOpen(false)} open={IsOpen}>
+        <TModal
+          title=" Add Standard"
+          onClose={() => setIsOpen(false)}
+          open={IsOpen}
+        >
           <Container maxWidth="md">
-            <Typography sx={{margin: 2}} variant="h6">
-              Add Standard
-            </Typography>
+            <Typography sx={{margin: 2}} variant="h6"></Typography>
             <form onSubmit={formik.handleSubmit}>
               <Grid2 container spacing={2}>
                 <Grid2 item size={{sm: 12}}>
@@ -176,7 +179,7 @@ const Standard = () => {
               </Grid2>
             </form>
           </Container>
-        </Drawer>
+        </TModal>
       )}
 
       <TableContainer component={Paper}>

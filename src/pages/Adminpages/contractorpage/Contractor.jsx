@@ -17,6 +17,7 @@ import ContractorForm from "../../../Component/AdminComponents/Contractor/Contra
 import {useDispatch} from "react-redux";
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import toast from "react-hot-toast";
+import TModal from "../../../common/Modal/TModal";
 
 const Contractor = () => {
   const [Iscontractordata, setIscontractordata] = useState([]);
@@ -142,8 +143,9 @@ const Contractor = () => {
       </Button>
 
       {IsOpen && (
-        <Drawer
+        <TModal
           open={IsOpen}
+          title={IsEdit !== null ? "Edit Contractor" : "Add Contractor"}
           onClose={() => {
             setIsOpen(false), setIsEdit(null);
           }}
@@ -154,7 +156,7 @@ const Contractor = () => {
             IsEdit={IsEdit}
             handleSubmit={handleSubmit}
           />
-        </Drawer>
+        </TModal>
       )}
 
       {isUpload && (

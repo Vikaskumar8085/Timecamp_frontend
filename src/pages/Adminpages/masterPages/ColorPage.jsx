@@ -29,6 +29,7 @@ import {
   removecolorapicall,
 } from "../../../ApiServices/MasterApiServices/Color";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import TModal from "../../../common/Modal/TModal";
 
 // validate
 const validationSchema = Yup.object({
@@ -145,7 +146,11 @@ const ColorPage = () => {
       </Button>
 
       {IsOpen && (
-        <Drawer anchor="right" onClose={() => setIsOpen(false)} open={IsOpen}>
+        <TModal
+          title="Add Colors"
+          onClose={() => setIsOpen(false)}
+          open={IsOpen}
+        >
           <Container maxWidth="sm">
             <Box
               sx={{
@@ -155,13 +160,6 @@ const ColorPage = () => {
                 p: 1,
               }}
             >
-              <Typography
-                variant="h6"
-                component={"h1"}
-                sx={{mb: 1, fontWeight: "bold", textTransform: "Capitalize"}}
-              >
-                Add Colors
-              </Typography>
               <form onSubmit={formik.handleSubmit}>
                 <Grid container spacing={2}>
                   <Grid sm={6} md={12} sx={{mt: 3}}>
@@ -228,7 +226,7 @@ const ColorPage = () => {
               </form>
             </Box>
           </Container>
-        </Drawer>
+        </TModal>
       )}
 
       <TableContainer component={Paper}>

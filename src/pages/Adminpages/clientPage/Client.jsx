@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import {Button, Drawer} from "@mui/material";
+import {Container, Drawer, Grid2} from "@mui/material";
 import ClientForm from "../../../Component/AdminComponents/Client/ClientForm";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import ClientTable from "../../../Component/AdminComponents/Client/ClientTable";
@@ -17,6 +17,11 @@ import {uploadclientcsvapicall} from "../../../ApiServices/Csvapiservices/csvapi
 import {useDispatch} from "react-redux";
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import toast from "react-hot-toast";
+import TModal from "../../../common/Modal/TModal";
+import Button from "../../../common/Button/Button";
+import Input from "../../../common/Input/Input";
+import PhoneInput from "react-phone-input-2";
+import InputPassword from "../../../common/InputPassword/InputPassword";
 
 const Client = () => {
   const [IsOpen, setIsOpen] = useState(false);
@@ -174,22 +179,112 @@ const Client = () => {
       >
         Upload Client
       </Button>
-      {IsOpen && (
-        <Drawer
+      {/* {IsOpen && (
+        <TModal
+          title={isEdit !== null ? "Edit Client " : " Add Client"}
           open={IsOpen}
           onClose={() => {
             setIsEdit(null);
-
             setIsOpen(false);
           }}
-          anchor="right"
         >
           <ClientForm
             isEdit={isEdit}
             handleUpdate={handleUpdate}
             handleSubmit={handleSubmit}
           />
-        </Drawer>
+        </TModal>
+      )} */}
+      {IsOpen && (
+        <TModal
+          title={isEdit !== null ? "Edit Client " : " Add Client"}
+          open={IsOpen}
+          onClose={() => {
+            setIsEdit(null);
+            setIsOpen(false);
+          }}
+        >
+          <Container maxWidth="sm">
+            <form style={{minWidth: "320px", maxWidth: "500px", width: "100%"}}>
+              <Grid2 Container>
+                <Grid2 size={{sm: 6, md: 6, lg: 6, xs: 6}} sx={{mt: 3}}>
+                  <Input
+                    placeholder={"Please Enter Your Company Name"}
+                    labelText={"Company Name"}
+                    style={{minWidth: "100%"}}
+                  />
+                </Grid2>
+                <Grid2 size={{sm: 6, md: 6, lg: 6, xs: 6}} sx={{mt: 3}}>
+                  <Input
+                    placeholder={"Please Enter Your Client Name"}
+                    labelText={"Client Name"}
+                    style={{width: "100%"}}
+                  />
+                </Grid2>
+                <Grid2 size={{sm: 6, md: 6, xs: 6}} sx={{mt: 3}}>
+                  <Input
+                    placeholder={"Please Enter Your Client Name"}
+                    labelText={"Client Email"}
+                    style={{width: "100%"}}
+                  />
+                </Grid2>
+                <Grid2 size={{sm: 12, md: 6, xs: 12}} sx={{mt: 3}}>
+                  <InputPassword
+                    type={"password"}
+                    labelText={"Password"}
+                    style={{width: "100%"}}
+                  />
+                </Grid2>
+                <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+                  <label
+                    htmlFor="phone-input"
+                    style={{
+                      display: "block",
+                      marginBottom: "6px",
+                      color: "#86919b",
+                      fontWeight: "500",
+                    }}
+                  >
+                    Phone Number
+                  </label>
+
+                  <PhoneInput
+                    inputStyle={{width: "100%"}}
+                    country={"in"}
+                    style={{width: "100%"}}
+                  />
+                </Grid2>
+                <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+                  <Input
+                    type={"text"}
+                    labelText={"Company Address"}
+                    placeholder={"Please Enter Your Address"}
+                  />
+                </Grid2>
+                <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+                  <Input
+                    labelText={"Postal Code"}
+                    type={"number"}
+                    placeholder={"Please Enter Your Postal Code"}
+                  />
+                </Grid2>
+                <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+                  <Input
+                    labelText={"Gst Number"}
+                    type={"text"}
+                    placeholder={"Please Enter Your State"}
+                  />
+                </Grid2>
+                <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+                  <input type={"checkbox"} />
+                </Grid2>
+                <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+                  <Button style={{width: "100%"}}>Submit</Button>
+                </Grid2>
+              </Grid2>
+            </form>
+          </Container>
+        </TModal>
       )}
       {isUpload && (
         <Drawer

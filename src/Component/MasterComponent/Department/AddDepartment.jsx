@@ -1,9 +1,9 @@
-import { useFormik } from "formik";
+import {useFormik} from "formik";
 import React from "react";
-import { Button, Box, Typography, TextField, Container } from "@mui/material";
+import {Button, Box, Typography, TextField, Container} from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import AddIcons from "@mui/icons-material/Add";
-const AddDepartment = ({ handleSubmit, isEdit, updatedepartment }) => {
+const AddDepartment = ({handleSubmit, isEdit, updatedepartment}) => {
   const formik = useFormik({
     initialValues: {
       Department_Name: isEdit !== null ? isEdit.Department_Name : null,
@@ -34,12 +34,9 @@ const AddDepartment = ({ handleSubmit, isEdit, updatedepartment }) => {
             p: 1,
           }}
         >
-          <Typography variant="h6" component={"h1"}>
-            {isEdit !== null ? "Edit Department" : "Add Department"}
-          </Typography>
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={2}>
-              <Grid size={{ sm: 12, xs: 12 }} sx={{ mt: 3 }}>
+              <Grid size={{sm: 12, xs: 12}} sx={{mt: 3}}>
                 <TextField
                   fullWidth
                   id="Department_Name"
@@ -59,7 +56,7 @@ const AddDepartment = ({ handleSubmit, isEdit, updatedepartment }) => {
                   }
                 />
               </Grid>
-              <Grid size={{ sm: 12, xs: 12 }}>
+              <Grid size={{sm: 12, xs: 12}}>
                 <Button
                   startIcon={<AddIcons />}
                   type="submit"

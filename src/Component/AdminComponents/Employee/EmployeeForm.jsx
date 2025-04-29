@@ -85,11 +85,7 @@ const EmployeeForm = ({handleSubmit, IsEdit, updateEmployeeFunc}) => {
 
   return (
     <Container maxWidth="md">
-      <Box sx={{p: 2}}>
-        <Typography sx={{mb: 3}} variant="h5">
-          {IsEdit ? "Edit Employee" : "Add Employee"}
-        </Typography>
-
+      <Box sx={{p: 2, mt: 4}}>
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>

@@ -19,6 +19,7 @@ import EmployeeForm from "../../../Component/AdminComponents/Employee/EmployeeFo
 import {useDispatch} from "react-redux";
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import toast from "react-hot-toast";
+import TModal from "../../../common/Modal/TModal";
 
 const Employee = () => {
   const [isUpload, setIsUpload] = useState(false);
@@ -152,8 +153,9 @@ const Employee = () => {
       {/* create employee */}
 
       {IsOpen && (
-        <Drawer
+        <TModal
           open={IsOpen}
+          title={IsEdit ? "Edit Employee" : "Add Employee"}
           onClose={() => {
             setIsOpen(false), setIsEdit(null);
           }}
@@ -164,7 +166,7 @@ const Employee = () => {
             handleSubmit={handleSubmit}
             updateEmployeeFunc={updateEmployeeFunc}
           />
-        </Drawer>
+        </TModal>
       )}
       {/* create employee */}
 

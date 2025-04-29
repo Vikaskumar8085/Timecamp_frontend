@@ -27,6 +27,7 @@ import {
 import {useDispatch} from "react-redux";
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import {Link} from "react-router-dom";
+import TModal from "../../../common/Modal/TModal";
 
 const Task = () => {
   const [IsOpen, setIsOpen] = useState(false);
@@ -106,12 +107,12 @@ const Task = () => {
         </Button>
 
         {IsOpen && (
-          <Drawer open={IsOpen} onClose={() => setIsOpen(false)} anchor="right">
+          <TModal title={"add Task"} open={IsOpen} onClose={() => setIsOpen(false)}>
             <TaskCreationForm
               TaskHandlesubmit={TaskHandlesubmit}
               Isprojectmilestonedata={Isprojectmilestonedata}
             />
-          </Drawer>
+          </TModal>
         )}
 
         {/* {IsUpload && (

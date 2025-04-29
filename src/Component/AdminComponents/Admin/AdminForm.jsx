@@ -72,14 +72,10 @@ const AdminForm = ({handleSubmit, IsEdit, setIsEdit}) => {
     <Container maxWidth="sm">
       <Box
         sx={{
-          mt: 2,
+          mt: 4,
           p: 1,
         }}
       >
-        <Typography variant="h5" sx={{margin: "10px 0px"}}>
-          Add Admin
-        </Typography>
-
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={2}>
             {/* First Name */}

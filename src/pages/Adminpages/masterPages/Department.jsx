@@ -133,9 +133,9 @@ const Department = () => {
       </Button>
 
       {IsOpen && (
-        <Drawer
+        <TModal
           open={IsOpen}
-          anchor="right"
+          title={isEdit !== null ? "Edit Department" : "Add Department"}
           onClose={() => {
             setIsOpen(false);
             setIsEdit(null);
@@ -146,7 +146,7 @@ const Department = () => {
             isEdit={isEdit}
             handleSubmit={handleSubmit}
           />
-        </Drawer>
+        </TModal>
       )}
       <DepartmentTable
         handleOpen={handleOpen}

@@ -2,8 +2,6 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import TModal from "../../../common/Modal/TModal";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import HeaderTab from "../../../common/HeaderTab/HeaderTab";
-import {Container, Drawer, TextField} from "@mui/material";
 import {useFormik} from "formik";
 import DesignationTable from "../../../Component/MasterComponent/Designation/DesignationTable";
 import {
@@ -139,9 +137,9 @@ const Designation = () => {
       </Button>
 
       {IsOpen && (
-        <Drawer
+        <TModal
           open={IsOpen}
-          anchor="right"
+          title={isEdit !== null ? "Edit Designation" : "Add Designation"}
           onClose={() => {
             setIsOpen(false);
             setIsEdit(null);
@@ -152,7 +150,7 @@ const Designation = () => {
             isEdit={isEdit}
             handleSubmit={handleSubmit}
           />
-        </Drawer>
+        </TModal>
       )}
       <DesignationTable
         removeDesignation={removeDesignation}

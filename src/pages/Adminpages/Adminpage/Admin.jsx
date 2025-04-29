@@ -64,7 +64,7 @@
 import React, {useEffect} from "react";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
-import {Button, Drawer} from "@mui/material";
+import {Container, Drawer, Grid, Grid2} from "@mui/material";
 import TModal from "../../../common/Modal/TModal";
 import AdminForm from "../../../Component/AdminComponents/Admin/AdminForm";
 import AdminTable from "../../../Component/AdminComponents/Admin/AdminTable";
@@ -77,7 +77,12 @@ import AddIcon from "@mui/icons-material/Add";
 import UserList from "../../../Component/AdminComponents/Admin/UserList";
 import {useDispatch} from "react-redux";
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
+import Input from "../../../common/Input/Input";
 import toast from "react-hot-toast";
+import InputFileupload from "../../../common/InputFileupload/InputFileupload";
+import Button from "../../../common/Button/Button";
+import InputPassword from "../../../common/InputPassword/InputPassword";
+import PhoneInput from "react-phone-input-2";
 
 const Admin = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -143,20 +148,92 @@ const Admin = () => {
       >
         Add Admin
       </Button>
-      {isModalOpen ? (
-        <Drawer
+      {/* {isModalOpen ? (
+        <TModal
           open={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           // title={"Add Admin"}
-          anchor="right"
+          title={"add Admin"}
         >
           <AdminForm
             IsEdit={IsEdit}
             setIsEdit={setIsEdit}
             handleSubmit={handleSubmit}
           />
-        </Drawer>
-      ) : null}
+        </TModal>
+      ) : null} */}
+      {isModalOpen && (
+        <>
+          <TModal
+            open={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            title={"add Admin"}
+          >
+            <Container maxWidth={"lg"}>
+              <form>
+                <Grid2 Container spacing={4}>
+                  <Grid2 size={{sm: 12, md: 6, xs: 12}} sx={{mt: 3}}>
+                    <Input
+                      style={{width: "100%"}}
+                      placeholder={"Please Enter Your First Name"}
+                      labelText={"First Name"}
+                    />
+                  </Grid2>
+                  <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+                    <Input
+                      style={{width: "100%"}}
+                      placeholder={"please Enter Your Last Name"}
+                      labelText={"LastName"}
+                    />
+                  </Grid2>
+                  <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+                    <Input
+                      style={{width: "100%"}}
+                      type={"Email"}
+                      placeholder={"please Enter Your Last Name"}
+                      labelText={"Email"}
+                    />
+                  </Grid2>
+                  <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+                    <InputPassword
+                      type={"password"}
+                      labelText={"Password"}
+                      style={{width: "100%"}}
+                    />
+                  </Grid2>
+                  <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+                    <label
+                      htmlFor="phone-input"
+                      style={{
+                        display: "block",
+                        marginBottom: "6px",
+                        color: "#86919b",
+                        fontWeight: "500",
+                      }}
+                    >
+                      Phone Number
+                    </label>
+
+                    <PhoneInput
+                      inputStyle={{width: "100%"}}
+                      country={"in"}
+                      style={{width: "100%"}}
+                    />
+                  </Grid2>
+                  <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+                    <InputFileupload />
+                  </Grid2>
+                  <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+                    <Button type="submit" style={{width: "100%"}}>
+                      submit
+                    </Button>
+                  </Grid2>
+                </Grid2>
+              </form>
+            </Container>
+          </TModal>
+        </>
+      )}
 
       <UserList handleEdit={handleEdit} users={isAdmindata} />
     </Layout>

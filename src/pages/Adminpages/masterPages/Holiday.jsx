@@ -31,6 +31,7 @@ import {
 import toast from "react-hot-toast";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import TModal from "../../../common/Modal/TModal";
 const validationSchema = Yup.object({
   Name: Yup.string()
     .required("First Name is required")
@@ -151,7 +152,11 @@ const Holiday = () => {
       </Button>
 
       {IsOpen && (
-        <Drawer anchor="right" onClose={() => setIsOpen(false)} open={IsOpen}>
+        <TModal
+          title="              Add Holiday"
+          onClose={() => setIsOpen(false)}
+          open={IsOpen}
+        >
           <Container maxWidth="sm">
             <Box
               sx={{
@@ -161,13 +166,6 @@ const Holiday = () => {
                 p: 1,
               }}
             >
-              <Typography
-                variant="h6"
-                component={"h1"}
-                sx={{mb: 1, fontWeight: "bold", textTransform: "Capitalize"}}
-              >
-                Add Holiday
-              </Typography>
               <form onSubmit={formik.handleSubmit}>
                 <Grid container spacing={2}>
                   <Grid sm={6} md={12} sx={{mt: 3}}>
@@ -212,7 +210,7 @@ const Holiday = () => {
               </form>
             </Box>
           </Container>
-        </Drawer>
+        </TModal>
       )}
 
       <TextField

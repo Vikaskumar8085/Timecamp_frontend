@@ -4,14 +4,23 @@ import {Badge, Grid2, TextField} from "@mui/material";
 import logo from "../assets/auth/logo.png";
 import BreadCrumb from "../common/BreadCrumb/BreadCrumb";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import {Link} from "react-router-dom";
+import {NavLink} from "react-router-dom";
+
 import Button from "../common/Button/Button";
 import TModal from "../common/Modal/TModal";
+import InputFileupload from "../common/InputFileupload/InputFileupload";
 
 const Home = () => {
   const [show, setShow] = React.useState(false);
   const [isOpenmodel, setisopenModle] = React.useState(false);
+  const [isnotification, setisnotification] = React.useState(false);
   const [isopen, setisopen] = React.useState(false);
+  const [dropdownOpen, setDropdownOpen] = React.useState(null);
+
+  const toggleDropdown = (index) => {
+    setDropdownOpen(dropdownOpen === index ? null : index);
+  };
+
   return (
     <>
       <div className="wrapper">
@@ -30,8 +39,17 @@ const Home = () => {
           <div className="header_rightside">
             <div className="header_rightside_notification">
               <Badge badgeContent={4} color="primary">
-                <NotificationsIcon color="action" />
+                <NotificationsIcon
+                  style={{color: "red"}}
+                  onClick={() => setisnotification(!isnotification)}
+                  className="notification_icon"
+                />
               </Badge>
+              {isnotification && (
+                <div className="notification_dropdown">
+                  <p>No new notifications</p>
+                </div>
+              )}
             </div>
             <div
               className="header_rightside_profile"
@@ -54,81 +72,79 @@ const Home = () => {
               <img src={logo} alt="" srcset="" />
             </div>
             <nav className="sidebar_nav">
-              <ul>
-                <li>
-                  <div className="sidebarnav">
-                    <span>Icon</span> <Link>Home</Link>
-                  </div>
-                </li>
-
-                <li>
-                  <div className="sidebarnav">
-                    <button
-                      className="drop-down"
-                      onClick={() => setisopen(!isopen)}
+              <div className="sidebarnav">
+                {/* First item with dropdown */}
+                <div className="sidebar-box">
+                  <div className="nav_leftsidebar">
+                    <span className="nav_icon">🏠</span>
+                    <NavLink
+                      to="/home"
+                      className={({isActive}) =>
+                        isActive ? "nav_link active" : "nav_link"
+                      }
+                      style={{color: "black"}}
                     >
-                      dropdown
-                      <span>{isopen == true ? "<" : ">"}</span>
-                    </button>
-                    {isopen === true ? (
-                      <ul>
-                        <li>
-                          <span>data drop 1 </span>
-                          <span>data drop 2</span>
-                        </li>
-                      </ul>
-                    ) : (
-                      ""
-                    )}
+                      Home
+                    </NavLink>
                   </div>
-                </li>
-              </ul>
+                  <div
+                    className="nav_rightsidebar"
+                    onClick={() => toggleDropdown(0)}
+                  >
+                    {dropdownOpen === 0 ? "−" : "+"}
+                  </div>
+                </div>
+
+                {dropdownOpen === 0 && (
+                  <div className="dropdown_container">
+                    <NavLink to="/home/item1" className="dropdown_item">
+                      Sub Item 1
+                    </NavLink>
+                    <NavLink to="/home/item2" className="dropdown_item">
+                      Sub Item 2
+                    </NavLink>
+                  </div>
+                )}
+
+                {/* Second item with dropdown */}
+                <div className="sidebar-box">
+                  <div className="nav_leftsidebar">
+                    <span className="nav_icon">📁</span>
+                    <NavLink
+                      to="/files"
+                      className={({isActive}) =>
+                        isActive ? "nav_link active" : "nav_link"
+                      }
+                      style={{color: "black"}}
+                    >
+                      Files
+                    </NavLink>
+                  </div>
+                  <div
+                    className="nav_rightsidebar"
+                    onClick={() => toggleDropdown(1)}
+                  >
+                    {dropdownOpen === 1 ? "−" : "+"}
+                  </div>
+                </div>
+
+                {dropdownOpen === 1 && (
+                  <div className="dropdown_container">
+                    <NavLink to="/files/docs" className="dropdown_item">
+                      Docs
+                    </NavLink>
+                    <NavLink to="/files/media" className="dropdown_item">
+                      Media
+                    </NavLink>
+                  </div>
+                )}
+              </div>
             </nav>
           </div>
           {/* sidebar */}
           <div className="wrapper_content">
             <BreadCrumb pageName="Home" />
-
-            <Button onClick={() => setisopenModle(true)}>Open Model</Button>
-            <TModal
-              title={"add Client"}
-              onClose={() => setisopenModle(false)}
-              open={isOpenmodel}
-            >
-              <div className="model_body">
-                <Grid2 container spacing={2}>
-                  <Grid2 xs={12}>
-                    <TextField
-                      fullWidth
-                      type="text"
-                      placeholder="Client Name"
-                    />
-                  </Grid2>
-                  <Grid2 xs={12}>
-                    <TextField
-                      fullWidth
-                      type="email"
-                      placeholder="Client Email"
-                    />
-                  </Grid2>
-                  <Grid2 xs={12}>
-                    <TextField
-                      fullWidth
-                      type="text"
-                      placeholder="Client Phone"
-                    />
-                  </Grid2>
-                  <Grid2 xs={12}>
-                    <TextField
-                      fullWidth
-                      type="text"
-                      placeholder="Client Address"
-                    />
-                  </Grid2>
-                </Grid2>
-              </div>
-              <Button type={"submit"}>Submit</Button>
-            </TModal>
+            <InputFileupload />
           </div>
         </div>
       </div>

@@ -135,20 +135,20 @@ const Roles = () => {
         </Button>
 
         {isModalOpen ? (
-          <Drawer
+          <TModal
             open={isModalOpen}
             onClose={() => {
               setIsModalOpen(false);
               setIsEdit(null);
             }}
-            anchor="right"
+            title={isEdit !== null ? "Edit Role" : "Add Role"}
           >
             <AddRoles
               handleupdate={handleupdate}
               isEdit={isEdit}
               handleSubmit={handleSubmit}
             />
-          </Drawer>
+          </TModal>
         ) : null}
 
         <RolesTable

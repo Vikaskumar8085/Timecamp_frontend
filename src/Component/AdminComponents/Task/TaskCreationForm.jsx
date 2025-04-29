@@ -51,10 +51,8 @@ const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
   return (
     <>
       <Container maxWidth="md">
-        <Box sx={{p: 2}}>
-          <Typography variant="h5" gutterBottom>
-            Add Task
-          </Typography>
+        <Box sx={{p: 2 ,mt:4}}>
+    
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
