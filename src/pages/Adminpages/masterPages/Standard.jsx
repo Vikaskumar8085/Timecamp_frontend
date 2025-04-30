@@ -123,7 +123,7 @@ const Standard = () => {
         sx={{
           margin: "5px 0px",
           padding: "10px 15px",
-          background: "#2c3e50",
+          background: "#6560f0",
           color: "white",
         }}
         onClick={() => setIsOpen(true)}
@@ -168,7 +168,7 @@ const Standard = () => {
                     fullWidth
                     sx={{
                       padding: "10px 15px",
-                      background: "#2c3e50",
+                      background: "#6560f0",
                       color: "white",
                       "&:hover": {background: "#34495e"},
                     }}

@@ -97,7 +97,7 @@ const Task = () => {
           onClick={() => setIsOpen(true)}
           startIcon={<AddIcons />}
           sx={{
-            background: "#2c3e50",
+            background: "#6560f0",
             padding: "8px 10px",
             margin: "10px 10px",
             color: "white",
@@ -195,7 +195,7 @@ const Task = () => {
 
                   <TableCell>
                     <Link
-                      style={{textDecoration: "none", color: "#2c3e50"}}
+                      style={{textDecoration: "none", color: "#6560f0"}}
                       to={`/task-view/${task.task_Id}`}
                     >
                       <VisibilityIcon />

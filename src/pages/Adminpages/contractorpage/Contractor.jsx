@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 import {Drawer, TextField} from "@mui/material";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
+import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+
 import {Button} from "@mui/material";
 import {
   addContractorapicall,
@@ -121,7 +122,7 @@ const Contractor = () => {
         onClick={() => setIsOpen(true)}
         startIcon={<AddIcon />}
         sx={{
-          background: "#2c3e50",
+          background: "#6560f0",
           padding: "8px 10px",
           margin: "10px 0px",
           color: "white",
@@ -131,9 +132,9 @@ const Contractor = () => {
       </Button>
       <Button
         onClick={() => setIsUpload(true)}
-        startIcon={<FileUploadIcon />}
+        startIcon={<FileUploadOutlinedIcon />}
         sx={{
-          background: "#2c3e50",
+          background: "#6560f0",
           padding: "8px 10px",
           margin: "10px 10px",
           color: "white",

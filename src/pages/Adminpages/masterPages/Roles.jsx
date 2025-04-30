@@ -125,7 +125,7 @@ const Roles = () => {
           onClick={() => setIsModalOpen(true)}
           startIcon={<AddIcon />}
           sx={{
-            background: "#2c3e50",
+            background: "#6560f0",
             padding: "8px 10px",
             margin: "10px 0px",
             color: "white",

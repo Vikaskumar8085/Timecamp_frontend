@@ -69,9 +69,6 @@ const Layout = ({children}) => {
   return (
     <div className="layout_wrapper">
       <div className="layout_box">
-
-
-        
         <Sidebar
           dropdownOpen={dropdownOpen}
           setDropdownOpen={setDropdownOpen}

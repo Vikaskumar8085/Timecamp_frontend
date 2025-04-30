@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import {Container, Drawer, Grid2} from "@mui/material";
-import ClientForm from "../../../Component/AdminComponents/Client/ClientForm";
+import {Container, Drawer, Button, Grid2} from "@mui/material";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import ClientTable from "../../../Component/AdminComponents/Client/ClientTable";
 import {
@@ -18,10 +17,10 @@ import {useDispatch} from "react-redux";
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import toast from "react-hot-toast";
 import TModal from "../../../common/Modal/TModal";
-import Button from "../../../common/Button/Button";
 import Input from "../../../common/Input/Input";
 import PhoneInput from "react-phone-input-2";
 import InputPassword from "../../../common/InputPassword/InputPassword";
+import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 
 const Client = () => {
   const [IsOpen, setIsOpen] = useState(false);
@@ -158,7 +157,7 @@ const Client = () => {
         onClick={() => setIsOpen(true)}
         startIcon={<AddIcon />}
         sx={{
-          background: "#2c3e50",
+          background: "#6560f0",
           padding: "8px 10px",
           margin: "10px 0px",
           color: "white",
@@ -169,9 +168,9 @@ const Client = () => {
 
       <Button
         onClick={() => setIsUpload(true)}
-        startIcon={<FileUploadIcon />}
+        startIcon={<FileUploadOutlinedIcon />}
         sx={{
-          background: "#2c3e50",
+          background: "#6560f0",
           padding: "8px 10px",
           margin: "10px 10px",
           color: "white",

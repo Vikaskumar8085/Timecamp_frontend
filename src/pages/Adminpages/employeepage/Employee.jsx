@@ -12,7 +12,6 @@ import {
 import EmployeeTable from "../../../Component/AdminComponents/Employee/EmployeeTable";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
 import EmployeeUploadForm from "../../../Component/AdminComponents/Employee/EmployeeUploadForm";
 import {uploademployeecsvapicall} from "../../../ApiServices/Csvapiservices/csvapiservices";
 import EmployeeForm from "../../../Component/AdminComponents/Employee/EmployeeForm";
@@ -20,6 +19,7 @@ import {useDispatch} from "react-redux";
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import toast from "react-hot-toast";
 import TModal from "../../../common/Modal/TModal";
+import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 
 const Employee = () => {
   const [isUpload, setIsUpload] = useState(false);
@@ -129,7 +129,7 @@ const Employee = () => {
         }}
         startIcon={<AddIcon />}
         sx={{
-          background: "#2c3e50",
+          background: "#6560f0",
           padding: "8px 10px",
           margin: "10px 0px",
           color: "white",
@@ -139,9 +139,9 @@ const Employee = () => {
       </Button>
       <Button
         onClick={() => setIsUpload(true)}
-        startIcon={<FileUploadIcon />}
+        startIcon={<FileUploadOutlinedIcon />}
         sx={{
-          background: "#2c3e50",
+          background: "#6560f0",
           padding: "8px 10px",
           margin: "10px 10px",
           color: "white",

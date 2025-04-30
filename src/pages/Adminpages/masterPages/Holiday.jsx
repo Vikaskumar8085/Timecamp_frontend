@@ -141,7 +141,7 @@ const Holiday = () => {
       <Button
         onClick={() => setIsOpen(true)}
         sx={{
-          background: "#2c3e50",
+          background: "#6560f0",
           padding: "8px 10px",
           margin: "10px 0px",
           color: "white",
@@ -153,7 +153,7 @@ const Holiday = () => {
 
       {IsOpen && (
         <TModal
-          title="              Add Holiday"
+          title="Add Holiday"
           onClose={() => setIsOpen(false)}
           open={IsOpen}
         >
@@ -196,7 +196,7 @@ const Holiday = () => {
                       variant="contained"
                       color="primary"
                       sx={{
-                        background: "#2c3e50",
+                        background: "#6560f0",
                         width: "100%",
                         padding: "8px 10px",
                         margin: "10px 0px",

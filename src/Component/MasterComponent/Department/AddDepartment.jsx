@@ -64,7 +64,7 @@ const AddDepartment = ({handleSubmit, isEdit, updatedepartment}) => {
                   color="primary"
                   fullWidth
                   sx={{
-                    background: "#2c3e50",
+                    background: "#6560f0",
                   }}
                 >
                   Submit

@@ -64,7 +64,7 @@ const AddDesignation = ({handleSubmit, isEdit, updateDesignation}) => {
                   color="primary"
                   fullWidth
                   sx={{
-                    background: "#2c3e50",
+                    background: "#6560f0",
                   }}
                 >
                   Submit

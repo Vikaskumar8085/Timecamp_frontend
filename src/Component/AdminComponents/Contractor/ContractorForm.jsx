@@ -263,11 +263,11 @@ const ContractorForm = ({handleSubmit, IsEdit, udpatecontractorfunc}) => {
                 type="submit"
                 fullWidth
                 sx={{
-                  background: "#2c3e50",
+                  background: "#6560f0",
                   padding: "8px 10px",
                   margin: "10px 0px",
                   color: "white",
-                  "&:hover": {background: "#1a252f"},
+                  "&:hover": {background: "#6560f0"},
                 }}
               >
                 {IsEdit ? "update  " : " Submit"}

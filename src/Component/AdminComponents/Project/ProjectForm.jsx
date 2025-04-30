@@ -38,7 +38,6 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
       console.log(error?.message);
     }
   };
-  
 
   const getroledata = async () => {
     try {
@@ -88,7 +87,6 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
                 RId: "",
                 billable: false,
                 Units: "",
-                Currency: "",
                 Rate: "",
                 Type: "",
               },
@@ -111,7 +109,6 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
                 RId: "",
                 billable: false,
                 Units: "",
-                Currency: "",
                 Rate: "",
                 Type: "",
               },
@@ -119,7 +116,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
     },
     enableReinitialize: true,
     onSubmit: async (values) => {
-      // handleSubmit(values);
+      handleSubmit(values);
       console.log(values, "vlaues");
       formik.resetForm();
     },
@@ -135,7 +132,6 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
           RId: "",
           billable: false,
           Units: "",
-          Currency: "",
           Rate: "",
           Type: "",
         },
@@ -154,7 +150,6 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
           RId: "",
           billable: false,
           Units: "",
-          Currency: "",
           Rate: "",
           Type: "",
         },
@@ -490,7 +485,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
                           onChange={formik.handleChange}
                         />
                       </Grid>
-                      <Grid item xs={6}>
+                      {/* <Grid item xs={6}>
                         <TextField
                           fullWidth
                           label="Currency"
@@ -498,7 +493,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
                           value={role.Currency}
                           onChange={formik.handleChange}
                         />
-                      </Grid>
+                      </Grid> */}
                       <Grid item xs={6}>
                         <TextField
                           fullWidth

@@ -64,7 +64,7 @@
 import React, {useEffect} from "react";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
-import {Container, Drawer, Grid, Grid2} from "@mui/material";
+import {Container, Drawer, Button, Grid2} from "@mui/material";
 import TModal from "../../../common/Modal/TModal";
 import AdminForm from "../../../Component/AdminComponents/Admin/AdminForm";
 import AdminTable from "../../../Component/AdminComponents/Admin/AdminTable";
@@ -80,7 +80,6 @@ import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import Input from "../../../common/Input/Input";
 import toast from "react-hot-toast";
 import InputFileupload from "../../../common/InputFileupload/InputFileupload";
-import Button from "../../../common/Button/Button";
 import InputPassword from "../../../common/InputPassword/InputPassword";
 import PhoneInput from "react-phone-input-2";
 
@@ -140,7 +139,7 @@ const Admin = () => {
         onClick={() => setIsModalOpen(true)}
         startIcon={<AddIcon />}
         sx={{
-          background: "#2c3e50",
+          background: "#6560f0",
           padding: "8px 10px",
           margin: "10px 10px",
           color: "white",
@@ -148,18 +147,18 @@ const Admin = () => {
       >
         Add Admin
       </Button>
-      {/* {isModalOpen ? (
-        <TModal
-          open={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          // title={"Add Admin"}
-          title={"add Admin"}
-        >
-          <AdminForm
-            IsEdit={IsEdit}
-            setIsEdit={setIsEdit}
-            handleSubmit={handleSubmit}
-          />
+        {/* {isModalOpen ? (
+          <TModal
+            open={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            // title={"Add Admin"}
+            title={"add Admin"}
+          >
+            <AdminForm
+              IsEdit={IsEdit}
+              setIsEdit={setIsEdit}
+              handleSubmit={handleSubmit}
+            />
         </TModal>
       ) : null} */}
       {isModalOpen && (
@@ -224,7 +223,14 @@ const Admin = () => {
                     <InputFileupload />
                   </Grid2>
                   <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
-                    <Button type="submit" style={{width: "100%"}}>
+                    <Button
+                      type="submit"
+                      sx={{
+                        background: "#6560f0",
+                        color: "white",
+                        width: "100%",
+                      }}
+                    >
                       submit
                     </Button>
                   </Grid2>

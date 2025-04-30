@@ -161,7 +161,7 @@ const WeekoffDays = () => {
             variant="contained"
             color="primary"
             type="submit"
-            sx={{mt: 2, width: "100%", background: "#2c3e50"}}
+            sx={{mt: 2, width: "100%", background: "#6560f0"}}
           >
             Submit
           </Button>

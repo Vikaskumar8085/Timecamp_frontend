@@ -5,8 +5,6 @@ import * as Yup from "yup";
 import AddIcons from "@mui/icons-material/Add";
 import {
   Button,
-  Drawer,
-  Typography,
   Grid,
   TextField,
   Container,
@@ -135,7 +133,7 @@ const ColorPage = () => {
       <Button
         onClick={() => setIsOpen(true)}
         sx={{
-          background: "#2c3e50",
+          background: "#6560f0",
           padding: "8px 10px",
           margin: "10px 0px",
           color: "white",
@@ -212,7 +210,7 @@ const ColorPage = () => {
                       variant="contained"
                       color="primary"
                       sx={{
-                        background: "#2c3e50",
+                        background: "#6560f0",
                         width: "100%",
                         padding: "8px 10px",
                         margin: "10px 0px",

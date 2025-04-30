@@ -1,17 +1,17 @@
 import React from "react";
 import "./CardOne.scss";
-const CardOne = () => {
+const CardOne = ({icon, title, paragraph}) => {
   return (
     <div className="cardOne_container">
       <div className="cardone_row">
         <div className="cardoneleft">
-          <i>icon</i>
+          <i>{icon}</i>
         </div>
         <div className="cardoneright">
           <div className="right-heading-text">
-            <h1>height</h1>
+            <h1>{title}</h1>
           </div>
-          <div className="right-paragraph">lorem</div>
+          <div className="right-paragraph">{paragraph}</div>
         </div>
       </div>
     </div>
