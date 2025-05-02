@@ -73,7 +73,10 @@ const ClientProjectTimeutilization = () => {
 
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching project data", error);
+      if (error?.response?.data?.redirect) {
+        window.location.href = error?.response?.data.redirect;
+        localStorage.clear();
+      }
       setLoading(false);
     }
   };

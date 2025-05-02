@@ -30,6 +30,10 @@ const ClientProjectTime = () => {
         toast.error(response?.data?.message);
       }
     } catch (error) {
+      if (error?.response?.data?.redirect) {
+        window.location.href = error?.response?.data.redirect;
+        localStorage.clear();
+      }
       toast.error(error?.response?.data?.message);
     }
   };

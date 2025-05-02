@@ -51,7 +51,10 @@ const ClientTotalhourbyCompany = () => {
       setChartSeries([{name: "Total Hours", data: metricData}]);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching metrics data", error);
+      if (error?.response?.data?.redirect) {
+        window.location.href = error?.response?.data.redirect;
+        localStorage.clear();
+      }
       setLoading(false);
     }
   };

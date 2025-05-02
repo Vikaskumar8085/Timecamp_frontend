@@ -30,7 +30,10 @@ const ClientTimesheet = () => {
         setIsClientTimesheetdata(response.result);
       }
     } catch (error) {
-      console.log(error?.message);
+      if (error?.response?.data?.redirect) {
+        window.location.href = error?.response?.data.redirect;
+        localStorage.clear();
+      }
     }
   };
 

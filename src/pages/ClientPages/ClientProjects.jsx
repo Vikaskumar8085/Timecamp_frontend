@@ -24,6 +24,7 @@ import {Link} from "react-router-dom";
 import GridViewIcon from "@mui/icons-material/GridView";
 import TableRowsIcon from "@mui/icons-material/TableRows";
 import HeaderTab from "../../common/HeaderTab/HeaderTab";
+import toast from "react-hot-toast";
 const ClientProjects = () => {
   const [Isclientdata, setisclientdata] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -42,11 +43,20 @@ const ClientProjects = () => {
           search: search,
         },
       });
+      console.log(response, "response,response");
       if (response.success) {
         setisclientdata(response.result);
         setTotalProjects(response.totalProjects);
+      } else {
+        toast.error(response.message);
       }
     } catch (error) {
+      if (error?.response?.data?.redirect) {
+        window.location.href = error?.response?.data.redirect;
+        localStorage.clear();
+      }
+
+      console.log(error?.response?.data, "data");
       console.log(error?.message);
     }
   };

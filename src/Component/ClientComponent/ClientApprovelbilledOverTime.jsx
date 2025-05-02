@@ -85,7 +85,10 @@ const ClientApprovelbilledOverTime = () => {
       setChartData({total_hours, billed_hours, days});
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching overtime data", error);
+      if (error?.response?.data?.redirect) {
+        window.location.href = error?.response?.data.redirect;
+        localStorage.clear();
+      }
       setLoading(false);
     }
   };
@@ -93,7 +96,8 @@ const ClientApprovelbilledOverTime = () => {
   useEffect(() => {
     fetchclientapprovelbilledovertimefunc();
   }, [0]);
-  return <div>
+  return (
+    <div>
       <Paper sx={{padding: 4, marginTop: 3}}>
         <Typography variant="h5" gutterBottom>
           Overtime Hours and Billed Hours per Day
@@ -113,7 +117,8 @@ const ClientApprovelbilledOverTime = () => {
           </Grid>
         )}
       </Paper>
-  </div>;
+    </div>
+  );
 };
 
 export default ClientApprovelbilledOverTime;

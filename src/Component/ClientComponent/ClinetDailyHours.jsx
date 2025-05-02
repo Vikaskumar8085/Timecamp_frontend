@@ -11,46 +11,46 @@ import {
 } from "@mui/material";
 
 const ClinetDailyHours = () => {
-    const [loading, setLoading] = useState(true);
-    const [chartData, setChartData] = useState({
-      totalhours: [],
-      days: [],
-    });
-  
-    const [chartOptions, setChartOptions] = useState({
-      chart: {
-        id: "range-bar-chart",
-        type: "rangeBar",
+  const [loading, setLoading] = useState(true);
+  const [chartData, setChartData] = useState({
+    totalhours: [],
+    days: [],
+  });
+
+  const [chartOptions, setChartOptions] = useState({
+    chart: {
+      id: "range-bar-chart",
+      type: "rangeBar",
+    },
+    plotOptions: {
+      bar: {
+        horizontal: true, // Display bars horizontally
+        rangeBarGroupRows: true, // Group range bars into rows
       },
-      plotOptions: {
-        bar: {
-          horizontal: true, // Display bars horizontally
-          rangeBarGroupRows: true, // Group range bars into rows
-        },
-      },
-      xaxis: {
-        categories: [], // Days will go here
-      },
-      yaxis: {
-        title: {
-          text: "Days",
-        },
-      },
+    },
+    xaxis: {
+      categories: [], // Days will go here
+    },
+    yaxis: {
       title: {
-        text: "Total Hours Worked Per Day",
-        align: "center",
+        text: "Days",
       },
-      legend: {
-        position: "top",
-      },
-    });
-  
-    const [chartSeries, setChartSeries] = useState([
-      {
-        name: "Total Hours",
-        data: [], // Total hours data will go here
-      },
-    ]);
+    },
+    title: {
+      text: "Total Hours Worked Per Day",
+      align: "center",
+    },
+    legend: {
+      position: "top",
+    },
+  });
+
+  const [chartSeries, setChartSeries] = useState([
+    {
+      name: "Total Hours",
+      data: [], // Total hours data will go here
+    },
+  ]);
   const fetchclientdailhoursfunc = async () => {
     try {
       const response = await apiInstance.get(
@@ -78,15 +78,19 @@ const ClinetDailyHours = () => {
       setChartData({totalhours, days: formattedDays});
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching daily hours data", error);
+      if (error?.response?.data?.redirect) {
+        window.location.href = error?.response?.data.redirect;
+        localStorage.clear();
+      }
       setLoading(false);
     }
   };
   useEffect(() => {
     fetchclientdailhoursfunc();
   }, [0]);
-  return <div>
-       <Paper sx={{padding: 4, marginTop: 3}}>
+  return (
+    <div>
+      <Paper sx={{padding: 4, marginTop: 3}}>
         <Typography variant="h5" gutterBottom>
           Daily hours
         </Typography>
@@ -105,7 +109,8 @@ const ClinetDailyHours = () => {
           </Grid>
         )}
       </Paper>
-  </div>;
+    </div>
+  );
 };
 
 export default ClinetDailyHours;

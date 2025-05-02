@@ -30,7 +30,6 @@ const validate = (values) => {
 
 const Login = () => {
   const dispatch = useDispatch();
-
   // at us.
   const formik = useFormik({
     initialValues: {
@@ -105,7 +104,7 @@ const Login = () => {
                   </div>
                   <div className="mb-3">
                     <Input
-                      type="Email"
+                      type="text"
                       labelText="Email or User Name"
                       id="Email"
                       {...formik.getFieldProps("Email")}

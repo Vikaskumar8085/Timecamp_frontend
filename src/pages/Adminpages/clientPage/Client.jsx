@@ -3,6 +3,7 @@ import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import {Container, Drawer, Button, Grid2} from "@mui/material";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import ClientTable from "../../../Component/AdminComponents/Client/ClientTable";
+import ClientForm from "../../../Component/AdminComponents/Client/ClientForm";
 import {
   createclientapicall,
   fetchclientapicall,
@@ -178,7 +179,7 @@ const Client = () => {
       >
         Upload Client
       </Button>
-      {/* {IsOpen && (
+      {IsOpen && (
         <TModal
           title={isEdit !== null ? "Edit Client " : " Add Client"}
           open={IsOpen}
@@ -193,8 +194,8 @@ const Client = () => {
             handleSubmit={handleSubmit}
           />
         </TModal>
-      )} */}
-      {IsOpen && (
+      )}
+      {/* {IsOpen && (
         <TModal
           title={isEdit !== null ? "Edit Client " : " Add Client"}
           open={IsOpen}
@@ -284,7 +285,7 @@ const Client = () => {
             </form>
           </Container>
         </TModal>
-      )}
+      )} */}
       {isUpload && (
         <Drawer
           open={isUpload}

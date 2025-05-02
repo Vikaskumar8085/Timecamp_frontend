@@ -55,6 +55,10 @@ const ClientTotalHourByResources = () => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
+      if (error?.response?.data?.redirect) {
+        window.location.href = error?.response?.data.redirect;
+        localStorage.clear();
+      }
       console.error(error?.response?.data?.message || "Error fetching data");
     }
   };

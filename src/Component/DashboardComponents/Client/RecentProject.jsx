@@ -17,8 +17,12 @@ const RecentProject = () => {
       } else {
         setError(response.data.message || "Failed to fetch data.");
       }
-    } catch (err) {
-      setError(err.message || "Something went wrong.");
+    } catch (error) {
+      setError(error.message || "Something went wrong.");
+      if (error?.response?.data?.redirect) {
+        window.location.href = error?.response?.data.redirect;
+        localStorage.clear();
+      }
     } finally {
       setLoading(false);
     }

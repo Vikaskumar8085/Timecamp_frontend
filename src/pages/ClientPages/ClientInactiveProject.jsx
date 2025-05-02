@@ -51,7 +51,10 @@ const ClientInactiveProject = () => {
         setTotalProjects(response.totalProjects);
       }
     } catch (error) {
-      console.log(error?.message);
+      if (error?.response?.data?.redirect) {
+        window.location.href = error?.response?.data.redirect;
+        localStorage.clear();
+      }
     } finally {
       setLoading(false); // Stop loading
     }

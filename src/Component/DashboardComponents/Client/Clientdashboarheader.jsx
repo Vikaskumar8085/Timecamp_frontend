@@ -41,6 +41,10 @@ const Clientdashboarheader = () => {
       }
     } catch (error) {
       toast.error(error?.response?.data?.message);
+      if (error?.response?.data?.redirect) {
+        window.location.href = error?.response?.data.redirect;
+        localStorage.clear();
+      }
     }
   };
 
