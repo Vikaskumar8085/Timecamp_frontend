@@ -28,6 +28,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import Empty from "../../../common/EmptyFolder/Empty";
 import {Link} from "react-router-dom";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const Deactiveclient = () => {
   const [isInactiveclientdata, setIsinactiveclientdata] = useState([]);
@@ -69,7 +70,7 @@ const Deactiveclient = () => {
   }, [search, page, rowsPerPage]);
 
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Inactive Clients" />
       <HeaderTab>
         <Button
@@ -208,7 +209,7 @@ const Deactiveclient = () => {
           setRowsPerPage(parseInt(event.target.value, 10))
         }
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

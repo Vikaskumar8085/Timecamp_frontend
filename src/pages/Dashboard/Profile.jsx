@@ -3,6 +3,7 @@ import {useSelector} from "react-redux";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import UserProfile from "../../Component/DashboardComponents/ProfileComponent/UserProfile";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const Profile = () => {
   const userdata = useSelector((state) => state.user.values);
@@ -10,7 +11,7 @@ const Profile = () => {
 
   return (
     <>
-      <Layout>
+      <LayoutDesign>
         <BreadCrumb pageName="Profile" />
 
         {Role === "Admin" && (
@@ -38,7 +39,7 @@ const Profile = () => {
             <UserProfile user={userdata} />
           </>
         )}
-      </Layout>
+      </LayoutDesign>
     </>
   );
 };

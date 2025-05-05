@@ -32,6 +32,7 @@ import {
   disapprovetimesheetbyadminapicall,
 } from "../../../ApiServices/AdminApiServices/Admin";
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const Clientinfo = () => {
   const {id} = useParams();
@@ -155,7 +156,7 @@ const Clientinfo = () => {
     getclientsprojects();
   }, [0]);
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Client Information" />
       <Card>
         <CardContent sx={{p: 3}}>
@@ -265,7 +266,7 @@ const Clientinfo = () => {
         setSelectedItems={setSelectedItems}
         selectedItems={selectedItems}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

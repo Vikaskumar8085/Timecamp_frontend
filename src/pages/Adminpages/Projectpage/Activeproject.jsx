@@ -23,6 +23,7 @@ import GridViewIcon from "@mui/icons-material/GridView";
 import TableViewIcon from "@mui/icons-material/TableView";
 import Empty from "../../../common/EmptyFolder/Empty";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 const Activeproject = () => {
   const [projects, setProjects] = useState([]);
   const [search, setSearch] = useState("");
@@ -59,7 +60,7 @@ const Activeproject = () => {
   }, [page, search, rowsPerPage]);
 
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="InActive Projects" />
       <HeaderTab>
         <Button
@@ -156,7 +157,7 @@ const Activeproject = () => {
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

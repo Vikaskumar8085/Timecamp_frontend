@@ -178,7 +178,9 @@ const ContractorForm = ({handleSubmit, IsEdit, udpatecontractorfunc}) => {
                   value={formik.values.ManagerId}
                   onChange={formik.handleChange}
                 >
-                  {Ismanagerid.map((item) => (
+                  {Ismanagerid.filter((item) => {
+                    return item.Role !== "Contractor";
+                  }).map((item) => (
                     <MenuItem key={item.staff_Id} value={item.staff_Id}>
                       {item.FirstName}
                     </MenuItem>

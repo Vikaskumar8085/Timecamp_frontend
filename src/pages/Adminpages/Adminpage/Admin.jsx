@@ -82,6 +82,7 @@ import toast from "react-hot-toast";
 import InputFileupload from "../../../common/InputFileupload/InputFileupload";
 import InputPassword from "../../../common/InputPassword/InputPassword";
 import PhoneInput from "react-phone-input-2";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const Admin = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -133,7 +134,7 @@ const Admin = () => {
     fetchadmin();
   }, [0]);
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Admin" />
       <Button
         onClick={() => setIsModalOpen(true)}
@@ -147,7 +148,7 @@ const Admin = () => {
       >
         Add Admin
       </Button>
-        {/* {isModalOpen ? (
+      {/* {isModalOpen ? (
           <TModal
             open={isModalOpen}
             onClose={() => setIsModalOpen(false)}
@@ -242,7 +243,7 @@ const Admin = () => {
       )}
 
       <UserList handleEdit={handleEdit} users={isAdmindata} />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

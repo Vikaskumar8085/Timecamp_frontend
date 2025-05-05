@@ -19,6 +19,7 @@ import AddRoles from "../../../Component/MasterComponent/Roles/AddRoles";
 import {useDispatch} from "react-redux";
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import toast from "react-hot-toast";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const Roles = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -118,7 +119,7 @@ const Roles = () => {
 
   return (
     <>
-      <Layout>
+      <LayoutDesign>
         <BreadCrumb pageName="Roles" />
 
         <Button
@@ -164,7 +165,7 @@ const Roles = () => {
           setTotalPages={setTotalPages}
           totalPages={totalPages}
         />
-      </Layout>
+      </LayoutDesign>
     </>
   );
 };

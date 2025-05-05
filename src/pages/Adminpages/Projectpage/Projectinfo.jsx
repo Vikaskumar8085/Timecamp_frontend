@@ -21,6 +21,7 @@ import {
 import apiInstance from "../../../ApiInstance/apiInstance";
 import Chart from "react-apexcharts";
 import {Card, CardContent, Typography, CircularProgress} from "@mui/material";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const Projectinfo = () => {
   const {id} = useParams();
@@ -239,7 +240,7 @@ const Projectinfo = () => {
   ];
 
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Project Info" />
       <TabComp
         Tabsheader={tabsheader}
@@ -247,7 +248,7 @@ const Projectinfo = () => {
         isSubState={isSubState}
         setisSubState={setisSubState}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

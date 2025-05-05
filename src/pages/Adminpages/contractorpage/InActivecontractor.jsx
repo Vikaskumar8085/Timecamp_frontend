@@ -27,6 +27,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import Grid from "@mui/material/Grid2";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 const InActivecontractor = () => {
   const [viewMode, setViewMode] = useState("table");
   const [isInActivecontractordata, setIsInActivecontractordata] = useState([]);
@@ -61,7 +62,7 @@ const InActivecontractor = () => {
     getInactivecontractor();
   }, [search, page, rowsPerPage]);
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="InActive contractor" />
       <HeaderTab>
         <TextField
@@ -202,7 +203,7 @@ const InActivecontractor = () => {
           setPage(0); // Reset page to 0 when changing rows per page
         }}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

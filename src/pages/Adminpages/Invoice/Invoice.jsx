@@ -30,6 +30,7 @@ import {useDispatch} from "react-redux";
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import toast from "react-hot-toast";
 import {fetchclientapicall} from "../../../ApiServices/AdminApiServices/Client";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 const validationSchema = Yup.object({
   clientId: Yup.string().required("Invoice clientId is required"),
   startDate: Yup.date().required("Start Date is required"),
@@ -117,7 +118,7 @@ const Invoice = () => {
     getclientdata();
   }, [0]);
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Invoice" />
       <Button
         sx={{
@@ -303,7 +304,7 @@ const Invoice = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </Layout>
+    </LayoutDesign>
   );
 };
 

@@ -22,6 +22,7 @@ import Empty from "../../../common/EmptyFolder/Empty";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const Inactiveprojects = () => {
   const [projects, setProjects] = useState([]);
@@ -59,7 +60,7 @@ const Inactiveprojects = () => {
   }, [page, search, rowsPerPage]);
 
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="InActive Projects" />
       <HeaderTab>
         <Button
@@ -155,7 +156,7 @@ const Inactiveprojects = () => {
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

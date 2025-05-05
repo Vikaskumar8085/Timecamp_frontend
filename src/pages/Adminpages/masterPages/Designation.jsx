@@ -17,6 +17,7 @@ import {useDispatch} from "react-redux";
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import toast from "react-hot-toast";
 import {addDesignationitem} from "../../../redux/Masterslices/DesignationSlice";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const Designation = () => {
   const dispatch = useDispatch();
@@ -120,7 +121,7 @@ const Designation = () => {
     getdesignation();
   }, [search, page]);
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Designation" />
 
       <Button
@@ -165,7 +166,7 @@ const Designation = () => {
         setTotalPages={setTotalPages}
         totalPages={totalPages}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

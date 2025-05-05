@@ -28,6 +28,7 @@ import {
 } from "../../../ApiServices/MasterApiServices/Color";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import TModal from "../../../common/Modal/TModal";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 // validate
 const validationSchema = Yup.object({
@@ -128,7 +129,7 @@ const ColorPage = () => {
     fetchcolorfunc();
   }, [0]);
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Color" />
       <Button
         onClick={() => setIsOpen(true)}
@@ -267,7 +268,7 @@ const ColorPage = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </Layout>
+    </LayoutDesign>
   );
 };
 

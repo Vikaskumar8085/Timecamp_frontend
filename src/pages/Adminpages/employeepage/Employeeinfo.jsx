@@ -20,6 +20,7 @@ import {
 import {useDispatch} from "react-redux";
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import toast from "react-hot-toast";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const Employeeinfo = () => {
   const {id} = useParams();
@@ -173,7 +174,7 @@ const Employeeinfo = () => {
   ];
 
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Employee info" />
       <TabComp
         Tabsheader={tabsheader}
@@ -181,7 +182,7 @@ const Employeeinfo = () => {
         isSubState={isSubState}
         setisSubState={setisSubState}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

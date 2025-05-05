@@ -16,6 +16,7 @@ import ProjectUploadForm from "../../../Component/AdminComponents/Project/Projec
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import toast from "react-hot-toast";
 import {uploadprojectcsvapicall} from "../../../ApiServices/Csvapiservices/csvapiservices";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const Project = () => {
   const userdata = useSelector((state) => state.user.values);
@@ -98,7 +99,7 @@ const Project = () => {
   }, [page, search, limit]);
 
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Projects" />
       <Button
         onClick={() => {
@@ -168,7 +169,7 @@ const Project = () => {
         totalPages={totalPages}
         setTotalPages={setTotalPages}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

@@ -4,6 +4,7 @@ import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import TabComp from "../../../common/TabComponent/TabComp";
 import ForeCastReport from "../../../Component/AdminComponents/Forecasting/ForeCastReport";
 import ProjectForecast from "../../../Component/AdminComponents/Forecasting/ProjectForecast";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const ForcastingPage = () => {
   const [isSubState, setisSubState] = useState(0);
@@ -26,7 +27,7 @@ const ForcastingPage = () => {
     },
   ];
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Forcast Report" />
       <TabComp
         Tabsheader={tabsheader}
@@ -34,7 +35,7 @@ const ForcastingPage = () => {
         isSubState={isSubState}
         setisSubState={setisSubState}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

@@ -22,6 +22,7 @@ import Input from "../../../common/Input/Input";
 import PhoneInput from "react-phone-input-2";
 import InputPassword from "../../../common/InputPassword/InputPassword";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const Client = () => {
   const [IsOpen, setIsOpen] = useState(false);
@@ -152,7 +153,7 @@ const Client = () => {
   }, [search, page, rowsPerPage]);
 
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Client" />
       <Button
         onClick={() => setIsOpen(true)}
@@ -310,7 +311,7 @@ const Client = () => {
         search={search}
         page={page}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

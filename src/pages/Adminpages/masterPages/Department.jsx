@@ -17,6 +17,7 @@ import AddDepartment from "../../../Component/MasterComponent/Department/AddDepa
 import {useDispatch} from "react-redux";
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import toast from "react-hot-toast";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const Department = () => {
   const dispatch = useDispatch();
@@ -113,7 +114,7 @@ const Department = () => {
     getdepartment();
   }, [search, page]);
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Department" />
 
       <Button
@@ -161,7 +162,7 @@ const Department = () => {
         setTotalPages={setTotalPages}
         totalPages={totalPages}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

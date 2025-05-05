@@ -20,6 +20,7 @@ import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import toast from "react-hot-toast";
 import TModal from "../../../common/Modal/TModal";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const Employee = () => {
   const [isUpload, setIsUpload] = useState(false);
@@ -119,7 +120,7 @@ const Employee = () => {
     getemployee();
   }, [search, page, rowsPerPage]);
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Employee" />
 
       <Button
@@ -198,7 +199,7 @@ const Employee = () => {
         setRowsPerPage={setRowsPerPage}
         rowsPerPage={rowsPerPage}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

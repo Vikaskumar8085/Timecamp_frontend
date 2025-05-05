@@ -5,40 +5,81 @@ import logo from "../assets/auth/logo.png";
 import BreadCrumb from "../common/BreadCrumb/BreadCrumb";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import {NavLink} from "react-router-dom";
-
-import Button from "../common/Button/Button";
-import TModal from "../common/Modal/TModal";
 import InputFileupload from "../common/InputFileupload/InputFileupload";
+import {FiSearch} from "react-icons/fi";
 
 const Home = () => {
   const [show, setShow] = React.useState(false);
-  const [isOpenmodel, setisopenModle] = React.useState(false);
   const [isnotification, setisnotification] = React.useState(false);
-  const [isopen, setisopen] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState(null);
 
   const toggleDropdown = (index) => {
     setDropdownOpen(dropdownOpen === index ? null : index);
   };
+  const notifications = [
+    {
+      id: 1,
+      avatar: "https://i.pravatar.cc/40?img=1",
+      title: "New message from Ayush",
+      time: "5 minutes ago",
+    },
+    {
+      id: 2,
+      avatar: "https://i.pravatar.cc/40?img=2",
+      title: "Timesheet submitted",
+      time: "30 minutes ago",
+    },
+    {
+      id: 2,
+      avatar: "https://i.pravatar.cc/40?img=2",
+      title: "Timesheet submitted",
+      time: "30 minutes ago",
+    },
+    {
+      id: 2,
+      avatar: "https://i.pravatar.cc/40?img=2",
+      title: "Timesheet submitted",
+      time: "30 minutes ago",
+    },
+    {
+      id: 2,
+      avatar: "https://i.pravatar.cc/40?img=2",
+      title: "Timesheet submitted",
+      time: "30 minutes ago",
+    },
+    {
+      id: 3,
+      avatar: "https://i.pravatar.cc/40?img=3",
+      title: "Your leave was approved",
+      time: "2 hours ago",
+    },
+  ];
 
   return (
     <>
       <div className="wrapper">
         <div className="wrapper_header">
           <div className="header_leftside">
-            <img src={logo} alt="" srcset="" />
+            <img src={logo} alt="logo" />
+
             <div className="leftside_text">
               <h1>timecamp</h1>
               <p>Time Tracking Software</p>
             </div>
-            <input
-              type="text"
-              placeholder="search for Project , Task ,employees & clients"
-            />
+
+            <div className="search_input_wrapper">
+              <FiSearch className="search_icon" />
+              <input
+                type="text"
+                placeholder="Search for project, task, employees & clients"
+              />
+            </div>
           </div>
+
           <div className="header_rightside">
+            {/* notification design */}
             <div className="header_rightside_notification">
-              <Badge badgeContent={4} color="primary">
+              <Badge badgeContent={notifications.length} color="primary">
                 <NotificationsIcon
                   style={{color: "red"}}
                   onClick={() => setisnotification(!isnotification)}
@@ -46,101 +87,135 @@ const Home = () => {
                 />
               </Badge>
               {isnotification && (
-                <div className="notification_dropdown">
-                  <p>No new notifications</p>
+                <div className="notification-dropdown">
+                  <div className="dropdown-header">Notifications</div>
+                  <div className="dropdown-content">
+                    {notifications.length > 0 ? (
+                      notifications.map((notif) => (
+                        <div className="notification-item" key={notif.id}>
+                          <img
+                            src={notif.avatar}
+                            alt="avatar"
+                            className="avatar"
+                          />
+                          <div className="info">
+                            <div className="title">{notif.title}</div>
+                            <div className="timestamp">{notif.time}</div>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="empty-message">No new notifications</p>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
-            <div
-              className="header_rightside_profile"
-              onClick={() => setShow(!show)}
-            >
-              <h1>Profile ⌄</h1>
+            {/* notification design */}
+            {/* profile compoent design */}
+            <div className="profile-wrapper" onClick={() => setShow(!show)}>
+              <div className="profile-info">
+                <img
+                  src="https://i.pravatar.cc/48?img=12"
+                  alt="Admin Avatar"
+                  className="avatar"
+                />
+                <div className="details">
+                  <span className="name">John Doe</span>
+                  <span className="role">Admin</span>
+                </div>
+                <svg
+                  className={`chevron ${show ? "open" : ""}`}
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.192l3.71-3.96a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+
               {show && (
-                <div className="dropdown">
-                  <a href="/profile">My Profile</a>
-                  <a href="#">Sign Out</a>
+                <div className="dropdown-menu">
+                  <a href="/profile">👤 My Profile</a>
+                  <a href="#">🚪 Sign Out</a>
                 </div>
               )}
             </div>
+            {/* profile compoent design */}
           </div>
         </div>
         <div className="wrapper_box">
           {/* sidebar */}
-          <div className="wrapper_sidebar">
-            <div className="sidebar_logo">
-              <img src={logo} alt="" srcset="" />
+          <div className="sidebar">
+            <div className="sidebar-logo">
+              <img src={logo} alt="Logo" />
             </div>
-            <nav className="sidebar_nav">
-              <div className="sidebarnav">
-                {/* First item with dropdown */}
-                <div className="sidebar-box">
-                  <div className="nav_leftsidebar">
-                    <span className="nav_icon">🏠</span>
-                    <NavLink
-                      to="/home"
-                      className={({isActive}) =>
-                        isActive ? "nav_link active" : "nav_link"
-                      }
-                      style={{color: "black"}}
-                    >
-                      Home
-                    </NavLink>
+
+            <ul className="menu">
+              {/* Item with dropdown */}
+              <li className={`menu-item ${dropdownOpen === 0 ? "open" : ""}`}>
+                <div className="menu-main" onClick={() => toggleDropdown(0)}>
+                  <div className="menu-icon-box">
+                    <span className="icon">🏠</span>
+                    <span className="label">Home</span>
                   </div>
-                  <div
-                    className="nav_rightsidebar"
-                    onClick={() => toggleDropdown(0)}
-                  >
+                  <span className="chevron">
                     {dropdownOpen === 0 ? "−" : "+"}
-                  </div>
+                  </span>
                 </div>
-
                 {dropdownOpen === 0 && (
-                  <div className="dropdown_container">
-                    <NavLink to="/home/item1" className="dropdown_item">
-                      Sub Item 1
-                    </NavLink>
-                    <NavLink to="/home/item2" className="dropdown_item">
-                      Sub Item 2
-                    </NavLink>
-                  </div>
+                  <ul className="submenu">
+                    <li>
+                      <NavLink to="/home/item1">Sub Item 1</NavLink>
+                    </li>
+                    <li>
+                      <NavLink to="/home/item2">Sub Item 2</NavLink>
+                    </li>
+                  </ul>
                 )}
+              </li>
 
-                {/* Second item with dropdown */}
-                <div className="sidebar-box">
-                  <div className="nav_leftsidebar">
-                    <span className="nav_icon">📁</span>
-                    <NavLink
-                      to="/files"
-                      className={({isActive}) =>
-                        isActive ? "nav_link active" : "nav_link"
-                      }
-                      style={{color: "black"}}
-                    >
-                      Files
-                    </NavLink>
-                  </div>
-                  <div
-                    className="nav_rightsidebar"
-                    onClick={() => toggleDropdown(1)}
+              {/* Icon-only item */}
+              <li className="menu-item">
+                <div className="menu-main">
+                  <span className="icon">📊</span>
+                  <NavLink
+                    to="/dashboard"
+                    className={({isActive}) =>
+                      isActive ? "menu-link active" : "menu-link"
+                    }
                   >
-                    {dropdownOpen === 1 ? "−" : "+"}
-                  </div>
+                    Dashboard
+                  </NavLink>
                 </div>
+              </li>
 
+              {/* Another item with dropdown */}
+              <li className={`menu-item ${dropdownOpen === 1 ? "open" : ""}`}>
+                <div className="menu-main" onClick={() => toggleDropdown(1)}>
+                  <span className="icon">📁</span>
+                  <span className="label">Files</span>
+                  <span className="chevron">
+                    {dropdownOpen === 1 ? "−" : "+"}
+                  </span>
+                </div>
                 {dropdownOpen === 1 && (
-                  <div className="dropdown_container">
-                    <NavLink to="/files/docs" className="dropdown_item">
-                      Docs
-                    </NavLink>
-                    <NavLink to="/files/media" className="dropdown_item">
-                      Media
-                    </NavLink>
-                  </div>
+                  <ul className="submenu">
+                    <li>
+                      <NavLink to="/files/docs">Docs</NavLink>
+                    </li>
+                    <li>
+                      <NavLink to="/files/media">Media</NavLink>
+                    </li>
+                  </ul>
                 )}
-              </div>
-            </nav>
+              </li>
+            </ul>
           </div>
+
           {/* sidebar */}
           <div className="wrapper_content">
             <BreadCrumb pageName="Home" />

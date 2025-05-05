@@ -174,11 +174,13 @@ const EmployeeForm = ({handleSubmit, IsEdit, updateEmployeeFunc}) => {
                   value={formik.values.ManagerId}
                   onChange={formik.handleChange}
                 >
-                  {Ismanagerid.map((item) => (
-                    <MenuItem key={item.staff_Id} value={item.staff_Id}>
-                      {item.FirstName}
-                    </MenuItem>
-                  ))}
+                  {Ismanagerid.filter((item) => item.Role === "Employee").map(
+                    (item) => (
+                      <MenuItem key={item.staff_Id} value={item.staff_Id}>
+                        {item.FirstName}
+                      </MenuItem>
+                    )
+                  )}
                 </Select>
               </FormControl>
             </Grid>

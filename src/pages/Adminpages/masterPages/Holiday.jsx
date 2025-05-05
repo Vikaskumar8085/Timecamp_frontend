@@ -32,6 +32,7 @@ import toast from "react-hot-toast";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import TModal from "../../../common/Modal/TModal";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 const validationSchema = Yup.object({
   Name: Yup.string()
     .required("First Name is required")
@@ -136,7 +137,7 @@ const Holiday = () => {
     fetchholidaylistfunc();
   }, [page, limit, search]);
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Holiday" />
       <Button
         onClick={() => setIsOpen(true)}
@@ -274,7 +275,7 @@ const Holiday = () => {
         }}
         rowsPerPageOptions={[1, 5, 10, 25]}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

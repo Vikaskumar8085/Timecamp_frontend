@@ -27,6 +27,7 @@ import GridViewIcon from "@mui/icons-material/GridView";
 import TableViewIcon from "@mui/icons-material/TableView";
 import EditIcon from "@mui/icons-material/Edit";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 const ActiveEmployee = () => {
   const [viewMode, setViewMode] = useState("table");
   const [IsactiveEmployeedata, setIsactiveEmployeedata] = useState([]);
@@ -61,7 +62,7 @@ const ActiveEmployee = () => {
 
   return (
     <>
-      <Layout>
+      <LayoutDesign>
         <BreadCrumb pageName="Active Employee" />
         <HeaderTab>
           <TextField
@@ -183,7 +184,7 @@ const ActiveEmployee = () => {
             setPage(0); // Reset page to 0 when changing rows per page
           }}
         />
-      </Layout>
+      </LayoutDesign>
     </>
   );
 };

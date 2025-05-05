@@ -19,6 +19,7 @@ import {useDispatch} from "react-redux";
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import toast from "react-hot-toast";
 import TModal from "../../../common/Modal/TModal";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const Contractor = () => {
   const [Iscontractordata, setIscontractordata] = useState([]);
@@ -115,7 +116,7 @@ const Contractor = () => {
     getcontractor();
   }, [search, page, rowsPerPage]);
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Contractor" />
 
       <Button
@@ -189,7 +190,7 @@ const Contractor = () => {
         setRowsPerPage={setRowsPerPage}
         rowsPerPage={rowsPerPage}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

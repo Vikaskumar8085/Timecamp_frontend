@@ -27,6 +27,7 @@ import {Link} from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const Activecontractor = () => {
   const [viewMode, setViewMode] = useState("table"); // "table" or "grid"
@@ -60,7 +61,7 @@ const Activecontractor = () => {
   }, [search, page, rowsPerPage]);
 
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Active contractor" />
 
       <HeaderTab>
@@ -203,7 +204,7 @@ const Activecontractor = () => {
           setPage(0); // Reset page to 0 when changing rows per page
         }}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

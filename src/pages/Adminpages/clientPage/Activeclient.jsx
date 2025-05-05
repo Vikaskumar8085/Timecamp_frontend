@@ -28,6 +28,7 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const Activeclient = () => {
   const [isactiveclientdata, setIsactiveclientdata] = useState([]);
@@ -76,7 +77,7 @@ const Activeclient = () => {
   };
 
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Active Client" />
       <HeaderTab>
         <Button
@@ -230,7 +231,7 @@ const Activeclient = () => {
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={handleRowsPerPageChange}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

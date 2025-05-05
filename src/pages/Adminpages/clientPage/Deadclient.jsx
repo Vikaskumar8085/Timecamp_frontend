@@ -27,6 +27,7 @@ import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import Empty from "../../../common/EmptyFolder/Empty";
 import {Link} from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 const Deadclient = () => {
   const [isdeadclientdata, setIsdeadclientdata] = useState([]);
   const [viewMode, setViewMode] = useState("table");
@@ -62,7 +63,7 @@ const Deadclient = () => {
   }, [search, page, rowsPerPage]);
 
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Dead Client" />
       <div>
         <HeaderTab>
@@ -208,7 +209,7 @@ const Deadclient = () => {
           setRowsPerPage(parseInt(event.target.value, 10))
         }
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

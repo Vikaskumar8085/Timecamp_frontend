@@ -24,6 +24,7 @@ import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import apiInstance from "../../../ApiInstance/apiInstance";
 import toast from "react-hot-toast";
 import TModal from "../../../common/Modal/TModal";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 const Standard = () => {
   const [IsOpen, setIsOpen] = useState(false);
   const [Isdata, setIsdata] = useState([]);
@@ -116,7 +117,7 @@ const Standard = () => {
     fetchstandardfunc();
   }, [0]);
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Standard" />
 
       <Button
@@ -211,7 +212,7 @@ const Standard = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </Layout>
+    </LayoutDesign>
   );
 };
 

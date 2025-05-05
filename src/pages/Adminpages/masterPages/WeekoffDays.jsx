@@ -23,6 +23,7 @@ import {
 } from "../../../ApiServices/MasterApiServices/WeekOffDays";
 import {useDispatch} from "react-redux";
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 const weekdays = [
   "Monday",
   "Tuesday",
@@ -97,7 +98,7 @@ const WeekoffDays = () => {
     fetchweekoffdaysfunc();
   }, [0]);
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Week off days" />
       <Paper sx={{p: 2}}>
         <Box
@@ -167,7 +168,7 @@ const WeekoffDays = () => {
           </Button>
         </Box>
       </Paper>
-    </Layout>
+    </LayoutDesign>
   );
 };
 
