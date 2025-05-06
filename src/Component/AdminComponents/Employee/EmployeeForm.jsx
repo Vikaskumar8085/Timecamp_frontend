@@ -9,6 +9,8 @@ import {
   Select,
   TextField,
   Typography,
+  OutlinedInput,
+  ListItemText,
   Button,
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
@@ -17,6 +19,7 @@ import React, {useEffect, useState} from "react";
 import {fetchdesignationapicall} from "../../../ApiServices/MasterApiServices/Designation";
 import toast from "react-hot-toast";
 import {fetchstaffmemberapicall} from "../../../ApiServices/AdminApiServices/Admin";
+import InputFileupload from "../../../common/InputFileupload/InputFileupload";
 
 const EmployeeForm = ({handleSubmit, IsEdit, updateEmployeeFunc}) => {
   const [designations, setDesignations] = useState([]);
@@ -36,6 +39,7 @@ const EmployeeForm = ({handleSubmit, IsEdit, updateEmployeeFunc}) => {
       ManagerId: IsEdit?.ManagerId || "",
       Profile: IsEdit?.Profile || null,
       Joining_Date: IsEdit?.Joining_Date || "",
+      days: [],
     },
     enableReinitialize: true,
     onSubmit: async (values) => {
@@ -83,6 +87,15 @@ const EmployeeForm = ({handleSubmit, IsEdit, updateEmployeeFunc}) => {
     getstaffmembersfunc();
   }, []);
 
+  const daysOfWeek = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
   return (
     <Container maxWidth="md">
       <Box sx={{p: 2, mt: 4}}>
@@ -120,16 +133,7 @@ const EmployeeForm = ({handleSubmit, IsEdit, updateEmployeeFunc}) => {
                 {...formik.getFieldProps("Phone")}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <input
-                type="file"
-                accept="image/png, image/jpeg, image/jpg"
-                onChange={(event) =>
-                  formik.setFieldValue("Profile", event.currentTarget.files[0])
-                }
-              />
-              <Typography variant="body2">Upload Profile Picture</Typography>
-            </Grid>
+
             <Grid item xs={12} sm={6}>
               <TextField
                 label="Address"
@@ -231,6 +235,42 @@ const EmployeeForm = ({handleSubmit, IsEdit, updateEmployeeFunc}) => {
                 }
                 label="Project Create Permission"
               />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <InputLabel id="days-label">Select Week off Days</InputLabel>
+                <Select
+                  labelId="days-label"
+                  id="days"
+                  name="days"
+                  multiple
+                  value={formik.values.days}
+                  onChange={formik.handleChange}
+                  input={<OutlinedInput label="Select Days" />}
+                  renderValue={(selected) => selected.join(", ")}
+                >
+                  {daysOfWeek.map((day) => (
+                    <MenuItem key={day} value={day}>
+                      <Checkbox
+                        checked={formik.values.days.indexOf(day) > -1}
+                      />
+                      <ListItemText primary={day} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <InputFileupload
+                type="file"
+                title="Upload Profile Picture"
+                paragraph={"Please upload your Profile Picture "}
+                accept="image/png, image/jpeg, image/jpg"
+                onChange={(event) =>
+                  formik.setFieldValue("Profile", event.currentTarget.files[0])
+                }
+              />
+              <Typography variant="body2"></Typography>
             </Grid>
             <Grid item xs={12}>
               <Button

@@ -8,6 +8,8 @@ import {
   MenuItem,
   Select,
   TextField,
+  OutlinedInput,
+  ListItemText,
   Grid,
   Typography,
   Button,
@@ -17,7 +19,16 @@ import React, {useEffect, useState} from "react";
 import {fetchdesignationapicall} from "../../../ApiServices/MasterApiServices/Designation";
 import toast from "react-hot-toast";
 import {fetchstaffmemberapicall} from "../../../ApiServices/AdminApiServices/Admin";
-
+import InputFileupload from "../../../common/InputFileupload/InputFileupload";
+const daysOfWeek = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 const ContractorForm = ({handleSubmit, IsEdit, udpatecontractorfunc}) => {
   const [designations, setDesignations] = useState([]);
   const [Ismanagerid, setIsmanagerid] = useState([]);
@@ -39,6 +50,7 @@ const ContractorForm = ({handleSubmit, IsEdit, udpatecontractorfunc}) => {
       Profile: IsEdit?.Profile || null,
       Hourly_Rate: IsEdit?.Hourly_Rate || "",
       Supervisor: IsEdit?.Supervisor || "",
+      days: [],
     },
     enableReinitialize: true,
     onSubmit: async (values) => {
@@ -131,16 +143,6 @@ const ContractorForm = ({handleSubmit, IsEdit, udpatecontractorfunc}) => {
                 fullWidth
                 {...formik.getFieldProps("Address")}
               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <input
-                type="file"
-                accept="image/png, image/jpeg, image/jpg"
-                onChange={(event) =>
-                  formik.setFieldValue("Profile", event.currentTarget.files[0])
-                }
-              />
-              <Typography variant="body2">Upload Profile Picture</Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -249,6 +251,30 @@ const ContractorForm = ({handleSubmit, IsEdit, udpatecontractorfunc}) => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
+              <FormControl fullWidth>
+                <InputLabel id="days-label">Select Week off Days</InputLabel>
+                <Select
+                  labelId="days-label"
+                  id="days"
+                  name="days"
+                  multiple
+                  value={formik.values.days}
+                  onChange={formik.handleChange}
+                  input={<OutlinedInput label="Select Days" />}
+                  renderValue={(selected) => selected.join(", ")}
+                >
+                  {daysOfWeek.map((day) => (
+                    <MenuItem key={day} value={day}>
+                      <Checkbox
+                        checked={formik.values.days.indexOf(day) > -1}
+                      />
+                      <ListItemText primary={day} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6}>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -258,6 +284,17 @@ const ContractorForm = ({handleSubmit, IsEdit, udpatecontractorfunc}) => {
                   />
                 }
                 label="Project Create Permission"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <InputFileupload
+                type="file"
+                title="Upload Profile Picture"
+                paragraph={"Please upload your Profile Picture "}
+                accept="image/png, image/jpeg, image/jpg"
+                onChange={(event) =>
+                  formik.setFieldValue("Profile", event.currentTarget.files[0])
+                }
               />
             </Grid>
             <Grid item xs={12}>

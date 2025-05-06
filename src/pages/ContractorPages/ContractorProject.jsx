@@ -10,11 +10,17 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Button,
+  Drawer,
 } from "@mui/material";
 import {VisibilitySharp} from "@mui/icons-material";
 import {Link} from "react-router-dom";
+import ContractorForm from "../../Component/ContractorComponents/ContractorForm";
+import {useSelector} from "react-redux";
 const ContractorProject = () => {
   const [IsContractorProjectdata, setIsContractorProjectdata] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const userdata = useSelector((state) => state?.user.values);
 
   const fetchcontractorprojectfunc = async () => {
     try {
@@ -33,6 +39,25 @@ const ContractorProject = () => {
   return (
     <Layout>
       <BreadCrumb pageName="Contractor Project" />
+      {userdata?.Permission && (
+        <Button
+          onClick={() => setIsOpen(true)}
+          sx={{
+            my: 2,
+            background: "#2c3e50",
+            color: "white",
+            padding: "10px 15px",
+          }}
+        >
+          Create Project
+        </Button>
+      )}
+
+      {isOpen && (
+        <Drawer open={isOpen} onClose={() => setIsOpen(false)} anchor="right">
+          <ContractorForm />
+        </Drawer>
+      )}
 
       <TableContainer component={Paper} sx={{mt: 3}}>
         <Table>

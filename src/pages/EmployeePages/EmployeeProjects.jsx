@@ -97,58 +97,7 @@ const EmployeeProjects = () => {
 
         {IsOpen && (
           <Drawer open={IsOpen} onClose={() => setIsOpen(false)} anchor="right">
-            {/* <EmpProjectForm /> */}
-            <Container maxWidth="lg">
-              <form>
-                <Grid2 justifyContent={"center"} spacing={2}>
-                  <Grid2 size={{md: 6, lg: 4, sm: 12, xs: 12}}>
-                    <Input
-                      labelText="Project Name"
-                      placeholder="Please enter project name"
-                    />
-                  </Grid2>
-
-                  <Grid2 size={{md: 6, lg: 4, sm: 12, xs: 12}}>
-                    <Input
-                      labelText="Client Name"
-                      placeholder="Please enter client name"
-                    />
-                  </Grid2>
-
-                  <Grid2 size={{md: 6, lg: 4, sm: 12, xs: 12}}>
-                    <Input
-                      type="date"
-                      labelText="Start Date"
-                      placeholder="Select start date"
-                    />
-                  </Grid2>
-
-                  <Grid2 size={{md: 6, lg: 4, sm: 12, xs: 12}}>
-                    <Input
-                      type="date"
-                      labelText="End Date"
-                      placeholder="Select end date"
-                    />
-                  </Grid2>
-                  <Grid2 size={{md: 6, lg: 4, sm: 12, xs: 12}}>
-                    <select
-                      id="cars"
-                      name="cars"
-                      style={{
-                        width: "100%",
-                        padding: "10px 15px",
-                        backgroundColor: "white",
-                      }}
-                    >
-                      <option value="volvo">Volvo XC90</option>
-                      <option value="saab">Saab 95</option>
-                      <option value="mercedes">Mercedes SLK</option>
-                      <option value="audi">Audi TT</option>
-                    </select>
-                  </Grid2>
-                </Grid2>
-              </form>
-            </Container>
+            <EmpProjectForm />
           </Drawer>
         )}
 

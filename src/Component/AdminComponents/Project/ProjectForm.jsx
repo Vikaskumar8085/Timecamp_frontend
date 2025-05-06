@@ -23,6 +23,7 @@ import {
   fetchstaffmembersapicall,
 } from "../../../ApiServices/ProjectApiServices";
 import {fetchroleapicall} from "../../../ApiServices/MasterApiServices/Roles";
+import Input from "../../../common/Input/Input";
 
 const ProjectForm = ({handleSubmit, IsEdit}) => {
   const [clients, setClients] = useState([]);
@@ -69,6 +70,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
       Start_Date: IsEdit?.Start_Date ?? "",
       End_Date: IsEdit?.End_Date ?? "",
       Project_Hours: IsEdit?.Project_Hours ?? "",
+      bucket: [{bucketHourly: "", bucketHourlyRate: ""}],
       roleProjectMangare:
         Array.isArray(IsEdit?.roleProjectMangare) &&
         IsEdit.roleProjectMangare.length > 0
@@ -139,7 +141,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
     });
   };
 
-  //
+  // add role Prooject Managare
   const addroleProjectMangare = () => {
     formik.setValues({
       ...formik.values,
@@ -156,11 +158,29 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
       ],
     });
   };
+  // add role Project Managare
   const removeRoleResource = (index) => {
     const updatedRoles = [...formik.values.roleResources];
     updatedRoles.splice(index, 1);
     formik.setValues({...formik.values, roleResources: updatedRoles});
   };
+
+  // add Multibucket
+  const addMultiBucket = () => {
+    const updatedBuckets = [
+      ...formik.values.bucket,
+      {bucketHourly: "", bucketHourlyRate: ""},
+    ];
+    formik.setFieldValue("bucket", updatedBuckets);
+  };
+  // add Multibucket
+  // remove Bucket
+  const removeBucket = (index) => {
+    const updatedBucket = [...formik.values.bucket];
+    updatedBucket.splice(index, 1);
+    formik.setFieldValue("bucket", updatedBucket);
+  };
+  // remove Bucket
 
   useEffect(() => {
     getclientdata();
@@ -307,6 +327,53 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
                   label="Project Estimate Hours"
                   name="Project_Estimate_Hours"
                 />
+              </>
+            )}
+            {formik.values.Project_Type === "Bucket" && (
+              <>
+                {formik.values.bucket.map((item, index) => {
+                  return (
+                    <>
+                      <Grid size={{sm: 12, xs: 12}}>
+                        <Input
+                          labelText="Backet Hourly"
+                          placeholder={"please Enter your Bucket Duration"}
+                          name={`bucket[${index}].bucketHourly`}
+                          type="number"
+                          value={item.bucketHourly}
+                          onChange={formik.handleChange}
+                        />
+                      </Grid>
+
+                      <Grid size={{sm: 12, xs: 12}}>
+                        <Input
+                          labelText="Bucket Hourly Rate"
+                          id={`bucket-${index}-rate`}
+                          name={`bucket[${index}].bucketHourlyRate`}
+                          type="number"
+                          placeholder="Please enter your bucket rate"
+                          value={item.bucketHourlyRate}
+                          onChange={formik.handleChange}
+                        />
+                      </Grid>
+
+                      <Grid size={{sm: 12, xs: 12}}>
+                        <Button variant="outlined" onClick={addMultiBucket}>
+                          Add
+                        </Button>
+                        {formik.values.bucket.length > 1 && (
+                          <Button
+                            // color="error"
+                            variant="outlined"
+                            onClick={() => removeBucket(index)}
+                          >
+                            Remove
+                          </Button>
+                        )}
+                      </Grid>
+                    </>
+                  );
+                })}
               </>
             )}
           </Grid>

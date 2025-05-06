@@ -23,7 +23,8 @@ import {
   fetchemployeerolesapicall,
   fetchemployeestaffapicall,
 } from "../../ApiServices/EmployeeApiservices/Employee";
-const EmpProjectForm = () => {
+
+const ContractorForm = () => {
   const [isclientdata, setisclientdata] = useState([]);
   const [isrolesdata, setIsrolesdata] = useState([]);
   const [isstaffdata, setisstaffdata] = useState([]);
@@ -497,12 +498,12 @@ const EmpProjectForm = () => {
                           onChange={formik.handleChange}
                         >
                           {/* {IsStaffdata.filter(
-                (item) => item.staff_Id !== formik.values.Project_ManagersId
-              ).map((item) => (
-                <MenuItem key={item.staff_Id} value={item.staff_Id}>
-                  {item.FirstName}
-                </MenuItem>
-              ))} */}
+              (item) => item.staff_Id !== formik.values.Project_ManagersId
+            ).map((item) => (
+              <MenuItem key={item.staff_Id} value={item.staff_Id}>
+                {item.FirstName}
+              </MenuItem>
+            ))} */}
                         </Select>
                       </FormControl>
                     </Grid>
@@ -517,10 +518,10 @@ const EmpProjectForm = () => {
                           onChange={formik.handleChange}
                         >
                           {/* {IsRoledata.map((item) => (
-                <MenuItem key={item.RoleId} value={item.RoleId}>
-                  {item.RoleName}
-                </MenuItem>
-              ))} */}
+              <MenuItem key={item.RoleId} value={item.RoleId}>
+                {item.RoleName}
+              </MenuItem>
+            ))} */}
                         </Select>
                       </FormControl>
                     </Grid>
@@ -631,4 +632,4 @@ const EmpProjectForm = () => {
   );
 };
 
-export default EmpProjectForm;
+export default ContractorForm;
