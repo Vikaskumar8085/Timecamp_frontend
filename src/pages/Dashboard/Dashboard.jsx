@@ -19,12 +19,16 @@ import EmployeeRecentProject from "../../Component/DashboardComponents/Employee/
 import ContractorRecentProject from "../../Component/DashboardComponents/Contractor/ContractorRecentProject";
 import ContractorHourbyResources from "../../Component/DashboardComponents/Contractor/ContractorHourbyResources";
 import RecentTask from "../../Component/DashboardComponents/Admin/RecentTask";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const Dashboard = () => {
-  const userdata = useSelector((state) => state.user.values);
+  const userdata = useSelector((state) => {
+    return state.user.values;
+  });
+
   let Role = userdata.Role;
   return (
-    <Layout>
+    <LayoutDesign>
       {Role === "Admin" && (
         <>
           <DashCounter />
@@ -73,7 +77,7 @@ const Dashboard = () => {
           </Card>
         </div>
       )}
-    </Layout>
+    </LayoutDesign>
   );
 };
 

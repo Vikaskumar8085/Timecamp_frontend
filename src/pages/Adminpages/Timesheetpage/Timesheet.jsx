@@ -37,6 +37,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ListIcon from "@mui/icons-material/List";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 const Timesheet = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [IsTimesheetdata, setIsTimesheetdata] = useState([]);
@@ -226,7 +227,7 @@ const Timesheet = () => {
   }, [page, rowsPerPage, search, startDate, endDate, status]);
 
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="TimeSheet" />
       <Grid container spacing={2} sx={{my: 1}}>
         {stats.map((stat, index) => (
@@ -464,7 +465,7 @@ const Timesheet = () => {
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={handleRowsPerPageChange}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

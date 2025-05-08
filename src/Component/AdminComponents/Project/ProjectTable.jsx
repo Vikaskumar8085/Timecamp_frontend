@@ -75,6 +75,7 @@ const ProjectTable = ({
                     <TableCell align="left">Project Hours</TableCell>
                     <TableCell align="left">Start Date</TableCell>
                     <TableCell align="left">End Date</TableCell>
+                    <TableCell align="left">Project Type</TableCell>
                     <TableCell align="left">Action</TableCell>
                   </TableRow>
                 </TableHead>
@@ -90,6 +91,7 @@ const ProjectTable = ({
                         <TableCell align="left">{item.Project_Hours}</TableCell>
                         <TableCell align="left">{item.Start_Date}</TableCell>
                         <TableCell align="left">{item.End_Date}</TableCell>
+                        <TableCell align="left">{item.Project_Type}</TableCell>
                         <TableCell align="left">
                           <Link to={`/project-info/${item.ProjectId}`}>
                             <VisibilityIcon />

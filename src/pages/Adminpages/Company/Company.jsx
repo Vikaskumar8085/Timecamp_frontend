@@ -16,6 +16,7 @@ import {
 import {useNavigate} from "react-router-dom";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign"
 import CompanyTable from "../../../Component/Companycomponents/CompanyTable";
 import CompanyEditForm from "../../../Component/Companycomponents/CompanyEditForm";
 import toast from "react-hot-toast";
@@ -286,7 +287,7 @@ const Company = () => {
     // localStorage.setItem("company", parseInt(iscompanydata.Company_Id));
   }, [0]);
   return iscompanydata.Company_Id > 0 ? (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Company" />
       <CompanyTable
         setIsOpen={setIsOpen}
@@ -313,7 +314,7 @@ const Company = () => {
           />
         </Drawer>
       )}
-    </Layout>
+    </LayoutDesign>
   ) : (
     <>
       <div className="comapny_form">

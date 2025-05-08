@@ -7,15 +7,18 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import {NavLink} from "react-router-dom";
 import InputFileupload from "../common/InputFileupload/InputFileupload";
 import {FiSearch} from "react-icons/fi";
+import InputImageUpload from "../common/InputImageUpload/InputImageUpload";
 
+import ProfileForm from "../common/SelectInput/SelectInput";
+import DashboardCounter from "./DashboardCounter";
 const Home = () => {
   const [show, setShow] = React.useState(false);
   const [isnotification, setisnotification] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState(null);
 
-  const toggleDropdown = (index) => {
-    setDropdownOpen(dropdownOpen === index ? null : index);
-  };
+  // const toggleDropdown = (index) => {
+  //   setDropdownOpen(dropdownOpen === index ? null : index);
+  // };
   const notifications = [
     {
       id: 1,
@@ -219,7 +222,17 @@ const Home = () => {
           {/* sidebar */}
           <div className="wrapper_content">
             <BreadCrumb pageName="Home" />
-            <InputFileupload />
+            <InputImageUpload />
+            <ProfileForm />
+
+            {/* side bar design */}
+
+            <div>
+              <h2 style={{padding: "20px"}}>Dashboard Overview</h2>
+              <DashboardCounter />
+            </div>
+
+            {/* side bar design */}
           </div>
         </div>
       </div>

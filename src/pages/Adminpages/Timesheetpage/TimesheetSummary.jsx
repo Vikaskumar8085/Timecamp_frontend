@@ -13,6 +13,7 @@ import DailyHours from "../../../Component/TimeSummarycomponent/DailyHours";
 import Hourbycompany from "../../../Component/TimeSummarycomponent/Hourbycompany";
 import ProjectTimeUtilization from "../../../Component/TimeSummarycomponent/ProjectTimeUtilization";
 import ApprovelByBillingChart from "../../../Component/TimeSummarycomponent/ApprovelByBillingChart";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const TimesheetSummary = () => {
   const dispatch = useDispatch();
@@ -38,9 +39,8 @@ const TimesheetSummary = () => {
   }, [0]);
 
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Time Summary" />
-
       <Grid2 container spacing={3}>
         <Grid2 size={{sm: 12}}>
           <Typography variant="h5">Total hours By Resourse</Typography>
@@ -73,7 +73,7 @@ const TimesheetSummary = () => {
           <ProjectTimeUtilization />
         </Grid2>
       </Grid2>
-    </Layout>
+    </LayoutDesign>
   );
 };
 

@@ -28,6 +28,7 @@ import {useDispatch} from "react-redux";
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import {Link} from "react-router-dom";
 import TModal from "../../../common/Modal/TModal";
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const Task = () => {
   const [IsOpen, setIsOpen] = useState(false);
@@ -90,7 +91,7 @@ const Task = () => {
   }, [search, page, rowsPerPage]);
 
   return (
-    <Layout>
+    <LayoutDesign>
       <div>
         <BreadCrumb pageName="Task" />
         <Button
@@ -107,7 +108,11 @@ const Task = () => {
         </Button>
 
         {IsOpen && (
-          <TModal title={"add Task"} open={IsOpen} onClose={() => setIsOpen(false)}>
+          <TModal
+            title={"add Task"}
+            open={IsOpen}
+            onClose={() => setIsOpen(false)}
+          >
             <TaskCreationForm
               TaskHandlesubmit={TaskHandlesubmit}
               Isprojectmilestonedata={Isprojectmilestonedata}
@@ -220,7 +225,7 @@ const Task = () => {
           }}
         />
       </div>
-    </Layout>
+    </LayoutDesign>
   );
 };
 

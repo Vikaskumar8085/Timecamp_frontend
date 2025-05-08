@@ -30,7 +30,14 @@ const Profile = ({setShow, show}) => {
         {show && (
           <div className="dropdown-menu">
             <a href="/profile">👤 My Profile</a>
-            <a href="#">🚪 Sign Out</a>
+            <a
+              onClick={() => {
+                localStorage.clear();
+                window.location.href = "/login";
+              }}
+            >
+              🚪 Sign Out
+            </a>
           </div>
         )}
       </div>
