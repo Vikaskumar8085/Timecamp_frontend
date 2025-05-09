@@ -13,7 +13,6 @@ import TModal from "../../../common/Modal/TModal";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 const UserProfile = ({user}) => {
   const [isOpen, setIsOpen] = useState(false);
-
   return (
     <>
       <div className="profile_card_wrapper">
@@ -69,6 +68,20 @@ const UserProfile = ({user}) => {
                     paragraph={user.Term ? "true" : "false"}
                   />
                 )}
+              </Grid2>
+              <Grid2 size={{md: 12, lg: 4}}>
+                <CardOne
+                  icon={<EmailOutlinedIcon />}
+                  title={"Acitivity"}
+                  paragraph={user.Activity ? "true" : "false"}
+                />
+              </Grid2>
+              <Grid2 size={{md: 12, lg: 4}}>
+                <CardOne
+                  icon={<EmailOutlinedIcon />}
+                  title={"Block Status"}
+                  paragraph={user.BlockStatus ? "unblock" : "blocked"}
+                />
               </Grid2>
             </Grid2>
           </div>

@@ -4,18 +4,24 @@
   display: block;
   border-radius: 8px;
   overflow: hidden;
-  border-left: 1px solid var(--primary-color);
-  background-image: linear-gradient(to right, #6560f01a, white);
-
+  padding: 10px 0px;
   .cardone_row {
-    padding: 15px 30px;
     display: flex;
     justify-content: start;
-    align-items: center;
     align-content: flex-end;
 
     .cardoneright {
       margin: 0px 10px;
+      .right-heading-text {
+        h1 {
+          margin-bottom: 10px;
+          font-weight: 100;
+          color: var(--gray-color);
+        }
+        .right-paragraph {
+          color: var(--black-color);
+        }
+      }
     }
     .cardoneleft {
       margin: 0px 10px;

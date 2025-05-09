@@ -1,22 +1,15 @@
 import React, {useEffect, useState} from "react";
 import {useFormik} from "formik";
-import {
-  TextField,
-  Button,
-  Container,
-  Grid,
-  Drawer,
-  Typography,
-} from "@mui/material";
+import {TextField, Button, Container, Grid, Typography} from "@mui/material";
 import "./company.scss";
 import {
   createcompanyapicall,
   fetchcompanyapicall,
 } from "../../../ApiServices/Companyapiservices";
+import TModal from "../../../common/Modal/TModal"
 import {useNavigate} from "react-router-dom";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import Layout from "../../../Layoutcomponents/Layout/Layout";
-import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign"
+import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 import CompanyTable from "../../../Component/Companycomponents/CompanyTable";
 import CompanyEditForm from "../../../Component/Companycomponents/CompanyEditForm";
 import toast from "react-hot-toast";
@@ -297,14 +290,14 @@ const Company = () => {
       />
 
       {IsOpen && (
-        <Drawer
+        <TModal
           open={IsOpen}
           onClose={() => {
             setIsOpen(false);
             isEdit(false);
             isId = null;
           }}
-          anchor="right"
+          title="Edit Company"
         >
           <CompanyEditForm
             getcompany={getcompany}
@@ -312,7 +305,7 @@ const Company = () => {
             setIsOpen={setIsOpen}
             isEdit={isEdit}
           />
-        </Drawer>
+        </TModal>
       )}
     </LayoutDesign>
   ) : (

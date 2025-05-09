@@ -1,4 +1,5 @@
 import React from "react";
+import bgimage from "../../../assets/commonicon/profilepic.png";
 import {
   Card,
   CardContent,
@@ -10,6 +11,7 @@ import {
   Chip,
   Box,
 } from "@mui/material";
+import Grid2 from "@mui/material/Grid2";
 import {
   Lock,
   LockOpen,
@@ -21,119 +23,95 @@ import {
 
 const UserList = ({users, handleEdit}) => {
   return (
-    <Box
-      sx={{display: "flex", flexWrap: "wrap", justifyContent: "start"}}
-      gap={3}
-      gridTemplateColumns="repeat(auto-fit, minmax(320px, 1fr))"
-      p={3}
-    >
-      {users.map((user) => (
-        <Card
-          key={user._id}
-          sx={{
-            p: 2,
-            borderRadius: 4,
-            boxShadow: 3,
-          }}
-        >
-          <CardContent>
-            {/* User Avatar and Name */}
-            <Grid container spacing={2} alignItems="center">
-              <Grid item>
-                <Avatar
-                  src={user.Photo}
-                  alt={user.FirstName}
-                  sx={{width: 80, height: 80}}
-                />
-              </Grid>
-              <Grid item>
-                <Typography variant="h6" fontWeight="bold">
-                  {user.FirstName} {user.LastName}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {user.Email}
-                </Typography>
-              </Grid>
-            </Grid>
+    <>
+      <Grid2 container spacing={2}>
+        {users.map((item, index) => {
+          return (
+            <>
+              <Grid2 key={index} size={{md: 6, lg: 4, sm: 12, xs: 12}}>
+                <div className="admin_card_wrapper">
+                  <div className="admin_card_wrapper_box">
+                    <div className="admin_card_header">
+                      <img src={bgimage} alt="" srcset="" />
+                      <div className="admin_header_tags">
+                        <img
+                          src={
+                            item?.Photo || "https://i.ibb.co/4pDNDk1/avatar.png"
+                          }
+                          alt="User avatar"
+                          loading="lazy"
+                        />
+                        <Button
+                          startIcon={<Edit />}
+                          type="submit"
+                          onClick={() => {
+                            handleEdit(item.user_id);
+                          }}
+                          sx={{
+                            background: "#6560f0",
+                            color: "white",
+                            // width: "100%",
+                          }}
+                        >
+                          Edit
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="admin_body">
+                      <div className="admin-card">
+                        <div className="admin-card__name">
+                          {item.FirstName} {item.LastName}
+                        </div>
+                        <div className="admin-card__email">{item.Email}</div>
 
-            {/* Role */}
-            <Chip
-              label={user.Role}
-              color={user.Role === "Admin" ? "primary" : "secondary"}
-              sx={{mt: 2}}
-            />
+                        <div className="admin-card__status">
+                          {item.isVerify ? (
+                            <VerifiedUser className="admin-card__icon admin-card__icon--verified" />
+                          ) : (
+                            <ErrorOutline className="admin-card__icon admin-card__icon--error" />
+                          )}
+                          <span
+                            className={`admin-card__text ${
+                              item.isVerify ? "verified" : "not-verified"
+                            }`}
+                          >
+                            {item.isVerify ? "Verified" : "Not Verified"}
+                          </span>
+                        </div>
 
-            {/* Verification Status */}
-            <Grid container alignItems="center" spacing={1} sx={{mt: 2}}>
-              <Grid item>
-                {user.isVerify ? (
-                  <VerifiedUser color="success" />
-                ) : (
-                  <ErrorOutline color="error" />
-                )}
-              </Grid>
-              <Grid item>
-                <Typography variant="body2">
-                  {user.isVerify ? "Verified" : "Not Verified"}
-                </Typography>
-              </Grid>
-            </Grid>
+                        <Typography
+                          variant="body2"
+                          className={`admin-card__terms ${
+                            item.Term ? "accepted" : "not-accepted"
+                          }`}
+                        >
+                          {item.Term
+                            ? "Accepted Terms & Conditions"
+                            : "Terms Not Accepted"}
+                        </Typography>
 
-            {/* Activity Toggle */}
-            <Grid container alignItems="center" spacing={1} sx={{mt: 2}}>
-              <Grid item>
-                <Typography variant="body2">Active</Typography>
-              </Grid>
-              <Grid item>
-                <Switch checked={user.Activity} color="success" />
-              </Grid>
-            </Grid>
-
-            {/* Block Status */}
-            <Grid container alignItems="center" spacing={1} sx={{mt: 2}}>
-              <Grid item>
-                {user.BlockStatus === "Unblock" ? (
-                  <LockOpen color="success" />
-                ) : (
-                  <Lock color="error" />
-                )}
-              </Grid>
-              <Grid item>
-                <Typography variant="body2">
-                  {user.BlockStatus === "Unblock" ? "Unblocked" : "Blocked"}
-                </Typography>
-              </Grid>
-            </Grid>
-
-            {/* Terms Agreement */}
-            <Typography
-              variant="body2"
-              sx={{mt: 2, color: user.Term ? "green" : "red"}}
-            >
-              {user.Term ? "Accepted Terms & Conditions" : "Terms Not Accepted"}
-            </Typography>
-            <button onClick={() => handleEdit(user)}>edit</button>
-            {/* Action Buttons */}
-
-            {user?.IsAdmin === false && (
-              <Grid container spacing={2} sx={{mt: 3}}>
-                <Grid item xs={6}></Grid>
-                <Grid item xs={6}>
-                  <Button
-                    fullWidth
-                    variant="outlined"
-                    color="error"
-                    // startIcon={<Delete />}
-                  >
-                    block
-                  </Button>
-                </Grid>
-              </Grid>
-            )}
-          </CardContent>
-        </Card>
-      ))}
-    </Box>
+                        <div className="admin-card__block-status">
+                          {item.BlockStatus === "Unblock" ? (
+                            <LockOpen className="admin-card__icon admin-card__icon--unblock" />
+                          ) : (
+                            <Lock className="admin-card__icon admin-card__icon--block" />
+                          )}
+                          {item.BlockStatus === "Unblock" ? (
+                            <p>UnBlock</p>
+                          ) : (
+                            <p>block</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Grid2>
+            </>
+          );
+        })}
+      </Grid2>
+    </>
   );
 };
 

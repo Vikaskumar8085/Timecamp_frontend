@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom";
 
 const Profile = ({setShow, show}) => {
   return (
@@ -29,7 +30,8 @@ const Profile = ({setShow, show}) => {
 
         {show && (
           <div className="dropdown-menu">
-            <a href="/profile">👤 My Profile</a>
+            <Link to="/profile">👤 My Profile</Link>
+            <Link to="/profile">&#x1F512; Change Password</Link>
             <a
               onClick={() => {
                 localStorage.clear();

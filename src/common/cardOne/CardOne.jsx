@@ -1,5 +1,4 @@
 import React from "react";
-import "./CardOne.scss";
 const CardOne = ({icon, title, paragraph}) => {
   return (
     <div className="cardOne_container">
@@ -10,8 +9,8 @@ const CardOne = ({icon, title, paragraph}) => {
         <div className="cardoneright">
           <div className="right-heading-text">
             <h1>{title}</h1>
+            <div className="right-paragraph">{paragraph}</div>
           </div>
-          <div className="right-paragraph">{paragraph}</div>
         </div>
       </div>
     </div>
