@@ -180,7 +180,7 @@ const Client = () => {
       >
         Upload Client
       </Button>
-      {IsOpen && (
+      {/* {IsOpen && (
         <TModal
           title={isEdit !== null ? "Edit Client " : " Add Client"}
           open={IsOpen}
@@ -195,8 +195,8 @@ const Client = () => {
             handleSubmit={handleSubmit}
           />
         </TModal>
-      )}
-      {/* {IsOpen && (
+      )} */}
+      {IsOpen && (
         <TModal
           title={isEdit !== null ? "Edit Client " : " Add Client"}
           open={IsOpen}
@@ -212,14 +212,14 @@ const Client = () => {
                   <Input
                     placeholder={"Please Enter Your Company Name"}
                     labelText={"Company Name"}
-                    style={{minWidth: "100%"}}
+                    // style={{minWidth: "100%"}}
                   />
                 </Grid2>
                 <Grid2 size={{sm: 6, md: 6, lg: 6, xs: 6}} sx={{mt: 3}}>
                   <Input
                     placeholder={"Please Enter Your Client Name"}
                     labelText={"Client Name"}
-                    style={{width: "100%"}}
+                    // style={{width: "100%"}}
                   />
                 </Grid2>
                 <Grid2 size={{sm: 6, md: 6, xs: 6}} sx={{mt: 3}}>
@@ -277,16 +277,19 @@ const Client = () => {
                   />
                 </Grid2>
                 <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
-                  <input type={"checkbox"} />
+                  <input type={"checkbox"} /> &nbsp;
+                  <label htmlFor="">System Access</label>
                 </Grid2>
                 <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
-                  <Button style={{width: "100%"}}>Submit</Button>
+                  <Button style={{width: "100%", background: "skyblue"}}>
+                    Submit
+                  </Button>
                 </Grid2>
               </Grid2>
             </form>
           </Container>
         </TModal>
-      )} */}
+      )}
       {isUpload && (
         <Drawer
           open={isUpload}

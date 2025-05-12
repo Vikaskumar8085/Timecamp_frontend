@@ -25,6 +25,7 @@ import GridViewIcon from "@mui/icons-material/GridView";
 import TableRowsIcon from "@mui/icons-material/TableRows";
 import HeaderTab from "../../common/HeaderTab/HeaderTab";
 import toast from "react-hot-toast";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 const ClientProjects = () => {
   const [Isclientdata, setisclientdata] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -83,7 +84,7 @@ const ClientProjects = () => {
   }, [page, rowsPerPage, search]);
 
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Client  Projects" />
       <HeaderTab>
         <Button
@@ -191,7 +192,7 @@ const ClientProjects = () => {
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleRowsPerPageChange}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

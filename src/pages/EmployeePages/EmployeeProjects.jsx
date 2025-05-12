@@ -25,6 +25,7 @@ import {useSelector} from "react-redux";
 import EmpProjectForm from "../../Component/EmployeeComponents/EmpProjectForm";
 import Empty from "../../common/EmptyFolder/Empty";
 import {VisibilitySharp} from "@mui/icons-material";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const EmployeeProjects = () => {
   const userdata = useSelector((state) => state?.user.values);
@@ -78,7 +79,7 @@ const EmployeeProjects = () => {
 
   return (
     <div>
-      <Layout>
+      <LayoutDesign>
         <BreadCrumb pageName="Employee Projects" />
 
         {userdata?.Permission && (
@@ -206,7 +207,7 @@ const EmployeeProjects = () => {
             />
           </>
         )}
-      </Layout>
+      </LayoutDesign>
     </div>
   );
 };

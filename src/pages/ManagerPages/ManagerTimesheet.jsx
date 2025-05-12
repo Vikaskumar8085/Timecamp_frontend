@@ -20,6 +20,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ListIcon from "@mui/icons-material/List";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 const ManagerTimesheet = () => {
   const [timesheets, setTimesheets] = useState([]);
   const [page, setPage] = useState(1);
@@ -77,7 +78,7 @@ const ManagerTimesheet = () => {
     fetchTimesheets();
   }, [page, limit]);
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Manager Timesheet" />
 
       <Grid container spacing={2} sx={{my: 1}}>
@@ -147,7 +148,7 @@ const ManagerTimesheet = () => {
           sx={{marginTop: 2, display: "flex", justifyContent: "center"}}
         />
       </Paper>
-    </Layout>
+    </LayoutDesign>
   );
 };
 

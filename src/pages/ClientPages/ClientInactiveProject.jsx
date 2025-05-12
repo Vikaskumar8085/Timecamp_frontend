@@ -26,6 +26,7 @@ import {fetchclientinactiveprojectapicall} from "../../ApiServices/Cllientapiser
 import {Link} from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import HeaderTab from "../../common/HeaderTab/HeaderTab";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const ClientInactiveProject = () => {
   const [isclientactiveproject, setIsclientactiveproject] = useState([]);
@@ -87,7 +88,7 @@ const ClientInactiveProject = () => {
 
   return (
     <div>
-      <Layout>
+      <LayoutDesign>
         <BreadCrumb pageName="Client Inactive Project" />
 
         <HeaderTab>
@@ -206,7 +207,7 @@ const ClientInactiveProject = () => {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      </Layout>
+      </LayoutDesign>
     </div>
   );
 };

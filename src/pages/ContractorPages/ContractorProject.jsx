@@ -17,6 +17,7 @@ import {VisibilitySharp} from "@mui/icons-material";
 import {Link} from "react-router-dom";
 import ContractorForm from "../../Component/ContractorComponents/ContractorForm";
 import {useSelector} from "react-redux";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 const ContractorProject = () => {
   const [IsContractorProjectdata, setIsContractorProjectdata] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -37,7 +38,7 @@ const ContractorProject = () => {
     fetchcontractorprojectfunc();
   }, [0]);
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Contractor Project" />
       {userdata?.Permission && (
         <Button
@@ -133,7 +134,7 @@ const ContractorProject = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </Layout>
+    </LayoutDesign>
   );
 };
 

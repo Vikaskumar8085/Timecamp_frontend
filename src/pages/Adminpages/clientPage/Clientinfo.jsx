@@ -20,6 +20,8 @@ import {
   Divider,
   Paper,
   Grid,
+  Button,
+  Grid2,
 } from "@mui/material";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
@@ -33,6 +35,8 @@ import {
 } from "../../../ApiServices/AdminApiServices/Admin";
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import bgimage from "../../../assets/commonIcon/profilepic.png";
+import CardOne from "../../../common/cardOne/CardOne";
 
 const Clientinfo = () => {
   const {id} = useParams();
@@ -158,7 +162,7 @@ const Clientinfo = () => {
   return (
     <LayoutDesign>
       <BreadCrumb pageName="Client Information" />
-      <Card>
+      {/* <Card>
         <CardContent sx={{p: 3}}>
           <Typography
             variant="h5"
@@ -222,9 +226,76 @@ const Clientinfo = () => {
             ))}
           </Grid>
         </CardContent>
-      </Card>
+      </Card> */}
 
-      <Box>
+      {/* client profile design */}
+
+      <div className="client_card_wrapper">
+        <div className="client_card_wrapper_box">
+          <div className="client_card_header">
+            <img src={bgimage} alt="" srcset="" />
+            <div className="client_header_tags">
+              <img
+                src={
+                  IsClientdata?.Photo || "https://i.ibb.co/4pDNDk1/avatar.png"
+                }
+                alt="User avatar"
+                loading="lazy"
+              />
+              <h1>{IsClientdata.Client_Name}</h1>
+              <p>{IsClientdata?.Client_Address}</p>
+            </div>
+          </div>
+          <div className="client_body">
+            <Grid2 container spacing={2}>
+              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                <CardOne
+                  title={"Username"}
+                  paragraph={IsClientdata?.Username}
+                />
+              </Grid2>
+              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                <CardOne
+                  title={"Email"}
+                  paragraph={IsClientdata?.Client_Email}
+                />
+              </Grid2>
+              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                <CardOne
+                  title={"Phone"}
+                  paragraph={IsClientdata?.Client_Phone}
+                />
+              </Grid2>
+              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                <CardOne
+                  title={"Postal Code"}
+                  paragraph={IsClientdata?.Client_Postal_Code}
+                />
+              </Grid2>
+              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                <CardOne
+                  title={"Gst Number"}
+                  paragraph={IsClientdata?.GstNumber}
+                />
+              </Grid2>
+              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                <CardOne
+                  title={"Client Status "}
+                  paragraph={IsClientdata?.Client_Status}
+                />
+              </Grid2>
+              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                <CardOne
+                  title={"system Access"}
+                  paragraph={IsClientdata?.System_Access ? "yes" : "no"}
+                />
+              </Grid2>
+            </Grid2>
+          </div>
+        </div>
+      </div>
+      {/* client info Page design */}
+      {/* <Box>
         <TableContainer component={Paper}>
           <Table sx={{minWidth: 650}} aria-label="simple table">
             <TableHead>
@@ -256,16 +327,16 @@ const Clientinfo = () => {
             </TableBody>
           </Table>
         </TableContainer>
-      </Box>
+      </Box> */}
 
-      <TimesheetList
+      {/* <TimesheetList
         approvecontractortimesheet={approvecontractortimesheet}
         disapprovecontractortimesheet={disapprovecontractortimesheet}
         biiledclienttimesheet={biiledclienttimesheet}
         data={isClientTimesheet}
         setSelectedItems={setSelectedItems}
         selectedItems={selectedItems}
-      />
+      /> */}
     </LayoutDesign>
   );
 };

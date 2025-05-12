@@ -16,6 +16,7 @@ import {
   Paper,
 } from "@mui/material";
 import {AccessTime, List, Receipt, CheckCircle} from "@mui/icons-material";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const ClientProjectTime = () => {
   const [isclientprojectTimedata, setIsclientprojectTimedata] = useState([]);
@@ -58,7 +59,7 @@ const ClientProjectTime = () => {
     fetchclientprojectTimefunc();
   }, [0]);
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Client Project TIme" />
       <Grid2 container spacing={2} sx={{my: 2}}>
         <Grid2 item sm={12} md={3} lg={3}>
@@ -170,7 +171,7 @@ const ClientProjectTime = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </Layout>
+    </LayoutDesign>
   );
 };
 

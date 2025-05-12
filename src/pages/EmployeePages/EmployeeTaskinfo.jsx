@@ -22,6 +22,7 @@ import * as Yup from "yup";
 import moment from "moment";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import Layout from "../../Layoutcomponents/Layout/Layout";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const validationSchema = Yup.object({
   project: Yup.string().required("Project is required"),
@@ -101,7 +102,7 @@ const EmployeeTaskinfo = () => {
     },
   });
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Task Information" />
       <Card sx={{margin: "auto", mt: 4, boxShadow: 3, p: 2}}>
         <CardContent>
@@ -257,7 +258,7 @@ const EmployeeTaskinfo = () => {
           </form>
         </Box>
       </Modal>
-    </Layout>
+    </LayoutDesign>
   );
 };
 

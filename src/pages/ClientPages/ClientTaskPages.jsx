@@ -23,6 +23,7 @@ import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import {fetchclientprojectaskapicall} from "../../ApiServices/Cllientapiservices/Client";
 import {Link} from "react-router-dom";
 import HeaderTab from "../../common/HeaderTab/HeaderTab";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 const ClientTaskPages = () => {
   const [IsClientTask, setIsClientTask] = useState([]);
   const [page, setPage] = useState(0);
@@ -78,7 +79,7 @@ const ClientTaskPages = () => {
   }, [page, rowsPerPage, search, statusFilter, priorityFilter]);
 
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Client Task" />
       <HeaderTab>
         <Box display="flex" gap={2}>
@@ -221,7 +222,7 @@ const ClientTaskPages = () => {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

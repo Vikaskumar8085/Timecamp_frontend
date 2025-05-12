@@ -15,6 +15,7 @@ import {
   TextField,
   Link,
 } from "@mui/material";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const ContractorTasks = () => {
   const [IsContracotorTaskdata, setIsContractorTaskdata] = useState([]);
@@ -66,7 +67,7 @@ const ContractorTasks = () => {
 
   return (
     <div>
-      <Layout>
+      <LayoutDesign>
         <BreadCrumb pageName="Contractor Task" />
         {/* Search bar */}
         <TextField
@@ -144,7 +145,7 @@ const ContractorTasks = () => {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      </Layout>
+      </LayoutDesign>
     </div>
   );
 };

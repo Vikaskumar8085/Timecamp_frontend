@@ -26,6 +26,7 @@ import {Link} from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import HeaderTab from "../../common/HeaderTab/HeaderTab";
 import {fetchclientactiveprojectapicall} from "../../ApiServices/Cllientapiservices/Client";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 const ClientActiveProject = () => {
   const [Isactiveclientprject, setisactiveclientproject] = useState([]);
   const [page, setPage] = useState(0);
@@ -84,7 +85,7 @@ const ClientActiveProject = () => {
 
   return (
     <>
-      <Layout>
+      <LayoutDesign>
         <BreadCrumb pageName="Client Active Project" />
         <HeaderTab>
           <Button
@@ -199,7 +200,7 @@ const ClientActiveProject = () => {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      </Layout>
+      </LayoutDesign>
     </>
   );
 };

@@ -15,6 +15,7 @@ import {
   TablePagination,
 } from "@mui/material";
 import {VisibilitySharp} from "@mui/icons-material";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const EmployeeActiveProject = () => {
   const [isemployeeActiveproject, setIsemployeeactiveproject] = useState([]);
@@ -54,7 +55,7 @@ const EmployeeActiveProject = () => {
   }, [page, rowsPerPage, search]);
   return (
     <>
-      <Layout>
+      <LayoutDesign>
         <BreadCrumb pageName="Employee Active Project" />
         {/* text field */}
         <TextField
@@ -153,7 +154,7 @@ const EmployeeActiveProject = () => {
           rowsPerPage={rowsPerPage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      </Layout>
+      </LayoutDesign>
     </>
   );
 };

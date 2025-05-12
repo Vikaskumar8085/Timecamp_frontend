@@ -59,21 +59,19 @@
       .input_file_upload_input_wrapper {
         margin-top: 10px;
 
-        .input_file_upload_input {
+        .input_file_upload_input_box {
           display: block;
           margin: 0 auto;
           padding: 10px;
           font-size: 0.95rem;
           border: 1px solid #ccc;
-          border-radius: 8px;
+          border-radius: 10px;
           cursor: pointer;
-          background-color: #fafafa;
-          width: 100%;
-          max-width: 320px;
+          background-color: #e6e6e6;
+          width: fit-content;
           transition: border-color 0.3s ease;
-
           &:hover {
-            border-color: #007bff;
+            border-color: #e485ff;
           }
         }
       }

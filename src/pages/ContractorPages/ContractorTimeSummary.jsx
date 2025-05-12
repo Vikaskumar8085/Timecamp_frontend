@@ -8,10 +8,11 @@ import ContractorBillingStatusDistribution from "../../Component/DashboardCompon
 import ContractorProjectTimeUtilization from "../../Component/DashboardComponents/Contractor/ContractorProjectTimeUtilization";
 import ContaractorDailyHours from "../../Component/DashboardComponents/Contractor/ContaractorDailyHours";
 import ContractorApprovelbilingstatus from "../../Component/DashboardComponents/Contractor/ContractorApprovelbilingstatus";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const ContractorTimeSummary = () => {
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Contractor Time Summary" />
       <ContractorTotalHoursByResources />
       <ContractorTotalHoursByProject />
@@ -20,7 +21,7 @@ const ContractorTimeSummary = () => {
       <ContractorProjectTimeUtilization />
       <ContaractorDailyHours />
       <ContractorApprovelbilingstatus />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

@@ -37,6 +37,7 @@ import * as Yup from "yup";
 import ListIcon from "@mui/icons-material/List";
 import apiInstance from "../../ApiInstance/apiInstance";
 import toast from "react-hot-toast";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const ContractorTimesheet = () => {
   const [isContractorTimesheetdata, setIsContractorTimesheetdata] = useState(
@@ -186,7 +187,7 @@ const ContractorTimesheet = () => {
   }, [0]);
   return (
     <div>
-      <Layout>
+      <LayoutDesign>
         <BreadCrumb pageName="Contractor Timesheet" />
 
         {/* timesheet */}
@@ -490,7 +491,7 @@ const ContractorTimesheet = () => {
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleRowsPerPageChange}
         />
-      </Layout>
+      </LayoutDesign>
     </div>
   );
 };

@@ -1,49 +1,16 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Notification from "../Notification/Notification";
 import Profile from "../Profile/Profile";
 import {FiSearch} from "react-icons/fi";
 import logo from "../../../assets/auth/logo.png";
+import {fetchuserNotificationapicall} from "../../../ApiServices/AdminApiServices/Admin";
+import apiInstance from "../../../ApiInstance/apiInstance";
 const Header = () => {
   const [show, setShow] = React.useState(false);
+  const [IsOpen, setIsOpen] = React.useState(false);
+
   const [isnotification, setisnotification] = React.useState(false);
-  const notifications = [
-    {
-      id: 1,
-      avatar: "https://i.pravatar.cc/40?img=1",
-      title: "New message from Ayush",
-      time: "5 minutes ago",
-    },
-    {
-      id: 2,
-      avatar: "https://i.pravatar.cc/40?img=2",
-      title: "Timesheet submitted",
-      time: "30 minutes ago",
-    },
-    {
-      id: 2,
-      avatar: "https://i.pravatar.cc/40?img=2",
-      title: "Timesheet submitted",
-      time: "30 minutes ago",
-    },
-    {
-      id: 2,
-      avatar: "https://i.pravatar.cc/40?img=2",
-      title: "Timesheet submitted",
-      time: "30 minutes ago",
-    },
-    {
-      id: 2,
-      avatar: "https://i.pravatar.cc/40?img=2",
-      title: "Timesheet submitted",
-      time: "30 minutes ago",
-    },
-    {
-      id: 3,
-      avatar: "https://i.pravatar.cc/40?img=3",
-      title: "Your leave was approved",
-      time: "2 hours ago",
-    },
-  ];
+
   return (
     <>
       <div className="wrapper_header">
@@ -68,7 +35,6 @@ const Header = () => {
           {/* notification design */}
           <Notification
             isnotification={isnotification}
-            notifications={notifications}
             setisnotification={setisnotification}
           />
           {/* notification design */}

@@ -13,6 +13,7 @@ import {
 import {Link} from "react-router-dom";
 import {fetchcontractoractiveprojectapicall} from "../../ApiServices/ContractorApiServices/ContractorApiServices";
 import {VisibilitySharp} from "@mui/icons-material";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const ContractorActiveProject = () => {
   const [isContractoractiveproject, setIsContractoractiveproject] = useState(
@@ -36,7 +37,7 @@ const ContractorActiveProject = () => {
 
   return (
     <>
-      <Layout>
+      <LayoutDesign>
         <BreadCrumb pageName="Contract Active Project" />
         <TableContainer component={Paper}>
           <Table sx={{minWidth: 650}} aria-label="simple table">
@@ -115,7 +116,7 @@ const ContractorActiveProject = () => {
             </TableBody>
           </Table>
         </TableContainer>
-      </Layout>
+      </LayoutDesign>
     </>
   );
 };

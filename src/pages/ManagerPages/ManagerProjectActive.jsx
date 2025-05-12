@@ -16,9 +16,10 @@ import {
 
 import apiInstance from "../../ApiInstance/apiInstance";
 import {Link} from "react-router-dom";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const ManagerProjectActive = () => {
-   const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -55,7 +56,7 @@ const ManagerProjectActive = () => {
   }, [0]);
 
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Manager Active project" />
 
       <Paper sx={{width: "100%", overflow: "hidden", padding: 2}}>
@@ -159,7 +160,7 @@ const ManagerProjectActive = () => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-    </Layout>
+    </LayoutDesign>
   );
 };
 

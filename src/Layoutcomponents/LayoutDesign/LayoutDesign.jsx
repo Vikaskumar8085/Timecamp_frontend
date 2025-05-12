@@ -17,7 +17,7 @@ const LayoutDesign = ({children}) => {
   const [iscompanydata, setIscompanydata] = useState("");
 
   let Role = userdata?.Role;
-  console.log(Role, "rolee");
+
   const [openDropdown, setOpenDropdown] = React.useState(null);
 
   const toggleDropdown = (menu) => {
@@ -75,6 +75,7 @@ const LayoutDesign = ({children}) => {
           <Sidebar
             toggleDropdown={toggleDropdown}
             openDropdown={openDropdown}
+            Role={Role}
           />
           {/* sidebar */}
           {/* content */}

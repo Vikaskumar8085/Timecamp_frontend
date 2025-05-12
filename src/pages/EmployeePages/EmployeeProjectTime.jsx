@@ -19,6 +19,7 @@ import Empty from "../../common/EmptyFolder/Empty";
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import apiInstance from "../../ApiInstance/apiInstance";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const EmployeeProjectTime = () => {
   const [iscontractorprojectdata, setiscontractorprojectdata] = useState([]);
@@ -72,7 +73,7 @@ const EmployeeProjectTime = () => {
     fetchcontractorprojecttimefunc();
   }, [page, limit, search]);
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Contractor Project Time" />
       <Grid container spacing={2} sx={{my: 2}}>
         <Grid item sm={12} md={3}>
@@ -216,7 +217,7 @@ const EmployeeProjectTime = () => {
           setPage(0);
         }}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

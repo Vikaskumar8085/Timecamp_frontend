@@ -19,6 +19,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import {fetchclientprojecttimesheetapicall} from "../../ApiServices/Cllientapiservices/Client";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const ClientTimesheet = () => {
   const [isClientTimesheetdata, setIsClientTimesheetdata] = useState([]);
@@ -77,7 +78,7 @@ const ClientTimesheet = () => {
   }, [0]);
 
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Client Timesheet" />
       <Grid container spacing={2} sx={{my: 1}}>
         {stats.map((stat, index) => (
@@ -178,7 +179,7 @@ const ClientTimesheet = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </Layout>
+    </LayoutDesign>
   );
 };
 

@@ -9,6 +9,7 @@ import apiInstance from "../../ApiInstance/apiInstance";
 import toast from "react-hot-toast";
 import {useDispatch} from "react-redux";
 import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const ManagerProjectInfo = () => {
   const [isSubState, setisSubState] = useState(0);
@@ -328,14 +329,14 @@ const ManagerProjectInfo = () => {
     fetchmanagermilestonewithresourcesfunc();
   }, [0]);
   return (
-    <Layout>
+    <LayoutDesign>
       <TabComp
         Tabsheader={tabsheader}
         TabsBody={Tabsbody}
         isSubState={isSubState}
         setisSubState={setisSubState}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

@@ -89,6 +89,7 @@ import Invoice from "./pages/Adminpages/Invoice/invoice";
 import Standard from "./pages/Adminpages/masterPages/Standard";
 import ForcastingPage from "./pages/Adminpages/ForeCasting/ForcastingPage";
 import Home from "./pages/Home";
+import ChangePassword from "./pages/Dashboard/ChangePassword";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -278,6 +279,7 @@ const App = () => {
         {/* Manager */}
 
         <Route path="/notification" element={<NotificationPage />} />
+        <Route path="/change-password" element={<ChangePassword />} />
         <Route path="*" element={<Nopage />} />
       </Routes>
       <Toaster />

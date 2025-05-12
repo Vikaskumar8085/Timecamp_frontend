@@ -15,6 +15,7 @@ import {
 import {toast} from "react-hot-toast";
 import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
 import {useDispatch} from "react-redux";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const ClientPageinfo = () => {
   const {id} = useParams();
@@ -153,14 +154,14 @@ const ClientPageinfo = () => {
     fetchclienttimesheetinformationfunc();
   }, [0]);
   return (
-    <Layout>
+    <LayoutDesign>
       <TabComp
         Tabsheader={tabsheader}
         TabsBody={Tabsbody}
         isSubState={isSubState}
         setisSubState={setisSubState}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

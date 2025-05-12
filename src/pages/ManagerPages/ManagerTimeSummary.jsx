@@ -9,10 +9,11 @@ import ManagerBillingDistribution from "../../Component/ManagerComponents/Timesu
 import ManagerProjectTimeUtilization from "../../Component/ManagerComponents/TimesummaryComponent/ManagerProjectTimeUtilization";
 import ManagerApprovelBillingStatus from "../../Component/ManagerComponents/TimesummaryComponent/ManagerApprovelBillingStatus";
 import ManagerDailyHours from "../../Component/ManagerComponents/TimesummaryComponent/ManagerDailyHours";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const ManagerTimeSummary = () => {
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName=" Manager Timesummart" />
       <ManagerTotalHoursbyResources />
       <ManagerHourByProject />
@@ -21,7 +22,7 @@ const ManagerTimeSummary = () => {
       <ManagerApprovelBillingStatus />
       <ManagerDailyHours />
       <ManagerProjectTimeUtilization />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

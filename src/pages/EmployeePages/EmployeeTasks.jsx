@@ -15,6 +15,7 @@ import {
   TextField,
   Link,
 } from "@mui/material";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 const EmployeeTasks = () => {
   const [IsEmployeeTaskdata, setIsEmployeeTaskdata] = useState([]);
   const [totalTasks, setTotalTasks] = useState(0);
@@ -62,7 +63,7 @@ const EmployeeTasks = () => {
     fetchemployeetaskfunc();
   }, [page, limit, search]);
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Employee Task" />
       {/* Search bar */}
       <TextField
@@ -140,7 +141,7 @@ const EmployeeTasks = () => {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

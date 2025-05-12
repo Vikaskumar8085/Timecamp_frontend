@@ -9,11 +9,12 @@ import ClientbillingstatusDistribution from "../../Component/ClientComponent/Cli
 import ClientProjectTimeutilization from "../../Component/ClientComponent/ClientProjectTimeutilization";
 import ClinetDailyHours from "../../Component/ClientComponent/ClinetDailyHours";
 import ClientApprovelbilledOverTime from "../../Component/ClientComponent/ClientApprovelbilledOverTime";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const ClientTimeSummary = () => {
   return (
     <>
-      <Layout>
+      <LayoutDesign>
         <BreadCrumb pageName="Client TIme Summary" />
         <Grid2 container spacing={3}>
           <Grid2 size={{sm: 12}}>
@@ -32,13 +33,13 @@ const ClientTimeSummary = () => {
             <ClinetDailyHours />
           </Grid2>
           <Grid2 size={{sm: 12}}>
-            <ClientApprovelbilledOverTime/>
+            <ClientApprovelbilledOverTime />
           </Grid2>
           <Grid2 size={{sm: 12}}>
             <ClientProjectTimeutilization />
           </Grid2>
         </Grid2>
-      </Layout>
+      </LayoutDesign>
     </>
   );
 };

@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import moment from "moment";
 import {Link} from "react-router-dom";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const ManagerTeam = () => {
   const [managers, setManagers] = useState([]);
@@ -51,7 +52,7 @@ const ManagerTeam = () => {
   }, [page, rowsPerPage, search, sortBy, order]);
 
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="ManagerTeam" />
       <Paper sx={{width: "100%", overflow: "hidden", padding: 2}}>
         {/* Search Input */}
@@ -130,7 +131,7 @@ const ManagerTeam = () => {
           }}
         />
       </Paper>
-    </Layout>
+    </LayoutDesign>
   );
 };
 

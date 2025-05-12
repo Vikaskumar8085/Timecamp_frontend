@@ -27,6 +27,7 @@ import {createManagerProjectapicall} from "../../ApiServices/ManagerApiServices"
 import {useDispatch} from "react-redux";
 import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
 import {Link} from "react-router-dom";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 const ManagerProject = () => {
   const [IsOpen, setIsOpen] = useState(false);
   const [data, setData] = useState([]);
@@ -97,7 +98,7 @@ const ManagerProject = () => {
   }, [page, rowsPerPage, search]);
 
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="ManagerProject" />
 
       <Button
@@ -222,7 +223,7 @@ const ManagerProject = () => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-    </Layout>
+    </LayoutDesign>
   );
 };
 

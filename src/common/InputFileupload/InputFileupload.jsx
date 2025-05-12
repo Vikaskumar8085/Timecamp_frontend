@@ -14,12 +14,15 @@ const InputFileupload = ({paragraph, title, ...rest}) => {
               </p>
             </div>
             <div className="input_file_upload_input_wrapper">
-              <input
-                type="file"
-                id="file-upload"
-                className="input_file_upload_input"
-                {...rest}
-              />
+              <label className="input_file_upload_input_box">
+                <div className="text-paragraph">Select File</div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  hidden
+                  onChange={handleFileChange}
+                />
+              </label>
             </div>
           </div>
         </div>

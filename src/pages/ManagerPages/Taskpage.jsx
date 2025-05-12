@@ -33,6 +33,7 @@ import {useDispatch} from "react-redux";
 import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
 import apiInstance from "../../ApiInstance/apiInstance";
 import toast from "react-hot-toast";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const Taskpage = () => {
   const [IsOpen, setIsOpen] = useState(false);
@@ -134,7 +135,7 @@ const Taskpage = () => {
     fetchTasks();
   }, [page, limit, search]);
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName=" Manager Task" />
       <Button
         startIcon={<AddIcon />}
@@ -481,7 +482,7 @@ const Taskpage = () => {
           setPage(0);
         }}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

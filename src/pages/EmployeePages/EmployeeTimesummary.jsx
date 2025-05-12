@@ -8,10 +8,11 @@ import EmployeeBillingStatusDistribution from "../../Component/EmployeeComponent
 import EmployeeProjectTimeUtilization from "../../Component/EmployeeComponents/EmployeeTimesummary/EmployeeProjectTimeUtilization";
 import EmployeeDailyhours from "../../Component/EmployeeComponents/EmployeeTimesummary/EmployeeDailyhours";
 import EmployeeApprovelbilingstatus from "../../Component/EmployeeComponents/EmployeeTimesummary/EmployeeApprovelbilingstatus";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const EmployeeTimesummary = () => {
   return (
-    <Layout>
+    <LayoutDesign>
       <Breadcrumbs pageName="Employee Time Summary" />
       <EmployeeTotalHoursByResources />
       <EmployeeTotalHoursByProject />
@@ -20,7 +21,7 @@ const EmployeeTimesummary = () => {
       <EmployeeDailyhours />
       <EmployeeApprovelbilingstatus />
       <EmployeeProjectTimeUtilization />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

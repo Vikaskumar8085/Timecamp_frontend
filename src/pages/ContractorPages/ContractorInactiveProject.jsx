@@ -14,6 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import {VisibilitySharp} from "@mui/icons-material";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 const ContractorInactiveProject = () => {
   const [isContractoractiveprojectdata, setIscontractoractiveprojectdata] =
     useState([]);
@@ -31,7 +32,7 @@ const ContractorInactiveProject = () => {
     fetchcontractoractiveprojectfunc();
   }, [0]);
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Contractor Inactive Project" />
       <TableContainer component={Paper}>
         <Table sx={{minWidth: 650}} aria-label="simple table">
@@ -107,7 +108,7 @@ const ContractorInactiveProject = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </Layout>
+    </LayoutDesign>
   );
 };
 

@@ -6,6 +6,7 @@ import EmployeeProjectTimesheet from "./EmployeeProjectInfo/EmployeeProjectTimes
 import EmployeeProjectTask from "./EmployeeProjectInfo/EmployeeProjectTask";
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const EmployeeProjectinfo = () => {
   const {id} = useParams();
@@ -40,14 +41,14 @@ const EmployeeProjectinfo = () => {
     },
   ];
   return (
-    <Layout>
+    <LayoutDesign>
       <TabComp
         Tabsheader={tabsheader}
         TabsBody={Tabsbody}
         isSubState={isSubState}
         setisSubState={setisSubState}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

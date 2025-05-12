@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import {VisibilitySharp} from "@mui/icons-material";
 import {fetchemployeeinactiveprojectapicall} from "../../ApiServices/EmployeeApiservices/Employee";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 const EmployeeInactiveProjects = () => {
   const [isemployleeInactiveprojects, setIsemployeeInactiveprojects] = useState(
     []
@@ -33,7 +34,7 @@ const EmployeeInactiveProjects = () => {
     fetchinactiveemployeeproject();
   }, [0]);
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Employee Inactive Project" />
       <TableContainer component={Paper}>
         <Table sx={{minWidth: 650}} aria-label="simple table">
@@ -113,7 +114,7 @@ const EmployeeInactiveProjects = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </Layout>
+    </LayoutDesign>
   );
 };
 

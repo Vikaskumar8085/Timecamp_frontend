@@ -6,6 +6,7 @@ import ProductivityLeaderBoardTable from "../../Component/DashboardComponents/Ad
 import Projectroi from "../../Component/DashboardComponents/Admin/ProjectRoi/Projectroi";
 import TotalActualandTotalEstimatedHours from "../../Component/DashboardComponents/Admin/ProjectRoi/TotalActualandTotalEstimatedHours";
 import ProjectROIChart from "../../Component/DashboardComponents/Admin/ProjectRoi/ProjectRoiChart";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const ProductivityLeaderboardpage = () => {
   const [isSubState, setisSubState] = useState(0);
@@ -41,7 +42,7 @@ const ProductivityLeaderboardpage = () => {
     },
   ];
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Productivity LeaderBoard" />
       <TabComp
         Tabsheader={tabsheader}
@@ -49,7 +50,7 @@ const ProductivityLeaderboardpage = () => {
         isSubState={isSubState}
         setisSubState={setisSubState}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

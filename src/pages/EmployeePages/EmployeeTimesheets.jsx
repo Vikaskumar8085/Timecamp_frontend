@@ -34,6 +34,7 @@ import * as Yup from "yup";
 import ListIcon from "@mui/icons-material/List";
 import apiInstance from "../../ApiInstance/apiInstance";
 import toast from "react-hot-toast";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 const EmployeeTimesheets = () => {
   const [IsEmployeeTimesheetData, setIsEmployeeTimesheetData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -104,7 +105,7 @@ const EmployeeTimesheets = () => {
     fetchemployeetimesheetfunc();
   }, [0]);
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Employee Timesheet" />
 
       {selectedItems.length > 0 ? (
@@ -222,7 +223,7 @@ const EmployeeTimesheets = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </Layout>
+    </LayoutDesign>
   );
 };
 

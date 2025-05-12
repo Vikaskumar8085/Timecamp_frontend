@@ -19,6 +19,7 @@ import {
 import {AccessTime, List, Receipt, CheckCircle} from "@mui/icons-material";
 import Empty from "../../common/EmptyFolder/Empty";
 import apiInstance from "../../ApiInstance/apiInstance";
+import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const ManagerProjectTime = () => {
   const [Isprojecttimedata, setIsprojecttimedata] = useState([]);
@@ -74,7 +75,7 @@ const ManagerProjectTime = () => {
   }, [page, limit, search]);
 
   return (
-    <Layout>
+    <LayoutDesign>
       <BreadCrumb pageName="Manager Project Time" />
 
       {/* Summary Cards */}
@@ -221,7 +222,7 @@ const ManagerProjectTime = () => {
           setPage(0);
         }}
       />
-    </Layout>
+    </LayoutDesign>
   );
 };
 

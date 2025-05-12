@@ -31,7 +31,7 @@ const Profile = ({setShow, show}) => {
         {show && (
           <div className="dropdown-menu">
             <Link to="/profile">👤 My Profile</Link>
-            <Link to="/profile">&#x1F512; Change Password</Link>
+            <Link to="/change-password">&#x1F512; Change Password</Link>
             <a
               onClick={() => {
                 localStorage.clear();
