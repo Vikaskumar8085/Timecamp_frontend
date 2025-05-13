@@ -22,11 +22,12 @@ import {
   Paper,
 } from "@mui/material";
 import Papa from "papaparse";
+import InputFileupload from "../../../common/InputFileupload/InputFileupload";
 
 const ContractorUploadForm = ({uploadcontractorcsvupload, setIsUpload}) => {
-    const [csvData, setCsvData] = useState([]);
-    const [file, setFile] = useState(null);
-    const [openDialog, setOpenDialog] = useState(false);
+  const [csvData, setCsvData] = useState([]);
+  const [file, setFile] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false);
   // Handle file selection
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -100,12 +101,11 @@ const ContractorUploadForm = ({uploadcontractorcsvupload, setIsUpload}) => {
           <form onSubmit={handleSubmit}>
             <Grid2 container spacing={1}>
               <Grid2 size={{sm: 12}}>
-                <TextField
+                <InputFileupload
                   type="file"
                   inputProps={{accept: ".csv"}}
                   fullWidth
                   onChange={handleFileChange}
-                  // value={""}
                 />
               </Grid2>
               <Grid2 size={{sm: 12}}>

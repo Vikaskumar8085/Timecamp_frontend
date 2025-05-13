@@ -5,7 +5,7 @@ import {
   Container,
   Box,
   Typography,
-  Grid,
+  Grid2,
   TextField,
   FormControl,
   InputLabel,
@@ -13,6 +13,9 @@ import {
   MenuItem,
   Button,
 } from "@mui/material";
+import Input from "../../../common/Input/Input";
+import InputFileupload from "../../../common/InputFileupload/InputFileupload";
+import InputSelect from "../../../common/InputSelect/InputSelect";
 
 const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
   const formik = useFormik({
@@ -48,82 +51,79 @@ const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
     },
   });
 
+  const handleFileChange = (e) => {
+    const file = e.currentTarget.files[0];
+    formik.setFieldValue("Attachment", file);
+  };
+
   return (
     <>
       <Container maxWidth="md">
         <Box sx={{p: 2, mt: 4}}>
           <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <FormControl fullWidth>
-                  <InputLabel>Select Project</InputLabel>
-                  <Select
-                    {...formik.getFieldProps("ProjectId")}
-                    value={formik.values.ProjectId}
-                    onChange={formik.handleChange}
-                  >
-                    {Isprojectmilestonedata.map((item) => (
-                      <MenuItem key={item.ProjectId} value={item.ProjectId}>
-                        {item.Project_Name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
+            <Grid2 container spacing={2}>
+              <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
+                <InputSelect
+                  name="ProjectId"
+                  labelText="Select Project"
+                  placeholder="---please select project---"
+                  value={formik.values.ProjectId}
+                  onChange={formik.handleChange} // Correct: pass the handler
+                  onBlur={formik.handleBlur} // Optional but recommended
+                  error={formik.touched.ProjectId && formik.errors.ProjectId}
+                  options={Isprojectmilestonedata.map((item) => ({
+                    value: item.ProjectId,
+                    label: item.Project_Name,
+                  }))}
+                />
+              </Grid2>
 
-              <Grid item xs={12}>
-                <FormControl fullWidth>
-                  <InputLabel>Select Milestone</InputLabel>
-                  <Select
-                    {...formik.getFieldProps("MilestoneId")}
-                    value={formik.values.MilestoneId}
-                    onChange={formik.handleChange}
-                  >
-                    {Isprojectmilestonedata.filter(
-                      (item) => item.ProjectId === formik.values.ProjectId
-                    ) // Filter by selected ProjectId
-                      .map((item) => {
-                        return item.mileStonedata?.map((milestoneItem) => (
-                          <MenuItem
-                            key={milestoneItem.milestoneId}
-                            value={milestoneItem.milestoneId}
-                          >
-                            {milestoneItem.milestoneName}
-                          </MenuItem>
-                        ));
-                      })}
-                  </Select>
-                </FormControl>
-              </Grid>
+              <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
+                <InputSelect
+                  name="MilestoneId"
+                  labelText="Select MileStone"
+                  placeholder="---please select project Milestone---"
+                  value={formik.values.MilestoneId}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={
+                    formik.touched.MilestoneId && formik.errors.MilestoneId
+                  }
+                  options={Isprojectmilestonedata.filter(
+                    (item) => item.ProjectId === formik.values.ProjectId
+                  ).map((item) => ({
+                    value: item.MilestoneId,
+                    label: item.milestoneName,
+                  }))}
+                />
+              </Grid2>
 
-              <Grid item xs={12}>
-                <FormControl fullWidth>
-                  <InputLabel>Select Resource</InputLabel>
-                  <Select
-                    {...formik.getFieldProps("Resource_Id")}
-                    value={formik.values.Resource_Id}
-                    onChange={formik.handleChange}
-                  >
-                    {Isprojectmilestonedata.filter(
-                      (item) => item.ProjectId === formik.values.ProjectId
-                    ) // Filter by selected ProjectId
-                      .map((item) => {
-                        return item.resourcedata?.map((resourcedata) => (
-                          <MenuItem
-                            key={resourcedata.resourceId}
-                            value={resourcedata.resourceId}
-                          >
-                            {resourcedata.resourceName}
-                          </MenuItem>
-                        ));
-                      })}
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
+              <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
+                <InputSelect
+                  name="MilestoneId"
+                  labelText="Select Resources"
+                  placeholder="---please select project resources---"
+                  value={formik.values.MilestoneId}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={
+                    formik.touched.MilestoneId && formik.errors.MilestoneId
+                  }
+                  options={Isprojectmilestonedata.filter(
+                    (item) => item.ProjectId === formik.values.ProjectId
+                  ).map((item) => {
+                    return item.resourcedata.map((resourcedata) => ({
+                      label: resourcedata.resourceName,
+                      value: resourcedata.resourceId,
+                    }));
+                  })}
+                />
+              </Grid2>
+              <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
+                <Input
                   fullWidth
-                  label="Task Name"
+                  labelText={"Task Name"}
+                  placeholder={"Please Enter Your Task Name"}
                   name="Task_Name"
                   value={formik.values.Task_Name}
                   onChange={formik.handleChange}
@@ -135,12 +135,13 @@ const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
                     formik.touched.Task_Name && formik.errors.Task_Name
                   }
                 />
-              </Grid>
+              </Grid2>
 
-              <Grid item xs={6}>
-                <TextField
+              <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
+                <Input
                   fullWidth
-                  label="Start Date"
+                  labelText="Start Date"
+                  placeholder={"Please Enter start Date"}
                   name="StartDate"
                   type="date"
                   InputLabelProps={{shrink: true}}
@@ -154,12 +155,12 @@ const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
                     formik.touched.StartDate && formik.errors.StartDate
                   }
                 />
-              </Grid>
+              </Grid2>
 
-              <Grid item xs={6}>
-                <TextField
+              <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
+                <Input
                   fullWidth
-                  label="Expected End Date"
+                  labelText="Expected End Date"
                   name="EndDate"
                   type="date"
                   InputLabelProps={{shrink: true}}
@@ -171,14 +172,15 @@ const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
                   }
                   helperText={formik.touched.EndDate && formik.errors.EndDate}
                 />
-              </Grid>
+              </Grid2>
 
-              <Grid item xs={12}>
-                <TextField
+              <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
+                <Input
                   fullWidth
-                  label="Estimate Time (Hours)"
+                  labelText="Estimate Time (Hours)"
                   name="Estimated_Time"
                   type="number"
+                  placeholder={"Please Enter Estimate Time"}
                   value={formik.values.Estimated_Time}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -191,29 +193,26 @@ const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
                     formik.errors.Estimated_Time
                   }
                 />
-              </Grid>
+              </Grid2>
 
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  select
-                  label="Priority Mode"
+              <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}} sx={{mt: 1}}>
+                <InputSelect
                   name="Priority"
+                  labelText="Priority Mode"
+                  placeholder="---please select project Priority---"
                   value={formik.values.Priority}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  error={
-                    formik.touched.Priority && Boolean(formik.errors.Priority)
-                  }
-                  helperText={formik.touched.Priority && formik.errors.Priority}
-                >
-                  <MenuItem value="HIGH">High</MenuItem>
-                  <MenuItem value="MEDIUM">Medium</MenuItem>
-                  <MenuItem value="LOW">Low</MenuItem>
-                </TextField>
-              </Grid>
+                  error={formik.touched.Priority && formik.errors.Priority}
+                  options={[
+                    {value: "HIGH", label: "high"},
+                    {value: "MEDIUM", label: "medium"},
+                    {value: "LOW", label: "low"},
+                  ]}
+                />
+              </Grid2>
 
-              <Grid item xs={12}>
+              <Grid2 size={{md: 12, lg: 12, sm: 12, xs: 12}}>
                 <TextField
                   fullWidth
                   label="Task Description"
@@ -232,47 +231,17 @@ const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
                     formik.errors.Task_Description
                   }
                 />
-              </Grid>
+              </Grid2>
 
-              <Grid item xs={12}>
-                <Typography variant="subtitle1">File Attachment</Typography>
-                <input
+              <Grid2 size={{md: 12, lg: 12, sm: 12, xs: 12}}>
+                <InputFileupload
                   type="file"
-                  name="Attachment"
-                  onChange={(event) =>
-                    formik.setFieldValue(
-                      "Attachment",
-                      event.currentTarget.files[0]
-                    )
-                  }
+                  inputProps={{accept: ".csv"}}
+                  onChange={handleFileChange}
                 />
-              </Grid>
+              </Grid2>
 
-              <Grid item xs={12}>
-                {/* <FormControl fullWidth>
-                  <InputLabel>Select Resources</InputLabel>
-                  <Select
-                    {...formik.getFieldProps("Resource_Id")}
-                    value={formik.values.Resource_Id}
-                    onChange={formik.handleChange}
-                  >
-                    {resources.length > 0 ? (
-                      resources.map((resource) => (
-                        <MenuItem
-                          key={resource.staff_id}
-                          value={resource.staff_id}
-                        >
-                          {resource.FirstName}
-                        </MenuItem>
-                      ))
-                    ) : (
-                      <MenuItem disabled>No resources available</MenuItem>
-                    )}
-                  </Select>
-                </FormControl> */}
-              </Grid>
-
-              <Grid item xs={12}>
+              <Grid2 item xs={12}>
                 <Button
                   type="submit"
                   fullWidth
@@ -286,8 +255,8 @@ const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
                 >
                   Submit Task
                 </Button>
-              </Grid>
-            </Grid>
+              </Grid2>
+            </Grid2>
           </form>
         </Box>
       </Container>

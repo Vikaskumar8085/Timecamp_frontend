@@ -1,18 +1,25 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import "./inputimageupload.scss";
-const InputImageUpload = ({label}) => {
+const InputImageUpload = ({name, value, onChange}) => {
   const [preview, setPreview] = useState("https://i.ibb.co/4pDNDk1/avatar.png");
 
-  label = "Upload";
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    console.log(file, "file");
-    if (file && file.type.startsWith("image/")) {
+  useEffect(() => {
+    // Show preview if value is a file or base64
+    if (value && typeof value === "string") {
+      setPreview(value);
+    } else if (value instanceof File) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreview(reader.result);
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(value);
+    }
+  }, [value]);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+      onChange(name, file); // pass back to Formik
     }
   };
 
@@ -35,7 +42,7 @@ const InputImageUpload = ({label}) => {
               </p>
               <p style={{color: "#86919B"}}>PNG, JPG (MAX 5 MB)</p>
               <label className="upload_label">
-                <div className="upload_box">{label}</div>
+                <div className="upload_box">{name}</div>
                 <input
                   type="file"
                   accept="image/*"

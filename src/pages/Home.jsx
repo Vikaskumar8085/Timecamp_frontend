@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import "./Home.scss";
 import {Badge, Grid2, TextField} from "@mui/material";
 import logo from "../assets/auth/logo.png";
@@ -11,11 +11,26 @@ import InputImageUpload from "../common/InputImageUpload/InputImageUpload";
 
 import ProfileForm from "../common/SelectInput/SelectInput";
 import DashboardCounter from "./DashboardCounter";
+import InputSelect from "../common/InputSelect/InputSelect";
+import InputMultiSelect from "../common/InputMultiSelect/InputCheckboxMulti";
+import InputCheckboxMulti from "../common/InputMultiSelect/InputCheckboxMulti";
 const Home = () => {
   const [show, setShow] = React.useState(false);
   const [isnotification, setisnotification] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState(null);
+  const [selectedValue, setSelectedValue] = React.useState("");
+  const [selectedSkills, setSelectedSkills] = useState([]);
 
+  const skillOptions = [
+    {value: "html", label: "HTML"},
+    {value: "css", label: "CSS"},
+    {value: "js", label: "JavaScript"},
+    {value: "react", label: "React"},
+  ];
+  console.log(selectedValue, "asdf");
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
   // const toggleDropdown = (index) => {
   //   setDropdownOpen(dropdownOpen === index ? null : index);
   // };
@@ -222,8 +237,26 @@ const Home = () => {
           {/* sidebar */}
           <div className="wrapper_content">
             <BreadCrumb pageName="Home" />
+
+            <InputCheckboxMulti
+              labelText="Select Your Skills"
+              options={skillOptions}
+              selected={selectedSkills}
+              onChange={setSelectedSkills}
+            />
             <InputImageUpload />
             <ProfileForm />
+            <InputSelect
+              labelText="Select Designation"
+              placeholder="---please select designation---"
+              onChange={handleChange}
+              value={selectedValue}
+              options={[
+                {id: 1, value: "admin", label: "Admin"},
+                {id: 2, value: "manager", label: "Manager"},
+                {id: 3, value: "employee", label: "Employee"},
+              ]}
+            />
 
             {/* side bar design */}
 

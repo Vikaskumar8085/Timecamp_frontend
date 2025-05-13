@@ -19,6 +19,7 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
+import InputFileupload from "../../../common/InputFileupload/InputFileupload";
 // /timesheet-csv-download
 //
 const UploadTimesheet = ({handleUploadTimesheet, setIsModalOpen}) => {
@@ -95,10 +96,9 @@ const UploadTimesheet = ({handleUploadTimesheet, setIsModalOpen}) => {
           <form onSubmit={handleSubmit}>
             <Grid container spacing={1}>
               <Grid size={{sm: 12}}>
-                <TextField
+                <InputFileupload
                   type="file"
                   inputProps={{accept: ".csv"}}
-                  fullWidth
                   onChange={handleFileChange}
                 />
               </Grid>

@@ -26,6 +26,7 @@ import {
 } from "@mui/material";
 import Papa from "papaparse";
 import DownloadIcon from "@mui/icons-material/Download";
+import InputFileupload from "../../../common/InputFileupload/InputFileupload";
 
 function ClientUploadForm({uploadclientcsvhandlesubmit, setIsUpload}) {
   const [csvData, setCsvData] = useState([]);
@@ -111,10 +112,9 @@ function ClientUploadForm({uploadclientcsvhandlesubmit, setIsUpload}) {
           <form onSubmit={handleSubmit}>
             <Grid container spacing={1}>
               <Grid size={{sm: 12}}>
-                <TextField
+                <InputFileupload
                   type="file"
                   inputProps={{accept: ".csv"}}
-                  fullWidth
                   onChange={handleFileChange}
                 />
               </Grid>

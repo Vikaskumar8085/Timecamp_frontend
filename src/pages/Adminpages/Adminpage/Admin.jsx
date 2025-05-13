@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
-import {Container, Drawer, Button, Grid2} from "@mui/material";
+import {Container, Drawer, Button, Grid2, Box} from "@mui/material";
 import TModal from "../../../common/Modal/TModal";
 import * as Yup from "yup";
 // import AdminForm from "../../../Component/AdminComponents/Admin/AdminForm";
@@ -22,6 +22,7 @@ import InputPassword from "../../../common/InputPassword/InputPassword";
 import PhoneInput from "react-phone-input-2";
 import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 import {useFormik} from "formik";
+import InputImageUpload from "../../../common/InputImageUpload/InputImageUpload";
 
 // validation
 
@@ -57,6 +58,8 @@ const Admin = () => {
       LastName: "",
       Email: "",
       Password: "",
+      ConfirmPassword: "",
+      profileImage: null,
       Phone: "",
     },
     // validationSchema,
@@ -152,80 +155,99 @@ const Admin = () => {
             }}
             title={IsEdit ? "Edit Admin" : "Add Admin"}
           >
-            <Container maxWidth={"lg"}>
-              <form onSubmit={formik.handleSubmit}>
-                <Grid2 Container spacing={4}>
-                  <Grid2 size={{sm: 12, md: 6, xs: 12}} sx={{mt: 3}}>
-                    <Input
-                      style={{width: "100%"}}
-                      placeholder={"Please Enter Your First Name"}
-                      labelText={"First Name"}
-                      {...formik.getFieldProps("FirstName")}
-                    />
-                  </Grid2>
-                  <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
-                    <Input
-                      style={{width: "100%"}}
-                      placeholder={"please Enter Your Last Name"}
-                      labelText={"LastName"}
-                      {...formik.getFieldProps("LastName")}
-                    />
-                  </Grid2>
-                  <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
-                    <Input
-                      style={{width: "100%"}}
-                      type={"Email"}
-                      placeholder={"please Enter Your Last Name"}
-                      labelText={"Email"}
-                      {...formik.getFieldProps("Email")}
-                    />
-                  </Grid2>
-                  <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
-                    <InputPassword
-                      type={"password"}
-                      labelText={"Password"}
-                      {...formik.getFieldProps("Password")}
-                      style={{width: "100%"}}
-                    />
-                  </Grid2>
-                  <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
-                    <label
-                      htmlFor="phone-input"
-                      style={{
-                        display: "block",
-                        marginBottom: "6px",
-                        color: "#86919b",
-                        fontWeight: "500",
-                      }}
-                    >
-                      Phone Number
-                    </label>
+            <Container maxWidth="md">
+              <Box>
+                <form onSubmit={formik.handleSubmit}>
+                  <Grid2 Container spacing={4}>
+                    <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+                      <InputImageUpload
+                        name={"Upload Profile Pic"}
+                        value={formik.values.profileImage}
+                        onChange={formik.setFieldValue}
+                      />
+                    </Grid2>
+                    <Grid2 size={{sm: 12, md: 6, xs: 12}} sx={{mt: 3}}>
+                      <Input
+                        style={{width: "100%"}}
+                        placeholder={"Please Enter Your First Name"}
+                        labelText={"First Name"}
+                        {...formik.getFieldProps("FirstName")}
+                      />
+                    </Grid2>
+                    <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+                      <Input
+                        style={{width: "100%"}}
+                        placeholder={"please Enter Your Last Name"}
+                        labelText={"LastName"}
+                        {...formik.getFieldProps("LastName")}
+                      />
+                    </Grid2>
+                    <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+                      <Input
+                        style={{width: "100%"}}
+                        type={"Email"}
+                        placeholder={"please Enter Your Last Name"}
+                        labelText={"Email"}
+                        {...formik.getFieldProps("Email")}
+                      />
+                    </Grid2>
+                    <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+                      <InputPassword
+                        type={"password"}
+                        placeholder="Please Enter your password"
+                        labelText={"Password"}
+                        {...formik.getFieldProps("Password")}
+                        style={{width: "100%"}}
+                      />
+                    </Grid2>
+                    <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+                      <InputPassword
+                        type={"password"}
+                        placeholder="Please Enter Confirm password"
+                        labelText={"Confirm Password"}
+                        {...formik.getFieldProps("ConfirmPassword")}
+                        style={{width: "100%"}}
+                      />
+                    </Grid2>
+                    <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+                      <label
+                        htmlFor="phone-input"
+                        style={{
+                          display: "block",
+                          marginBottom: "6px",
+                          color: "#86919b",
+                          fontWeight: "500",
+                        }}
+                      >
+                        Phone Number
+                      </label>
 
-                    <PhoneInput
-                      inputStyle={{width: "100%"}}
-                      country={"in"}
-                      style={{width: "100%"}}
-                      onChange={(value) => formik.setFieldValue("Phone", value)}
-                      onBlur={() => formik.setFieldTouched("Phone", true)}
-                    />
+                      <PhoneInput
+                        inputStyle={{width: "100%"}}
+                        country={"in"}
+                        style={{width: "100%"}}
+                        onChange={(value) =>
+                          formik.setFieldValue("Phone", value)
+                        }
+                        onBlur={() => formik.setFieldTouched("Phone", true)}
+                      />
+                    </Grid2>
+
+                    <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+                      <Button
+                        type="submit"
+                        sx={{
+                          background: "#6560f0",
+                          color: "white",
+                          width: "100%",
+                        }}
+                      >
+                        submit
+                      </Button>
+                    </Grid2>
                   </Grid2>
-                  <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
-                    <InputFileupload />
-                  </Grid2>
-                  <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
-                    <Button
-                      type="submit"
-                      sx={{
-                        background: "#6560f0",
-                        color: "white",
-                        width: "100%",
-                      }}
-                    >
-                      submit
-                    </Button>
-                  </Grid2>
-                </Grid2>
-              </form>
+                </form>
+              </Box>
             </Container>
           </TModal>
         </>

@@ -10,7 +10,6 @@ import {
   removeclientapicall,
   updateclientapicall,
 } from "../../../ApiServices/AdminApiServices/Client";
-import Layout from "../../../Layoutcomponents/Layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import ClientUploadForm from "../../../Component/AdminComponents/Client/ClientUploadForm";
 import {uploadclientcsvapicall} from "../../../ApiServices/Csvapiservices/csvapiservices";
@@ -180,7 +179,7 @@ const Client = () => {
       >
         Upload Client
       </Button>
-      {/* {IsOpen && (
+      {IsOpen && (
         <TModal
           title={isEdit !== null ? "Edit Client " : " Add Client"}
           open={IsOpen}
@@ -195,8 +194,8 @@ const Client = () => {
             handleSubmit={handleSubmit}
           />
         </TModal>
-      )} */}
-      {IsOpen && (
+      )}
+      {/* {IsOpen && (
         <TModal
           title={isEdit !== null ? "Edit Client " : " Add Client"}
           open={IsOpen}
@@ -289,7 +288,7 @@ const Client = () => {
             </form>
           </Container>
         </TModal>
-      )}
+      )} */}
       {isUpload && (
         <Drawer
           open={isUpload}

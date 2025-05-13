@@ -5,13 +5,15 @@ import {
   Button,
   Container,
   Box,
-  Grid,
   Typography,
+  Grid2,
 } from "@mui/material";
 import apiInstance from "../../ApiInstance/apiInstance";
 import toast from "react-hot-toast";
 import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
 import {useDispatch} from "react-redux";
+import InputImageUpload from "../../common/InputImageUpload/InputImageUpload";
+import Input from "../../common/Input/Input";
 
 const CompanyEditForm = ({isEdit, isId, setIsOpen, getcompany}) => {
   const dispatch = useDispatch();
@@ -58,13 +60,19 @@ const CompanyEditForm = ({isEdit, isId, setIsOpen, getcompany}) => {
   return (
     <Container maxWidth="md">
       <Box sx={{p: 2}}>
-        <Typography sx={{py: 3}}>Edit Company</Typography>
         <form onSubmit={formik.handleSubmit}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
-              <TextField
-                label="Company Name"
-                fullWidth
+          <Grid2 container spacing={2}>
+            <Grid2 size={{md: 12, lg: 12, sm: 12}}>
+              <InputImageUpload
+                name="Edit Company Logo"
+                value={formik.values.Company_Logo}
+                onChange={formik.setFieldValue}
+              />
+            </Grid2>
+            <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+              <Input
+                labelText="Company Name"
+                placeholder={"Please enter Company Name"}
                 {...formik.getFieldProps("Company_Name")}
                 error={
                   formik.touched.Company_Name &&
@@ -74,11 +82,11 @@ const CompanyEditForm = ({isEdit, isId, setIsOpen, getcompany}) => {
                   formik.touched.Company_Name && formik.errors.Company_Name
                 }
               />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                label="Company Email"
-                fullWidth
+            </Grid2>
+            <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+              <Input
+                labelText="Company Email"
+                placeholder="Please Enter Address"
                 {...formik.getFieldProps("Company_Email")}
                 error={
                   formik.touched.Company_Email &&
@@ -88,18 +96,18 @@ const CompanyEditForm = ({isEdit, isId, setIsOpen, getcompany}) => {
                   formik.touched.Company_Email && formik.errors.Company_Email
                 }
               />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                label="Address"
-                fullWidth
+            </Grid2>
+            <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+              <Input
+                labelText="Address"
+                placeholder="Please Enter Address"
                 {...formik.getFieldProps("Address")}
               />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                label="Postal Code"
-                fullWidth
+            </Grid2>
+            <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+              <Input
+                labelText="Postal Code"
+                placeholder={"Please Enter Your Postal Code"}
                 {...formik.getFieldProps("Postal_Code")}
                 error={
                   formik.touched.Postal_Code &&
@@ -109,48 +117,37 @@ const CompanyEditForm = ({isEdit, isId, setIsOpen, getcompany}) => {
                   formik.touched.Postal_Code && formik.errors.Postal_Code
                 }
               />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                label="Phone"
-                fullWidth
+            </Grid2>
+            <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+              <Input
+                labelText="Phone"
+                placeholder={"Please Enter Your Phone"}
                 type="number"
                 {...formik.getFieldProps("Phone")}
                 error={formik.touched.Phone && Boolean(formik.errors.Phone)}
                 helperText={formik.touched.Phone && formik.errors.Phone}
               />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                label="Company Logo"
-                fullWidth
-                inputProps={{type: "file"}} // Fixed file input handling
-                onChange={(event) =>
-                  formik.setFieldValue("Company_Logo", event.target.files[0])
-                }
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                label="Employee Number"
-                fullWidth
+            </Grid2>
+
+            <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+              <Input
+                labelText="Employee Number"
+                placeholder={"Please Enter Your Employee Number"}
                 type="number"
                 {...formik.getFieldProps("Employee_No")}
               />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                label="Established Date"
-                fullWidth
+            </Grid2>
+            <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+              <Input
+                labelText="Established Date"
                 type="date"
-                InputLabelProps={{shrink: true}}
                 {...formik.getFieldProps("Established_date")}
               />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                label="Company Website"
-                fullWidth
+            </Grid2>
+            <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+              <Input
+                labelText="Company Website"
+                placeholder="Please Enter Your Company webiste link"
                 {...formik.getFieldProps("CompanyWesite")} // Fixed typo
                 error={
                   formik.touched.CompanyWesite &&
@@ -160,11 +157,11 @@ const CompanyEditForm = ({isEdit, isId, setIsOpen, getcompany}) => {
                   formik.touched.CompanyWesite && formik.errors.CompanyWesite
                 }
               />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                label="Tax Number"
-                fullWidth
+            </Grid2>
+            <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+              <Input
+                labelText="Tax Number"
+                placeholder={"Please Enter your Tax Number"}
                 {...formik.getFieldProps("Tex_Number")} // Fixed key name
                 error={
                   formik.touched.Tex_Number && Boolean(formik.errors.Tex_Number)
@@ -173,8 +170,8 @@ const CompanyEditForm = ({isEdit, isId, setIsOpen, getcompany}) => {
                   formik.touched.Tex_Number && formik.errors.Tex_Number
                 }
               />
-            </Grid>
-            <Grid item xs={12}>
+            </Grid2>
+            <Grid2 size={{md: 12, lg: 12, sm: 12}}>
               <Button
                 type="submit"
                 variant="contained"
@@ -183,8 +180,8 @@ const CompanyEditForm = ({isEdit, isId, setIsOpen, getcompany}) => {
               >
                 Submit
               </Button>
-            </Grid>
-          </Grid>
+            </Grid2>
+          </Grid2>
         </form>
       </Box>
     </Container>

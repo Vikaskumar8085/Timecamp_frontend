@@ -22,6 +22,7 @@ import {
 import React, {useState} from "react";
 import DownloadIcon from "@mui/icons-material/Download";
 import Papa from "papaparse";
+import InputFileupload from "../../../common/InputFileupload/InputFileupload";
 
 const EmployeeUploadForm = ({uploadhandlesubmit, setIsUpload}) => {
   const [csvData, setCsvData] = useState([]);
@@ -98,10 +99,9 @@ const EmployeeUploadForm = ({uploadhandlesubmit, setIsUpload}) => {
           <form onSubmit={handleSubmit}>
             <Grid2 container spacing={1}>
               <Grid2 xs={12}>
-                <TextField
+                <InputFileupload
                   type="file"
                   inputProps={{accept: ".csv"}}
-                  fullWidth
                   onChange={handleFileChange}
                 />
               </Grid2>

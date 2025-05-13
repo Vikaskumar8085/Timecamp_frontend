@@ -16,6 +16,7 @@ import {
   Paper,
 } from "@mui/material";
 import Papa from "papaparse";
+import InputFileupload from "../../../common/InputFileupload/InputFileupload";
 const ProjectUploadForm = ({
   uploadhandlesubmit,
   setIsProjectUploadModelOpen,
@@ -94,10 +95,9 @@ const ProjectUploadForm = ({
           <form onSubmit={handleSubmit}>
             <Grid2 container spacing={1}>
               <Grid2 size={{xs: 12}}>
-                <TextField
+                <InputFileupload
                   type="file"
                   inputProps={{accept: ".csv"}}
-                  fullWidth
                   onChange={handleFileChange}
                 />
               </Grid2>

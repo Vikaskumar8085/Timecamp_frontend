@@ -32,7 +32,7 @@ function CompanyTable({company, isOpen, setIsOpen, setIsEdit, setIsId}) {
                   color: "white",
                 }}
               >
-                Edit Profile
+                Edit Company
               </Button>
             </div>
           </div>

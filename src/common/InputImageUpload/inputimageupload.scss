@@ -1,9 +1,11 @@
 .input_image_wrapper {
   // max-width: 700px;
-  margin: 40px auto;
-  padding: 20px;
+  // margin: 40px auto;
+  // padding: 20px;/
   // background: #fff;
   // border: 1px solid #ddd;
+  display: block;
+  position: relative;
   border-radius: 16px;
   // box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }

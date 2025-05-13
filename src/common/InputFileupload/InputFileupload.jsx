@@ -20,7 +20,8 @@ const InputFileupload = ({paragraph, title, ...rest}) => {
                   type="file"
                   accept="image/*"
                   hidden
-                  onChange={handleFileChange}
+                  {...rest}
+                  // onChange={handleFileChange}
                 />
               </label>
             </div>
