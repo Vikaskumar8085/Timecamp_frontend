@@ -43,11 +43,14 @@ const EmployeeForm = ({handleSubmit, IsEdit, updateEmployeeFunc}) => {
       Socail_Links: IsEdit?.Socail_Links || "",
       Permission: IsEdit?.Permission || false,
       ManagerId: IsEdit?.ManagerId || "",
-      Profile: IsEdit?.Profile || null,
+      profileImage: IsEdit?.profileImage || null,
       Joining_Date: IsEdit?.Joining_Date || "",
       days: [],
+      Currency: "",
+      Unit: "",
+      Cost: "",
     },
-    enableReinitialize: true,
+    // enableReinitialize: true,
     onSubmit: async (values) => {
       const formData = new FormData();
       Object.keys(values).forEach((key) => {
@@ -94,13 +97,13 @@ const EmployeeForm = ({handleSubmit, IsEdit, updateEmployeeFunc}) => {
   }, []);
 
   const weekOptions = [
-    {value: "sunday", label: "Sunday"},
-    {value: "monday", label: "Monday"},
-    {value: "tuesday", label: "Tuesday"},
-    {value: "wednesday", label: "Wednesday"},
-    {value: "thursday", label: "Thursday"},
-    {value: "friday", label: "Friday"},
-    {value: "saturday", label: "Saturday"},
+    {value: "Sunday", label: "Sunday"},
+    {value: "Monday", label: "Monday"},
+    {value: "Tuesday", label: "Tuesday"},
+    {value: "Wednesday", label: "Wednesday"},
+    {value: "Thursday", label: "Thursday"},
+    {value: "Friday", label: "Friday"},
+    {value: "Saturday", label: "Saturday"},
   ];
   return (
     <Container maxWidth="md">
@@ -155,6 +158,8 @@ const EmployeeForm = ({handleSubmit, IsEdit, updateEmployeeFunc}) => {
               <PhoneInput
                 inputStyle={{width: "100%"}}
                 country={"in"}
+                value={formik.values.Phone}
+                onChange={(value) => formik.setFieldValue("Phone", value)}
                 style={{width: "100%", padding: "1px"}}
               />
             </Grid2>
@@ -225,7 +230,9 @@ const EmployeeForm = ({handleSubmit, IsEdit, updateEmployeeFunc}) => {
                 labelText={"select Employee Manager"}
                 placeholder="---please select employee manager---"
                 options={Ismanagerid.filter(
-                  (item) => item.Role === "Employee"
+                  (item) =>
+                    item.Role === "Employee" &&
+                    item.FirstName !== formik.values.FirstName
                 ).map((item) => ({
                   value: item.staff_Id,
                   label: item.FirstName,
@@ -255,9 +262,9 @@ const EmployeeForm = ({handleSubmit, IsEdit, updateEmployeeFunc}) => {
               <InputCheckboxMulti
                 labelText="Select Week Off Days"
                 options={weekOptions}
-                selected={formik.values.weekOffDays}
+                selected={formik.values.days}
                 onChange={(newSelected) =>
-                  formik.setFieldValue("weekOffDays", newSelected)
+                  formik.setFieldValue("days", newSelected)
                 }
               />
             </Grid2>

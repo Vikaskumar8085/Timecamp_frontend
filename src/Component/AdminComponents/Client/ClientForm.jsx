@@ -126,13 +126,15 @@ const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
               />
             </Grid2>
 
-            <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
-              <InputPassword
-                labelText={"Password"}
-                placeholder={"Please Enter Client Email"}
-                {...formik.getFieldProps("Password")}
-              />
-            </Grid2>
+            {isEdit === null && (
+              <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
+                <InputPassword
+                  labelText={"Password"}
+                  placeholder={"Please Enter Client Email"}
+                  {...formik.getFieldProps("Password")}
+                />
+              </Grid2>
+            )}
             <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
               <Input
                 labelText={"Address"}
@@ -182,7 +184,7 @@ const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
               />
             </Grid2>
 
-            <Grid2 size={{sm: 12, xs: 12, md: 6}}>
+            <Grid2 size={{sm: 12, xs: 12, md: 12}}>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -216,150 +218,3 @@ const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
 };
 
 export default ClientForm;
-{
-  /* <Grid container spacing={2}>
-<Grid size={{sm: 6}}>
-  <TextField
-    fullWidth
-    label="Company Name"
-    {...formik.getFieldProps("Company_Name")}
-    error={
-      formik.touched.Company_Name &&
-      Boolean(formik.errors.Company_Name)
-    }
-    helperText={
-      formik.touched.Company_Name && formik.errors.Company_Name
-    }
-  />
-</Grid>
-<Grid size={{sm: 6}}>
-  <TextField
-    fullWidth
-    label="Client Name"
-    {...formik.getFieldProps("Client_Name")}
-    error={
-      formik.touched.Client_Name &&
-      Boolean(formik.errors.Client_Name)
-    }
-    helperText={
-      formik.touched.Client_Name && formik.errors.Client_Name
-    }
-  />
-</Grid>
-<Grid size={{sm: 6}}>
-  <TextField
-    fullWidth
-    label="Client Email"
-    type="email"
-    {...formik.getFieldProps("Client_Email")}
-    error={
-      formik.touched.Client_Email &&
-      Boolean(formik.errors.Client_Email)
-    }
-    helperText={
-      formik.touched.Client_Email && formik.errors.Client_Email
-    }
-  />
-</Grid>
-<Grid size={{sm: 6}}>
-  <TextField
-    fullWidth
-    label="Client Phone"
-    type="tel"
-    {...formik.getFieldProps("Client_Phone")}
-    error={
-      formik.touched.Client_Phone &&
-      Boolean(formik.errors.Client_Phone)
-    }
-    helperText={
-      formik.touched.Client_Phone && formik.errors.Client_Phone
-    }
-  />
-</Grid>
-
-<Grid size={{sm: 6}}>
-  <TextField
-    fullWidth
-    label="Password"
-    {...formik.getFieldProps("Password")}
-    error={
-      formik.touched.Password && Boolean(formik.errors.Password)
-    }
-    helperText={formik.touched.Password && formik.errors.Password}
-  />
-</Grid>
-
-<Grid size={{sm: 6}}>
-  <TextField
-    fullWidth
-    label="Client Address"
-    {...formik.getFieldProps("Client_Address")}
-    error={
-      formik.touched.Client_Address &&
-      Boolean(formik.errors.Client_Address)
-    }
-    helperText={
-      formik.touched.Client_Address && formik.errors.Client_Address
-    }
-  />
-</Grid>
-<Grid size={{sm: 6}}>
-  <TextField
-    fullWidth
-    label="Client Postal Code"
-    type="number"
-    {...formik.getFieldProps("Client_Postal_Code")}
-    error={
-      formik.touched.Client_Postal_Code &&
-      Boolean(formik.errors.Client_Postal_Code)
-    }
-    helperText={
-      formik.touched.Client_Postal_Code &&
-      formik.errors.Client_Postal_Code
-    }
-  />
-</Grid>
-<Grid size={{sm: 6}}>
-  <TextField
-    fullWidth
-    label="GST Number"
-    {...formik.getFieldProps("GstNumber")}
-    error={
-      formik.touched.GstNumber && Boolean(formik.errors.GstNumber)
-    }
-    helperText={formik.touched.GstNumber && formik.errors.GstNumber}
-  />
-</Grid>
-<Grid size={{sm: 6}}>
-  <FormControlLabel
-    control={
-      <Checkbox
-        name="System_Access"
-        color="primary"
-        checked={formik.values.System_Access}
-        onChange={formik.handleChange}
-        onBlur={() => setTouched(true)}
-      />
-    }
-    label="System Access"
-  />
-</Grid>
-
-<Grid size={{sm: 12}}>
-  <Button
-    fullWidth
-    variant="contained"
-    color="primary"
-    type="submit"
-    sx={{
-      background: "#2c3e50",
-      padding: "8px 10px",
-      color: "white",
-      width: "100%",
-    }}
-  >
-    Register Client
-  </Button>
-</Grid>
-</Grid> */
-}

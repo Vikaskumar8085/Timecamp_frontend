@@ -105,15 +105,14 @@ const ContractorForm = ({handleSubmit, IsEdit, udpatecontractorfunc}) => {
   }, []);
 
   const weekOptions = [
-    {value: "sunday", label: "Sunday"},
-    {value: "monday", label: "Monday"},
-    {value: "tuesday", label: "Tuesday"},
-    {value: "wednesday", label: "Wednesday"},
-    {value: "thursday", label: "Thursday"},
-    {value: "friday", label: "Friday"},
-    {value: "saturday", label: "Saturday"},
+    {value: "Sunday", label: "Sunday"},
+    {value: "Monday", label: "Monday"},
+    {value: "Tuesday", label: "Tuesday"},
+    {value: "Wednesday", label: "Wednesday"},
+    {value: "Thursday", label: "Thursday"},
+    {value: "Friday", label: "Friday"},
+    {value: "Saturday", label: "Saturday"},
   ];
-
   return (
     <Container maxWidth="md">
       <Box sx={{p: 1}}>

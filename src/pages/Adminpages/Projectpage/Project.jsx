@@ -39,7 +39,7 @@ const Project = () => {
     try {
       dispatch(setLoader(true));
       const response = await createprojectapicall(values);
-      console.log();
+
       if (response.success) {
         setIsModalOpen(false);
         toast.success(response?.message);

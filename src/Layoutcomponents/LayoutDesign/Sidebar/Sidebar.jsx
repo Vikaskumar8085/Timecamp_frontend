@@ -86,6 +86,23 @@ const Sidebar = ({toggleDropdown, openDropdown, Role}) => {
 
               <li>
                 <NavLink
+                  to={"/forecast-report"}
+                  style={({isActive}) => ({
+                    color: isActive ? "#6560f0" : "black",
+                    background: isActive ? "#ff0df80d" : "",
+                  })}
+                  className={({isActive}) =>
+                    `nav_link ${isActive ? "active" : ""}`
+                  }
+                >
+                  <span>
+                    <ReceiptOutlinedIcon />
+                  </span>
+                  ForeCast Report
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
                   to={"/company"}
                   style={({isActive}) => ({
                     color: isActive ? "#6560f0" : "black",

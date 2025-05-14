@@ -16,7 +16,13 @@ import {
   ListItemText,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import {AddCircleOutline, RemoveCircleOutline} from "@mui/icons-material";
+import {
+  AddBox,
+  AddCircle,
+  AddCircleOutline,
+  RemoveCircle,
+  RemoveCircleOutline,
+} from "@mui/icons-material";
 import {fetchclientapicall} from "../../../ApiServices/AdminApiServices/Client/index";
 import {
   createprojectapicall,
@@ -24,6 +30,7 @@ import {
 } from "../../../ApiServices/ProjectApiServices";
 import {fetchroleapicall} from "../../../ApiServices/MasterApiServices/Roles";
 import Input from "../../../common/Input/Input";
+import InputSelect from "../../../common/InputSelect/InputSelect";
 
 const ProjectForm = ({handleSubmit, IsEdit}) => {
   const [clients, setClients] = useState([]);
@@ -69,6 +76,8 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
       Project_Type: IsEdit?.Project_Type ?? "",
       Start_Date: IsEdit?.Start_Date ?? "",
       End_Date: IsEdit?.End_Date ?? "",
+      Project_Estimate_Hours: "",
+      currency: IsEdit?.currency ?? "",
       Project_Hours: IsEdit?.Project_Hours ?? "",
       bucket: [{bucketHourly: "", bucketHourlyRate: ""}],
       roleProjectMangare:
@@ -78,19 +87,18 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
               RRId: resource?.RRId ?? "",
               RId: resource?.RId ?? "",
               billable: resource?.billable ?? false,
-              Units: resource?.Units ?? "",
-              Currency: resource?.Currency ?? "",
+              Unit: resource?.Unit ?? "",
               Rate: resource?.Rate ?? "",
-              Type: resource?.Type ?? "",
+              Engagement_Ratio: resource?.Engagement_Ratio ?? "",
             }))
           : [
               {
                 RRId: "",
                 RId: "",
                 billable: false,
-                Units: "",
+                Unit: "",
                 Rate: "",
-                Type: "",
+                Engagement_Ratio: "",
               },
             ],
 
@@ -100,19 +108,18 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
               RRId: resource?.RRId ?? "",
               RId: resource?.RId ?? "",
               billable: resource?.billable ?? false,
-              Units: resource?.Units ?? "",
-              Currency: resource?.Currency ?? "",
+              Unit: resource?.Unit ?? "",
               Rate: resource?.Rate ?? "",
-              Type: resource?.Type ?? "",
+              Engagement_Ratio: resource?.Engagement_Ratio ?? "",
             }))
           : [
               {
                 RRId: "",
                 RId: "",
                 billable: false,
-                Units: "",
+                Unit: "",
                 Rate: "",
-                Type: "",
+                Engagement_Ratio: "",
               },
             ],
     },
@@ -133,9 +140,9 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
           RRId: "",
           RId: "",
           billable: false,
-          Units: "",
+          Unit: "",
           Rate: "",
-          Type: "",
+          Engagement_Ratio: "",
         },
       ],
     });
@@ -151,9 +158,9 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
           RRId: "",
           RId: "",
           billable: false,
-          Units: "",
+          Unit: "",
           Rate: "",
-          Type: "",
+          Engagement_Ratio: "",
         },
       ],
     });
@@ -195,188 +202,158 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
       </Typography>
 
       <form action="" onSubmit={formik.handleSubmit}>
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
           <Grid size={{sm: 12, xs: 12, md: 6}}>
-            <TextField
-              margin="normal"
-              fullWidth
-              label="Project Name"
+            <Input
+              labelText="Project Name"
               name="Project_Name"
               value={formik.values.Project_Name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={
-                formik.touched.Project_Name &&
-                Boolean(formik.errors.Project_Name)
-              }
-              helperText={
-                formik.touched.Project_Name && formik.errors.Project_Name
-              }
+              placeholder={"Please Enter Your Project Name"}
             />
           </Grid>
           <Grid size={{sm: 12, md: 6, xs: 12}}>
-            <TextField
-              fullWidth
-              margin="normal"
-              label="Project Hours"
+            <Input
+              labelText="Project Hours"
               name="Project_Hours"
               type="number"
               value={formik.values.Project_Hours}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={
-                formik.touched.Project_Hours && !!formik.errors.Project_Hours
-              }
-              helperText={
-                formik.touched.Project_Hours ? formik.errors.Project_Hours : ""
-              }
+              placeholder={"Please Enter Your Project Hour"}
             />
           </Grid>
           <Grid size={{sm: 12, md: 6, xs: 12}}>
-            <FormControl fullWidth margin="normal">
-              <InputLabel id="client-select-label">Select Client</InputLabel>
-              <Select
-                labelId="client-select-label"
-                id="client-select"
-                name="clientId"
-                value={formik.values.clientId}
-                onChange={formik.handleChange}
-                label="Select Client"
-                fullWidth
-              >
-                {clients.map((client) => (
-                  <MenuItem key={client.Client_Id} value={client.Client_Id}>
-                    <ListItemText primary={client.Client_Name} />
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <InputSelect
+              name={"clientId"}
+              labelText={"Select Client"}
+              value={formik.values.clientId}
+              onChange={formik.handleChange}
+              placeholder="---please select client ---"
+              options={clients?.map((item) => ({
+                value: item?.Client_Id,
+                label: item.Client_Name,
+              }))}
+            />
           </Grid>
           <Grid size={{sm: 12, xs: 12, md: 6}}>
-            <TextField
-              fullWidth
-              margin="normal"
+            <Input
               type="date"
-              label="Start Date"
+              labelText="Start Date"
               name="Start_Date"
-              InputLabelProps={{shrink: true}}
               value={formik.values.Start_Date}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={
-                formik.touched.Start_Date && Boolean(formik.errors.Start_Date)
-              }
-              helperText={formik.touched.Start_Date && formik.errors.Start_Date}
             />
           </Grid>
           <Grid size={{sm: 12, xs: 12, md: 6}}>
-            <TextField
-              fullWidth
-              margin="normal"
+            <Input
               type="date"
-              label="End Date"
+              labelText="End Date"
               name="End_Date"
-              InputLabelProps={{shrink: true}}
               value={formik.values.End_Date}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={formik.touched.End_Date && Boolean(formik.errors.End_Date)}
-              helperText={formik.touched.End_Date && formik.errors.End_Date}
             />
           </Grid>
-          <Grid size={{sm: 12, xs: 12, md: 6}}>
-            <TextField
-              fullWidth
-              margin="normal"
-              label="Currency"
+          <Grid size={{sm: 12, xs: 12, md: 6}} sx={{mt: 1}}>
+            <InputSelect
+              name={"currency"}
+              labelText={"Select Currency"}
+              value={formik.values.currency}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              placeholder="--- please select currency ---"
+              options={[
+                {value: "US Dollor", label: "US Dollor"},
+                {value: "Euro", label: "Euro"},
+                {value: "British Pound", label: "British Pound"},
+                {value: "INR", label: "INR"},
+              ]}
             />
           </Grid>
 
-          <Grid size={{sm: 12}}>
-            <FormControl fullWidth margin="normal">
-              <InputLabel id="select-project-type">
-                Select Project Type
-              </InputLabel>
-              <Select
-                labelId="select-project-type"
-                id="project-type-select"
-                name="Project_Type"
-                value={formik.values.Project_Type}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={
-                  formik.touched.Project_Type &&
-                  Boolean(formik.errors.Project_Type)
-                }
-              >
-                <MenuItem value="Fixed">Fixed</MenuItem>
-                <MenuItem value="Bucket">Bucket</MenuItem>s
-                <MenuItem value="Full Time Resources">
-                  Full Time Resources
-                </MenuItem>
-                <MenuItem value="Time and Material">Time and Material</MenuItem>
-              </Select>
-            </FormControl>
-
-            {formik.values.Project_Type === "Fixed" && (
-              <>
-                <TextField
-                  fullWidth
-                  type="text"
-                  label="Project Estimate Hours"
-                  name="Project_Estimate_Hours"
-                />
-              </>
-            )}
-            {formik.values.Project_Type === "Bucket" && (
-              <>
-                {formik.values.bucket.map((item, index) => {
-                  return (
-                    <>
-                      <Grid size={{sm: 12, xs: 12}}>
-                        <Input
-                          labelText="Backet Hourly"
-                          placeholder={"please Enter your Bucket Duration"}
-                          name={`bucket[${index}].bucketHourly`}
-                          type="number"
-                          value={item.bucketHourly}
-                          onChange={formik.handleChange}
-                        />
-                      </Grid>
-
-                      <Grid size={{sm: 12, xs: 12}}>
-                        <Input
-                          labelText="Bucket Hourly Rate"
-                          id={`bucket-${index}-rate`}
-                          name={`bucket[${index}].bucketHourlyRate`}
-                          type="number"
-                          placeholder="Please enter your bucket rate"
-                          value={item.bucketHourlyRate}
-                          onChange={formik.handleChange}
-                        />
-                      </Grid>
-
-                      <Grid size={{sm: 12, xs: 12}}>
-                        <Button variant="outlined" onClick={addMultiBucket}>
-                          Add
-                        </Button>
-                        {formik.values.bucket.length > 1 && (
-                          <Button
-                            // color="error"
-                            variant="outlined"
-                            onClick={() => removeBucket(index)}
-                          >
-                            Remove
-                          </Button>
-                        )}
-                      </Grid>
-                    </>
-                  );
-                })}
-              </>
-            )}
+          <Grid size={{sm: 12, xs: 12, md: 12}}>
+            <InputSelect
+              name={"Project_Type"}
+              labelText={"Select Project Type"}
+              value={formik.values.Project_Type}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              placeholder="--- please select Project Type ---"
+              options={[
+                {value: "Fixed", label: "Fixed"},
+                {value: "Bucket", label: "Bucket"},
+                {value: "Full Time Resources", label: "Full Time Resources"},
+                {value: "Time and Material", label: "Time and Material"},
+              ]}
+            />
           </Grid>
+          {formik.values.Project_Type === "Bucket" && (
+            <>
+              {formik.values.bucket.map((item, index) => {
+                return (
+                  <>
+                    <Grid size={{sm: 12, xs: 12, md: 6}}>
+                      <Input
+                        labelText="Backet Hourly"
+                        placeholder={"please Enter your Bucket Duration"}
+                        name={`bucket[${index}].bucketHourly`}
+                        type="number"
+                        value={item.bucketHourly}
+                        onChange={formik.handleChange}
+                      />
+                    </Grid>
+
+                    <Grid size={{sm: 12, xs: 12, md: 6}}>
+                      <Input
+                        labelText="Bucket Hourly Rate"
+                        id={`bucket-${index}-rate`}
+                        name={`bucket[${index}].bucketHourlyRate`}
+                        type="number"
+                        placeholder="Please enter your bucket rate"
+                        value={item.bucketHourlyRate}
+                        onChange={formik.handleChange}
+                      />
+                    </Grid>
+
+                    <Grid size={{sm: 12, xs: 12, md: 12}}>
+                      <Button color="info" onClick={addMultiBucket}>
+                        <AddCircle sx={{color: "green"}} />
+                      </Button>
+                      {formik.values.bucket.length > 1 && (
+                        <Button
+                          color="danger"
+                          onClick={() => removeBucket(index)}
+                        >
+                          <RemoveCircle sx={{color: "red"}} />
+                        </Button>
+                      )}
+                    </Grid>
+                  </>
+                );
+              })}
+            </>
+          )}
+          {/* project type fixed */}
+          {formik.values.Project_Type === "Fixed" && (
+            <>
+              <Grid size={{sm: 6, xs: 6, md: 6}}>
+                <Input
+                  type="text"
+                  labelText="Project Estimate Hours"
+                  placeholder={"please Enter Estimate Hours"}
+                  name="Project_Estimate_Hours"
+                  onChange={formik.handleChange}
+                  value={formik.values.Project_Estimate_Hours}
+                />
+              </Grid>
+            </>
+          )}
+
+          {/* project type fixed */}
+
           <Grid size={{sm: 12}}>
             <Grid size={{xs: 12, sm: 12}}>
               <Typography variant="h6">Select Project Managers</Typography>
@@ -434,19 +411,18 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
                   {role.billable && (
                     <>
                       <Grid item xs={6}>
-                        <TextField
-                          fullWidth
-                          label="Units"
-                          name={`roleResources[${index}].Units`}
-                          value={role.Units}
+                        <Input
+                          labelText="Engagement_Ratio"
+                          type="number"
+                          name={`roleResources[${index}].Engagement_Ratio`}
+                          value={role.Engagement_Ratio}
                           onChange={formik.handleChange}
                         />
                       </Grid>
 
                       <Grid item xs={6}>
-                        <TextField
-                          fullWidth
-                          label="Rate"
+                        <Input
+                          labelText="Rate"
                           name={`roleResources[${index}].Rate`}
                           type="number"
                           value={role.Rate}
@@ -454,12 +430,18 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
                         />
                       </Grid>
                       <Grid item xs={6}>
-                        <TextField
-                          fullWidth
-                          label="Type"
-                          name={`roleResources[${index}].Type`}
+                        <InputSelect
+                          labelText="Unit"
+                          name={`roleResources[${index}].Unit`}
                           value={role.Type}
                           onChange={formik.handleChange}
+                          options={[
+                            {value: "Fixed", label: "Fixed"},
+                            {value: "Hourly", label: "Hourly"},
+                            {value: "Daily", label: "Daily"},
+                            {value: "Monthly", label: "Monthly"},
+                            {value: "Weekly", label: "Weekly"},
+                          ]}
                         />
                       </Grid>
                     </>
@@ -544,14 +526,21 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
                   {role.billable && (
                     <>
                       <Grid item xs={6}>
-                        <TextField
-                          fullWidth
-                          label="Units"
-                          name={`roleProjectMangare[${index}].Units`}
-                          value={role.Units}
+                        <InputSelect
+                          labelText="Unit"
+                          name={`roleProjectMangare[${index}].Unit`}
+                          value={role.Type}
                           onChange={formik.handleChange}
+                          options={[
+                            {value: "Fixed", label: "Fixed"},
+                            {value: "Hourly", label: "Hourly"},
+                            {value: "Daily", label: "Daily"},
+                            {value: "Monthly", label: "Monthly"},
+                            {value: "Weekly", label: "Weekly"},
+                          ]}
                         />
                       </Grid>
+
                       {/* <Grid item xs={6}>
                         <TextField
                           fullWidth
@@ -574,9 +563,10 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
                       <Grid item xs={6}>
                         <TextField
                           fullWidth
-                          label="Type"
-                          name={`roleProjectMangare[${index}].Type`}
-                          value={role.Type}
+                          label="Engagement_Ratio"
+                          type="Number"
+                          name={`roleProjectMangare[${index}].Engagement_Ratio`}
+                          value={role.Engagement_Ratio}
                           onChange={formik.handleChange}
                         />
                       </Grid>

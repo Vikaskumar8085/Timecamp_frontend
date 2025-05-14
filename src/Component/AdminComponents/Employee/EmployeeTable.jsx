@@ -178,7 +178,7 @@ const EmployeeTable = ({
         onPageChange={(event, newPage) => setPage(newPage)}
         onRowsPerPageChange={(event) => {
           setRowsPerPage(parseInt(event.target.value, 10));
-          setPage(0); // Reset page to 0 when changing rows per page
+          setPage(0);
         }}
       />
     </div>
