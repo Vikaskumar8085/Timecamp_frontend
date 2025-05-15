@@ -22,7 +22,10 @@ export const fetchactiveprojectsapicall = async (value) => {
 // In active projects
 
 export const fetchinactiveprojectsapicall = async (value) => {
-  const response = await apiInstance.get("/v1/admin/fetch-inactive-projects",value);
+  const response = await apiInstance.get(
+    "/v1/admin/fetch-inactive-projects",
+    value
+  );
   return response.data;
 };
 // fetch single project api call
@@ -44,6 +47,22 @@ export const fetchstaffmembersapicall = async () => {
 export const fetchprojecttimesheetapicall = async (value) => {
   const response = await apiInstance.get(
     `/v1/admin/fetch-project-timesheet/${value}`
+  );
+  return response.data;
+};
+
+export const removeprojectapicall = async (value) => {
+  const response = await apiInstance.delete(
+    `/v1/admin/remove-project/${value}`
+  );
+  return response?.data;
+};
+
+// edit project api call
+export const updateprojectapicall = async (value) => {
+  const response = await apiInstance.put(
+    `/v1/admin/edit-projects/${value.id}`,
+    value.payload
   );
   return response.data;
 };

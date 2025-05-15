@@ -7,6 +7,7 @@ import AddIcons from "@mui/icons-material/Add";
 import {
   createprojectapicall,
   fetchprojectapicall,
+  removeprojectapicall,
 } from "../../../ApiServices/ProjectApiServices";
 import {useDispatch, useSelector} from "react-redux";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
@@ -17,6 +18,7 @@ import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import toast from "react-hot-toast";
 import {uploadprojectcsvapicall} from "../../../ApiServices/Csvapiservices/csvapiservices";
 import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import TModal from "../../../common/Modal/TModal";
 
 const Project = () => {
   const userdata = useSelector((state) => state.user.values);
@@ -37,7 +39,7 @@ const Project = () => {
 
   const handleSubmit = async (values) => {
     try {
-      dispatch(setLoader(true));
+      // dispatch(setLoader(true));
       const response = await createprojectapicall(values);
 
       if (response.success) {
@@ -94,6 +96,35 @@ const Project = () => {
     }
   };
 
+  const handleDelete = async (value) => {
+    try {
+      dispatch(setLoader(true));
+      const response = await removeprojectapicall(value);
+      if (response?.success) {
+        dispatch(setLoader(false));
+        getProjectapicall();
+        toast.success(response?.message);
+      } else {
+        dispatch(setLoader(false));
+        getProjectapicall();
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "something went wrong");
+    }
+  };
+
+  const UpdateHandleProject = async (value) => {
+    try {
+      const val = {
+        id: IsEdit?.ProjectId,
+        payload: value,
+      };
+      console.log(val);
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
   useEffect(() => {
     getProjectapicall();
   }, [page, search, limit]);
@@ -130,16 +161,16 @@ const Project = () => {
       </Button>
 
       {isModalOpen ? (
-        <Drawer
+        <TModal
           open={isModalOpen}
           onClose={() => {
             setIsModalOpen(false);
             setIsEdit(null);
           }}
-          anchor="right"
+          title="Add Project"
         >
           <ProjectForm IsEdit={IsEdit} handleSubmit={handleSubmit} />
-        </Drawer>
+        </TModal>
       ) : null}
 
       {IsProjectUploadModelOpen ? (
@@ -165,6 +196,7 @@ const Project = () => {
         page={page}
         setLimit={setLimit}
         limit={limit}
+        handleDelete={handleDelete}
         loading={loading}
         totalPages={totalPages}
         setTotalPages={setTotalPages}

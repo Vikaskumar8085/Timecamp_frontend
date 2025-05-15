@@ -197,7 +197,7 @@ const Projectinfo = () => {
       content: (
         <>
           <ProjectInformation IsprojectInfodata={IsprojectInfodata} />
-          <Card>
+          {/* <Card>
             <CardContent>
               {loading ? (
                 <CircularProgress
@@ -212,7 +212,7 @@ const Projectinfo = () => {
                 />
               )}
             </CardContent>
-          </Card>
+          </Card> */}
         </>
       ),
     },

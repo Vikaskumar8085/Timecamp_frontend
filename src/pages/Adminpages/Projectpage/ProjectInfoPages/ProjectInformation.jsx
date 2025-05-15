@@ -1,97 +1,82 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-  Typography,
-  Grid,
-  Button,
-  Chip,
-  Divider,
-} from "@mui/material";
+import {Grid2} from "@mui/material";
+import bgImage from "../../../../assets/commonIcon/profilepic.png";
+import moment from "moment";
+import CardOne from "../../../../common/cardOne/CardOne";
 
 const ProjectInformation = ({IsprojectInfodata}) => {
-  const content = IsprojectInfodata.map((item, index) => {
-    return (
-      <div>
-        {" "}
-        <Button>Report</Button>
-        <Card>
-          <CardContent>
-            <Typography variant="h5" gutterBottom>
-              {item.Project_Name}
-            </Typography>
-
-            <Divider sx={{mb: 2}} />
-
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <Typography variant="body2" color="textSecondary">
-                  <strong>Project Code:</strong> {item.Project_Code}
-                </Typography>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography variant="body2">
-                  <strong>Start Date:</strong> {item.Start_Date}
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography variant="body2">
-                  <strong>End Date:</strong> {item.End_Date}
-                </Typography>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography variant="body2">
-                  <strong>Project Type:</strong> {item.Project_Type}
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography variant="body2">
-                  <strong>Hours:</strong> {item.Project_Hours}
-                </Typography>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography variant="body2">
-                  <strong>Status:</strong>{" "}
-                  {item.Project_Status ? (
-                    <Chip label="Active" color="success" size="small" />
-                  ) : (
-                    <Chip label="Inactive" color="error" size="small" />
+  return (
+    <div>
+      <div className="project_card_wrapper">
+        <div className="project_card_wrapper_box">
+          <div className="project_card_header">
+            <img src={bgImage} alt="" srcset="" />
+            <div className="project_header_tags">
+              <img
+                src={"https://i.ibb.co/4pDNDk1/avatar.png"}
+                alt="User avatar"
+                loading="lazy"
+              />
+              <h1>{IsprojectInfodata.Project_Name}</h1>
+              {/*<p>{IsprojectInfodata?.project_Address}</p> */}
+            </div>
+          </div>
+          <div className="project_body">
+            <Grid2 container spacing={2}>
+              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                <CardOne
+                  title={"Project Name"}
+                  paragraph={IsprojectInfodata?.Project_Name}
+                />
+              </Grid2>
+              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                <CardOne
+                  title={"Project_Code "}
+                  paragraph={IsprojectInfodata?.Project_Code}
+                />
+              </Grid2>
+              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                <CardOne
+                  title={"Start Date"}
+                  paragraph={moment(IsprojectInfodata?.Start_Date).format(
+                    "DD/MM/YYYY"
                   )}
-                </Typography>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography variant="body2">
-                  <strong>Client:</strong> {item.ClientName}
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography variant="body2">
-                  <strong>Project Manager:</strong>
-                  {item.ProjectManagerName}
-                </Typography>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Typography variant="body2">
-                  <strong>Role:</strong> {item.RoleName}
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography variant="body2">
-                  <strong>Employee:</strong> {item.StaffName}
-                </Typography>
-              </Grid>
-            </Grid>
-          </CardContent>
-        </Card>
+                />
+              </Grid2>
+              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                <CardOne
+                  title={"End Date"}
+                  paragraph={moment(IsprojectInfodata?.End_Date).format(
+                    "DD/MM/YYYY"
+                  )}
+                />
+              </Grid2>
+              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                  <CardOne
+                    title={"Project_Type"}
+                    paragraph={IsprojectInfodata?.Project_Type}
+                  />
+                </Grid2>
+                <CardOne
+                  title={"Project_Hours"}
+                  paragraph={IsprojectInfodata?.Project_Hours}
+                />
+              </Grid2>
+              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                <CardOne
+                  title={"Project_Status"}
+                  paragraph={
+                    IsprojectInfodata?.Project_Status ? "Active" : "InActive"
+                  }
+                />
+              </Grid2>
+            </Grid2>
+          </div>
+        </div>
       </div>
-    );
-  });
-  return <div>{content}</div>;
+    </div>
+  );
 };
 
 export default ProjectInformation;

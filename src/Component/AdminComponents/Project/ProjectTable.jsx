@@ -34,6 +34,7 @@ const ProjectTable = ({
   page,
   setPage,
   totalPages,
+  handleDelete,
 }) => {
   const [viewMode, setViewMode] = useState("table");
 
@@ -104,6 +105,10 @@ const ProjectTable = ({
                           >
                             <EditIcon />
                           </Button>
+
+                          <Button onClick={() => handleDelete(item.ProjectId)}>
+                            Delete
+                          </Button>
                         </TableCell>
                       </TableRow>
                     ))
@@ -141,6 +146,9 @@ const ProjectTable = ({
                       }}
                     >
                       <EditIcon />
+                    </Button>
+                    <Button onClick={() => handleDelete(item.ProjectId)}>
+                      Delete
                     </Button>
                   </CardContent>
                 </Card>

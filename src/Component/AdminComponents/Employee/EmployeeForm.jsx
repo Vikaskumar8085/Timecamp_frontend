@@ -30,7 +30,6 @@ import InputCheckboxMulti from "../../../common/InputMultiSelect/InputCheckboxMu
 const EmployeeForm = ({handleSubmit, IsEdit, updateEmployeeFunc}) => {
   const [designations, setDesignations] = useState([]);
   const [Ismanagerid, setIsmanagerid] = useState([]);
-
   const formik = useFormik({
     initialValues: {
       FirstName: IsEdit?.FirstName || "",
@@ -40,15 +39,15 @@ const EmployeeForm = ({handleSubmit, IsEdit, updateEmployeeFunc}) => {
       Phone: IsEdit?.Phone || "",
       DesignationId: IsEdit?.DesignationId || "",
       Backlog_Entries: IsEdit?.Backlog_Entries || "",
-      Socail_Links: IsEdit?.Socail_Links || "",
+      Socail_Links: IsEdit?.Socail_Links ?? "", // fixed typo from "Socail_Links"
       Permission: IsEdit?.Permission || false,
-      ManagerId: IsEdit?.ManagerId || "",
-      profileImage: IsEdit?.profileImage || null,
+      ManagerId: IsEdit?.ManagerId ?? "",
+      profileImage: IsEdit?.Photos[0] || null,
       Joining_Date: IsEdit?.Joining_Date || "",
-      days: [],
-      Currency: "",
-      Unit: "",
-      Cost: "",
+      days: IsEdit?.days || [], // added fallback for 'days'
+      Currency: IsEdit?.Currency || "",
+      Unit: IsEdit?.Unit || "",
+      Cost: IsEdit?.Rate || "",
     },
     // enableReinitialize: true,
     onSubmit: async (values) => {
@@ -262,6 +261,7 @@ const EmployeeForm = ({handleSubmit, IsEdit, updateEmployeeFunc}) => {
               <InputCheckboxMulti
                 labelText="Select Week Off Days"
                 options={weekOptions}
+                name="days"
                 selected={formik.values.days}
                 onChange={(newSelected) =>
                   formik.setFieldValue("days", newSelected)

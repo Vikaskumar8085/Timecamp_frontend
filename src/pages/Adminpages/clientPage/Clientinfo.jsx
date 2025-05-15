@@ -295,7 +295,7 @@ const Clientinfo = () => {
         </div>
       </div>
       {/* client info Page design */}
-      {/* <Box>
+      <Box>
         <TableContainer component={Paper}>
           <Table sx={{minWidth: 650}} aria-label="simple table">
             <TableHead>
@@ -327,16 +327,16 @@ const Clientinfo = () => {
             </TableBody>
           </Table>
         </TableContainer>
-      </Box> */}
+      </Box>
 
-      {/* <TimesheetList
+      <TimesheetList
         approvecontractortimesheet={approvecontractortimesheet}
         disapprovecontractortimesheet={disapprovecontractortimesheet}
         biiledclienttimesheet={biiledclienttimesheet}
         data={isClientTimesheet}
         setSelectedItems={setSelectedItems}
         selectedItems={selectedItems}
-      /> */}
+      />
     </LayoutDesign>
   );
 };

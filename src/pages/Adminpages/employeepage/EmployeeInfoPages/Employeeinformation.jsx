@@ -1,11 +1,6 @@
 import React from "react";
 import {
   Typography,
-  Avatar,
-  Card,
-  CardContent,
-  Chip,
-  CircularProgress,
   Table,
   TableBody,
   TableCell,
@@ -13,72 +8,84 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Link,
   Box,
+  Grid2,
 } from "@mui/material";
+import CardOne from "../../../../common/cardOne/CardOne";
+import bgImage from "../../../../assets/commonIcon/profilepic.png";
+import Empty from "../../../../common/EmptyFolder/Empty";
 const Employeeinformation = ({isEmployeedata, isEmployeeprojectdata}) => {
-  console.log(isEmployeedata, "/////");
+  console.log(isEmployeeprojectdata, "datata");
   const content = (
     <>
-      <Card
-        sx={{
-          p: 3,
-          display: "flex",
-          alignItems: "center",
-          gap: 2,
-        }}
-      >
-        {/* Profile Avatar */}
-        <Avatar
-          src={isEmployeedata.Photos?.[0]}
-          alt={isEmployeedata.FirstName}
-          sx={{width: 80, height: 80}}
-        />
+      <div className="Employee_card_wrapper">
+        <div className="Employee_card_wrapper_box">
+          <div className="Employee_card_header">
+            <img src={bgImage} alt="" srcset="" />
+            <div className="Employee_header_tags">
+              <img
+                src={
+                  isEmployeedata.Photos || "https://i.ibb.co/4pDNDk1/avatar.png"
+                }
+                alt="User avatar"
+                loading="lazy"
+              />
+              <h1>{isEmployeedata.UserName}</h1>
+              {/*<p>{IsEmployeeInfodata?.Employee_Address}</p> */}
+            </div>
+          </div>
+          <div className="Employee_body">
+            <Grid2 container spacing={2}>
+              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                <CardOne
+                  title={"FirstName"}
+                  paragraph={isEmployeedata?.FirstName}
+                />
+              </Grid2>
+              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                <CardOne
+                  title={"LastName"}
+                  paragraph={isEmployeedata?.LastName}
+                />
+              </Grid2>
+              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                <CardOne title={"Email"} paragraph={isEmployeedata?.Email} />
+              </Grid2>
+              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                <CardOne title={"Phone"} paragraph={isEmployeedata?.Phone} />
+              </Grid2>
 
-        {/* Employee Info */}
-        <CardContent sx={{flex: 1}}>
-          <Typography variant="h6" fontWeight="bold">
-            {isEmployeedata.FirstName} {isEmployeedata.LastName}
-          </Typography>
-          <Chip
-            label={isEmployeedata.IsActive}
-            color={isEmployeedata.IsActive === "Active" ? "success" : "error"}
-            sx={{mt: 1}}
-          />
-          <Typography variant="body2" color="text.secondary">
-            📞 {isEmployeedata.Phone}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            ✉️ {isEmployeedata.Email}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            🏠 {isEmployeedata.Address}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            🗓 Joining Date:{" "}
-            {isEmployeedata.Joining_Date === "Invalid date"
-              ? "Not Available"
-              : isEmployeedata.Joining_Date}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            🎭 Role: {isEmployeedata.Role}
-          </Typography>
-
-          {/* Social Link */}
-          {isEmployeedata.Socail_Links && (
-            <Typography variant="body2" color="primary" sx={{mt: 1}}>
-              🔗{" "}
-              <Link
-                href={isEmployeedata.Socail_Links}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View Profile
-              </Link>
-            </Typography>
-          )}
-        </CardContent>
-      </Card>
+              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                <CardOne
+                  title={"Address"}
+                  paragraph={isEmployeedata?.Address}
+                />
+              </Grid2>
+              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                <CardOne
+                  title={"Joining Date"}
+                  paragraph={isEmployeedata?.Joining_Date}
+                />
+              </Grid2>
+              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                <CardOne
+                  title={"Designation Name"}
+                  paragraph={
+                    isEmployeedata?.Designation_Name ||
+                    "Please Select Employee Designation"
+                  }
+                />
+              </Grid2>
+              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                <CardOne
+                  title={"Project Creation Permission"}
+                  paragraph={isEmployeedata?.Permission ? "Yes" : "No"}
+                />
+              </Grid2>
+            </Grid2>
+          </div>
+        </div>
+      </div>
     </>
   );
 
@@ -87,8 +94,7 @@ const Employeeinformation = ({isEmployeedata, isEmployeeprojectdata}) => {
       <Box sx={{mt: 3}}>
         <h1>Employee Project</h1>
       </Box>
-      {isEmployeeprojectdata.Employeeproject &&
-      isEmployeeprojectdata.Employeeproject.length > 0 ? (
+      {isEmployeeprojectdata.length > 0 ? (
         <TableContainer component={Paper} sx={{mt: 2}}>
           <Table>
             <TableHead>
@@ -103,7 +109,7 @@ const Employeeinformation = ({isEmployeedata, isEmployeeprojectdata}) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {isEmployeeprojectdata.Employeeproject.map((project, index) => (
+              {isEmployeeprojectdata.map((project, index) => (
                 <TableRow key={project.ProjectId}>
                   <TableCell>{index + 1}</TableCell>
 
@@ -121,50 +127,11 @@ const Employeeinformation = ({isEmployeedata, isEmployeeprojectdata}) => {
           </Table>
         </TableContainer>
       ) : (
-        <Typography variant="body2">{null}</Typography>
-      )}
-    </>
-  );
-  const employeeManagerprojects = (
-    <>
-      <Box sx={{mt: 3}}>
-        <h1>Manager Project</h1>
-      </Box>
-      {isEmployeeprojectdata.ManagerProject &&
-      isEmployeeprojectdata.ManagerProject.length > 0 ? (
-        <TableContainer component={Paper} sx={{mt: 2}}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Id</TableCell>
-                <TableCell>Project Name</TableCell>
-                <TableCell>Project Code</TableCell>
-                <TableCell>Type</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell>Start Date</TableCell>
-                <TableCell>End Date</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {isEmployeeprojectdata.ManagerProject.map((project, index) => (
-                <TableRow key={project.ProjectId}>
-                  <TableCell>{index + 1}</TableCell>
-
-                  <TableCell>{project.Project_Name}</TableCell>
-                  <TableCell>{project.Project_Code}</TableCell>
-                  <TableCell>{project.Project_Type}</TableCell>
-                  <TableCell>
-                    {project.Project_Status ? "Active" : "Inactive"}
-                  </TableCell>
-                  <TableCell>{project.Start_Date}</TableCell>
-                  <TableCell>{project.End_Date}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      ) : (
-        ""
+        <TableRow>
+          <TableCell colSpan={8} align="center">
+            <Empty />
+          </TableCell>
+        </TableRow>
       )}
     </>
   );
@@ -173,7 +140,6 @@ const Employeeinformation = ({isEmployeedata, isEmployeeprojectdata}) => {
     <div>
       {content}
       {employeeprojects}
-      {employeeManagerprojects}
     </div>
   );
 };

@@ -52,10 +52,13 @@ const ContractorForm = ({handleSubmit, IsEdit, udpatecontractorfunc}) => {
       ManagerId: IsEdit?.ManagerId || "",
       Joining_Date: IsEdit?.Joining_Date || "",
       Contractor_Company: IsEdit?.Contractor_Company || "",
-      Profile: IsEdit?.Profile || null,
+      profileImage: IsEdit?.Photos[0] || null,
       Hourly_Rate: IsEdit?.Hourly_Rate || "",
       Supervisor: IsEdit?.Supervisor || "",
-      weekOffDays: [],
+      Cost: IsEdit?.Rate || "",
+      Unit: IsEdit?.Unit || "",
+      Currency: IsEdit?.Currency || "",
+      days: [],
     },
     enableReinitialize: true,
     onSubmit: async (values) => {
@@ -167,6 +170,9 @@ const ContractorForm = ({handleSubmit, IsEdit, udpatecontractorfunc}) => {
                 inputStyle={{width: "100%"}}
                 country={"in"}
                 style={{width: "100%", padding: "1px"}}
+                onChange={(value) => {
+                  formik.setValues("Phone", value);
+                }}
               />
             </Grid2>
 
@@ -230,14 +236,7 @@ const ContractorForm = ({handleSubmit, IsEdit, udpatecontractorfunc}) => {
                 }))}
               />
             </Grid2>
-            <Grid2 size={{sm: 12, xs: 12, md: 6}}>
-              <Input
-                labelText={"Skype Id"}
-                type={"text"}
-                placeholder={"Please Enter socail Link"}
-                {...formik.getFieldProps("Socail_Link")}
-              />
-            </Grid2>
+
             <Grid2 size={{sm: 12, xs: 12, md: 6}}>
               <Input
                 labelText={"Currency"}
@@ -302,9 +301,9 @@ const ContractorForm = ({handleSubmit, IsEdit, udpatecontractorfunc}) => {
               <InputCheckboxMulti
                 labelText="Select Week Off Days"
                 options={weekOptions}
-                selected={formik.values.weekOffDays}
+                selected={formik.values.days}
                 onChange={(newSelected) =>
-                  formik.setFieldValue("weekOffDays", newSelected)
+                  formik.setFieldValue("days", newSelected)
                 }
               />
             </Grid2>
