@@ -7,12 +7,14 @@ import {
   Chip,
   Box,
   Paper,
+  Grid2,
 } from "@mui/material";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import {fetchemployeeprojectinformationapicall} from "../../../ApiServices/EmployeeApiservices/Employee";
 import apiInstance from "../../../ApiInstance/apiInstance";
 
 import Chart from "react-apexcharts";
+import ProjectCard from "../../../common/ProjectCard/ProjectCard";
 const EmployeeProjectInformation = ({id}) => {
   const [
     IsEmployeeProjectInformationdata,
@@ -94,10 +96,74 @@ const EmployeeProjectInformation = ({id}) => {
     },
   ];
 
-  const content = IsEmployeeProjectInformationdata.map((project, index) => {
+  const content = IsEmployeeProjectInformationdata.map((item, index) => {
     return (
       <>
-        <Card sx={{maxWidth: 600, m: 2, p: 2, boxShadow: 3, borderRadius: 2}}>
+        <div className="Employee_Project_card_wrapper">
+          <div className="Employee_Project_card_wrapper_box">
+            <div className="Employee_Project_card_header">
+              <div className="Employee_Project_header_tags">
+                <div className="Employee_Project_header_tags_title">
+                  <h1>Employee Project Information</h1>
+                </div>
+                {/* <div className="project_header_tags_box">
+                <Button>Delete</Button>
+              </div> */}
+              </div>
+            </div>
+            <div className="Employee_Project_body">
+              <Grid2 container>
+                <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                  <ProjectCard
+                    label={"Project Name"}
+                    paragraph={item?.Project_Name}
+                  />
+                </Grid2>
+                <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                  <ProjectCard
+                    label={"Project Code"}
+                    paragraph={item?.Project_Code}
+                  />
+                </Grid2>
+                <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                  <ProjectCard
+                    label={"Start Date"}
+                    paragraph={item?.Start_Date}
+                  />
+                </Grid2>
+                <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                  <ProjectCard label={"End Date"} paragraph={item?.End_Date} />
+                </Grid2>
+                <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                  <ProjectCard
+                    label={"Project_Type"}
+                    paragraph={item?.Project_Type}
+                  />
+                </Grid2>
+                <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                  <ProjectCard
+                    label={"Project_Status"}
+                    paragraph={item?.Project_Status ? "Active" : "InActive"}
+                  />
+                </Grid2>
+                <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                  <ProjectCard
+                    label={"Team"}
+                    paragraph={item?.Team.map((member, index) => (
+                      <Chip
+                        key={index}
+                        label={member}
+                        color="primary"
+                        variant="outlined"
+                      />
+                    ))}
+                  />
+                </Grid2>
+              </Grid2>
+            </div>
+          </div>
+        </div>
+        {/* <Card sx={{maxWidth: 600, m: 2, p: 2, boxShadow: 3, borderRadius: 2}}>
           <CardContent>
             <Typography variant="h5" gutterBottom>
               {project.Project_Name} ({project.Project_Code})
@@ -139,7 +205,7 @@ const EmployeeProjectInformation = ({id}) => {
               </Box>
             </Box>
           </CardContent>
-        </Card>
+        </Card> */}
       </>
     );
   });

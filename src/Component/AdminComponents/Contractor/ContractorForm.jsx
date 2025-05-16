@@ -35,6 +35,7 @@ const daysOfWeek = [
   "Saturday",
 ];
 const ContractorForm = ({handleSubmit, IsEdit, udpatecontractorfunc}) => {
+  // console.log(IsEdit.Photos[0], "IsEdit");
   const [designations, setDesignations] = useState([]);
   const [Ismanagerid, setIsmanagerid] = useState([]);
 
@@ -60,8 +61,9 @@ const ContractorForm = ({handleSubmit, IsEdit, udpatecontractorfunc}) => {
       Currency: IsEdit?.Currency || "",
       days: [],
     },
-    enableReinitialize: true,
+
     onSubmit: async (values) => {
+      console.log(values, "values");
       const formData = new FormData();
       Object.keys(values).forEach((key) => {
         formData.append(key, values[key]);
@@ -73,6 +75,7 @@ const ContractorForm = ({handleSubmit, IsEdit, udpatecontractorfunc}) => {
       } else {
         handleSubmit(formData);
         formik.resetForm();
+        s;
       }
     },
   });
@@ -169,10 +172,9 @@ const ContractorForm = ({handleSubmit, IsEdit, udpatecontractorfunc}) => {
               <PhoneInput
                 inputStyle={{width: "100%"}}
                 country={"in"}
+                value={formik.values.Phone}
+                onChange={(value) => formik.setFieldValue("Phone", value)}
                 style={{width: "100%", padding: "1px"}}
-                onChange={(value) => {
-                  formik.setValues("Phone", value);
-                }}
               />
             </Grid2>
 
@@ -180,12 +182,14 @@ const ContractorForm = ({handleSubmit, IsEdit, udpatecontractorfunc}) => {
               <Input
                 labelText={"Address"}
                 placeholder={"Please Enter your Address"}
+                value={formik.values.Address}
                 {...formik.getFieldProps("Address")}
               />
             </Grid2>
             <Grid2 size={{sm: 12, xs: 12, md: 6}}>
               <Input
                 labelText={"Joining Date"}
+                value={formik.values.Joining_Date}
                 type={"date"}
                 placeholder={"Please Enter your Joining Date"}
                 {...formik.getFieldProps("Joining_Date")}
@@ -193,6 +197,7 @@ const ContractorForm = ({handleSubmit, IsEdit, udpatecontractorfunc}) => {
             </Grid2>
             <Grid2 size={{sm: 12, xs: 12, md: 6}}>
               <Input
+                value={formik.values.Socail_Links}
                 labelText={"Skype Id"}
                 placeholder={"Please Enter your skypeId"}
                 {...formik.getFieldProps("Socail_Links")}
@@ -203,6 +208,7 @@ const ContractorForm = ({handleSubmit, IsEdit, udpatecontractorfunc}) => {
                 labelText={"BackLog Enteries"}
                 placeholder={"Please Enter your BackLog Enteries"}
                 {...formik.getFieldProps("Backlog_Entries")}
+                value={formik.values.Backlog_Entries}
                 type={"Number"}
               />
             </Grid2>
@@ -222,8 +228,20 @@ const ContractorForm = ({handleSubmit, IsEdit, udpatecontractorfunc}) => {
             </Grid2>
             <Grid2 size={{sm: 12, xs: 12, md: 6}}>
               <InputSelect
+                // value={formik.values.ManagerId}
+                // onChange={formik.handleChange} // Correct: pass the handler
+                // onBlur={formik.handleBlur}
+                // name="ManagerId"
+                // labelText={"Select Manager"}
+                // placeholder="--- select contractor manager---"
+                // options={Ismanagerid.filter(
+                //   (item) => item.Role === "Employee"
+                // ).map((item) => ({
+                //   value: item.staff_Id,
+                //   label: item.FirstName,
+                // }))}
                 value={formik.values.ManagerId}
-                onChange={formik.handleChange} // Correct: pass the handler
+                onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 name="ManagerId"
                 labelText={"Select Manager"}
@@ -266,7 +284,7 @@ const ContractorForm = ({handleSubmit, IsEdit, udpatecontractorfunc}) => {
                 labelText={"Company Name"}
                 type={"text"}
                 placeholder={"Please Enter Company Name"}
-                {...formik.getFieldProps("Comapny_Name")}
+                {...formik.getFieldProps("Contractor_Company")}
               />
             </Grid2>
             <Grid2 size={{sm: 12, xs: 12, md: 6}}>

@@ -26,6 +26,7 @@ import EmpProjectForm from "../../Component/EmployeeComponents/EmpProjectForm";
 import Empty from "../../common/EmptyFolder/Empty";
 import {VisibilitySharp} from "@mui/icons-material";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import TModal from "../../common/Modal/TModal";
 
 const EmployeeProjects = () => {
   const userdata = useSelector((state) => state?.user.values);
@@ -97,9 +98,13 @@ const EmployeeProjects = () => {
         )}
 
         {IsOpen && (
-          <Drawer open={IsOpen} onClose={() => setIsOpen(false)} anchor="right">
+          <TModal
+            open={IsOpen}
+            onClose={() => setIsOpen(false)}
+            title="Add Project"
+          >
             <EmpProjectForm />
-          </Drawer>
+          </TModal>
         )}
 
         <TextField

@@ -139,7 +139,7 @@ const Project = () => {
         }}
         startIcon={<AddIcons />}
         sx={{
-          background: "#2c3e50",
+          background: "#6560f0",
           padding: "8px 10px",
           margin: "10px 0px",
           color: "white",
@@ -151,7 +151,7 @@ const Project = () => {
         onClick={() => setIsProjectUploadModelOpen(true)}
         startIcon={<FileUploadIcon />}
         sx={{
-          background: "#2c3e50",
+          background: "#6560f0",
           padding: "8px 10px",
           margin: "10px 10px",
           color: "white",

@@ -5,7 +5,8 @@
 @import "./LayoutDesign/index";
 @import "./Company/index";
 @import "./Admin/index";
-
+@import "./Client/index";
+@import "./Employee/index";
 * {
   margin: 0px;
   padding: 0px;
@@ -26,6 +27,7 @@ $black-color: #2b2a3f;
 $gray-color: #3d4e59;
 $text-color: #86919b;
 $white-color: #ffffff;
+
 :root {
   --primary-color: #{$primary-color};
   --color-one: #{$text-color};

@@ -89,6 +89,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
               billable: resource?.billable ?? false,
               Unit: resource?.Unit ?? "",
               Rate: resource?.Rate ?? "",
+              IsProjectManager: resource?.IsProjectManager ?? "",
               Engagement_Ratio: resource?.Engagement_Ratio ?? "",
             }))
           : [
@@ -99,6 +100,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
                 Unit: "",
                 Rate: "",
                 Engagement_Ratio: "",
+                IsProjectManager: true,
               },
             ],
 
@@ -127,7 +129,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
     onSubmit: async (values) => {
       handleSubmit(values);
       console.log(values, "vlaues");
-      
+
       // formik.resetForm();
     },
   });
@@ -159,6 +161,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
           RRId: "",
           RId: "",
           billable: false,
+          IsProjectManager: false,
           Unit: "",
           Rate: "",
           Engagement_Ratio: "",
@@ -203,11 +206,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
 
   return (
     <Container maxWidth="lg">
-      <Typography variant="h6" gutterBottom>
-        Add Project
-      </Typography>
-
-      <form action="" onSubmit={formik.handleSubmit}>
+      <form onSubmit={formik.handleSubmit}>
         <Grid container spacing={1}>
           <Grid size={{sm: 12, xs: 12, md: 6}}>
             <Input
@@ -363,7 +362,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
           <Grid size={{sm: 12}}>
             <Grid size={{xs: 12, sm: 12}}>
               <Typography variant="h6">
-                Select Project Managers &nbsp;---------------------------------
+                Select Role Resource &nbsp;---------------------------------
               </Typography>
 
               {formik.values.roleResources.map((role, index) => (
@@ -478,7 +477,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
           <Grid size={{sm: 12}}>
             <Grid size={{xs: 12, sm: 12}}>
               <Typography variant="h6">
-                Select Resources &nbsp;---------------------------------
+                Select Project Manager &nbsp;---------------------------------
               </Typography>
 
               {formik.values.roleProjectMangare.map((role, index) => (
@@ -512,7 +511,20 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
                       }))}
                     />
                   </Grid>
-                  <Grid item size={{sm: 12, xs: 12, md: 12}}>
+                  <Grid item size={{sm: 12, xs: 12, md: 6}}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          name={`roleProjectMangare[${index}].IsProjectManager`}
+                          checked={role.IsProjectManager}
+                          onChange={formik.handleChange}
+                          color="primary"
+                        />
+                      }
+                      label="Select Project Manager"
+                    />
+                  </Grid>
+                  <Grid item size={{sm: 12, xs: 12, md: 6}}>
                     <FormControlLabel
                       control={
                         <Checkbox
