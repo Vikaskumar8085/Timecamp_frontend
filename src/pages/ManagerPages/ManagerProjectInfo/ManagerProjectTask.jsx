@@ -1,6 +1,6 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import {Box, Button, Drawer} from "@mui/material";
+import { Box, Button, Drawer } from "@mui/material";
 import ManagerProjectMilestoneForm from "../../../Component/ManagerComponents/ManagerProjectinfoComponent/ManagerProjectMilestoneForm";
 import ManagerProjectTaskForm from "../../../Component/ManagerComponents/ManagerProjectinfoComponent/ManagerProjectTaskForm";
 import ManagerProjectTaskUploadForm from "../../../Component/ManagerComponents/ManagerProjectinfoComponent/ManagerProjectTaskUploadForm";
@@ -73,18 +73,18 @@ const ManagerTask = ({
       </div>
 
       {IsOpen && (
-        <Drawer
+        <TModal
           open={IsOpen}
           onClose={() => {
             setIsOpen(false);
           }}
-          anchor="right"
+          title="Add Task"
         >
           <ManagerProjectTaskForm
             handleaddtask={handleaddtask}
             isMilestonoeresourcesdata={isMilestonoeresourcesdata}
           />
-        </Drawer>
+        </TModal>
       )}
 
       {IsMilestoneOpen && (
@@ -112,11 +112,11 @@ const ManagerTask = ({
       )}
 
       <Grid2 container spacing={2}>
-        <Grid2 size={{sm: 12, md: 6}}>
-          <Box sx={{height: "300px", overflow: "auto"}}>
+        <Grid2 size={{ sm: 12, md: 6 }}>
+          <Box sx={{ height: "300px", overflow: "auto" }}>
             {Ismilestone.length > 0 ? (
               Ismilestone.map((item, index) => (
-                <Card key={index} sx={{mb: 1, p: 1, position: "relative"}}>
+                <Card key={index} sx={{ mb: 1, p: 1, position: "relative" }}>
                   <Box
                     sx={{
                       position: "absolute",

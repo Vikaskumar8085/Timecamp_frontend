@@ -1,21 +1,17 @@
 import React from "react";
-import {useFormik} from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-  TextField,
-  Button,
-  Container,
-  Typography,
-  Grid,
-  IconButton,
-} from "@mui/material";
-import {Add, Remove} from "@mui/icons-material";
+import { TextField, Button, Container, IconButton } from "@mui/material";
+import { Add, Remove } from "@mui/icons-material";
+import Grid from "@mui/material/Grid2";
+import Input from "../../../../common/Input/Input";
+import TextArea from "../../../../common/TextArea/TextArea";
 
-const MilestoneForm = ({handleSubmit}) => {
+const MilestoneForm = ({ handleSubmit }) => {
   const formik = useFormik({
     initialValues: {
       milestones: [
-        {MilestoneName: "", Description: "", StartDate: "", EndDate: ""},
+        { MilestoneName: "", Description: "", StartDate: "", EndDate: "" },
       ],
     },
     validationSchema: Yup.object({
@@ -47,7 +43,7 @@ const MilestoneForm = ({handleSubmit}) => {
       ...formik.values,
       milestones: [
         ...formik.values.milestones,
-        {MilestoneName: "", Description: "", StartDate: "", EndDate: ""},
+        { MilestoneName: "", Description: "", StartDate: "", EndDate: "" },
       ],
     });
   };
@@ -57,94 +53,103 @@ const MilestoneForm = ({handleSubmit}) => {
     const updatedMilestones = formik.values.milestones.filter(
       (_, i) => i !== index
     );
-    formik.setValues({...formik.values, milestones: updatedMilestones});
+    formik.setValues({ ...formik.values, milestones: updatedMilestones });
   };
 
   return (
-    <Container maxWidth="md" sx={{p: 3}}>
-      <Typography variant="h5" gutterBottom>
-        Milestone Form
-      </Typography>
+    <Container maxWidth="md" sx={{ p: 3 }}>
       <form onSubmit={formik.handleSubmit}>
         <Grid container spacing={2}>
           {formik.values.milestones.map((milestone, index) => (
-            <Grid item xs={12} key={index}>
+            <Grid key={index}>
               <Grid container spacing={2} alignItems="center">
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    label="Milestone Name"
+                <Grid size={{ md: 12, xs: 12 }}>
+                  <Input
+                    labelText="Milestone Name"
+                    placeholder={"Please Enter Milestones"}
                     name={`milestones[${index}].MilestoneName`}
                     value={milestone.MilestoneName}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.milestones?.[index]?.MilestoneName &&
-                      Boolean(formik.errors.milestones?.[index]?.MilestoneName)
-                    }
-                    helperText={
-                      formik.touched.milestones?.[index]?.MilestoneName &&
-                      formik.errors.milestones?.[index]?.MilestoneName
-                    }
                   />
+                  {formik.touched.milestones?.[index]?.MilestoneName &&
+                    formik.errors.milestones?.[index]?.MilestoneName && (
+                      <div
+                        style={{
+                          color: "red",
+                          fontSize: "0.875rem",
+                          marginTop: "0.25rem",
+                        }}
+                      >
+                        {formik.errors.milestones[index].MilestoneName}
+                      </div>
+                    )}
                 </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    label="Description"
+                <Grid size={{ xs: 12, sm: 12, md: 12 }}>
+                  <TextArea
+                    labelText="Description"
                     name={`milestones[${index}].Description`}
                     value={milestone.Description}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.milestones?.[index]?.Description &&
-                      Boolean(formik.errors.milestones?.[index]?.Description)
-                    }
-                    helperText={
-                      formik.touched.milestones?.[index]?.Description &&
-                      formik.errors.milestones?.[index]?.Description
-                    }
+                    placeholder="please write milestone Description"
                   />
+                  {formik.touched.milestones?.[index]?.Description &&
+                    formik.errors.milestones?.[index]?.Description && (
+                      <div
+                        style={{
+                          color: "red",
+                          fontSize: "0.875rem",
+                          marginTop: "0.25rem",
+                        }}
+                      >
+                        {formik.errors.milestones[index].Description}
+                      </div>
+                    )}
                 </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
+                <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                  <Input
                     type="date"
-                    label="Start Date"
-                    InputLabelProps={{shrink: true}}
+                    labelText="Start Date"
                     name={`milestones[${index}].StartDate`}
                     value={milestone.StartDate}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.milestones?.[index]?.StartDate &&
-                      Boolean(formik.errors.milestones?.[index]?.StartDate)
-                    }
-                    helperText={
-                      formik.touched.milestones?.[index]?.StartDate &&
-                      formik.errors.milestones?.[index]?.StartDate
-                    }
                   />
+                  {formik.touched.milestones?.[index]?.StartDate &&
+                    formik.errors.milestones?.[index]?.StartDate && (
+                      <div
+                        style={{
+                          color: "red",
+                          fontSize: "0.875rem",
+                          marginTop: "0.25rem",
+                        }}
+                      >
+                        {formik.errors.milestones[index].StartDate}
+                      </div>
+                    )}
                 </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
+                <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                  <Input
                     type="date"
-                    label="End Date"
-                    InputLabelProps={{shrink: true}}
+                    labelText="End Date"
                     name={`milestones[${index}].EndDate`}
                     value={milestone.EndDate}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.milestones?.[index]?.EndDate &&
-                      Boolean(formik.errors.milestones?.[index]?.EndDate)
-                    }
-                    helperText={
-                      formik.touched.milestones?.[index]?.EndDate &&
-                      formik.errors.milestones?.[index]?.EndDate
-                    }
                   />
+                  {formik.touched.milestones?.[index]?.EndDate &&
+                    formik.errors.milestones?.[index]?.EndDate && (
+                      <div
+                        style={{
+                          color: "red",
+                          fontSize: "0.875rem",
+                          marginTop: "0.25rem",
+                        }}
+                      >
+                        {formik.errors.milestones[index].StartDate}
+                      </div>
+                    )}
                 </Grid>
                 <Grid item xs={2}>
                   <IconButton
@@ -158,7 +163,13 @@ const MilestoneForm = ({handleSubmit}) => {
               </Grid>
             </Grid>
           ))}
-          <Grid item xs={12}>
+
+          <Grid size={{ md: 6 }}>
+            <Button type="submit" variant="contained" color="success">
+              Submit
+            </Button>
+          </Grid>
+          <Grid size={{ md: 6, sm: 12 }}>
             <Button
               variant="contained"
               color="primary"
@@ -169,9 +180,6 @@ const MilestoneForm = ({handleSubmit}) => {
             </Button>
           </Grid>
         </Grid>
-        <Button type="submit" variant="contained" color="success" sx={{mt: 2}}>
-          Submit
-        </Button>
       </form>
     </Container>
   );

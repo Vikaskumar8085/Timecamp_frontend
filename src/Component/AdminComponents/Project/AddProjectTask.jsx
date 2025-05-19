@@ -1,11 +1,11 @@
 import React from "react";
-import {useFormik} from "formik";
+import { useFormik } from "formik";
+
 import * as Yup from "yup";
 import {
   Container,
   Box,
   Typography,
-  Grid,
   TextField,
   FormControl,
   InputLabel,
@@ -14,7 +14,38 @@ import {
   Button,
 } from "@mui/material";
 
-const AddProjectTask = ({isMilestonoeresourcesdata, TaskHandleSubmit}) => {
+import Grid from "@mui/material/Grid2";
+import Input from "../../../common/Input/Input";
+import InputSelect from "../../../common/InputSelect/InputSelect";
+import InputFileupload from "../../../common/InputFileupload/InputFileupload";
+import TextArea from "../../../common/TextArea/TextArea";
+
+const validationSchema = Yup.object({
+  MilestoneId: Yup.string().required("Milestone is required"),
+  Task_Name: Yup.string().required("Task Name is required"),
+  StartDate: Yup.date()
+    .required("Start Date is required")
+    .typeError("Start Date must be a valid date"),
+  EndDate: Yup.date()
+    .required("End Date is required")
+    .typeError("End Date must be a valid date")
+    .min(Yup.ref("StartDate"), "End Date can't be before Start Date"),
+  Estimated_Time: Yup.number()
+    .required("Estimated Time is required")
+    .positive("Estimated Time must be positive"),
+  Priority: Yup.string().required("Priority is required"),
+  Task_Description: Yup.string(),
+  Attachment: Yup.mixed()
+    .nullable()
+    .test(
+      "fileSize",
+      "File size is too large",
+      (value) => !value || (value && value.size <= 5 * 1024 * 1024)
+    ),
+  Resource_Id: Yup.string().required("Resource Id is required"),
+});
+
+const AddProjectTask = ({ isMilestonoeresourcesdata, TaskHandleSubmit }) => {
   const resources = isMilestonoeresourcesdata[0]?.Resourcedata || [];
 
   const formik = useFormik({
@@ -27,8 +58,10 @@ const AddProjectTask = ({isMilestonoeresourcesdata, TaskHandleSubmit}) => {
       Priority: "",
       Task_Description: "",
       Attachment: null,
-      Resource_Id: "", // new field for selected resources
+      Resource_Id: "",
     },
+
+    validationSchema,
 
     onSubmit: async (values) => {
       const formData = new FormData();
@@ -49,191 +82,176 @@ const AddProjectTask = ({isMilestonoeresourcesdata, TaskHandleSubmit}) => {
 
   return (
     <Container maxWidth="md">
-      <Box sx={{p: 2}}>
-        <Typography variant="h5" gutterBottom>
-          Add Task
-        </Typography>
-        <form onSubmit={formik.handleSubmit}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <FormControl fullWidth>
-                <InputLabel>Select Milestone</InputLabel>
-                <Select
-                  {...formik.getFieldProps("MilestoneId")}
-                  value={formik.values.MilestoneId}
-                  onChange={formik.handleChange}
-                >
-                  {isMilestonoeresourcesdata.map((item) => (
-                    <MenuItem key={item.Milestone_id} value={item.Milestone_id}>
-                      {item.Name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Task Name"
-                name="Task_Name"
-                value={formik.values.Task_Name}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={
-                  formik.touched.Task_Name && Boolean(formik.errors.Task_Name)
-                }
-                helperText={formik.touched.Task_Name && formik.errors.Task_Name}
-              />
-            </Grid>
+      <form onSubmit={formik.handleSubmit}>
+        <Grid container spacing={3}>
+          <Grid size={{ sm: 12, md: 6 }}>
+            <InputSelect
+              labelText={"MileStone Name"}
+              {...formik.getFieldProps("MilestoneId")}
+              value={formik.values.MilestoneId}
+              onChange={formik.handleChange}
+              placeholder="--- Please select Milestone ---"
+              options={isMilestonoeresourcesdata?.map((item) => ({
+                label: item.Name,
+                value: item.Milestone_id,
+              }))}
+            />
 
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="Start Date"
-                name="StartDate"
-                type="date"
-                InputLabelProps={{shrink: true}}
-                value={formik.values.StartDate}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={
-                  formik.touched.StartDate && Boolean(formik.errors.StartDate)
-                }
-                helperText={formik.touched.StartDate && formik.errors.StartDate}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="Expected End Date"
-                name="EndDate"
-                type="date"
-                InputLabelProps={{shrink: true}}
-                value={formik.values.EndDate}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={formik.touched.EndDate && Boolean(formik.errors.EndDate)}
-                helperText={formik.touched.EndDate && formik.errors.EndDate}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Estimate Time (Hours)"
-                name="Estimated_Time"
-                type="number"
-                value={formik.values.Estimated_Time}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={
-                  formik.touched.Estimated_Time &&
-                  Boolean(formik.errors.Estimated_Time)
-                }
-                helperText={
-                  formik.touched.Estimated_Time && formik.errors.Estimated_Time
-                }
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                select
-                label="Priority Mode"
-                name="Priority"
-                value={formik.values.Priority}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={
-                  formik.touched.Priority && Boolean(formik.errors.Priority)
-                }
-                helperText={formik.touched.Priority && formik.errors.Priority}
-              >
-                <MenuItem value="HIGH">High</MenuItem>
-                <MenuItem value="MEDIUM">Medium</MenuItem>
-                <MenuItem value="LOW">Low</MenuItem>
-              </TextField>
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Task Description"
-                name="Task_Description"
-                multiline
-                rows={3}
-                value={formik.values.Task_Description}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={
-                  formik.touched.Task_Description &&
-                  Boolean(formik.errors.Task_Description)
-                }
-                helperText={
-                  formik.touched.Task_Description &&
-                  formik.errors.Task_Description
-                }
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <Typography variant="subtitle1">File Attachment</Typography>
-              <input
-                type="file"
-                name="Attachment"
-                onChange={(event) =>
-                  formik.setFieldValue(
-                    "Attachment",
-                    event.currentTarget.files[0]
-                  )
-                }
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <FormControl fullWidth>
-                <InputLabel>Select Resources</InputLabel>
-                <Select
-                  {...formik.getFieldProps("Resource_Id")}
-                  value={formik.values.Resource_Id}
-                  onChange={formik.handleChange}
-                >
-                  {resources.length > 0 ? (
-                    resources.map((resource) => (
-                      <MenuItem
-                        key={resource.staff_id}
-                        value={resource.staff_id}
-                      >
-                        {resource.FirstName}
-                      </MenuItem>
-                    ))
-                  ) : (
-                    <MenuItem disabled>No resources available</MenuItem>
-                  )}
-                </Select>
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={12}>
-              <Button
-                type="submit"
-                fullWidth
-                sx={{
-                  background: "#2c3e50",
-                  padding: "8px 10px",
-                  color: "white",
-                }}
-                variant="contained"
-                color="primary"
-              >
-                Submit Task
-              </Button>
-            </Grid>
+            {formik.touched.MilestoneId && formik.errors.MilestoneId && (
+              <div style={{ color: "red", fontSize: "14px" }}>
+                {formik.errors.MilestoneId}
+              </div>
+            )}
           </Grid>
-        </form>
-      </Box>
+          <Grid size={{ md: 6, sm: 12, xs: 12 }}>
+            <InputSelect
+              name={"Resource_Id"}
+              labelText={"Resource"}
+              placeholder="--- please select Resource ---"
+              {...formik.getFieldProps("Resource_Id")}
+              value={formik.values.Resource_Id}
+              onChange={formik.handleChange}
+              options={resources.map((item) => ({
+                label: item.FirstName,
+                value: item.staff_id,
+              }))}
+            />
+            {formik.touched.Resource_Id && formik.errors.Resource_Id && (
+              <div style={{ color: "red", font: "14px" }}>
+                {formik.errors.Resource_Id}
+              </div>
+            )}
+          </Grid>
+
+          <Grid size={{ md: 6, xs: 12 }}>
+            <Input
+              labelText="Task Name"
+              placeholder={"Please Enter your Task Names"}
+              name="Task_Name"
+              value={formik.values.Task_Name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.Task_Name && formik.errors.Task_Name && (
+              <div style={{ color: "red", font: "14px" }}>
+                {formik.errors.Task_Name}
+              </div>
+            )}
+          </Grid>
+
+          <Grid size={{ sm: 12, md: 6 }}>
+            <Input
+              labelText="Start Date"
+              name="StartDate"
+              type="date"
+              value={formik.values.StartDate}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.StartDate && formik.errors.StartDate && (
+              <div style={{ fontSize: "14px", color: "red" }}>
+                {formik.errors?.StartDate}
+              </div>
+            )}
+          </Grid>
+
+          <Grid size={{ md: 6, sm: 12, xs: 12 }}>
+            <Input
+              labelText="Expected End Date"
+              name="EndDate"
+              type="date"
+              value={formik.values.EndDate}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.EndDate && formik.errors.EndDate && (
+              <div style={{ font: "14px", color: "red" }}>
+                {formik.errors.EndDate}
+              </div>
+            )}
+          </Grid>
+
+          <Grid size={{ md: 6, sm: 12, xs: 12 }}>
+            <Input
+              labelText="Estimate Time (Hours)"
+              placeholder={"Please Enter Estimate Time Hours"}
+              name="Estimated_Time"
+              type="number"
+              value={formik.values.Estimated_Time}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.Estimated_Time && formik.errors.Estimated_Time && (
+              <div style={{ color: "red", font: "14px" }}>
+                {formik.errors.Estimated_Time}
+              </div>
+            )}
+          </Grid>
+
+          <Grid size={{ sm: 12, xs: 12 }}>
+            <InputSelect
+              labelText="Priority Mode"
+              name="Priority"
+              value={formik.values.Priority}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              options={[
+                { value: "HIGH", label: "HIGH" },
+                { value: "MEDIUM", label: "MEDIUM" },
+                { value: "LOW", label: "LOW" },
+              ]}
+            />
+
+            {formik.touched.Priority && formik.errors.Priority && (
+              <div style={{ color: "red", font: "14px" }}>
+                {formik.errors.Priority}
+              </div>
+            )}
+          </Grid>
+
+          <Grid size={{ sm: 12, xs: 12 }}>
+            <TextArea
+              labelText="Task Description"
+              name="Task_Description"
+              value={formik.values.Task_Description}
+              placeholder="Please Enter task Description"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.Task_Description &&
+              formik.errors.Task_Description && (
+                <div style={{ font: "14px", color: "red" }}>
+                  {formik.errors.Task_Description}
+                </div>
+              )}
+          </Grid>
+          <Grid size={{ sm: 12, xs: 12 }}>
+            <InputFileupload
+              type="file"
+              name="Attachment"
+              onChange={(event) =>
+                formik.setFieldValue("Attachment", event.currentTarget.files[0])
+              }
+            />
+          </Grid>
+
+          <Grid size={{ sm: 12, xs: 12 }}>
+            <Button
+              type="submit"
+              fullWidth
+              sx={{
+                background: "#2c3e50",
+                padding: "8px 10px",
+                color: "white",
+              }}
+              variant="contained"
+              color="primary"
+            >
+              Submit Task
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
     </Container>
   );
 };

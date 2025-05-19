@@ -1,5 +1,17 @@
-import React from "react";
-const InputFileupload = ({paragraph, title, ...rest}) => {
+import React, { useState } from "react";
+const InputFileupload = ({ paragraph, title, ...rest }) => {
+  const [filename, setfilename] = useState("");
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setfilename(file.name);
+    }
+    // Forward file input change to parent if a handler is passed
+    if (rest.onChange) {
+      rest.onChange(e);
+    }
+  };
+
   return (
     <>
       <div className="input_file_upload_wrapper">
@@ -12,6 +24,11 @@ const InputFileupload = ({paragraph, title, ...rest}) => {
                 {paragraph ||
                   "   Attach files to provide additional context or support for your task ."}
               </p>
+              {filename && (
+                <div className="selected-file-name">
+                  <strong>Selected file:</strong> {filename}
+                </div>
+              )}
             </div>
             <div className="input_file_upload_input_wrapper">
               <label className="input_file_upload_input_box">
@@ -21,7 +38,7 @@ const InputFileupload = ({paragraph, title, ...rest}) => {
                   accept="image/*"
                   hidden
                   {...rest}
-                  // onChange={handleFileChange}
+                  onChange={handleFileChange}
                 />
               </label>
             </div>

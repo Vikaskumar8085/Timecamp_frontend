@@ -1,4 +1,4 @@
-import {Box, Button, Card, Drawer, Grid2} from "@mui/material";
+import { Box, Button, Card, Drawer, Grid2 } from "@mui/material";
 import {
   Table,
   TableBody,
@@ -10,17 +10,18 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import MilestoneForm from "./MilestoneForm";
 import apiInstance from "../../../../ApiInstance/apiInstance";
 import UploadTask from "../../../../Component/AdminComponents/Task/UploadTask";
 import AddProjectTask from "../../../../Component/AdminComponents/Project/AddProjectTask";
 import MilestoneList from "../../../../Component/AdminComponents/Project/ProjecTaskComponent/MilestoneList";
 import toast from "react-hot-toast";
-import {useDispatch} from "react-redux";
-import {setLoader} from "../../../../redux/LoaderSlices/LoaderSlices";
+import { useDispatch } from "react-redux";
+import { setLoader } from "../../../../redux/LoaderSlices/LoaderSlices";
+import TModal from "../../../../common/Modal/TModal";
 
-const ProjectTask = ({id}) => {
+const ProjectTask = ({ id }) => {
   const [IsTaskOpen, setIsTaskOpen] = useState(false);
   const [IsMilestoneOpen, setIsMieStoneOpen] = useState(false);
   const [IsUploadTaskOpen, setIsUploadTaskOpen] = useState(false);
@@ -193,26 +194,26 @@ const ProjectTask = ({id}) => {
       </Button>
 
       {IsTaskOpen && (
-        <Drawer
+        <TModal
           open={IsTaskOpen}
           onClose={() => setIsTaskOpen(false)}
-          anchor="right"
+          title={"Add Task"}
         >
           <AddProjectTask
             isMilestonoeresourcesdata={isMilestonoeresourcesdata}
             TaskHandleSubmit={TaskHandleSubmit}
           />
-        </Drawer>
+        </TModal>
       )}
 
       {IsMilestoneOpen && (
-        <Drawer
+        <TModal
           open={IsMilestoneOpen}
           onClose={() => setIsMieStoneOpen(false)}
-          anchor="right"
+          title={"Add MileStone"}
         >
           <MilestoneForm handleSubmit={handleSubmit} />
-        </Drawer>
+        </TModal>
       )}
 
       {IsUploadTaskOpen && (
@@ -230,20 +231,20 @@ const ProjectTask = ({id}) => {
 
       <div>
         <Grid2 container spacing={2}>
-          <Grid2 size={{sm: 12, md: 6}}>
+          <Grid2 size={{ sm: 12, md: 6 }}>
             <Typography component={Paper}>Milstones Name</Typography>
-            <Box sx={{height: "300px", overflow: "auto"}}>
+            <Box sx={{ height: "300px", overflow: "auto" }}>
               <MilestoneList milestones={Ismilestonedata} />
             </Box>
           </Grid2>
 
-          <Grid2 size={{sm: 12, md: 6}}>
-            <Box sx={{height: "300px", overflow: "auto"}}>
+          <Grid2 size={{ sm: 12, md: 6 }}>
+            <Box sx={{ height: "300px", overflow: "auto" }}>
               <Typography component={Paper}>Alloted Task Member</Typography>
 
               {isAllotedMemberdata.length > 0 ? (
                 isAllotedMemberdata.map((item, index) => (
-                  <Card key={index} sx={{mb: 1, p: 1, position: "relative"}}>
+                  <Card key={index} sx={{ mb: 1, p: 1, position: "relative" }}>
                     <Box
                       sx={{
                         position: "absolute",
@@ -268,8 +269,8 @@ const ProjectTask = ({id}) => {
           </Grid2>
         </Grid2>
 
-        <TableContainer component={Paper} sx={{mt: 3}}>
-          <Typography variant="h6" sx={{p: 2}}>
+        <TableContainer component={Paper} sx={{ mt: 3 }}>
+          <Typography variant="h6" sx={{ p: 2 }}>
             Task List
           </Typography>
           <Table>
