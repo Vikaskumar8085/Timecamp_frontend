@@ -1,5 +1,8 @@
-import React, {useEffect, useState} from "react";
-import {fetchemployeeprojectsapicall} from "../../ApiServices/EmployeeApiservices/Employee";
+import React, {useCallback, useEffect, useState} from "react";
+import {
+  createemployeeprojectapicall,
+  fetchemployeeprojectsapicall,
+} from "../../ApiServices/EmployeeApiservices/Employee";
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import Input from "../../common/Input/Input";
@@ -21,15 +24,18 @@ import {
   Container,
 } from "@mui/material";
 import {Link} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import EmpProjectForm from "../../Component/EmployeeComponents/EmpProjectForm";
 import Empty from "../../common/EmptyFolder/Empty";
 import {VisibilitySharp} from "@mui/icons-material";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 import TModal from "../../common/Modal/TModal";
+import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
+import apiInstance from "../../ApiInstance/apiInstance";
 
 const EmployeeProjects = () => {
   const userdata = useSelector((state) => state?.user.values);
+  const dispatch = useDispatch();
   const [Isemployeeprojectdata, setIsemployeeprojectdata] = useState([]);
   // states
 
@@ -78,6 +84,30 @@ const EmployeeProjects = () => {
     setPage(0);
   };
 
+  const handleSubmit = useCallback(async (value) => {
+    try {
+      dispatch(setLoader(true));
+      const response = await createemployeeprojectapicall(value);
+      dispatch(setLoader(false));
+      if (response?.success) {
+        dispatch(setLoader(false));
+        setIsOpen(false);
+        toast.success(response?.message);
+      } else {
+        dispatch(setLoader(false));
+        setIsOpen(false);
+        toast.success(response?.message);
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      setIsOpen(false);
+      toast.error(error?.response?.data?.message);
+    }
+  }, []);
+
+  // useEffect(() => {
+  //   dispatch(setLoader(false));
+  // });
   return (
     <div>
       <LayoutDesign>
@@ -103,7 +133,7 @@ const EmployeeProjects = () => {
             onClose={() => setIsOpen(false)}
             title="Add Project"
           >
-            <EmpProjectForm />
+            <EmpProjectForm handleSubmit={handleSubmit} />
           </TModal>
         )}
 

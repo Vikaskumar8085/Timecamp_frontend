@@ -23,7 +23,7 @@ import {
   fetchemployeestaffapicall,
 } from "../../ApiServices/EmployeeApiservices/Employee";
 
-const ContractorForm = ({IsEdit}) => {
+const ContractorForm = ({IsEdit, handleSubmit}) => {
   const [isclientdata, setisclientdata] = useState([]);
   const [isrolesdata, setIsrolesdata] = useState([]);
   const [isstaffdata, setisstaffdata] = useState([]);
@@ -71,11 +71,9 @@ const ContractorForm = ({IsEdit}) => {
     initialValues: {
       Project_Name: IsEdit?.Project_Name ?? "",
       clientId: IsEdit?.clientId ?? "",
-      Project_ManagersId: IsEdit?.Project_ManagersId ?? "",
       Project_Type: IsEdit?.Project_Type ?? "",
       Start_Date: IsEdit?.Start_Date ?? "",
       End_Date: IsEdit?.End_Date ?? "",
-      Project_Estimate_Hours: "",
       currency: IsEdit?.currency ?? "",
       Project_Hours: IsEdit?.Project_Hours ?? "",
       bucket: [{bucketHourly: "", bucketHourlyRate: ""}],
@@ -125,8 +123,7 @@ const ContractorForm = ({IsEdit}) => {
             ],
     },
     onSubmit: async (values) => {
-      console.log("Form Submitted", values);
-      // handleSubmit(values);
+      handleSubmit(values);
       // formik.resetForm();
     },
   });
@@ -194,16 +191,7 @@ const ContractorForm = ({IsEdit}) => {
 
   return (
     <>
-      <Container maxWidth="md">
-        <Typography
-          sx={{my: 3, textTransform: "capitalize"}}
-          variant={"h5"}
-          gutterBottom
-        >
-          {" "}
-          <strong>Add project</strong>
-        </Typography>
-
+      <Container maxWidth="lg">
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={1}>
             <Grid size={{sm: 12, md: 6}}>
@@ -216,17 +204,7 @@ const ContractorForm = ({IsEdit}) => {
                 placeholder={"Please Enter Your Project Name"}
               />
             </Grid>
-            <Grid size={{sm: 12, md: 6}}>
-              <Input
-                labelText="Project Hours"
-                name="Project_Hours"
-                type="number"
-                value={formik.values.Project_Hours}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                placeholder={"Please Enter Your Project Hour"}
-              />
-            </Grid>
+
             <Grid size={{sm: 12, md: 6}}>
               <InputSelect
                 name={"currency"}
@@ -350,9 +328,9 @@ const ContractorForm = ({IsEdit}) => {
                     type="text"
                     labelText="Project Estimate Hours"
                     placeholder={"please Enter Estimate Hours"}
-                    name="Project_Estimate_Hours"
+                    name="Project_Hours"
                     onChange={formik.handleChange}
-                    value={formik.values.Project_Estimate_Hours}
+                    value={formik.values.Project_Hours}
                   />
                 </Grid>
               </>

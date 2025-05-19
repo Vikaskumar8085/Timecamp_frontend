@@ -167,7 +167,7 @@ const Project = () => {
             setIsModalOpen(false);
             setIsEdit(null);
           }}
-          title="Add Project"
+          title={IsEdit ? "Edit Project" : "Add Project"}
         >
           <ProjectForm IsEdit={IsEdit} handleSubmit={handleSubmit} />
         </TModal>

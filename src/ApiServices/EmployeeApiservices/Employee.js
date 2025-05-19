@@ -1,5 +1,13 @@
 import apiInstance from "../../ApiInstance/apiInstance";
 
+export const createemployeeprojectapicall = async (values) => {
+  const response = await apiInstance.post(
+    "/v2/employee/create-employee-project",
+    values
+  );
+  return response.data;
+};
+
 export const fetchemployeeprojectsapicall = async (value) => {
   const response = await apiInstance.get(
     "/v2/employee/employee-project",

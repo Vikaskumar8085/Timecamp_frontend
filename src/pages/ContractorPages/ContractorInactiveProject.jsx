@@ -49,7 +49,7 @@ const ContractorInactiveProject = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {isContractoractiveprojectdata?.response?.map((item, index) => {
+            {isContractoractiveprojectdata?.map((item, index) => {
               return (
                 <>
                   <TableRow key={index}>
@@ -77,34 +77,6 @@ const ContractorInactiveProject = () => {
                 </>
               );
             })}
-            {isContractoractiveprojectdata?.contractorinactiveProjects?.map(
-              (item, index) => {
-                return (
-                  <>
-                    <TableRow key={index}>
-                      <TableCell>{index + 1}</TableCell>
-                      <TableCell>{item.Project_Name}</TableCell>
-                      <TableCell>{item.Project_Code}</TableCell>
-                      <TableCell>{item.Project_Status}</TableCell>
-                      <TableCell>{item.Project_Type}</TableCell>
-                      <TableCell>
-                        {new Date(item.Start_Date).toLocaleDateString()}
-                      </TableCell>
-                      <TableCell>
-                        {new Date(item.End_Date).toLocaleDateString()}
-                      </TableCell>
-                      <TableCell>
-                        <Link
-                          to={`/contractor/contractor-project-info/${item.ProjectId}`}
-                        >
-                          <VisibilitySharp />
-                        </Link>
-                      </TableCell>
-                    </TableRow>
-                  </>
-                );
-              }
-            )}
           </TableBody>
         </Table>
       </TableContainer>

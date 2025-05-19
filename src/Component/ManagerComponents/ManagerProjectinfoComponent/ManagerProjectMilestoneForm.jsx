@@ -1,21 +1,21 @@
 import React from "react";
-import { useFormik } from "formik";
+import {useFormik} from "formik";
 import * as Yup from "yup";
 import {
   TextField,
   Button,
   Container,
   Typography,
-  Grid,
   IconButton,
 } from "@mui/material";
-import { Add, Remove } from "@mui/icons-material";
+import Grid from "@mui/material/Grid2";
+import {Add, Remove} from "@mui/icons-material";
 
-const ManagerProjectMilestoneForm = ({ handleSubmitmilestone }) => {
+const ManagerProjectMilestoneForm = ({handleSubmitmilestone}) => {
   const formik = useFormik({
     initialValues: {
       milestones: [
-        { MilestoneName: "", Description: "", StartDate: "", EndDate: "" },
+        {MilestoneName: "", Description: "", StartDate: "", EndDate: ""},
       ],
     },
     validationSchema: Yup.object({
@@ -47,7 +47,7 @@ const ManagerProjectMilestoneForm = ({ handleSubmitmilestone }) => {
       ...formik.values,
       milestones: [
         ...formik.values.milestones,
-        { MilestoneName: "", Description: "", StartDate: "", EndDate: "" },
+        {MilestoneName: "", Description: "", StartDate: "", EndDate: ""},
       ],
     });
   };
@@ -57,20 +57,17 @@ const ManagerProjectMilestoneForm = ({ handleSubmitmilestone }) => {
     const updatedMilestones = formik.values.milestones.filter(
       (_, i) => i !== index
     );
-    formik.setValues({ ...formik.values, milestones: updatedMilestones });
+    formik.setValues({...formik.values, milestones: updatedMilestones});
   };
   return (
     <>
-      <Container maxWidth="md" sx={{ p: 3 }}>
-        <Typography variant="h5" gutterBottom>
-          Milestone Form
-        </Typography>
+      <Container maxWidth="lg" sx={{p: 3}}>
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={2}>
             {formik.values.milestones.map((milestone, index) => (
-              <Grid item xs={12} key={index}>
-                <Grid container spacing={2} alignItems="center">
-                  <Grid item xs={12}>
+              <Grid size={{sm: 12}} key={index}>
+                <Grid container spacing={2}>
+                  <Grid size={{xs: 2, sm: 6, md: 6}}>
                     <TextField
                       fullWidth
                       label="Milestone Name"
@@ -90,7 +87,7 @@ const ManagerProjectMilestoneForm = ({ handleSubmitmilestone }) => {
                       }
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={{xs: 2, sm: 6, md: 6}}>
                     <TextField
                       fullWidth
                       label="Description"
@@ -108,12 +105,12 @@ const ManagerProjectMilestoneForm = ({ handleSubmitmilestone }) => {
                       }
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={{xs: 2, sm: 6, md: 6}}>
                     <TextField
                       fullWidth
                       type="date"
                       label="Start Date"
-                      InputLabelProps={{ shrink: true }}
+                      InputLabelProps={{shrink: true}}
                       name={`milestones[${index}].StartDate`}
                       value={milestone.StartDate}
                       onChange={formik.handleChange}
@@ -128,12 +125,12 @@ const ManagerProjectMilestoneForm = ({ handleSubmitmilestone }) => {
                       }
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={{xs: 2, sm: 6, md: 6}}>
                     <TextField
                       fullWidth
                       type="date"
                       label="End Date"
-                      InputLabelProps={{ shrink: true }}
+                      InputLabelProps={{shrink: true}}
                       name={`milestones[${index}].EndDate`}
                       value={milestone.EndDate}
                       onChange={formik.handleChange}
@@ -175,7 +172,7 @@ const ManagerProjectMilestoneForm = ({ handleSubmitmilestone }) => {
             type="submit"
             variant="contained"
             color="success"
-            sx={{ mt: 2 }}
+            sx={{mt: 2}}
           >
             Submit
           </Button>

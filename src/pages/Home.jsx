@@ -238,15 +238,15 @@ const Home = () => {
           {/* sidebar */}
           <div className="wrapper_content">
             <BreadCrumb pageName="Home" />
-            {/* 
+
             <InputCheckboxMulti
               labelText="Select Your Skills"
               options={skillOptions}
               selected={selectedSkills}
               onChange={setSelectedSkills}
-            /> */}
-            {/* <InputImageUpload /> */}
-            {/* <ProfileForm />
+            />
+            <InputImageUpload />
+            <ProfileForm />
             <InputSelect
               labelText="Select Designation"
               placeholder="---please select designation---"
@@ -257,13 +257,13 @@ const Home = () => {
                 {id: 2, value: "manager", label: "Manager"},
                 {id: 3, value: "employee", label: "Employee"},
               ]}
-            /> */}
+            />
 
             {/* side bar design */}
 
             <div>
               {/* <h2 style={{padding: "20px"}}>Dashboard Overview</h2> */}
-              {/* <DashboardCounter /> */}
+              <DashboardCounter />
 
               <ProjectCard paragraph={"detail"} label={"project"} />
             </div>

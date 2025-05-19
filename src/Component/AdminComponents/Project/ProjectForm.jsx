@@ -31,6 +31,7 @@ import {
 import {fetchroleapicall} from "../../../ApiServices/MasterApiServices/Roles";
 import Input from "../../../common/Input/Input";
 import InputSelect from "../../../common/InputSelect/InputSelect";
+import moment from "moment";
 
 const ProjectForm = ({handleSubmit, IsEdit}) => {
   const [clients, setClients] = useState([]);
@@ -46,7 +47,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
       console.log(error?.message);
     }
   };
-
+  console.log(IsEdit, "isedit");
   const getroledata = async () => {
     try {
       const response = await fetchroleapicall();
@@ -74,12 +75,22 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
       clientId: IsEdit?.clientId ?? "",
       Project_ManagersId: IsEdit?.Project_ManagersId ?? "",
       Project_Type: IsEdit?.Project_Type ?? "",
-      Start_Date: IsEdit?.Start_Date ?? "",
-      End_Date: IsEdit?.End_Date ?? "",
+      Start_Date: IsEdit?.Start_Date
+        ? moment(IsEdit.Start_Date, "DD/MM/YYYY").format("YYYY-MM-DD")
+        : "",
+      End_Date: IsEdit?.End_Date
+        ? moment(IsEdit.End_Date, "DD/MM/YYYY").format("YYYY-MM-DD")
+        : "",
       Project_Estimate_Hours: "",
       currency: IsEdit?.currency ?? "",
       Project_Hours: IsEdit?.Project_Hours ?? "",
-      bucket: [{bucketHourly: "", bucketHourlyRate: ""}],
+      bucket: IsEdit?.bucket?.length
+        ? IsEdit.bucket.map((item) => ({
+            bucketHourly: item.bucketHourly || "",
+            bucketHourlyRate: item.bucketHourlyRate || "",
+          }))
+        : [{bucketHourly: "", bucketHourlyRate: ""}],
+
       roleProjectMangare:
         Array.isArray(IsEdit?.roleProjectMangare) &&
         IsEdit.roleProjectMangare.length > 0
@@ -613,7 +624,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
                 color: "white",
               }}
             >
-              Submit
+              {IsEdit ? "Update" : "Submit"}
             </Button>
           </Grid>
         </Grid>

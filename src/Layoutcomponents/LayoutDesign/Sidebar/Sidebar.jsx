@@ -224,7 +224,7 @@ const Sidebar = ({toggleDropdown, openDropdown, Role}) => {
                   </li>
                 </ul>
               </li>
-              {/* Employee */}
+              {/* contractor */}
               <li>
                 <button
                   className="dropdown_btn"
@@ -1049,6 +1049,190 @@ const Sidebar = ({toggleDropdown, openDropdown, Role}) => {
                     Dashboard
                   </NavLink>
                 </li>
+
+                <li>
+                  <NavLink
+                    to={"/profile"}
+                    style={({isActive}) => ({
+                      color: isActive ? "black" : "black",
+                      background: isActive ? "#ff0df80d" : "",
+                    })}
+                    className={({isActive}) =>
+                      `nav_link ${isActive ? "active" : ""}`
+                    }
+                  >
+                    <span>
+                      <DashboardCustomizeOutlinedIcon />
+                    </span>
+                    Profile
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to={"/contractor/tasks"}
+                    style={({isActive}) => ({
+                      color: isActive ? "black" : "black",
+                      background: isActive ? "#ff0df80d" : "",
+                    })}
+                    className={({isActive}) =>
+                      `nav_link ${isActive ? "active" : ""}`
+                    }
+                  >
+                    <span>
+                      <DashboardCustomizeOutlinedIcon />
+                    </span>
+                    Tasks
+                  </NavLink>
+                </li>
+
+                {/* project  */}
+                <li>
+                  <button
+                    className="dropdown_btn"
+                    style={{
+                      background:
+                        openDropdown === "contractor_projects"
+                          ? "#ff0df80d"
+                          : "",
+                      color:
+                        openDropdown === "contractor_projects"
+                          ? "#6560f0"
+                          : "black",
+                    }}
+                    onClick={() => toggleDropdown("contractor_projects")}
+                  >
+                    <div className="dropdown-link">
+                      <i className="dropdown-side-icons">
+                        <WorkOutlineOutlinedIcon />
+                      </i>
+                      Projects
+                    </div>
+                    <span>
+                      {" "}
+                      {openDropdown === "contractor_projects" ? (
+                        <KeyboardArrowUpIcon />
+                      ) : (
+                        <KeyboardArrowDownIcon />
+                      )}
+                    </span>
+                  </button>
+
+                  {/* contractor */}
+                  <ul
+                    className={`dropdown_menu ${
+                      openDropdown === "contractor_projects" ? "show" : ""
+                    }`}
+                  >
+                    <li>
+                      <NavLink
+                        to="/contractor/projects"
+                        style={({isActive}) => ({
+                          color: isActive ? "black" : "black",
+                        })}
+                        className="dropdown_link"
+                      >
+                        <span>All Projects</span>
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        to="/contractor/active-projects"
+                        style={({isActive}) => ({
+                          color: isActive ? "black" : "black",
+                        })}
+                        className="dropdown_link"
+                      >
+                        <span>Active Project</span>
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        to="/contractor/inactive-projects"
+                        style={({isActive}) => ({
+                          color: isActive ? "black" : "black",
+                        })}
+                        className="dropdown_link"
+                      >
+                        <span>Inactive Projects</span>
+                      </NavLink>
+                    </li>
+                  </ul>
+                  {/* Projects */}
+                </li>
+                {/* timesheets  */}
+                <li>
+                  <button
+                    className="dropdown_btn"
+                    style={{
+                      background:
+                        openDropdown === "contractor_timesheets"
+                          ? "#ff0df80d"
+                          : "",
+                      color:
+                        openDropdown === "contractor_timesheets"
+                          ? "#6560f0"
+                          : "black",
+                    }}
+                    onClick={() => toggleDropdown("contractor_timesheets")}
+                  >
+                    <div className="dropdown-link">
+                      <i className="dropdown-side-icons">
+                        <WorkOutlineOutlinedIcon />
+                      </i>
+                      Timesheets
+                    </div>
+                    <span>
+                      {" "}
+                      {openDropdown === "contractor_timesheets" ? (
+                        <KeyboardArrowUpIcon />
+                      ) : (
+                        <KeyboardArrowDownIcon />
+                      )}
+                    </span>
+                  </button>
+
+                  {/* contractor */}
+                  <ul
+                    className={`dropdown_menu ${
+                      openDropdown === "contractor_timesheets" ? "show" : ""
+                    }`}
+                  >
+                    <li>
+                      <NavLink
+                        to="/contractor/Timesheet"
+                        style={({isActive}) => ({
+                          color: isActive ? "black" : "black",
+                        })}
+                        className="dropdown_link"
+                      >
+                        <span>TimeSheet</span>
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        to="/contractor/contractor-project-time"
+                        style={({isActive}) => ({
+                          color: isActive ? "black" : "black",
+                        })}
+                        className="dropdown_link"
+                      >
+                        <span>Project Time</span>
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        to="/contractor/contractor-timesummary"
+                        style={({isActive}) => ({
+                          color: isActive ? "black" : "black",
+                        })}
+                        className="dropdown_link"
+                      >
+                        <span>Timesummary</span>
+                      </NavLink>
+                    </li>
+                  </ul>
+                  {/* Projects */}
+                </li>
               </ul>
             </>
           )}
@@ -1072,6 +1256,203 @@ const Sidebar = ({toggleDropdown, openDropdown, Role}) => {
                     </span>
                     Dashboard
                   </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to={"/profile"}
+                    style={({isActive}) => ({
+                      color: isActive ? "black" : "black",
+                      background: isActive ? "#ff0df80d" : "",
+                    })}
+                    className={({isActive}) =>
+                      `nav_link ${isActive ? "active" : ""}`
+                    }
+                  >
+                    <span>
+                      <DashboardCustomizeOutlinedIcon />
+                    </span>
+                    Profile
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to={"/manager/team"}
+                    style={({isActive}) => ({
+                      color: isActive ? "black" : "black",
+                      background: isActive ? "#ff0df80d" : "",
+                    })}
+                    className={({isActive}) =>
+                      `nav_link ${isActive ? "active" : ""}`
+                    }
+                  >
+                    <span>
+                      <DashboardCustomizeOutlinedIcon />
+                    </span>
+                    Team
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to={"/manager/task"}
+                    style={({isActive}) => ({
+                      color: isActive ? "black" : "black",
+                      background: isActive ? "#ff0df80d" : "",
+                    })}
+                    className={({isActive}) =>
+                      `nav_link ${isActive ? "active" : ""}`
+                    }
+                  >
+                    <span>
+                      <DashboardCustomizeOutlinedIcon />
+                    </span>
+                    Task
+                  </NavLink>
+                </li>
+
+                <li>
+                  <button
+                    className="dropdown_btn"
+                    style={{
+                      background:
+                        openDropdown === "manager_projects" ? "#ff0df80d" : "",
+                      color:
+                        openDropdown === "manager_projects"
+                          ? "#6560f0"
+                          : "black",
+                    }}
+                    onClick={() => toggleDropdown("manager_projects")}
+                  >
+                    <div className="dropdown-link">
+                      <i className="dropdown-side-icons">
+                        <WorkOutlineOutlinedIcon />
+                      </i>
+                      Projects
+                    </div>
+                    <span>
+                      {" "}
+                      {openDropdown === "manager_projects" ? (
+                        <KeyboardArrowUpIcon />
+                      ) : (
+                        <KeyboardArrowDownIcon />
+                      )}
+                    </span>
+                  </button>
+
+                  {/* manager */}
+                  <ul
+                    className={`dropdown_menu ${
+                      openDropdown === "manager_projects" ? "show" : ""
+                    }`}
+                  >
+                    <li>
+                      <NavLink
+                        to="/manager/project"
+                        style={({isActive}) => ({
+                          color: isActive ? "black" : "black",
+                        })}
+                        className="dropdown_link"
+                      >
+                        <span>All Projects</span>
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        to="/manager/active-project"
+                        style={({isActive}) => ({
+                          color: isActive ? "black" : "black",
+                        })}
+                        className="dropdown_link"
+                      >
+                        <span>Active Project</span>
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        to="/manager/inactive-project"
+                        style={({isActive}) => ({
+                          color: isActive ? "black" : "black",
+                        })}
+                        className="dropdown_link"
+                      >
+                        <span>Inactive Projects</span>
+                      </NavLink>
+                    </li>
+                  </ul>
+                  {/* Projects */}
+                </li>
+
+                {/* timesheet */}
+
+                <li>
+                  <button
+                    className="dropdown_btn"
+                    style={{
+                      background:
+                        openDropdown === "manager_timesheet" ? "#ff0df80d" : "",
+                      color:
+                        openDropdown === "manager_timesheet"
+                          ? "#6560f0"
+                          : "black",
+                    }}
+                    onClick={() => toggleDropdown("manager_timesheet")}
+                  >
+                    <div className="dropdown-link">
+                      <i className="dropdown-side-icons">
+                        <WorkOutlineOutlinedIcon />
+                      </i>
+                      Timesheets
+                    </div>
+                    <span>
+                      {" "}
+                      {openDropdown === "manager_timesheet" ? (
+                        <KeyboardArrowUpIcon />
+                      ) : (
+                        <KeyboardArrowDownIcon />
+                      )}
+                    </span>
+                  </button>
+
+                  {/* manager */}
+                  <ul
+                    className={`dropdown_menu ${
+                      openDropdown === "manager_timesheet" ? "show" : ""
+                    }`}
+                  >
+                    <li>
+                      <NavLink
+                        to="/manager/timesheet"
+                        style={({isActive}) => ({
+                          color: isActive ? "black" : "black",
+                        })}
+                        className="dropdown_link"
+                      >
+                        <span>Timesheet</span>
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        to="/manager/timesummary"
+                        style={({isActive}) => ({
+                          color: isActive ? "black" : "black",
+                        })}
+                        className="dropdown_link"
+                      >
+                        <span>Time Summary</span>
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        to="/manager/projectTime"
+                        style={({isActive}) => ({
+                          color: isActive ? "black" : "black",
+                        })}
+                        className="dropdown_link"
+                      >
+                        <span>Project Time</span>
+                      </NavLink>
+                    </li>
+                  </ul>
+                  {/* Projects */}
                 </li>
               </ul>
             </>

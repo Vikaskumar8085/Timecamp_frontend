@@ -1,4 +1,5 @@
 import apiInstance from "../../ApiInstance/apiInstance";
+
 // conractor projects
 export const fetchContractorprojectsapicall = async () => {
   const response = await apiInstance.get("/v2/contractor/contractor-project");
@@ -66,4 +67,13 @@ export const fetchcontractortaskapicall = async (value) => {
     value
   );
   return response.data;
+};
+
+// create contractor project api call
+export const createcontractorprojectapicall = async (value) => {
+  const repsonse = await apiInstance.post(
+    "/v2/contractor/create-contractor-project",
+    value
+  );
+  return repsonse.data;
 };

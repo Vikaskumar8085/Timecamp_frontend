@@ -1,5 +1,8 @@
-import React, {useEffect, useState} from "react";
-import {fetchContractorprojectsapicall} from "../../ApiServices/ContractorApiServices/ContractorApiServices";
+import React, {useCallback, useEffect, useState} from "react";
+import {
+  createcontractorprojectapicall,
+  fetchContractorprojectsapicall,
+} from "../../ApiServices/ContractorApiServices/ContractorApiServices";
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import {
@@ -16,27 +19,53 @@ import {
 import {VisibilitySharp} from "@mui/icons-material";
 import {Link} from "react-router-dom";
 import ContractorForm from "../../Component/ContractorComponents/ContractorForm";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import TModal from "../../common/Modal/TModal";
+import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
+import toast from "react-hot-toast";
 const ContractorProject = () => {
   const [IsContractorProjectdata, setIsContractorProjectdata] = useState([]);
+
   const [isOpen, setIsOpen] = useState(false);
   const userdata = useSelector((state) => state?.user.values);
-
-  const fetchcontractorprojectfunc = async () => {
+  const dispatch = useDispatch();
+  const fetchcontractorprojectfunc = useCallback(async () => {
     try {
       const response = await fetchContractorprojectsapicall();
+      console.log(response, "contractor data");
       if (response.success) {
         setIsContractorProjectdata(response.result);
       }
     } catch (error) {
       console.log(error?.message);
     }
+  }, {});
+
+  const handleSubmit = async (value) => {
+    try {
+      dispatch(setLoader(true));
+      const response = await createcontractorprojectapicall(value);
+      if (response.success) {
+        dispatch(setLoader(false));
+        toast.success(response?.message);
+        setIsOpen(false);
+        fetchcontractorprojectfunc();
+      } else {
+        dispatch(setLoader(false));
+        toast.success(response?.message);
+        setIsOpen(false);
+      }
+    } catch (error) {
+      setIsOpen(false);
+      toast.error(error?.response?.data?.message);
+      dispatch(setLoader(false));
+    }
   };
 
   useEffect(() => {
     fetchcontractorprojectfunc();
-  }, [0]);
+  }, [fetchcontractorprojectfunc]);
   return (
     <LayoutDesign>
       <BreadCrumb pageName="Contractor Project" />
@@ -55,9 +84,13 @@ const ContractorProject = () => {
       )}
 
       {isOpen && (
-        <Drawer open={isOpen} onClose={() => setIsOpen(false)} anchor="right">
-          <ContractorForm />
-        </Drawer>
+        <TModal
+          open={isOpen}
+          onClose={() => setIsOpen(false)}
+          title="add Project"
+        >
+          <ContractorForm handleSubmit={handleSubmit} />
+        </TModal>
       )}
 
       <TableContainer component={Paper} sx={{mt: 3}}>
@@ -75,35 +108,7 @@ const ContractorProject = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {IsContractorProjectdata?.response?.map((item, index) => {
-              return (
-                <>
-                  <TableRow key={index}>
-                    <TableCell>{index + 1}</TableCell>
-                    <TableCell>{item.Project_Name}</TableCell>
-                    <TableCell>{item.Project_Code}</TableCell>
-                    <TableCell>
-                      {item.Project_Status === true ? "Active" : "InActive"}
-                    </TableCell>
-                    <TableCell>{item.Project_Type}</TableCell>
-                    <TableCell>
-                      {new Date(item.Start_Date).toLocaleDateString()}
-                    </TableCell>
-                    <TableCell>
-                      {new Date(item.End_Date).toLocaleDateString()}
-                    </TableCell>
-                    <TableCell>
-                      <Link
-                        to={`/contractor/contractor-project-info/${item.ProjectId}`}
-                      >
-                        <VisibilitySharp />
-                      </Link>
-                    </TableCell>
-                  </TableRow>
-                </>
-              );
-            })}
-            {IsContractorProjectdata?.contractorProjects?.map((item, index) => {
+            {IsContractorProjectdata?.map((item, index) => {
               return (
                 <>
                   <TableRow key={index}>
