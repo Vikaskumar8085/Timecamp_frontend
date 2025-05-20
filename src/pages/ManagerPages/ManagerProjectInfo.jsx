@@ -27,6 +27,7 @@ const ManagerProjectInfo = () => {
   const [IsFillTimesheet, setIsFillTimesheet] = useState(false);
 
   const {id} = useParams();
+  console.log(id);
 
   // fetch manager milestone with resource func
   const fetchmanagermilestonewithresourcesfunc = async () => {

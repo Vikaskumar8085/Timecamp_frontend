@@ -1,17 +1,17 @@
 import React from "react";
-import { useFormik } from "formik";
+import {useFormik} from "formik";
 import * as Yup from "yup";
-import { TextField, Button, Container, IconButton } from "@mui/material";
-import { Add, Remove } from "@mui/icons-material";
+import {TextField, Button, Container, IconButton} from "@mui/material";
+import {Add, Remove} from "@mui/icons-material";
 import Grid from "@mui/material/Grid2";
 import Input from "../../../../common/Input/Input";
 import TextArea from "../../../../common/TextArea/TextArea";
 
-const MilestoneForm = ({ handleSubmit }) => {
+const MilestoneForm = ({handleSubmit}) => {
   const formik = useFormik({
     initialValues: {
       milestones: [
-        { MilestoneName: "", Description: "", StartDate: "", EndDate: "" },
+        {MilestoneName: "", Description: "", StartDate: "", EndDate: ""},
       ],
     },
     validationSchema: Yup.object({
@@ -43,7 +43,7 @@ const MilestoneForm = ({ handleSubmit }) => {
       ...formik.values,
       milestones: [
         ...formik.values.milestones,
-        { MilestoneName: "", Description: "", StartDate: "", EndDate: "" },
+        {MilestoneName: "", Description: "", StartDate: "", EndDate: ""},
       ],
     });
   };
@@ -53,17 +53,17 @@ const MilestoneForm = ({ handleSubmit }) => {
     const updatedMilestones = formik.values.milestones.filter(
       (_, i) => i !== index
     );
-    formik.setValues({ ...formik.values, milestones: updatedMilestones });
+    formik.setValues({...formik.values, milestones: updatedMilestones});
   };
 
   return (
-    <Container maxWidth="md" sx={{ p: 3 }}>
+    <Container maxWidth="md" sx={{p: 3}}>
       <form onSubmit={formik.handleSubmit}>
         <Grid container spacing={2}>
           {formik.values.milestones.map((milestone, index) => (
             <Grid key={index}>
               <Grid container spacing={2} alignItems="center">
-                <Grid size={{ md: 12, xs: 12 }}>
+                <Grid size={{md: 12, xs: 12}}>
                   <Input
                     labelText="Milestone Name"
                     placeholder={"Please Enter Milestones"}
@@ -85,7 +85,7 @@ const MilestoneForm = ({ handleSubmit }) => {
                       </div>
                     )}
                 </Grid>
-                <Grid size={{ xs: 12, sm: 12, md: 12 }}>
+                <Grid size={{xs: 12, sm: 12, md: 12}}>
                   <TextArea
                     labelText="Description"
                     name={`milestones[${index}].Description`}
@@ -107,7 +107,7 @@ const MilestoneForm = ({ handleSubmit }) => {
                       </div>
                     )}
                 </Grid>
-                <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                <Grid size={{xs: 12, sm: 12, md: 6}}>
                   <Input
                     type="date"
                     labelText="Start Date"
@@ -129,7 +129,7 @@ const MilestoneForm = ({ handleSubmit }) => {
                       </div>
                     )}
                 </Grid>
-                <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                <Grid size={{xs: 12, sm: 12, md: 6}}>
                   <Input
                     type="date"
                     labelText="End Date"
@@ -164,12 +164,12 @@ const MilestoneForm = ({ handleSubmit }) => {
             </Grid>
           ))}
 
-          <Grid size={{ md: 6 }}>
+          <Grid size={{md: 6}}>
             <Button type="submit" variant="contained" color="success">
               Submit
             </Button>
           </Grid>
-          <Grid size={{ md: 6, sm: 12 }}>
+          <Grid size={{md: 6, sm: 12}}>
             <Button
               variant="contained"
               color="primary"

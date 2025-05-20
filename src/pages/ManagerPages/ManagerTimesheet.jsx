@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import apiInstance from "../../ApiInstance/apiInstance";
+import * as Yup from "yup";
 import {
   Table,
   TableBody,
@@ -15,13 +16,28 @@ import {
   CircularProgress,
   Grid,
   Card,
+  Button,
+  Container,
+  Grid2,
+} from "@mui/material";
+import {
+  TextField,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+  Box,
 } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ListIcon from "@mui/icons-material/List";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import TModal from "../../common/Modal/TModal";
+import {useFormik} from "formik";
+import Input from "../../common/Input/Input";
 const ManagerTimesheet = () => {
+  const [isOpenTimesheet, setIsOpenTimesheet] = useState(false);
   const [timesheets, setTimesheets] = useState([]);
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
@@ -58,6 +74,49 @@ const ManagerTimesheet = () => {
     },
   ];
 
+  let id = 1;
+
+  const isprojectinfodata = [
+    {ProjectId: "P001", Project_Name: "Project One"},
+    {ProjectId: "P002", Project_Name: "Project Two"},
+  ];
+
+  const formik = useFormik({
+    initialValues: {
+      filltimesheets: [
+        {
+          Staff_Id: id,
+          project: "",
+          hours: "",
+          day: "",
+          Description: "",
+          task_description: "",
+          attachement: null,
+        },
+      ],
+    },
+    validationSchema: Yup.object().shape({
+      filltimesheets: Yup.array().of(
+        Yup.object().shape({
+          Staff_Id: Yup.string().required(),
+          project: Yup.string().required("Project is required"),
+          hours: Yup.number()
+            .typeError("Must be a number")
+            .required("Hours are required"),
+          day: Yup.date().required("Date is required"),
+          Description: Yup.string().required("Description is required"),
+          task_description: Yup.string().required(
+            "Task Description is required"
+          ),
+          attachement: Yup.mixed(),
+        })
+      ),
+    }),
+    onSubmit: async (values) => {
+      console.log(values, "values");
+    },
+  });
+
   useEffect(() => {
     const fetchTimesheets = async () => {
       setLoading(true);
@@ -81,6 +140,250 @@ const ManagerTimesheet = () => {
     <LayoutDesign>
       <BreadCrumb pageName="Manager Timesheet" />
 
+      <Button
+        onClick={() => {
+          setIsOpenTimesheet(true);
+        }}
+      >
+        Fill Timesheet
+      </Button>
+      {isOpenTimesheet && (
+        <TModal
+          title={"FIll Timesheet "}
+          open={isOpenTimesheet}
+          onClose={() => setIsOpenTimesheet(false)}
+        >
+          <Container maxWidth="lg">
+            <form onSubmit={formik.handleSubmit}>
+              <Grid2 container spacing={2}>
+                {formik.values.filltimesheets.map((item, index) => (
+                  <Grid2 key={index} xs={12}>
+                    <Box
+                      sx={{
+                        border: "1px solid #ccc",
+                        borderRadius: 2,
+                        padding: 2,
+                        marginBottom: 2,
+                      }}
+                    >
+                      <Grid2 container spacing={2}>
+                        <Grid2 xs={12}>
+                          <TextField
+                            fullWidth
+                            label="Staff ID"
+                            name={`filltimesheets[${index}].Staff_Id`}
+                            value={item.Staff_Id}
+                            disabled
+                          />
+                        </Grid2>
+
+                        <Grid2 xs={12}>
+                          <FormControl fullWidth>
+                            <InputLabel>Select Project</InputLabel>
+                            <Select
+                              name={`filltimesheets[${index}].project`}
+                              value={item.project}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              error={
+                                formik.touched.filltimesheets?.[index]
+                                  ?.project &&
+                                Boolean(
+                                  formik.errors.filltimesheets?.[index]?.project
+                                )
+                              }
+                            >
+                              {isprojectinfodata.map((item) => (
+                                <MenuItem
+                                  key={item.ProjectId}
+                                  value={item.ProjectId}
+                                >
+                                  {item.Project_Name}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                          {formik.touched.filltimesheets?.[index]?.project &&
+                            formik.errors.filltimesheets?.[index]?.project && (
+                              <div style={{color: "red", fontSize: "14px"}}>
+                                {formik.errors.filltimesheets[index].project}
+                              </div>
+                            )}
+                        </Grid2>
+
+                        <Grid2 xs={6}>
+                          <TextField
+                            fullWidth
+                            label="Hours"
+                            name={`filltimesheets[${index}].hours`}
+                            value={item.hours}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={
+                              formik.touched.filltimesheets?.[index]?.hours &&
+                              Boolean(
+                                formik.errors.filltimesheets?.[index]?.hours
+                              )
+                            }
+                            helperText={
+                              formik.touched.filltimesheets?.[index]?.hours &&
+                              formik.errors.filltimesheets?.[index]?.hours
+                            }
+                          />
+                        </Grid2>
+
+                        <Grid2 xs={6}>
+                          <TextField
+                            fullWidth
+                            label="Day"
+                            type="date"
+                            InputLabelProps={{shrink: true}}
+                            name={`filltimesheets[${index}].day`}
+                            value={item.day}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={
+                              formik.touched.filltimesheets?.[index]?.day &&
+                              Boolean(
+                                formik.errors.filltimesheets?.[index]?.day
+                              )
+                            }
+                            helperText={
+                              formik.touched.filltimesheets?.[index]?.day &&
+                              formik.errors.filltimesheets?.[index]?.day
+                            }
+                          />
+                        </Grid2>
+
+                        <Grid2 xs={12}>
+                          <TextField
+                            fullWidth
+                            label="Description"
+                            name={`filltimesheets[${index}].Description`}
+                            value={item.Description}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={
+                              formik.touched.filltimesheets?.[index]
+                                ?.Description &&
+                              Boolean(
+                                formik.errors.filltimesheets?.[index]
+                                  ?.Description
+                              )
+                            }
+                            helperText={
+                              formik.touched.filltimesheets?.[index]
+                                ?.Description &&
+                              formik.errors.filltimesheets?.[index]?.Description
+                            }
+                          />
+                        </Grid2>
+
+                        <Grid2 xs={12}>
+                          <TextField
+                            fullWidth
+                            label="Task Description"
+                            name={`filltimesheets[${index}].task_description`}
+                            value={item.task_description}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={
+                              formik.touched.filltimesheets?.[index]
+                                ?.task_description &&
+                              Boolean(
+                                formik.errors.filltimesheets?.[index]
+                                  ?.task_description
+                              )
+                            }
+                            helperText={
+                              formik.touched.filltimesheets?.[index]
+                                ?.task_description &&
+                              formik.errors.filltimesheets?.[index]
+                                ?.task_description
+                            }
+                          />
+                        </Grid2>
+
+                        <Grid2 xs={12}>
+                          <input
+                            type="file"
+                            name={`filltimesheets[${index}].attachement`}
+                            onChange={(event) =>
+                              formik.setFieldValue(
+                                `filltimesheets[${index}].attachement`,
+                                event.currentTarget.files[0]
+                              )
+                            }
+                            onBlur={formik.handleBlur}
+                          />
+                          {formik.touched.filltimesheets?.[index]
+                            ?.attachement &&
+                            formik.errors.filltimesheets?.[index]
+                              ?.attachement && (
+                              <div style={{color: "red"}}>
+                                {
+                                  formik.errors.filltimesheets[index]
+                                    .attachement
+                                }
+                              </div>
+                            )}
+                        </Grid2>
+
+                        <Grid2 xs={12}>
+                          <Button
+                            color="error"
+                            variant="outlined"
+                            onClick={() => {
+                              const updated = [...formik.values.filltimesheets];
+                              updated.splice(index, 1);
+                              formik.setFieldValue("filltimesheets", updated);
+                            }}
+                            disabled={formik.values.filltimesheets.length === 1}
+                          >
+                            Remove
+                          </Button>
+                        </Grid2>
+                      </Grid2>
+                    </Box>
+                  </Grid2>
+                ))}
+              </Grid2>
+
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() =>
+                  formik.setFieldValue("filltimesheets", [
+                    ...formik.values.filltimesheets,
+                    {
+                      Staff_Id: id,
+                      project: "",
+                      hours: "",
+                      day: "",
+                      Description: "",
+                      task_description: "",
+                      attachement: null,
+                    },
+                  ])
+                }
+                sx={{mt: 2}}
+              >
+                Add Entry
+              </Button>
+
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth
+                sx={{mt: 2}}
+              >
+                Submit
+              </Button>
+            </form>
+          </Container>
+        </TModal>
+      )}
       <Grid container spacing={2} sx={{my: 1}}>
         {stats.map((stat, index) => (
           <Grid item sm={12} md={3} lg={3} key={index}>

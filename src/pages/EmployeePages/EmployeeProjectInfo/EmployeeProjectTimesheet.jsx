@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
+import TextArea from "../../../common/TextArea/TextArea";
+import InputFileupload from "../../../common/InputFileupload/InputFileupload";
 import {
   Button,
   Container,
-  Drawer,
   FormControl,
   InputLabel,
   MenuItem,
@@ -20,6 +21,7 @@ import {
   Paper,
   FormControlLabel,
   Checkbox,
+  Grid2,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import {useFormik} from "formik";
@@ -32,6 +34,9 @@ import {
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import apiInstance from "../../../ApiInstance/apiInstance";
 import {useDispatch} from "react-redux";
+import TModal from "../../../common/Modal/TModal";
+import InputSelect from "../../../common/InputSelect/InputSelect";
+import Input from "../../../common/Input/Input";
 
 const EmployeeProjectTimesheet = ({id}) => {
   const [IsEmployeeProjectTimesheetdata, setIsEmployeeProjectTimesheetdata] =
@@ -191,118 +196,134 @@ const EmployeeProjectTimesheet = ({id}) => {
       ) : null}
 
       {IsOpen && (
-        <Drawer open={IsOpen} anchor="right" onClose={() => setIsOpen(false)}>
-          <Container maxWidth="sm" sx={{p: 2}}>
-            <Typography variant="h5" sx={{mb: 3}}>
-              Fill timesheet
-            </Typography>
-            <form onSubmit={formik.handleSubmit}>
-              <FormControl fullWidth sx={{mb: 2}}>
-                <InputLabel>Select Project</InputLabel>
-                <Select
-                  {...formik.getFieldProps("project")}
-                  value={formik.values.project}
-                  onChange={formik.handleChange}
+        <TModal
+          open={IsOpen}
+          title="Fill Timesheet"
+          onClose={() => setIsOpen(false)}
+        >
+          <Container maxWidth="lg" sx={{p: 2}}>
+            <Grid2 container spacing={2}>
+              <form onSubmit={formik.handleSubmit}>
+                <Grid2 size={{md: 12, sm: 12}}>
+                  <InputSelect
+                    name={"project"}
+                    labelText={"Select Project"}
+                    {...formik.getFieldProps("project")}
+                    value={formik.values.project}
+                    onChange={formik.handleChange}
+                  />
+                  {formik.touched.project && formik.errors.project && (
+                    <div style={{color: "red"}}>{formik.errors.project}</div>
+                  )}
+                </Grid2>
+
+                {/* <FormControl fullWidth sx={{mb: 2}}>
+                  <InputLabel>Select Project</InputLabel>
+                  <Select>
+                    {[
+                      ...(Isemployeeprojects?.response || []),
+                      ...(Isemployeeprojects?.employeeactiveProjects || []),
+                    ].map((item) => (
+                      <MenuItem key={item.ProjectId} value={item.ProjectId}>
+                        {item.Project_Name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl> */}
+                <Grid2 size={{md: 12, sm: 12}}>
+                  <InputSelect
+                    labelText="Hours"
+                    name="hours"
+                    value={formik.values.hours}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+                  {formik.touched.hours && formik.errors.hours && (
+                    <div style={{color: "red", font: "14px"}}>
+                      {" "}
+                      {formik.errors.hours}
+                    </div>
+                  )}
+                </Grid2>
+                <Grid2 size={{md: 12, sm: 12}}>
+                  <Input
+                    labeltext="Day"
+                    name="day"
+                    type="date"
+                    value={formik.values.day}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+                  {formik.touched.day && formik.errors.day && (
+                    <div style={{color: "red"}}>{formik.errors.day}</div>
+                  )}
+                </Grid2>
+
+                <Grid2 size={{md: 12, sm: 12}}>
+                  <TextArea
+                    labelText="Description"
+                    name="Description"
+                    placeholder={"Please enter description"}
+                    value={formik.values.Description}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+
+                  {formik.touched.Description && formik.errors.Description && (
+                    <div style={{color: "red", font: "14px"}}>
+                      {formik.errors.Description}
+                    </div>
+                  )}
+                </Grid2>
+
+                <Grid2 size={{md: 12, sm: 12}}>
+                  <TextArea
+                    labelText="Task Description"
+                    name="task_description"
+                    value={formik.values.task_description}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+
+                  {formik.touched.task_description &&
+                    formik.errors.task_description && (
+                      <div style={{color: "red", font: "14px"}}>
+                        {formik.errors.task_description}
+                      </div>
+                    )}
+                </Grid2>
+                <Grid2 size={{md: 12, sm: 12}}>
+                  <InputFileupload
+                    type="file"
+                    name="attachement"
+                    onChange={(event) =>
+                      formik.setFieldValue(
+                        "attachement",
+                        event.currentTarget.files[0]
+                      )
+                    }
+                    onBlur={formik.handleBlur}
+                  />
+                  {formik.touched.attachement && formik.errors.attachement && (
+                    <div style={{color: "red"}}>
+                      {formik.errors.attachement}
+                    </div>
+                  )}
+                </Grid2>
+
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  style={{marginTop: "15px"}}
+                  fullWidth
                 >
-                  {[
-                    ...(Isemployeeprojects?.response || []),
-                    ...(Isemployeeprojects?.employeeactiveProjects || []),
-                  ].map((item) => (
-                    <MenuItem key={item.ProjectId} value={item.ProjectId}>
-                      {item.Project_Name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-
-              <TextField
-                fullWidth
-                label="Hours"
-                name="hours"
-                value={formik.values.hours}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={formik.touched.hours && Boolean(formik.errors.hours)}
-                helperText={formik.touched.hours && formik.errors.hours}
-                margin="normal"
-              />
-
-              <TextField
-                fullWidth
-                label="Day"
-                name="day"
-                type="date"
-                InputLabelProps={{shrink: true}}
-                value={formik.values.day}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={formik.touched.day && Boolean(formik.errors.day)}
-                helperText={formik.touched.day && formik.errors.day}
-                margin="normal"
-              />
-
-              <TextField
-                fullWidth
-                label="Description"
-                name="Description"
-                value={formik.values.Description}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={
-                  formik.touched.Description &&
-                  Boolean(formik.errors.Description)
-                }
-                helperText={
-                  formik.touched.Description && formik.errors.Description
-                }
-                margin="normal"
-              />
-
-              <TextField
-                fullWidth
-                label="Task Description"
-                name="task_description"
-                value={formik.values.task_description}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={
-                  formik.touched.task_description &&
-                  Boolean(formik.errors.task_description)
-                }
-                helperText={
-                  formik.touched.task_description &&
-                  formik.errors.task_description
-                }
-                margin="normal"
-              />
-
-              <input
-                type="file"
-                name="attachement"
-                onChange={(event) =>
-                  formik.setFieldValue(
-                    "attachement",
-                    event.currentTarget.files[0]
-                  )
-                }
-                onBlur={formik.handleBlur}
-              />
-              {formik.touched.attachement && formik.errors.attachement && (
-                <div style={{color: "red"}}>{formik.errors.attachement}</div>
-              )}
-
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                style={{marginTop: "15px"}}
-                fullWidth
-              >
-                Submit
-              </Button>
-            </form>
+                  Submit
+                </Button>
+              </form>
+            </Grid2>
           </Container>
-        </Drawer>
+        </TModal>
       )}
 
       <TableContainer component={Paper} sx={{maxHeight: 500}}>

@@ -107,9 +107,6 @@ const ContractorProjectTask = ({id}) => {
       <Grid2 container spacing={2}>
         <Grid2 size={{sm: 12, md: 6}}>
           <Box sx={{height: "300px", overflow: "auto"}}>
-            <Typography variant="h6" gutterBottom>
-              Milestone
-            </Typography>
             {iscontractormilestonedata.length > 0 ? (
               iscontractormilestonedata.map((item, index) => (
                 <Card key={index} sx={{mb: 1, p: 1, position: "relative"}}>

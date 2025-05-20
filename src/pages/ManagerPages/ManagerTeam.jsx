@@ -112,6 +112,11 @@ const ManagerTeam = () => {
                   <TableCell>
                     <a href={manager?.Social_Links}>view</a>
                   </TableCell>
+                  <TableCell>
+                    <Link to={`/manager/Team-info/${manager.staff_Id}`}>
+                      team Info
+                    </Link>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -125,6 +125,10 @@ const EmployeeTasks = () => {
                     <Typography>No Attachment</Typography>
                   )}
                 </TableCell>
+
+                <TableCell>
+                  <Link href={`/employee/taskinfo/${task.task_Id}`}>View</Link>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

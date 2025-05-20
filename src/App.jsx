@@ -90,6 +90,7 @@ import Standard from "./pages/Adminpages/masterPages/Standard";
 import ForcastingPage from "./pages/Adminpages/ForeCasting/ForcastingPage";
 import Home from "./pages/Home";
 import ChangePassword from "./pages/Dashboard/ChangePassword";
+import ManagerTeamInfo from "./pages/ManagerPages/ManagerTeamPages/ManagerTeamInfo";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -247,7 +248,7 @@ const App = () => {
           element={<ContractorProjectTime />}
         />
         <Route
-          path="/contracotr/taskinfo/:id"
+          path="/contractor/taskinfo/:id"
           element={<ContractorTaskInfo />}
         />
         {/* contractor  */}
@@ -274,6 +275,9 @@ const App = () => {
           path="/manager/productivity-leaderboard"
           element={<ManagerProductivityLeaderboardPage />}
         />
+
+        <Route path="/manager/Team-info/:id" element={<ManagerTeamInfo />} />
+
         <Route path="/manager/task" element={<Taskpage />} />
         <Route path="/manager/view-task/:id" element={<h1>view task</h1>} />
         {/* Manager */}

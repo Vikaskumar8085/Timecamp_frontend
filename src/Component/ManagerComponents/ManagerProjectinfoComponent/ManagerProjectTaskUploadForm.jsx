@@ -2,6 +2,7 @@ import {useState} from "react";
 import Grid2 from "@mui/material/Grid2";
 import {Box, Button, Container, TextField, Typography} from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
+import InputFileupload from "../../../common/InputFileupload/InputFileupload";
 
 const ManagerProjectTaskUploadForm = ({uploadhandlesubmit}) => {
   const [file, setFile] = useState(null);
@@ -66,7 +67,7 @@ const ManagerProjectTaskUploadForm = ({uploadhandlesubmit}) => {
           <form onSubmit={handleSubmit}>
             <Grid2 container spacing={1}>
               <Grid2 size={{xs: 12}}>
-                <TextField
+                <InputFileupload
                   type="file"
                   inputProps={{accept: ".csv"}}
                   fullWidth

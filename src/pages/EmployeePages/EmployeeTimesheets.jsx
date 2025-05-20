@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import {fetchemployeetimesheetapicall} from "../../ApiServices/EmployeeApiservices/Employee";
-import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import moment from "moment";
 import {useFormik} from "formik";
@@ -26,15 +25,37 @@ import {
   TablePagination,
   FormControlLabel,
   Checkbox,
+  Box,
 } from "@mui/material";
+
 import Empty from "../../common/EmptyFolder/Empty";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import AddIcon from "@mui/icons-material/Add";
 import * as Yup from "yup";
 import ListIcon from "@mui/icons-material/List";
-import apiInstance from "../../ApiInstance/apiInstance";
-import toast from "react-hot-toast";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import TModal from "../../common/Modal/TModal";
+
+const isprojectinfodata = [
+  {ProjectId: "P001", Project_Name: "Project One"},
+  {ProjectId: "P002", Project_Name: "Project Two"},
+];
+
+const validationSchema = Yup.object().shape({
+  entries: Yup.array().of(
+    Yup.object().shape({
+      Staff_Id: Yup.string().required("Staff Id is required"),
+      project: Yup.string().required("Project is required"),
+      hours: Yup.number()
+        .typeError("Must be a number")
+        .required("Hours are required"),
+      day: Yup.date().required("Date is required"),
+      Description: Yup.string().required("Description is required"),
+      task_description: Yup.string().required("Task Description is required"),
+      attachement: Yup.mixed(),
+    })
+  ),
+});
+
 const EmployeeTimesheets = () => {
   const [IsEmployeeTimesheetData, setIsEmployeeTimesheetData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -44,6 +65,8 @@ const EmployeeTimesheets = () => {
   const [totalRecords, setTotalRecords] = useState(0);
   const [IsEmployeeProjectdata, setIsEmployeeProjectdata] = useState([]);
   const [IsOpenfirst, setIsOpenfirst] = useState(false);
+
+  const [IsOpen, setIsOpen] = useState(false);
 
   //
   const [selectedItems, setSelectedItems] = useState([]);
@@ -101,13 +124,235 @@ const EmployeeTimesheets = () => {
     IsEmployeeTimesheetData?.length > 0 &&
     selectedItems.length === IsEmployeeTimesheetData.length;
 
+  //  Fill Timesheet
+  var id = 1 + 1;
+  const formik = useFormik({
+    initialValues: {
+      entries: [
+        {
+          Staff_Id: id,
+          project: "",
+          hours: "",
+          day: "",
+          Description: "",
+          task_description: "",
+          attachement: null,
+        },
+      ],
+    },
+    validationSchema,
+    onSubmit: (values) => {
+      console.log("Submitted values:", values);
+    },
+  });
+
+  //  Fill Timesheetconst isprojectinfodata = [
+
   useEffect(() => {
     fetchemployeetimesheetfunc();
   }, [0]);
   return (
     <LayoutDesign>
       <BreadCrumb pageName="Employee Timesheet" />
+      {/* modal */}
+      <Button onClick={() => setIsOpen(true)}>Fill TimeSheet</Button>
 
+      {IsOpen && (
+        <>
+          <TModal
+            open={IsOpen}
+            onClose={() => setIsOpen(false)}
+            title={"fill Timesheet"}
+          >
+            <Container maxWidth="sm" sx={{p: 2}}>
+              <form onSubmit={formik.handleSubmit}>
+                {formik.values.entries.map((entry, index) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      border: "1px solid #ccc",
+                      p: 2,
+                      mb: 2,
+                      borderRadius: 2,
+                    }}
+                  >
+                    <TextField
+                      fullWidth
+                      label="Staff ID"
+                      name={`entries[${index}].Staff_Id`}
+                      value={entry.Staff_Id}
+                      disabled
+                      margin="normal"
+                    />
+
+                    <FormControl fullWidth sx={{mb: 2}}>
+                      <InputLabel>Select Project</InputLabel>
+                      <Select
+                        name={`entries[${index}].project`}
+                        value={entry.project}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        error={
+                          formik.touched.entries?.[index]?.project &&
+                          Boolean(formik.errors.entries?.[index]?.project)
+                        }
+                      >
+                        {isprojectinfodata.map((item) => (
+                          <MenuItem key={item.ProjectId} value={item.ProjectId}>
+                            {item.Project_Name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+
+                    <TextField
+                      fullWidth
+                      label="Hours"
+                      name={`entries[${index}].hours`}
+                      value={entry.hours}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.entries?.[index]?.hours &&
+                        Boolean(formik.errors.entries?.[index]?.hours)
+                      }
+                      helperText={
+                        formik.touched.entries?.[index]?.hours &&
+                        formik.errors.entries?.[index]?.hours
+                      }
+                      margin="normal"
+                    />
+
+                    <TextField
+                      fullWidth
+                      label="Day"
+                      name={`entries[${index}].day`}
+                      type="date"
+                      InputLabelProps={{shrink: true}}
+                      value={entry.day}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.entries?.[index]?.day &&
+                        Boolean(formik.errors.entries?.[index]?.day)
+                      }
+                      helperText={
+                        formik.touched.entries?.[index]?.day &&
+                        formik.errors.entries?.[index]?.day
+                      }
+                      margin="normal"
+                    />
+
+                    <TextField
+                      fullWidth
+                      label="Description"
+                      name={`entries[${index}].Description`}
+                      value={entry.Description}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.entries?.[index]?.Description &&
+                        Boolean(formik.errors.entries?.[index]?.Description)
+                      }
+                      helperText={
+                        formik.touched.entries?.[index]?.Description &&
+                        formik.errors.entries?.[index]?.Description
+                      }
+                      margin="normal"
+                    />
+
+                    <TextField
+                      fullWidth
+                      label="Task Description"
+                      name={`entries[${index}].task_description`}
+                      value={entry.task_description}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.entries?.[index]?.task_description &&
+                        Boolean(
+                          formik.errors.entries?.[index]?.task_description
+                        )
+                      }
+                      helperText={
+                        formik.touched.entries?.[index]?.task_description &&
+                        formik.errors.entries?.[index]?.task_description
+                      }
+                      margin="normal"
+                    />
+
+                    <input
+                      type="file"
+                      name={`entries[${index}].attachement`}
+                      onChange={(event) =>
+                        formik.setFieldValue(
+                          `entries[${index}].attachement`,
+                          event.currentTarget.files[0]
+                        )
+                      }
+                      onBlur={formik.handleBlur}
+                      style={{marginTop: "10px"}}
+                    />
+                    {formik.touched.entries?.[index]?.attachement &&
+                      formik.errors.entries?.[index]?.attachement && (
+                        <div style={{color: "red"}}>
+                          {formik.errors.entries[index].attachement}
+                        </div>
+                      )}
+
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      onClick={() => {
+                        const updated = [...formik.values.entries];
+                        updated.splice(index, 1);
+                        formik.setFieldValue("entries", updated);
+                      }}
+                      sx={{mt: 2}}
+                      disabled={formik.values.entries.length === 1}
+                    >
+                      Remove
+                    </Button>
+                  </Box>
+                ))}
+
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() =>
+                    formik.setFieldValue("entries", [
+                      ...formik.values.entries,
+                      {
+                        Staff_Id: id,
+                        project: "",
+                        hours: "",
+                        day: "",
+                        Description: "",
+                        task_description: "",
+                        attachement: null,
+                      },
+                    ])
+                  }
+                  sx={{mb: 2}}
+                >
+                  Add Entry
+                </Button>
+
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                >
+                  Submit
+                </Button>
+              </form>
+            </Container>
+          </TModal>
+        </>
+      )}
+
+      {/* modal */}
       {selectedItems.length > 0 ? (
         <>
           <Button>Approve</Button>

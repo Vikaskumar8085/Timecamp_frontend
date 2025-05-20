@@ -129,6 +129,11 @@ const ContractorTasks = () => {
                       <Typography>No Attachment</Typography>
                     )}
                   </TableCell>
+                  <TableCell>
+                    <Link href={`/contractor/taskinfo/${task.task_Id}`}>
+                      View
+                    </Link>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

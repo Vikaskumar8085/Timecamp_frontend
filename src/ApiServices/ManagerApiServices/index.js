@@ -37,3 +37,10 @@ export const managerfilltimesheetdataapicall = async (value) => {
   );
   return response?.data;
 };
+
+export const fetchmanagerteaminfoapicall = async (value) => {
+  const response = await apiInstance.get(
+    `/v2/manager/fetch-manager-team-info/${value}`
+  );
+  return response?.data;
+};

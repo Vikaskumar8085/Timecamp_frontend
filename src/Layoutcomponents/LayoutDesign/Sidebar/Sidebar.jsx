@@ -877,7 +877,7 @@ const Sidebar = ({toggleDropdown, openDropdown, Role}) => {
                     <span>
                       <DashboardCustomizeOutlinedIcon />
                     </span>
-                    Profile
+                    Task
                   </NavLink>
                 </li>
                 {/* project  */}

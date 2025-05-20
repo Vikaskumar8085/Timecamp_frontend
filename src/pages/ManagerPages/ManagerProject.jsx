@@ -28,9 +28,12 @@ import {useDispatch} from "react-redux";
 import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
 import {Link} from "react-router-dom";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import TModal from "../../common/Modal/TModal";
 const ManagerProject = () => {
   const [IsOpen, setIsOpen] = useState(false);
+  const [IsEdit, setIsEdit] = useState(null);
   const [data, setData] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -41,14 +44,11 @@ const ManagerProject = () => {
   const fetchprojects = async () => {
     try {
       const response = await apiInstance.get(
-        "/v2/manager/fetch-manager-project",
-        {
-          params: {page: page + 1, limit: rowsPerPage, search: search.trim()},
-        }
+        "/v2/manager/fetch-manager-project"
       );
-
+      console.log(response, "adfsfdsdfsd");
       setData(response.data.result);
-      setTotalRecords(response.data.totalRecords);
+      // setTotalRecords(response.data.totalRecords);
     } catch (error) {
       console.error("Error fetching projects:", error);
     } finally {
@@ -60,6 +60,7 @@ const ManagerProject = () => {
     try {
       dispatch(setLoader(true));
       const response = await createManagerProjectapicall(value);
+      console.log(response, "response");
       if (response?.success) {
         setIsOpen(false);
         dispatch(setLoader(false));
@@ -76,26 +77,26 @@ const ManagerProject = () => {
       toast.error(error?.response?.data?.message);
     }
   };
-  const handleSearchChange = (event) => {
-    setSearch(event.target.value);
-  };
+  // const handleSearchChange = (event) => {
+  //   setSearch(event.target.value);
+  // };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+  // const handleChangePage = (event, newPage) => {
+  //   setPage(newPage);
+  // };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+  // const handleChangeRowsPerPage = (event) => {
+  //   setRowsPerPage(parseInt(event.target.value, 10));
+  //   setPage(0);
+  // };
 
-  const displayedProjects = data
-    .flatMap((item) => [...item.fetchproject, ...item.fetchteamproject])
-    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  // const displayedProjects = data
+  //   .flatMap((item) => [...item.fetchproject, ...item.fetchteamproject])
+  //   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   useEffect(() => {
     fetchprojects();
-  }, [page, rowsPerPage, search]);
+  }, [0]);
 
   return (
     <LayoutDesign>
@@ -113,19 +114,26 @@ const ManagerProject = () => {
         Create Project
       </Button>
       {IsOpen && (
-        <Drawer open={IsOpen} onClose={() => setIsOpen(false)} anchor="right">
-          <ManageProjectForm handleSubmit={handleSubmit} />
-        </Drawer>
+        <TModal
+          open={IsOpen}
+          onClose={() => {
+            setIsOpen(false);
+            setIsEdit(null);
+          }}
+          title="Create Project "
+        >
+          <ManageProjectForm IsEdit={IsEdit} handleSubmit={handleSubmit} />
+        </TModal>
       )}
       <Paper sx={{width: "100%", overflow: "hidden", padding: 2}}>
-        <TextField
+        {/* <TextField
           label="Search by Name"
           variant="outlined"
           fullWidth
           value={search}
           onChange={handleSearchChange}
           sx={{marginBottom: 2}}
-        />
+        /> */}
 
         {/* Data Table */}
 
@@ -164,56 +172,44 @@ const ManagerProject = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data.map((item, index) => (
-                  <>
-                    {item.fetchproject.map((project) => (
-                      <TableRow key={project._id}>
-                        <TableCell>{project.Project_Name}</TableCell>
-                        <TableCell>{project.Project_Code}</TableCell>
-                        <TableCell>{project.Start_Date}</TableCell>
-                        <TableCell>{project.End_Date}</TableCell>
-                        <TableCell>{project.Project_Type}</TableCell>
-                        <TableCell>{project.Project_Hours}</TableCell>
+                {data?.map((item, index) => {
+                  return (
+                    <>
+                      <TableRow>
+                        <TableCell>{item.Project_Name}</TableCell>
+                        <TableCell>{item.Project_Code}</TableCell>
+                        <TableCell>{item.Start_Date}</TableCell>
+                        <TableCell>{item.End_Date}</TableCell>
+                        <TableCell>{item.Project_Type}</TableCell>
+                        <TableCell>{item.Project_Hours}</TableCell>
                         <TableCell>
-                          {project.Project_Status ? "Active" : "Inactive"}
+                          {item.Project_Status ? "active" : "inactive"}
+                        </TableCell>
+                        <TableCell>{item.ClientName}</TableCell>
+                        <TableCell>
+                          <Button
+                            onClick={() => {
+                              setIsEdit(item);
+                              setIsOpen(true);
+                            }}
+                          >
+                            view
+                          </Button>
                         </TableCell>
                         <TableCell>
-                          <Link
-                            to={`/manager/project-info/${project?.ProjectId}`}
-                          >
+                          <Link to={`/manager/project-info/${item?.ProjectId}`}>
                             view
                           </Link>
                         </TableCell>
                       </TableRow>
-                    ))}
-                    {item.fetchteamproject.map((teamProject) => (
-                      <TableRow key={teamProject._id}>
-                        <TableCell>{teamProject.Project_Name}</TableCell>
-                        <TableCell>{teamProject.Project_Code}</TableCell>
-                        <TableCell>{teamProject.Start_Date}</TableCell>
-                        <TableCell>{teamProject.End_Date}</TableCell>
-                        <TableCell>{teamProject.Project_Type}</TableCell>
-                        <TableCell>{teamProject.Project_Hours}</TableCell>
-                        <TableCell>
-                          {teamProject.Project_Status ? "Active" : "Inactive"}
-                        </TableCell>
-                        <TableCell>
-                          <Link
-                            to={`/manager/project-info/${teamProject?.ProjectId}`}
-                          >
-                            {" "}
-                            view
-                          </Link>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </>
-                ))}
+                    </>
+                  );
+                })}
               </TableBody>
             </Table>
           )}
         </TableContainer>
-        <TablePagination
+        {/* <TablePagination
           rowsPerPageOptions={[10, 25, 50]}
           component="div"
           count={totalRecords}
@@ -221,19 +217,10 @@ const ManagerProject = () => {
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+        /> */}
       </Paper>
     </LayoutDesign>
   );
 };
 
 export default ManagerProject;
-{
-  /* <TableCell>{manager.Project_Name}</TableCell>
-<TableCell>{manager.Project_Code}</TableCell>
-<TableCell>{manager.Start_Date}</TableCell>
-<TableCell>{manager.End_Date}</TableCell>
-<TableCell>{manager.Project_Status}</TableCell>
-<TableCell>{manager.Project_Hours}</TableCell>
-<TableCell>{manager.Project_Type}</TableCell> */
-}

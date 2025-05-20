@@ -20,8 +20,8 @@ import {
   AddBox,
   AddCircle,
   AddCircleOutline,
-  RemoveCircle,
   RemoveCircleOutline,
+  RemoveCircle,
 } from "@mui/icons-material";
 import {fetchclientapicall} from "../../../ApiServices/AdminApiServices/Client/index";
 import {
@@ -73,7 +73,6 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
     initialValues: {
       Project_Name: IsEdit?.Project_Name ?? "",
       clientId: IsEdit?.clientId ?? "",
-      Project_ManagersId: IsEdit?.Project_ManagersId ?? "",
       Project_Type: IsEdit?.Project_Type ?? "",
       Start_Date: IsEdit?.Start_Date
         ? moment(IsEdit.Start_Date, "DD/MM/YYYY").format("YYYY-MM-DD")
@@ -81,7 +80,6 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
       End_Date: IsEdit?.End_Date
         ? moment(IsEdit.End_Date, "DD/MM/YYYY").format("YYYY-MM-DD")
         : "",
-      Project_Estimate_Hours: "",
       currency: IsEdit?.currency ?? "",
       Project_Hours: IsEdit?.Project_Hours ?? "",
       bucket: IsEdit?.bucket?.length
@@ -229,17 +227,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
               placeholder={"Please Enter Your Project Name"}
             />
           </Grid>
-          <Grid size={{sm: 12, md: 6, xs: 12}}>
-            <Input
-              labelText="Project Hours"
-              name="Project_Hours"
-              type="number"
-              value={formik.values.Project_Hours}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              placeholder={"Please Enter Your Project Hour"}
-            />
-          </Grid>
+
           <Grid size={{sm: 12, md: 6, xs: 12}}>
             <InputSelect
               name={"clientId"}
@@ -360,9 +348,9 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
                   type="text"
                   labelText="Project Estimate Hours"
                   placeholder={"please Enter Estimate Hours"}
-                  name="Project_Estimate_Hours"
+                  name="Project_Hours"
                   onChange={formik.handleChange}
-                  value={formik.values.Project_Estimate_Hours}
+                  value={formik.values.Project_Hours}
                 />
               </Grid>
             </>
