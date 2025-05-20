@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import TabComp from "../../common/TabComponent/TabComp";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
@@ -7,14 +7,15 @@ import Projectroi from "../../Component/DashboardComponents/Admin/ProjectRoi/Pro
 import TotalActualandTotalEstimatedHours from "../../Component/DashboardComponents/Admin/ProjectRoi/TotalActualandTotalEstimatedHours";
 import ProjectROIChart from "../../Component/DashboardComponents/Admin/ProjectRoi/ProjectRoiChart";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import ProjectLeaderBoard from "../../Component/DashboardComponents/Admin/ProjecctLeaderBoard/ProjectLeaderBoard";
 
 const ProductivityLeaderboardpage = () => {
   const [isSubState, setisSubState] = useState(0);
 
   const tabsheader = [
-    {title: "Productivity Leader Board"},
-    {title: "Project ROI"},
-    {title: "Project Report"},
+    { title: "Productivity Leader Board" },
+    { title: "Project ROI" },
+    { title: "Project Report" },
   ];
   const Tabsbody = [
     {
@@ -36,7 +37,7 @@ const ProductivityLeaderboardpage = () => {
     {
       content: (
         <>
-          <h1>hello</h1>
+          <ProjectLeaderBoard />
         </>
       ),
     },
