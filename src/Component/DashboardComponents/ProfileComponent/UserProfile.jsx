@@ -1,12 +1,35 @@
-import React, {useState} from "react";
-import {Button, Container, Grid2, TextField} from "@mui/material";
-import {ModeEditOutline} from "@mui/icons-material";
+import React, { useState } from "react";
+import { Button, Container, Grid2 } from "@mui/material";
+import { ModeEditOutline } from "@mui/icons-material";
 import profileimage from "../../../assets/commonIcon/profilepic.png";
 import CardOne from "../../../common/cardOne/CardOne";
 import TModal from "../../../common/Modal/TModal";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-const UserProfile = ({user}) => {
+import Input from "../../../common/Input/Input";
+import { useFormik } from "formik";
+import InputImageUpload from "../../../common/InputImageUpload/InputImageUpload";
+import PhoneInput from "react-phone-input-2";
+const UserProfile = ({ user }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [IsEdit, setIsEdit] = useState(user);
+  console.log(IsEdit, "isedit");
+  const formik = useFormik({
+    initialValues: {
+      FirstName: IsEdit?.FirstName,
+      LastName: IsEdit.LastName,
+      Email: IsEdit?.Email,
+      Phone: IsEdit?.Phone,
+      Photo: IsEdit?.Photo ?? null,
+    },
+    onSubmit: async (values) => {
+      try {
+        console.log(values, "values");
+      } catch (error) {
+        console.log(error?.message);
+      }
+    },
+  });
+
   return (
     <>
       <div className="profile_card_wrapper">
@@ -40,21 +63,21 @@ const UserProfile = ({user}) => {
             </div>
 
             <Grid2 container spacing={2}>
-              <Grid2 size={{md: 12, lg: 4}}>
+              <Grid2 size={{ md: 12, lg: 4 }}>
                 <CardOne
                   icon={<EmailOutlinedIcon />}
                   title={"Email"}
                   paragraph={user?.Email}
                 />
               </Grid2>
-              <Grid2 size={{md: 12, lg: 4}}>
+              <Grid2 size={{ md: 12, lg: 4 }}>
                 <CardOne
                   icon={<EmailOutlinedIcon />}
                   title={"Role"}
                   paragraph={user?.Role}
                 />
               </Grid2>
-              <Grid2 size={{md: 12, lg: 4}}>
+              <Grid2 size={{ md: 12, lg: 4 }}>
                 {user?.Term && (
                   <CardOne
                     icon={user.Term ? <EmailOutlinedIcon /> : null}
@@ -63,14 +86,14 @@ const UserProfile = ({user}) => {
                   />
                 )}
               </Grid2>
-              <Grid2 size={{md: 12, lg: 4}}>
+              <Grid2 size={{ md: 12, lg: 4 }}>
                 <CardOne
                   icon={<EmailOutlinedIcon />}
                   title={"Acitivity"}
                   paragraph={user.Activity ? "true" : "false"}
                 />
               </Grid2>
-              <Grid2 size={{md: 12, lg: 4}}>
+              <Grid2 size={{ md: 12, lg: 4 }}>
                 <CardOne
                   icon={<EmailOutlinedIcon />}
                   title={"Block Status"}
@@ -89,8 +112,84 @@ const UserProfile = ({user}) => {
           open={isOpen}
           onClose={() => setIsOpen(false)}
         >
-          <Container>
-       
+          <Container maxWidth="md">
+            <Grid2 container spacing={2}>
+              <form>
+                <Grid2 size={{ md: 12, sm: 12 }}>
+                  <InputImageUpload
+                    name={"Upload Profile Pic"}
+                    value={formik.values.Photo}
+                    onChange={formik.setFieldValue}
+                  />
+                </Grid2>
+                <Grid2 size={{ md: 12, sm: 12 }}>
+                  <Input
+                    type={"text"}
+                    placeholder={"Please Enter your FirstName"}
+                    labelText={"FirstName"}
+                    {...formik.getFieldProps("FirstName")}
+                  />
+                  {formik.touched.FirstName &&
+                    formik.errors.FirstName(
+                      <div>{formik.errors.FirstName}</div>
+                    )}
+                </Grid2>
+                <Grid2 size={{ md: 12, sm: 12, lg: 12 }}>
+                  <Input
+                    type={"text"}
+                    placeholder={"Please Enter your LastName"}
+                    labelText={"LastName"}
+                    {...formik.getFieldProps("LastName")}
+                  />
+                  {formik.touched.LastName &&
+                    formik.errors.LastName(<div>{formik.errors.LastName}</div>)}
+                </Grid2>
+                <Grid2 size={{ md: 12, sm: 12, lg: 12 }}>
+                  <Input
+                    type={"Email"}
+                    placeholder={"Please Enter your Email"}
+                    labelText={"Email"}
+                    {...formik.getFieldProps("Email")}
+                  />
+                  {formik.touched.Email &&
+                    formik.errors.Email(<div>{formik.errors.Email}</div>)}
+                </Grid2>
+                {IsEdit.Phone && (
+                  <Grid2 size={{ md: 12, sm: 12 }}>
+                    <label
+                      htmlFor="phone-input"
+                      style={{
+                        display: "block",
+                        marginBottom: "6px",
+                        color: "#86919b",
+                        fontWeight: "500",
+                      }}
+                    >
+                      Phone Number
+                    </label>
+
+                    <PhoneInput
+                      inputStyle={{ width: "100%" }}
+                      country={"in"}
+                      placeholder="Enter phone number"
+                      value={formik.values.Phone}
+                      onChange={(value) => formik.setFieldValue("Phone", value)}
+                    />
+                    {formik.touched.Phone && formik.errors.Phone && (
+                      <div style={{ color: "red" }}>{formik.errors.Phone}</div>
+                    )}
+                  </Grid2>
+                )}
+                <Grid2 size={{ md: 12, sm: 12, lg: 12 }}>
+                  <Button
+                    type="submit"
+                    sx={{ background: "yellow", width: "100%" }}
+                  >
+                    Submit
+                  </Button>
+                </Grid2>
+              </form>
+            </Grid2>
           </Container>
         </TModal>
       )}

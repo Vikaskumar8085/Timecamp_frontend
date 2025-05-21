@@ -4,6 +4,7 @@ import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import UserProfile from "../../Component/DashboardComponents/ProfileComponent/UserProfile";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 import ClientProfile from "../../Component/DashboardComponents/ProfileComponent/ClientProfile";
+import StaffProfile from "../../Component/DashboardComponents/ProfileComponent/StaffProfile";
 
 const Profile = () => {
   const userdata = useSelector((state) => state.user.values);
@@ -26,17 +27,17 @@ const Profile = () => {
         )}
         {Role === "Employee" && (
           <div>
-            <UserProfile user={userdata} />
+            <StaffProfile user={userdata} />
           </div>
         )}
         {Role === "Contractor" && (
           <>
-            <UserProfile user={userdata} />
+            <StaffProfile user={userdata} />
           </>
         )}
         {Role === "Manager" && (
           <>
-            <UserProfile user={userdata} />
+            <StaffProfile user={userdata} />
           </>
         )}
       </LayoutDesign>

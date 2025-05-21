@@ -1,13 +1,15 @@
-import React from "react";
-import React, {useState} from "react";
-import {Button, Grid2} from "@mui/material";
-import {ModeEditOutline} from "@mui/icons-material";
+import React, { useState } from "react";
+import { Button, Container, Grid2 } from "@mui/material";
+import { ModeEditOutline } from "@mui/icons-material";
 import profileimage from "../../../assets/commonIcon/profilepic.png";
 import CardOne from "../../../common/cardOne/CardOne";
 import TModal from "../../../common/Modal/TModal";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-const StaffProfile = ({user}) => {
+import Input from "../../../common/Input/Input";
+import InputImageUpload from "../../../common/InputImageUpload/InputImageUpload";
+const StaffProfile = ({ user }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [IsEdit, setIsEdit] = useState(user);
 
   return (
     <div>
@@ -43,41 +45,53 @@ const StaffProfile = ({user}) => {
             </div>
 
             <Grid2 container spacing={2}>
-              <Grid2 size={{md: 12, lg: 4}}>
+              <Grid2 size={{ md: 12, lg: 4 }}>
+                <CardOne
+                  icon={<EmailOutlinedIcon />}
+                  title={"UserName"}
+                  paragraph={user?.UserName}
+                />
+              </Grid2>
+              <Grid2 size={{ md: 12, lg: 4 }}>
+                <CardOne
+                  icon={<EmailOutlinedIcon />}
+                  title={"FirstName"}
+                  paragraph={user?.FirstName}
+                />
+              </Grid2>
+              <Grid2 size={{ md: 12, lg: 4 }}>
+                <CardOne
+                  icon={<EmailOutlinedIcon />}
+                  title={"LastName"}
+                  paragraph={user?.LastName}
+                />
+              </Grid2>
+              <Grid2 size={{ md: 12, lg: 4 }}>
                 <CardOne
                   icon={<EmailOutlinedIcon />}
                   title={"Email"}
                   paragraph={user?.Email}
                 />
               </Grid2>
-              <Grid2 size={{md: 12, lg: 4}}>
+              <Grid2 size={{ md: 12, lg: 4 }}>
                 <CardOne
                   icon={<EmailOutlinedIcon />}
-                  title={"Role"}
-                  paragraph={user?.Role}
+                  title={"Address"}
+                  paragraph={user?.Address}
                 />
               </Grid2>
-              <Grid2 size={{md: 12, lg: 4}}>
-                {user?.Term && (
-                  <CardOne
-                    icon={user.Term ? <EmailOutlinedIcon /> : null}
-                    title={user.Term ? "Term" : null}
-                    paragraph={user.Term ? "true" : "false"}
-                  />
-                )}
-              </Grid2>
-              <Grid2 size={{md: 12, lg: 4}}>
+              <Grid2 size={{ md: 12, lg: 4 }}>
                 <CardOne
                   icon={<EmailOutlinedIcon />}
-                  title={"Acitivity"}
-                  paragraph={user.Activity ? "true" : "false"}
+                  title={"Phone"}
+                  paragraph={user?.Phone}
                 />
               </Grid2>
-              <Grid2 size={{md: 12, lg: 4}}>
+              <Grid2 size={{ md: 12, lg: 4 }}>
                 <CardOne
                   icon={<EmailOutlinedIcon />}
-                  title={"Block Status"}
-                  paragraph={user.BlockStatus ? "unblock" : "blocked"}
+                  title={"Joining Date"}
+                  paragraph={user?.Joining_Date}
                 />
               </Grid2>
             </Grid2>
@@ -91,14 +105,11 @@ const StaffProfile = ({user}) => {
           open={isOpen}
           onClose={() => setIsOpen(false)}
         >
-          <Container>
+          <Container maxWidth="md">
             <Grid2 container spacing={2}>
-              <Grid2 item xs={12} sm={6} md={4}>
-                <TextField type="text" fullWidth />
-              </Grid2>
-              <Grid2 item xs={12} sm={6} md={4}>
-                <TextField type="text" fullWidth />
-              </Grid2>
+              <form>
+                <Grid2 size={{ md: 12, sm: 12 }}></Grid2>
+              </form>
             </Grid2>
           </Container>
         </TModal>

@@ -1,13 +1,12 @@
 import React from "react";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
-import {Button, Grid2, styled} from "@mui/material";
-import Input from "../../common/Input/Input";
-import {useFormik} from "formik";
+import { Button, Grid2, styled } from "@mui/material";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import InputPassword from "../../common/InputPassword/InputPassword";
-import {useDispatch} from "react-redux";
-import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
+import { useDispatch } from "react-redux";
+import { setLoader } from "../../redux/LoaderSlices/LoaderSlices";
 import apiInstance from "../../ApiInstance/apiInstance";
 import toast from "react-hot-toast";
 
@@ -58,7 +57,7 @@ const ChangePassword = () => {
         <div className="change_password_wrapper_box">
           <form onSubmit={formik.handleSubmit}>
             <Grid2 container spacing={2}>
-              <Grid2 size={{md: 4, lg: 6, sm: 12}}>
+              <Grid2 size={{ md: 4, lg: 6, sm: 12 }}>
                 <InputPassword
                   labelText={"Old Password"}
                   placeholder={"Please Enter your Old password"}
@@ -69,7 +68,7 @@ const ChangePassword = () => {
                   <ErrorText>{formik.errors.oldPassword}</ErrorText>
                 )}
               </Grid2>
-              <Grid2 size={{md: 4, lg: 6, sm: 12}}>
+              <Grid2 size={{ md: 4, lg: 6, sm: 12 }}>
                 <InputPassword
                   labelText={"New  Password"}
                   placeholder={"Please Enter New password"}
@@ -79,7 +78,7 @@ const ChangePassword = () => {
                   <ErrorText>{formik.errors.newPassword}</ErrorText>
                 )}
               </Grid2>
-              <Grid2 size={{md: 4, lg: 6, sm: 12}}>
+              <Grid2 size={{ md: 4, lg: 6, sm: 12 }}>
                 <InputPassword
                   labelText={"Confirm  Password"}
                   {...formik.getFieldProps("confirmPassword")}
@@ -91,7 +90,7 @@ const ChangePassword = () => {
                     <ErrorText>{formik.errors.confirmPassword}</ErrorText>
                   )}
               </Grid2>
-              <Grid2 size={{md: 12, lg: 12, sm: 12}}>
+              <Grid2 size={{ md: 12, lg: 12, sm: 12 }}>
                 <Button
                   type="submit"
                   sx={{
