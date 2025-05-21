@@ -45,7 +45,7 @@ const UserList = ({users, handleEdit}) => {
                           startIcon={<Edit />}
                           type="submit"
                           onClick={() => {
-                            handleEdit(item.user_id);
+                            handleEdit(item);
                           }}
                           sx={{
                             background: "#6560f0",

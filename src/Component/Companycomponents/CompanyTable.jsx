@@ -23,7 +23,10 @@ function CompanyTable({company, isOpen, setIsOpen, setIsEdit, setIsId}) {
               <img src={`${company.Company_Logo}`} alt="" srcset="" />
 
               <Button
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => {
+                  setIsEdit(company);
+                  setIsOpen(true);
+                }}
                 startIcon={<EditIcon />}
                 sx={{
                   background: "#6560f0",

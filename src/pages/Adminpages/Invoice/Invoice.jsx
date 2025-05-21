@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import Layout from "../../../Layoutcomponents/Layout/Layout";
+import TModal from "../../../common/Modal/TModal";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import * as Yup from "yup";
 import {
@@ -31,6 +31,7 @@ import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import toast from "react-hot-toast";
 import {fetchclientapicall} from "../../../ApiServices/AdminApiServices/Client";
 import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import InputSelect from "../../../common/InputSelect/InputSelect";
 const validationSchema = Yup.object({
   clientId: Yup.string().required("Invoice clientId is required"),
   startDate: Yup.date().required("Start Date is required"),
@@ -44,6 +45,7 @@ const validationSchema = Yup.object({
 const Invoice = () => {
   const [IsOpen, setIsOpen] = useState(false);
   const [Isinvoicedata, setIsinvoicedata] = useState([]);
+  const [isUpdate, setIsUpdate] = useState(false);
   const [clients, setClients] = useState([]);
   const dispatch = useDispatch();
   const getclientdata = async () => {
@@ -113,6 +115,7 @@ const Invoice = () => {
       dispatch(setLoader(false));
     }
   };
+
   useEffect(() => {
     fetchinvoicefunc();
     getclientdata();
@@ -134,12 +137,13 @@ const Invoice = () => {
       </Button>
       {/* create invoice */}
       {IsOpen && (
-        <Drawer open={IsOpen} anchor="right" onClose={() => setIsOpen(false)}>
+        <TModal
+          open={IsOpen}
+          title="create Invoice"
+          onClose={() => setIsOpen(false)}
+        >
           <Container maxWidth="md">
             <form onSubmit={formik.handleSubmit}>
-              <Typography variant="h6" sx={{mb: 2, mt: 2}}>
-                Create Invoice
-              </Typography>
               <Grid2 spacing={2} container>
                 <Grid2 size={{sm: 12, xs: 12}}>
                   <FormControl fullWidth margin="normal">
@@ -279,11 +283,48 @@ const Invoice = () => {
               </Grid2>
             </form>
           </Container>
-        </Drawer>
+        </TModal>
       )}
       {/* create invoice */}
 
       {/* table of Invoice */}
+
+      <Button
+        onClick={() => {
+          setIsUpdate(true);
+        }}
+      >
+        update Invoice
+      </Button>
+      {isUpdate && (
+        <TModal
+          title={"Update Invoice"}
+          open={isUpdate}
+          onClose={() => setIsUpdate(false)}
+        >
+          <Container maxWidth="md">
+            <form>
+              <Grid2 spacing={2} container>
+                <Grid2 size={{sm: 12, xs: 12}}>
+                  <InputSelect
+                    type="text"
+                    placeholder="--- Please Select Pamyent Mode ---"
+                    options={[
+                      {label: "PAID", value: "PAID"},
+                      {label: "UNPAID", value: "UNPAID"},
+                      {label: "PARTIALLY_PAID", value: "PARTIALLY_PAID"},
+                    ]}
+                    labelText={"Select Invoice Status"}
+                  />
+                </Grid2>
+                <Grid2 size={{sm: 12, xs: 12}}>
+                  <Button>submit</Button>
+                </Grid2>
+              </Grid2>
+            </form>
+          </Container>
+        </TModal>
+      )}
 
       <TableContainer component={Paper}>
         <Table>

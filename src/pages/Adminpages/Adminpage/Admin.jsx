@@ -1,23 +1,18 @@
 import React, {useEffect} from "react";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import HeaderTab from "../../../common/HeaderTab/HeaderTab";
-import {Container, Drawer, Button, Grid2, Box} from "@mui/material";
+import {Container, Button, Grid2, Box} from "@mui/material";
 import TModal from "../../../common/Modal/TModal";
 import * as Yup from "yup";
-// import AdminForm from "../../../Component/AdminComponents/Admin/AdminForm";
-// import AdminTable from "../../../Component/AdminComponents/Admin/AdminTable";
 import {
   createadminapicall,
   fetchadminapicall,
 } from "../../../ApiServices/AdminApiServices/Admin";
-import Layout from "../../../Layoutcomponents/Layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import UserList from "../../../Component/AdminComponents/Admin/UserList";
 import {useDispatch} from "react-redux";
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import Input from "../../../common/Input/Input";
 import toast from "react-hot-toast";
-import InputFileupload from "../../../common/InputFileupload/InputFileupload";
 import InputPassword from "../../../common/InputPassword/InputPassword";
 import PhoneInput from "react-phone-input-2";
 import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
@@ -42,6 +37,11 @@ const validationSchema = Yup.object({
   Phone: Yup.string()
     .min(10, "Enter a valid phone number")
     .required("Phone number is required"),
+  ConfirmPassword: Yup.string()
+    .oneOf([Yup.ref("Password"), null], "Passwords must match")
+    .required("Confirm password is required"),
+
+  profileImage: Yup.mixed().nullable().required("Profile image is required"),
 });
 // validation
 
@@ -49,12 +49,14 @@ const Admin = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [isAdmindata, setIsAdmindata] = React.useState([]);
   const [IsEdit, setIsEdit] = React.useState(null);
+  console.log("isEdit ?????????????", IsEdit?.Email ?? "no data");
+
   const dispatch = useDispatch();
   // fetch admin
 
   const formik = useFormik({
     initialValues: {
-      FirstName: "",
+      FirstName: IsEdit ? IsEdit.FirstName || "" : "",
       LastName: "",
       Email: "",
       Password: "",
@@ -62,7 +64,7 @@ const Admin = () => {
       profileImage: null,
       Phone: "",
     },
-    // validationSchema,
+    validationSchema,
     onSubmit: async (values) => {
       try {
         handleSubmit(values);
@@ -161,18 +163,33 @@ const Admin = () => {
                   <Grid2 Container spacing={4}>
                     <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
                       <InputImageUpload
-                        name={"Upload Profile Pic"}
+                        name={"profileImage"}
                         value={formik.values.profileImage}
-                        onChange={formik.setFieldValue}
+                        onChange={(file) =>
+                          formik.setFieldValue("profileImage", file)
+                        }
                       />
+                      {formik.touched.profileImage &&
+                        formik.errors.profileImage && (
+                          <div style={{color: "red"}}>
+                            {formik.errors.profileImage}
+                          </div>
+                        )}
                     </Grid2>
                     <Grid2 size={{sm: 12, md: 6, xs: 12}} sx={{mt: 3}}>
                       <Input
                         style={{width: "100%"}}
                         placeholder={"Please Enter Your First Name"}
                         labelText={"First Name"}
+                        name={"FirstName"}
                         {...formik.getFieldProps("FirstName")}
                       />
+
+                      {formik.touched.FirstName && formik.errors.FirstName && (
+                        <div style={{color: "red"}}>
+                          {formik.errors.FirstName}
+                        </div>
+                      )}
                     </Grid2>
                     <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
                       <Input
@@ -181,6 +198,11 @@ const Admin = () => {
                         labelText={"LastName"}
                         {...formik.getFieldProps("LastName")}
                       />
+                      {formik.touched.LastName && formik.errors.LastName && (
+                        <div style={{color: "red"}}>
+                          {formik.errors.LastName}
+                        </div>
+                      )}
                     </Grid2>
                     <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
                       <Input
@@ -190,25 +212,44 @@ const Admin = () => {
                         labelText={"Email"}
                         {...formik.getFieldProps("Email")}
                       />
+                      {formik.touched.Email && formik.errors.Email && (
+                        <div style={{color: "red"}}>{formik.errors.Email}</div>
+                      )}
                     </Grid2>
-                    <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
-                      <InputPassword
-                        type={"password"}
-                        placeholder="Please Enter your password"
-                        labelText={"Password"}
-                        {...formik.getFieldProps("Password")}
-                        style={{width: "100%"}}
-                      />
-                    </Grid2>
-                    <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
-                      <InputPassword
-                        type={"password"}
-                        placeholder="Please Enter Confirm password"
-                        labelText={"Confirm Password"}
-                        {...formik.getFieldProps("ConfirmPassword")}
-                        style={{width: "100%"}}
-                      />
-                    </Grid2>
+                    {IsEdit === null && (
+                      <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+                        <InputPassword
+                          type={"password"}
+                          placeholder="Please Enter your password"
+                          labelText={"Password"}
+                          {...formik.getFieldProps("Password")}
+                          style={{width: "100%"}}
+                        />
+                        {formik.touched.Password && formik.errors.Password && (
+                          <div style={{color: "red"}}>
+                            {formik.errors.Password}
+                          </div>
+                        )}
+                      </Grid2>
+                    )}
+
+                    {IsEdit === null && (
+                      <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+                        <InputPassword
+                          type={"password"}
+                          placeholder="Please Enter Confirm password"
+                          labelText={"Confirm Password"}
+                          {...formik.getFieldProps("ConfirmPassword")}
+                          style={{width: "100%"}}
+                        />
+                        {formik.touched.ConfirmPassword &&
+                          formik.errors.ConfirmPassword && (
+                            <div style={{color: "red"}}>
+                              {formik.errors.ConfirmPassword}
+                            </div>
+                          )}
+                      </Grid2>
+                    )}
                     <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
                       <label
                         htmlFor="phone-input"
@@ -231,6 +272,12 @@ const Admin = () => {
                         }
                         onBlur={() => formik.setFieldTouched("Phone", true)}
                       />
+
+                      {formik.touched.Phone && formik.errors.Phone && (
+                        <div style={{color: "red", font: "14px"}}>
+                          {formik.errors.Phone}
+                        </div>
+                      )}
                     </Grid2>
 
                     <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>

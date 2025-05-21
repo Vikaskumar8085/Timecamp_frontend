@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import {useSelector} from "react-redux";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
-import Layout from "../../Layoutcomponents/Layout/Layout";
 import UserProfile from "../../Component/DashboardComponents/ProfileComponent/UserProfile";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import ClientProfile from "../../Component/DashboardComponents/ProfileComponent/ClientProfile";
 
 const Profile = () => {
   const userdata = useSelector((state) => state.user.values);
@@ -21,7 +21,7 @@ const Profile = () => {
         )}
         {Role === "Client" && (
           <>
-            <UserProfile user={userdata} />
+            <ClientProfile user={userdata} />
           </>
         )}
         {Role === "Employee" && (

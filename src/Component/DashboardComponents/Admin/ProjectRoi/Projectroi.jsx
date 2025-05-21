@@ -13,7 +13,6 @@ import {
 import {ArrowUpward, ArrowDownward} from "@mui/icons-material";
 const Projectroi = () => {
   const [data, setData] = useState([]);
-  console.log(data, "data,hai");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 

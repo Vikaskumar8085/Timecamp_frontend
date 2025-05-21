@@ -1,14 +1,17 @@
+import React from "react";
 import React, {useState} from "react";
-import {Button, Container, Grid2, TextField} from "@mui/material";
+import {Button, Grid2} from "@mui/material";
 import {ModeEditOutline} from "@mui/icons-material";
 import profileimage from "../../../assets/commonIcon/profilepic.png";
 import CardOne from "../../../common/cardOne/CardOne";
 import TModal from "../../../common/Modal/TModal";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-const UserProfile = ({user}) => {
+const StaffProfile = ({user}) => {
   const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <>
+    <div>
+      {" "}
       <div className="profile_card_wrapper">
         <div className="profile_card_box">
           <div className="profile_card_header">
@@ -82,7 +85,6 @@ const UserProfile = ({user}) => {
           {/* Profile body */}
         </div>
       </div>
-
       {isOpen && (
         <TModal
           title={"Edit Profile"}
@@ -90,12 +92,19 @@ const UserProfile = ({user}) => {
           onClose={() => setIsOpen(false)}
         >
           <Container>
-       
+            <Grid2 container spacing={2}>
+              <Grid2 item xs={12} sm={6} md={4}>
+                <TextField type="text" fullWidth />
+              </Grid2>
+              <Grid2 item xs={12} sm={6} md={4}>
+                <TextField type="text" fullWidth />
+              </Grid2>
+            </Grid2>
           </Container>
         </TModal>
       )}
-    </>
+    </div>
   );
 };
 
-export default UserProfile;
+export default StaffProfile;
