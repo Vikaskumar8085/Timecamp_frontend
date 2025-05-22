@@ -33,7 +33,7 @@ import Input from "../../../common/Input/Input";
 import InputSelect from "../../../common/InputSelect/InputSelect";
 import moment from "moment";
 
-const ProjectForm = ({handleSubmit, IsEdit}) => {
+const ProjectForm = ({handleSubmit, IsEdit, UpdateHandleProject}) => {
   const [clients, setClients] = useState([]);
   const [IsStaffdata, setIsstaffdata] = useState([]);
   const [IsRoledata, setIsRoledata] = useState([]);
@@ -82,7 +82,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
         : "",
       currency: IsEdit?.currency ?? "",
       Project_Hours: IsEdit?.Project_Hours ?? "",
-      bucket: IsEdit?.bucket?.length
+      bucket: IsEdit?.bucket
         ? IsEdit.bucket.map((item) => ({
             bucketHourly: item.bucketHourly || "",
             bucketHourlyRate: item.bucketHourlyRate || "",
@@ -98,7 +98,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
               billable: resource?.billable ?? false,
               Unit: resource?.Unit ?? "",
               Rate: resource?.Rate ?? "",
-              IsProjectManager: resource?.IsProjectManager ?? "",
+              IsProjectManager: resource?.IsProjectManager ?? false,
               Engagement_Ratio: resource?.Engagement_Ratio ?? "",
             }))
           : [
@@ -109,7 +109,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
                 Unit: "",
                 Rate: "",
                 Engagement_Ratio: "",
-                IsProjectManager: true,
+                IsProjectManager: false,
               },
             ],
 
@@ -136,10 +136,13 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
     },
     enableReinitialize: true,
     onSubmit: async (values) => {
-      handleSubmit(values);
-      console.log(values, "vlaues");
-
-      // formik.resetForm();
+      if (IsEdit === null) {
+        handleSubmit(values);
+        formik.resetForm();
+      } else {
+        UpdateHandleProject(values);
+        formik.resetForm();
+      }
     },
   });
 
@@ -170,7 +173,7 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
           RRId: "",
           RId: "",
           billable: false,
-          IsProjectManager: false,
+          IsProjectManager: true,
           Unit: "",
           Rate: "",
           Engagement_Ratio: "",
@@ -227,7 +230,6 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
               placeholder={"Please Enter Your Project Name"}
             />
           </Grid>
-
           <Grid size={{sm: 12, md: 6, xs: 12}}>
             <InputSelect
               name={"clientId"}
@@ -435,7 +437,8 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
                         <InputSelect
                           labelText="Unit"
                           name={`roleResources[${index}].Unit`}
-                          value={role.Type}
+                          placeholder="--- Please select Unit ---"
+                          value={role.Unit}
                           onChange={formik.handleChange}
                           options={[
                             {value: "Fixed", label: "Fixed"},
@@ -542,7 +545,8 @@ const ProjectForm = ({handleSubmit, IsEdit}) => {
                         <InputSelect
                           labelText="Unit"
                           name={`roleProjectMangare[${index}].Unit`}
-                          value={role.Type}
+                          placeholder="--- please select unit ---"
+                          value={role.Unit}
                           onChange={formik.handleChange}
                           options={[
                             {value: "Fixed", label: "Fixed"},

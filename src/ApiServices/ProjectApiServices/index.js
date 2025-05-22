@@ -1,7 +1,16 @@
 import apiInstance from "../../ApiInstance/apiInstance";
-
+//create project api call
 export const createprojectapicall = async (value) => {
   const response = await apiInstance.post("/v1/admin/create-projects", value);
+  return response.data;
+};
+
+// update project api call
+export const updateprojectapicall = async (value) => {
+  const response = await apiInstance.put(
+    `/v1/admin/edit-projects/${value.id}`,
+    value.payload
+  );
   return response.data;
 };
 
@@ -58,11 +67,4 @@ export const removeprojectapicall = async (value) => {
   return response?.data;
 };
 
-// edit project api call
-export const updateprojectapicall = async (value) => {
-  const response = await apiInstance.put(
-    `/v1/admin/edit-projects/${value.id}`,
-    value.payload
-  );
-  return response.data;
-};
+

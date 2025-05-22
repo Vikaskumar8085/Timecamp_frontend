@@ -1,58 +1,57 @@
 import React, {useState} from "react";
-import {
-  TextField,
-  Button,
-  Container,
-  Box,
-  Typography,
-  Avatar,
-} from "@mui/material";
-import Grid from "@mui/material/Grid2";
+import {Container, Button, Grid2, Box} from "@mui/material";
+import PhoneInput from "react-phone-input-2";
 import {useFormik} from "formik";
-import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
-const AdminForm = ({handleSubmit, IsEdit, setIsEdit}) => {
-  const [image, setImage] = useState(null);
-  const [preview, setPreview] = useState(null);
-  const validate = (values) => {
-    const errors = {};
-    if (!values.FirstName.trim()) {
-      errors.FirstName = "First Name is required";
-    }
-    if (!values.LastName.trim()) {
-      errors.LastName = "Last Name is required";
-    }
-    if (!values.Email) {
-      errors.Email = "Email is required";
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.Email)) {
-      errors.Email = "Invalid email address";
-    }
-    if (!values.Password) {
-      errors.Password = "Password is required";
-    } else if (values.Password.length < 6) {
-      errors.Password = "Password must be at least 6 characters long";
-    }
-    if (!values.ConfirmPassword) {
-      errors.ConfirmPassword = "Confirm Password is required";
-    } else if (values.ConfirmPassword !== values.Password) {
-      errors.ConfirmPassword = "Passwords must match";
-    }
-    return errors;
-  };
+import Input from "../../../common/Input/Input";
+import InputPassword from "../../../common/InputPassword/InputPassword";
+import InputImageUpload from "../../../common/InputImageUpload/InputImageUpload";
+import * as Yup from "yup";
 
+const AdminForm = ({handleSubmit, IsEdit, setIsEdit}) => {
+  console.log(IsEdit);
+  // const [image, setImage] = useState(null);
+  // const [preview, setPreview] = useState(null);
+
+  // validation
+  const validationSchema = Yup.object({
+    FirstName: Yup.string()
+      .min(2, "Too Short!")
+      .max(30, "Too Long!")
+      .required("First name is required"),
+    LastName: Yup.string()
+      .min(2, "Too Short!")
+      .max(30, "Too Long!")
+      .required("Last name is required"),
+    Email: Yup.string().email("Invalid email").required("Email is required"),
+    Password: Yup.string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
+    Phone: Yup.string()
+      .min(10, "Enter a valid phone number")
+      .required("Phone number is required"),
+    ConfirmPassword: Yup.string()
+      .oneOf([Yup.ref("Password"), null], "Passwords must match")
+      .required("Confirm password is required"),
+
+    Photo: Yup.mixed().nullable().required("Profile image is required"),
+  });
+
+  // validation
   const formik = useFormik({
     initialValues: {
-      FirstName: IsEdit?.FirstName ?? "",
-      LastName: IsEdit?.LastName ?? "",
-      Email: IsEdit?.Email ?? "",
-      Password: IsEdit?.Password ?? "",
+      FirstName: IsEdit ? IsEdit.FirstName || "" : "",
+      LastName: IsEdit ? IsEdit?.LastName || "" : "",
+      Email: IsEdit ? IsEdit?.Email || "" : "",
+      Password: "",
       ConfirmPassword: "",
+      Photo: IsEdit ? IsEdit?.Photo || "" : null,
+      Phone: IsEdit ? IsEdit?.Phone || "" : "",
     },
-    validate,
-    onSubmit: (values) => {
+    validationSchema,
+    onSubmit: async (values) => {
       try {
-        const {ConfirmPassword, ...formValues} = values; // Exclude ConfirmPassword before submission
-        handleSubmit(formValues);
-
+        handleSubmit(values);
+        setIsEdit(null);
         formik.resetForm();
       } catch (error) {
         console.log(error?.message);
@@ -60,139 +59,141 @@ const AdminForm = ({handleSubmit, IsEdit, setIsEdit}) => {
     },
   });
 
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setImage(file);
-      setPreview(URL.createObjectURL(file)); // Create image preview URL
-    }
-  };
+  // const handleImageUpload = (event) => {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     setImage(file);
+  //     setPreview(URL.createObjectURL(file)); // Create image preview URL
+  //   }
+  // };
 
   return (
-    <Container maxWidth="sm">
-      <Box
-        sx={{
-          mt: 4,
-          p: 1,
-        }}
-      >
+    <Container maxWidth="md">
+      <Box>
         <form onSubmit={formik.handleSubmit}>
-          <Grid container spacing={2}>
-            {/* First Name */}
-            <Grid item size={{sm: 12}}>
-              <TextField
-                fullWidth
-                label="First Name"
+          <Grid2 Container spacing={4}>
+            <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+              <InputImageUpload
+                name={"Photo"}
+                value={formik.values.Photo}
+                onChange={formik.setFieldValue}
+              />
+              {formik.touched.Photo && formik.errors.Photo && (
+                <div style={{color: "red", font: "14px"}}>
+                  {formik.errors.Photo}
+                </div>
+              )}
+            </Grid2>
+            <Grid2 size={{sm: 12, md: 6, xs: 12}} sx={{mt: 3}}>
+              <Input
+                style={{width: "100%"}}
+                placeholder={"Please Enter Your First Name"}
+                labelText={"First Name"}
+                name={"FirstName"}
                 {...formik.getFieldProps("FirstName")}
-                error={
-                  formik.touched.FirstName && Boolean(formik.errors.FirstName)
-                }
-                helperText={formik.touched.FirstName && formik.errors.FirstName}
               />
-            </Grid>
 
-            {/* Last Name */}
-            <Grid item size={{sm: 12}}>
-              <TextField
-                fullWidth
-                label="Last Name"
+              {formik.touched.FirstName && formik.errors.FirstName && (
+                <div style={{color: "red"}}>{formik.errors.FirstName}</div>
+              )}
+            </Grid2>
+            <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+              <Input
+                style={{width: "100%"}}
+                placeholder={"please Enter Your Last Name"}
+                labelText={"LastName"}
                 {...formik.getFieldProps("LastName")}
-                error={
-                  formik.touched.LastName && Boolean(formik.errors.LastName)
-                }
-                helperText={formik.touched.LastName && formik.errors.LastName}
               />
-            </Grid>
-
-            {/* Email */}
-            <Grid item size={{sm: 12}}>
-              <TextField
-                fullWidth
-                label="Email"
-                type="email"
+              {formik.touched.LastName && formik.errors.LastName && (
+                <div style={{color: "red"}}>{formik.errors.LastName}</div>
+              )}
+            </Grid2>
+            <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+              <Input
+                style={{width: "100%"}}
+                type={"Email"}
+                placeholder={"please Enter Your Last Name"}
+                labelText={"Email"}
                 {...formik.getFieldProps("Email")}
-                error={formik.touched.Email && Boolean(formik.errors.Email)}
-                helperText={formik.touched.Email && formik.errors.Email}
               />
-            </Grid>
+              {formik.touched.Email && formik.errors.Email && (
+                <div style={{color: "red"}}>{formik.errors.Email}</div>
+              )}
+            </Grid2>
+            {IsEdit === null && (
+              <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+                <InputPassword
+                  type={"password"}
+                  placeholder="Please Enter your password"
+                  labelText={"Password"}
+                  {...formik.getFieldProps("Password")}
+                  style={{width: "100%"}}
+                />
+                {formik.touched.Password && formik.errors.Password && (
+                  <div style={{color: "red"}}>{formik.errors.Password}</div>
+                )}
+              </Grid2>
+            )}
 
-            {/* Password */}
-            <Grid item size={{sm: 12}}>
-              <TextField
-                fullWidth
-                label="Password"
-                type="password"
-                {...formik.getFieldProps("Password")}
-                error={
-                  formik.touched.Password && Boolean(formik.errors.Password)
-                }
-                helperText={formik.touched.Password && formik.errors.Password}
-              />
-            </Grid>
-
-            {/* Confirm Password */}
-            <Grid item size={{sm: 12}}>
-              <TextField
-                fullWidth
-                label="Confirm Password"
-                type="password"
-                {...formik.getFieldProps("ConfirmPassword")}
-                error={
-                  formik.touched.ConfirmPassword &&
-                  Boolean(formik.errors.ConfirmPassword)
-                }
-                helperText={
-                  formik.touched.ConfirmPassword &&
-                  formik.errors.ConfirmPassword
-                }
-              />
-            </Grid>
-
-            {/* Image Upload */}
-            <Grid item size={{sm: 12}} textAlign="center">
-              <input
-                accept="image/*"
-                style={{display: "none"}}
-                id="upload-image"
-                type="file"
-                onChange={handleImageUpload}
-              />
-              <label htmlFor="upload-image">
-                <Button
-                  variant="contained"
-                  component="span"
-                  startIcon={<PhotoCameraIcon />}
-                  sx={{mb: 2}}
-                >
-                  Choose Image
-                </Button>
+            {IsEdit === null && (
+              <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+                <InputPassword
+                  type={"password"}
+                  placeholder="Please Enter Confirm password"
+                  labelText={"Confirm Password"}
+                  {...formik.getFieldProps("ConfirmPassword")}
+                  style={{width: "100%"}}
+                />
+                {formik.touched.ConfirmPassword &&
+                  formik.errors.ConfirmPassword && (
+                    <div style={{color: "red"}}>
+                      {formik.errors.ConfirmPassword}
+                    </div>
+                  )}
+              </Grid2>
+            )}
+            <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
+              <label
+                htmlFor="phone-input"
+                style={{
+                  display: "block",
+                  marginBottom: "6px",
+                  color: "#86919b",
+                  fontWeight: "500",
+                }}
+              >
+                Phone Number
               </label>
 
-              {preview && (
-                <Box
-                  mt={2}
-                  display="flex"
-                  flexDirection="column"
-                  alignItems="center"
-                >
-                  <Avatar src={preview} sx={{width: 120, height: 120, mb: 1}} />
-                  <Typography variant="body2">{image?.name}</Typography>
-                </Box>
-              )}
-            </Grid>
+              <PhoneInput
+                inputStyle={{width: "100%"}}
+                country={"in"}
+                style={{width: "100%"}}
+                value={formik.values.Phone}
+                onChange={(value) => formik.setFieldValue("Phone", value)}
+                onBlur={() => formik.setFieldTouched("Phone", true)}
+              />
 
-            {/* Submit Button */}
-            <Grid item size={{sm: 12}}>
+              {formik.touched.Phone && formik.errors.Phone && (
+                <div style={{color: "red", font: "14px"}}>
+                  {formik.errors.Phone}
+                </div>
+              )}
+            </Grid2>
+
+            <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
               <Button
-                fullWidth
-                variant="contained"
-                sx={{bgcolor: "#2c3e50", color: "white"}}
                 type="submit"
+                sx={{
+                  background: "#6560f0",
+                  color: "white",
+                  width: "100%",
+                }}
               >
-                Register
+                submit
               </Button>
-            </Grid>
-          </Grid>
+            </Grid2>
+          </Grid2>
         </form>
       </Box>
     </Container>
@@ -200,36 +201,3 @@ const AdminForm = ({handleSubmit, IsEdit, setIsEdit}) => {
 };
 
 export default AdminForm;
-// / const [image, setImage] = useState(null);
-// const [preview, setPreview] = useState(null);
-
-// const handleImageUpload = (event) => {
-//   const file = event.target.files[0];
-//   if (file) {
-//     setImage(file);
-//     setPreview(URL.createObjectURL(file));
-//   }
-// };
-
-// const formik = useFormik({
-//   initialValues: {
-//     FirstName: "",
-//     LastName: "",
-//     Email: "",
-//     Password: "",
-//     ConfirmPassword: "",
-//   },
-//   validationSchema: Yup.object({
-//     FirstName: Yup.string().required("First Name is required"),
-//     LastName: Yup.string().required("Last Name is required"),
-//     Email: Yup.string().email("Invalid email").required("Email is required"),
-//     Password: Yup.string().min(6, "Minimum 6 characters").required("Password is required"),
-//     ConfirmPassword: Yup.string()
-//       .oneOf([Yup.ref("Password"), null], "Passwords must match")
-//       .required("Confirm Password is required"),
-//   }),
-//   onSubmit: (values) => {
-//     console.log("Form Submitted:", values);
-//     console.log("Selected Image:", image);
-//   },
-// });

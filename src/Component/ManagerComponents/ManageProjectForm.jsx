@@ -31,7 +31,11 @@ import {
 import Input from "../../common/Input/Input";
 import InputSelect from "../../common/InputSelect/InputSelect";
 
-const ManageProjectForm = ({IsEdit, handleSubmit}) => {
+const ManageProjectForm = ({
+  updateprojecthandleSubmit,
+  IsEdit,
+  handleSubmit,
+}) => {
   const [isclientdata, setisclientdata] = useState([]);
   const [isrolesdata, setIsrolesdata] = useState([]);
   const [isstaffdata, setisstaffdata] = useState([]);
@@ -78,7 +82,7 @@ const ManageProjectForm = ({IsEdit, handleSubmit}) => {
   const formik = useFormik({
     initialValues: {
       Project_Name: IsEdit?.Project_Name ?? "",
-      clientId: IsEdit?.ClientName ?? "",
+      clientId: IsEdit?.clientId ?? "",
       Project_Type: IsEdit?.Project_Type ?? "",
       Start_Date: IsEdit?.Start_Date
         ? moment(IsEdit.Start_Date, "DD/MM/YYYY").format("YYYY-MM-DD")
@@ -88,7 +92,7 @@ const ManageProjectForm = ({IsEdit, handleSubmit}) => {
         : "",
       currency: IsEdit?.currency ?? "",
       Project_Hours: IsEdit?.Project_Hours ?? "",
-      bucket: IsEdit?.bucket?.length
+      bucket: IsEdit?.bucket
         ? IsEdit.bucket.map((item) => ({
             bucketHourly: item.bucketHourly || "",
             bucketHourlyRate: item.bucketHourlyRate || "",
@@ -104,7 +108,7 @@ const ManageProjectForm = ({IsEdit, handleSubmit}) => {
               billable: resource?.billable ?? false,
               Unit: resource?.Unit ?? "",
               Rate: resource?.Rate ?? "",
-              IsProjectManager: resource?.IsProjectManager ?? "",
+              IsProjectManager: resource?.IsProjectManager ?? false,
               Engagement_Ratio: resource?.Engagement_Ratio ?? "",
             }))
           : [
@@ -115,15 +119,15 @@ const ManageProjectForm = ({IsEdit, handleSubmit}) => {
                 Unit: "",
                 Rate: "",
                 Engagement_Ratio: "",
-                IsProjectManager: true,
+                IsProjectManager: false,
               },
             ],
 
       roleResources:
-        Array.isArray(IsEdit?.roleResource) && IsEdit.roleResource.length > 0
-          ? IsEdit.roleResource.map((resource) => ({
-              RRId: resource?.ResourceName ?? "",
-              RId: resource?.RoleName ?? "",
+        Array.isArray(IsEdit?.roleResources) && IsEdit.roleResources.length > 0
+          ? IsEdit.roleResources.map((resource) => ({
+              RRId: resource?.RRId ?? "",
+              RId: resource?.RId ?? "",
               billable: resource?.billable ?? false,
               Unit: resource?.Unit ?? "",
               Rate: resource?.Rate ?? "",
@@ -140,9 +144,17 @@ const ManageProjectForm = ({IsEdit, handleSubmit}) => {
               },
             ],
     },
+    enableReinitialize: true,
     onSubmit: async (values) => {
-      console.log("Form Submitted", values);
-      handleSubmit(values);
+      if (IsEdit === null) {
+        console.log("Form Submitted", values);
+        handleSubmit(values);
+        formik.resetForm();
+      } else {
+        updateprojecthandleSubmit(values);
+        formik.resetForm();
+      }
+
       // formik.resetForm();
     },
   });
@@ -267,6 +279,7 @@ const ManageProjectForm = ({IsEdit, handleSubmit}) => {
               <Input
                 type="date"
                 labelText="Start Date"
+                value={formik.values.Start_Date}
                 name="Start_Date"
                 {...formik.getFieldProps("Start_Date")}
               />

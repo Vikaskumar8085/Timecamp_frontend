@@ -23,12 +23,16 @@ import {
 } from "@mui/material";
 import apiInstance from "../../ApiInstance/apiInstance";
 import ManageProjectForm from "../../Component/ManagerComponents/ManageProjectForm";
-import {createManagerProjectapicall} from "../../ApiServices/ManagerApiServices";
+import {
+  createManagerProjectapicall,
+  updatemanagerprojectapicall,
+} from "../../ApiServices/ManagerApiServices";
 import {useDispatch} from "react-redux";
 import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
 import {Link} from "react-router-dom";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 import TModal from "../../common/Modal/TModal";
+import toast from "react-hot-toast";
 const ManagerProject = () => {
   const [IsOpen, setIsOpen] = useState(false);
   const [IsEdit, setIsEdit] = useState(null);
@@ -77,6 +81,35 @@ const ManagerProject = () => {
       toast.error(error?.response?.data?.message);
     }
   };
+
+  const updateprojecthandleSubmit = async (value) => {
+    try {
+      const val = {
+        id: IsEdit?.ProjectId,
+        payload: value,
+      };
+
+      console.log(val, "value");
+      dispatch(setLoader(true));
+      const response = await updatemanagerprojectapicall(val);
+
+      if (response?.success) {
+        dispatch(setLoader(false));
+        setIsOpen(false);
+        fetchprojects();
+        toast.success(response?.message);
+      } else {
+        dispatch(setLoader(true));
+        setIsOpen(false);
+        fetchprojects();
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      toast.error(error?.response?.data?.message || "something went wrong");
+    }
+  };
+
   // const handleSearchChange = (event) => {
   //   setSearch(event.target.value);
   // };
@@ -122,7 +155,11 @@ const ManagerProject = () => {
           }}
           title="Create Project "
         >
-          <ManageProjectForm IsEdit={IsEdit} handleSubmit={handleSubmit} />
+          <ManageProjectForm
+            updateprojecthandleSubmit={updateprojecthandleSubmit}
+            IsEdit={IsEdit}
+            handleSubmit={handleSubmit}
+          />
         </TModal>
       )}
       <Paper sx={{width: "100%", overflow: "hidden", padding: 2}}>
@@ -186,6 +223,12 @@ const ManagerProject = () => {
                           {item.Project_Status ? "active" : "inactive"}
                         </TableCell>
                         <TableCell>{item.ClientName}</TableCell>
+
+                        <TableCell>
+                          <Link to={`/manager/project-info/${item?.ProjectId}`}>
+                            view
+                          </Link>
+                        </TableCell>
                         <TableCell>
                           <Button
                             onClick={() => {
@@ -193,13 +236,8 @@ const ManagerProject = () => {
                               setIsOpen(true);
                             }}
                           >
-                            view
+                            edit
                           </Button>
-                        </TableCell>
-                        <TableCell>
-                          <Link to={`/manager/project-info/${item?.ProjectId}`}>
-                            view
-                          </Link>
                         </TableCell>
                       </TableRow>
                     </>

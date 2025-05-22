@@ -8,6 +8,7 @@ import {
   createprojectapicall,
   fetchprojectapicall,
   removeprojectapicall,
+  updateprojectapicall,
 } from "../../../ApiServices/ProjectApiServices";
 import {useDispatch, useSelector} from "react-redux";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
@@ -39,7 +40,7 @@ const Project = () => {
 
   const handleSubmit = async (values) => {
     try {
-      // dispatch(setLoader(true));
+      dispatch(setLoader(true));
       const response = await createprojectapicall(values);
 
       if (response.success) {
@@ -120,9 +121,26 @@ const Project = () => {
         id: IsEdit?.ProjectId,
         payload: value,
       };
-      console.log(val);
+      console.log(val, "values update");
+
+      dispatch(setLoader(true));
+      const response = await updateprojectapicall(val);
+
+      if (response?.success) {
+        setIsModalOpen(false);
+        getProjectapicall();
+        dispatch(setLoader(false));
+      } else {
+        toast.success(response?.message);
+        setIsModalOpen(false);
+        dispatch(setLoader(true));
+        getProjectapicall();
+        toast.error(response?.message);
+      }
     } catch (error) {
-      console.log(error?.message);
+      dispatch(setLoader(false));
+
+      toast.error(error?.response?.data?.message || "something went wrong");
     }
   };
   useEffect(() => {
@@ -169,7 +187,11 @@ const Project = () => {
           }}
           title={IsEdit ? "Edit Project" : "Add Project"}
         >
-          <ProjectForm IsEdit={IsEdit} handleSubmit={handleSubmit} />
+          <ProjectForm
+            UpdateHandleProject={UpdateHandleProject}
+            IsEdit={IsEdit}
+            handleSubmit={handleSubmit}
+          />
         </TModal>
       ) : null}
 

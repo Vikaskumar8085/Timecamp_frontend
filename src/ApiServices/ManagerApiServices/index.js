@@ -38,9 +38,36 @@ export const managerfilltimesheetdataapicall = async (value) => {
   return response?.data;
 };
 
+// fetch manager team info
 export const fetchmanagerteaminfoapicall = async (value) => {
   const response = await apiInstance.get(
     `/v2/manager/fetch-manager-team-info/${value}`
+  );
+  return response?.data;
+};
+//  fetch manager team info
+
+// fetch manager team project
+export const fetchmanagerteamprojectsapicall = async (value) => {
+  const response = await apiInstance.get(
+    `/v2/manager/fetch-manager-team-project/${value}`
+  );
+  return response?.data;
+};
+// fetch manager team project
+
+export const updatemanagerprojectapicall = async (value) => {
+  const response = await apiInstance.put(
+    `/v2/manager/update-manager-team/${value.id}`,
+    value.payload
+  );
+  return response?.data;
+};
+// fetch manager team project timesheet
+
+export const fetchmanagerteamprojectTimesheetapicall = async (value) => {
+  const response = await apiInstance.get(
+    `/v2/manager/fetch-manager-team-project-timesheet/${value}`
   );
   return response?.data;
 };

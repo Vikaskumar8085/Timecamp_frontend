@@ -6,21 +6,21 @@ import bgImage from "../../../assets/commonIcon/profilepic.png";
 const TeamInfo = ({isteamInfo}) => {
   return (
     <>
-      <div className="Manager_team_card_wrapper">
-        <div className="Manager_team_card_wrapper_box">
-          <div className="Manager_team_card_header">
+      <div className="manager_card_wrapper">
+        <div className="manager_card_wrapper_box">
+          <div className="manager_card_header">
             <img src={bgImage} alt="" srcset="" />
-            <div className="Manager_team_header_tags">
+            <div className="manager_header_tags">
               <img
-                src={"https://i.ibb.co/4pDNDk1/avatar.png"}
+                src={isteamInfo?.Photo || "https://i.ibb.co/4pDNDk1/avatar.png"}
                 alt="User avatar"
                 loading="lazy"
               />
               <h1>{isteamInfo?.UserName}</h1>
-              {/*<p>{IsManager_teamInfodata?.Manager_team_Address}</p> */}
+              {/* <p>{isteamInfo?.Address}</p> */}
             </div>
           </div>
-          <div className="Manager_team_body">
+          <div className="manager_team_body">
             <Grid2 container spacing={2}>
               <Grid2 size={{md: 6, lg: 6, sm: 12}}>
                 <CardOne
