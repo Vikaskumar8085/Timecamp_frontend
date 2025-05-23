@@ -18,6 +18,7 @@ import InputFileupload from "../../../common/InputFileupload/InputFileupload";
 import InputSelect from "../../../common/InputSelect/InputSelect";
 
 const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
+  console.log("TaskCreationForm", Isprojectmilestonedata);
   const formik = useFormik({
     initialValues: {
       ProjectId: "",

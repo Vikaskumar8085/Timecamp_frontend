@@ -3,12 +3,21 @@ import React from "react";
 import {Button, Box, Typography, TextField, Container} from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import AddIcons from "@mui/icons-material/Add";
+import Input from "../../../common/Input/Input";
+import * as Yup from "yup";
+
+const validationSchema = Yup.object().shape({
+  Department_Name: Yup.string()
+    .required("Department name is required")
+    .matches(/^[A-Za-z\s]+$/, "Only letters are allowed"),
+});
+
 const AddDepartment = ({handleSubmit, isEdit, updatedepartment}) => {
   const formik = useFormik({
     initialValues: {
       Department_Name: isEdit !== null ? isEdit.Department_Name : null,
     },
-    // validationSchema: DesignationValidate,
+    validationSchema,
     onSubmit: async (values) => {
       try {
         if (isEdit !== null) {
@@ -30,31 +39,28 @@ const AddDepartment = ({handleSubmit, isEdit, updatedepartment}) => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            mt: 2,
             p: 1,
           }}
         >
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={2}>
-              <Grid size={{sm: 12, xs: 12}} sx={{mt: 3}}>
-                <TextField
-                  fullWidth
+              <Grid size={{sm: 12, xs: 12}}>
+                <Input
                   id="Department_Name"
                   name="Department_Name"
-                  label="Department Name"
-                  variant="outlined"
+                  labelText="Department Name"
                   value={formik.values.Department_Name}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  error={
-                    formik.touched.Department_Name &&
-                    Boolean(formik.errors.Department_Name)
-                  }
-                  helperText={
-                    formik.touched.Department_Name &&
-                    formik.errors.Department_Name
-                  }
+                  placeholder={"Please Enter Department Name"}
                 />
+                {formik.touched.Department_Name &&
+                  formik.errors.Department_Name && (
+                    <div style={{color: "red", fontSize: "14px"}}>
+                      {" "}
+                      {formik.errors?.Department_Name}
+                    </div>
+                  )}
               </Grid>
               <Grid size={{sm: 12, xs: 12}}>
                 <Button

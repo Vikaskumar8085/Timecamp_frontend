@@ -4,6 +4,7 @@ import {Button} from "@mui/material";
 import TModal from "../../../common/Modal/TModal";
 import {
   createadminapicall,
+  editadminapicall,
   fetchadminapicall,
 } from "../../../ApiServices/AdminApiServices/Admin";
 import AddIcon from "@mui/icons-material/Add";
@@ -63,6 +64,20 @@ const Admin = () => {
       setIsModalOpen(false);
     }
   };
+
+  const updatehandle = async (values) => {
+    try {
+      const val = {
+        id: IsEdit?.user_id,
+        payload: values,
+      };
+      console.log(val);
+      dispatch(setLoader(true));
+      const response = await editadminapicall(val);
+      console.log(response,"response")
+      dispatch(setLoader(false));
+    } catch (error) {}
+  };
   useEffect(() => {
     fetchadmin();
   }, [0]);
@@ -95,6 +110,7 @@ const Admin = () => {
             <AdminForm
               setIsEdit={setIsEdit}
               IsEdit={IsEdit}
+              updatehandle={updatehandle}
               handleSubmit={handleSubmit}
             />
           </TModal>

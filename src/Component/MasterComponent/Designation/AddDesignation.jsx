@@ -3,6 +3,7 @@ import React from "react";
 import {Button, Box, Typography, TextField, Container} from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import DesignationValidate from "../../../validation/mastervalidation/Designation";
+import Input from "../../../common/Input/Input";
 const AddDesignation = ({handleSubmit, isEdit, updateDesignation}) => {
   const formik = useFormik({
     initialValues: {
@@ -31,31 +32,27 @@ const AddDesignation = ({handleSubmit, isEdit, updateDesignation}) => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            mt: 2,
             p: 1,
           }}
         >
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={2}>
-              <Grid size={{sm: 12, xs: 12}} sx={{mt: 3}}>
-                <TextField
-                  fullWidth
+              <Grid size={{sm: 12, xs: 12}}>
+                <Input
                   id="Designation_Name"
+                  placeholder={"Please Enter your Designation Name "}
                   name="Designation_Name"
-                  label="Designation Name"
-                  variant="outlined"
+                  labelText="Designation Name"
                   value={formik.values.Designation_Name}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  error={
-                    formik.touched.Designation_Name &&
-                    Boolean(formik.errors.Designation_Name)
-                  }
-                  helperText={
-                    formik.touched.Designation_Name &&
-                    formik.errors.Designation_Name
-                  }
                 />
+                {formik.touched.Designation_Name &&
+                  formik.errors.Designation_Name && (
+                    <div style={{color: "red", fontSize: "14px"}}>
+                      {formik.errors?.Designation_Name}
+                    </div>
+                  )}
               </Grid>
               <Grid size={{sm: 12, xs: 12}}>
                 <Button

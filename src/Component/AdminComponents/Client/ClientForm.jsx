@@ -107,7 +107,10 @@ const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
                 type="text"
                 placeholder={"Please Enter Company Name"}
                 {...formik.getFieldProps("Company_Name")}
-              />
+              />{" "}
+              {formik.touched.Company_Name && formik.errors.Company_Name && (
+                <div style={{color: "red"}}>{formik.errors.Company_Name}</div>
+              )}
             </Grid2>
             <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
               <Input
@@ -116,6 +119,9 @@ const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
                 placeholder={"Please Enter Client Name"}
                 {...formik.getFieldProps("Client_Name")}
               />
+              {formik.touched.Client_Name && formik.errors.Client_Name && (
+                <div style={{color: "red"}}>{formik.errors.Client_Name}</div>
+              )}
             </Grid2>
             <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
               <Input
@@ -123,7 +129,10 @@ const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
                 labelText={"Client Email"}
                 placeholder={"Please Enter Client Email"}
                 {...formik.getFieldProps("Client_Email")}
-              />
+              />{" "}
+              {formik.touched.Client_Email && formik.errors.Client_Email && (
+                <div style={{color: "red"}}>{formik.errors.Client_Email}</div>
+              )}
             </Grid2>
 
             {isEdit === null && (
@@ -132,7 +141,10 @@ const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
                   labelText={"Password"}
                   placeholder={"Please Enter Client Email"}
                   {...formik.getFieldProps("Password")}
-                />
+                />{" "}
+                {formik.touched.Password && formik.errors.Password && (
+                  <div style={{color: "red"}}>{formik.errors.Password}</div>
+                )}
               </Grid2>
             )}
             <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
@@ -140,7 +152,13 @@ const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
                 labelText={"Address"}
                 placeholder={"Please Enter Client Address"}
                 {...formik.getFieldProps("Client_Address")}
-              />
+              />{" "}
+              {formik.touched.Client_Address &&
+                formik.errors.Client_Address && (
+                  <div style={{color: "red"}}>
+                    {formik.errors.Client_Address}
+                  </div>
+                )}
             </Grid2>
             <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
               <Input
@@ -148,7 +166,13 @@ const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
                 type={"Number"}
                 placeholder={"Please Enter Client Postal Code"}
                 {...formik.getFieldProps("Client_Postal_Code")}
-              />
+              />{" "}
+              {formik.touched.Client_Postal_Code &&
+                formik.errors.Client_Postal_Code && (
+                  <div style={{color: "red"}}>
+                    {formik.errors.Client_Postal_Code}
+                  </div>
+                )}
             </Grid2>
             <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 1.3}}>
               <label
@@ -182,6 +206,9 @@ const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
                 placeholder={"Please Enter your Gst Number"}
                 {...formik.getFieldProps("GstNumber")}
               />
+              {formik.touched.GstNumber && formik.errors.GstNumber && (
+                <div style={{color: "red"}}>{formik.errors.GstNumber}</div>
+              )}
             </Grid2>
 
             <Grid2 size={{sm: 12, xs: 12, md: 12}}>

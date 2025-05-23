@@ -1,13 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {useFormik} from "formik";
 import * as Yup from "yup";
-import Layout from "../../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import {
   Button,
   Typography,
   Container,
-  Drawer,
   Grid2,
   TextField,
   TableContainer,
@@ -25,6 +23,7 @@ import apiInstance from "../../../ApiInstance/apiInstance";
 import toast from "react-hot-toast";
 import TModal from "../../../common/Modal/TModal";
 import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import Input from "../../../common/Input/Input";
 const Standard = () => {
   const [IsOpen, setIsOpen] = useState(false);
   const [Isdata, setIsdata] = useState([]);
@@ -143,25 +142,22 @@ const Standard = () => {
             <form onSubmit={formik.handleSubmit}>
               <Grid2 container spacing={2}>
                 <Grid2 item size={{sm: 12}}>
-                  <TextField
-                    margin="normal"
+                  <Input
                     name="Standard_Hours"
-                    label="Standard Hours"
+                    labelText="Standard Hours"
                     type="number"
-                    variant="outlined"
                     fullWidth
                     value={formik.values.Standard_Hours}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.Standard_Hours &&
-                      Boolean(formik.errors.Standard_Hours)
-                    }
-                    helperText={
-                      formik.touched.Standard_Hours &&
-                      formik.errors.Standard_Hours
-                    }
                   />
+
+                  {formik.touched.Standard_Hours &&
+                    formik.errors.Standard_Hours && (
+                      <div style={{color: "red", fontSize: "14px"}}>
+                        {formik.errors?.Standard_Hours}
+                      </div>
+                    )}
                 </Grid2>
                 <Grid2 item size={{sm: 12}}>
                   <Button

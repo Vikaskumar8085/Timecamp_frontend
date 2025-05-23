@@ -237,7 +237,8 @@ const Clientinfo = () => {
             <div className="client_header_tags">
               <img
                 src={
-                  IsClientdata?.Photo || "https://i.ibb.co/4pDNDk1/avatar.png"
+                  IsClientdata?.Client_Photo ||
+                  "https://i.ibb.co/4pDNDk1/avatar.png"
                 }
                 alt="User avatar"
                 loading="lazy"

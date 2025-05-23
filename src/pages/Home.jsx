@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useMemo} from "react";
 import "./Home.scss";
 import {Badge, Grid2, TextField} from "@mui/material";
 import logo from "../assets/auth/logo.png";
@@ -14,7 +14,9 @@ import DashboardCounter from "./DashboardCounter";
 import InputSelect from "../common/InputSelect/InputSelect";
 import InputMultiSelect from "../common/InputMultiSelect/InputCheckboxMulti";
 import InputCheckboxMulti from "../common/InputMultiSelect/InputCheckboxMulti";
-import ProjectCard from "../common/ProjectCard/ProjectCard";
+
+import ClientStatusChart from "./ClientStatusChart";
+
 const Home = () => {
   const [show, setShow] = React.useState(false);
   const [isnotification, setisnotification] = React.useState(false);
@@ -73,6 +75,7 @@ const Home = () => {
       time: "2 hours ago",
     },
   ];
+  // / Sample static data
 
   return (
     <>
@@ -259,16 +262,7 @@ const Home = () => {
               ]}
             />
 
-            {/* side bar design */}
-
-            <div>
-              {/* <h2 style={{padding: "20px"}}>Dashboard Overview</h2> */}
-              <DashboardCounter />
-
-              <ProjectCard paragraph={"detail"} label={"project"} />
-            </div>
-
-            {/* side bar design */}
+            <ClientStatusChart />
           </div>
         </div>
       </div>

@@ -7,8 +7,7 @@ import InputPassword from "../../../common/InputPassword/InputPassword";
 import InputImageUpload from "../../../common/InputImageUpload/InputImageUpload";
 import * as Yup from "yup";
 
-const AdminForm = ({handleSubmit, IsEdit, setIsEdit}) => {
-  console.log(IsEdit);
+const AdminForm = ({handleSubmit, IsEdit, setIsEdit, updatehandle}) => {
   // const [image, setImage] = useState(null);
   // const [preview, setPreview] = useState(null);
 
@@ -23,17 +22,15 @@ const AdminForm = ({handleSubmit, IsEdit, setIsEdit}) => {
       .max(30, "Too Long!")
       .required("Last name is required"),
     Email: Yup.string().email("Invalid email").required("Email is required"),
-    Password: Yup.string()
-      .min(6, "Password must be at least 6 characters")
-      .required("Password is required"),
-    Phone: Yup.string()
-      .min(10, "Enter a valid phone number")
-      .required("Phone number is required"),
-    ConfirmPassword: Yup.string()
-      .oneOf([Yup.ref("Password"), null], "Passwords must match")
-      .required("Confirm password is required"),
+    Password: Yup.string().min(6, "Password must be at least 6 characters"),
 
-    Photo: Yup.mixed().nullable().required("Profile image is required"),
+    Phone: Yup.string().min(10, "Enter a valid phone number"),
+
+    ConfirmPassword: Yup.string().oneOf(
+      [Yup.ref("Password"), null],
+      "Passwords must match"
+    ),
+    Photo: Yup.mixed().nullable(),
   });
 
   // validation
@@ -50,9 +47,14 @@ const AdminForm = ({handleSubmit, IsEdit, setIsEdit}) => {
     validationSchema,
     onSubmit: async (values) => {
       try {
-        handleSubmit(values);
-        setIsEdit(null);
-        formik.resetForm();
+        if (IsEdit === null) {
+          handleSubmit(values);
+          formik.resetForm();
+          setIsEdit(null);
+        } else {
+          updatehandle(values);
+          formik.resetForm();
+        }
       } catch (error) {
         console.log(error?.message);
       }

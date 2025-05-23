@@ -5,6 +5,15 @@ export const createadminapicall = async (value) => {
   return response.data;
 };
 
+export const editadminapicall = async (value) => {
+  const response = await apiInstance.put(
+    `/v1/admin/update-admin/${value.id}`,
+    value.payload
+  );
+  return response?.data;
+};
+
+// fetch admin api call
 export const fetchadminapicall = async () => {
   const response = await apiInstance.get("/v1/admin/fetch-admin");
   return response.data;

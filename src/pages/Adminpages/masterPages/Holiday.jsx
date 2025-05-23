@@ -5,8 +5,6 @@ import {
   Box,
   Button,
   Container,
-  Drawer,
-  Grid,
   Table,
   TableHead,
   TableRow,
@@ -16,9 +14,7 @@ import {
   Paper,
   TextField,
   TablePagination,
-  Typography,
 } from "@mui/material";
-import * as Yup from "yup";
 import AddIcons from "@mui/icons-material/Add";
 import {useFormik} from "formik";
 import {useDispatch} from "react-redux";
@@ -33,12 +29,8 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import TModal from "../../../common/Modal/TModal";
 import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
-const validationSchema = Yup.object({
-  Name: Yup.string()
-    .required("First Name is required")
-    .min(2, "Name must be at least 2 characters"),
-  date: Yup.date().required("Date is required").typeError("Invalid date"),
-});
+import AddHoliday from "../../../Component/MasterComponent/Holiday/AddHoliday";
+
 
 const Holiday = () => {
   const [IsOpen, setIsOpen] = useState(false);
@@ -48,7 +40,6 @@ const Holiday = () => {
   const [limit, setLimit] = useState(10);
   const [total, setTotal] = useState(0);
   const [IsEdit, setIsEdit] = useState(null);
-  console.log(IsEdit, "isedit");
   const dispatch = useDispatch();
 
   const fetchholidaylistfunc = async () => {
@@ -76,36 +67,25 @@ const Holiday = () => {
     }
   };
 
-  const formik = useFormik({
-    initialValues: {
-      Name: IsEdit !== null ? IsEdit?.Name : "",
-      date: IsEdit !== null ? IsEdit.date.split("T")[0] : "", // format date
-    },
-    validationSchema,
-    onSubmit: async (values) => {
-      try {
-        dispatch(setLoader(true));
-        const response = await createholidayapicall(values);
-        if (response.success) {
-          setIsOpen(false);
-          toast.success(response?.message);
-          formik.resetForm();
-          fetchholidaylistfunc();
-        } else {
-          setIsOpen(false);
-          fetchholidaylistfunc();
-          formik.resetForm();
-          toast.error(response?.message);
-        }
-        dispatch(setLoader(false));
-        formik.resetForm();
-      } catch (error) {
+  const handleSubmit = async (values) => {
+    try {
+      dispatch(setLoader(true));
+      const response = await createholidayapicall(values);
+      if (response.success) {
         setIsOpen(false);
-        formik.resetForm();
-        toast.error(error?.response?.data?.message);
+        toast.success(response?.message);
+        fetchholidaylistfunc();
+      } else {
+        setIsOpen(false);
+        fetchholidaylistfunc();
+        toast.error(response?.message);
       }
-    },
-  });
+      dispatch(setLoader(false));
+    } catch (error) {
+      setIsOpen(false);
+      toast.error(error?.response?.data?.message);
+    }
+  };
 
   // remove
 
@@ -154,63 +134,14 @@ const Holiday = () => {
 
       {IsOpen && (
         <TModal
-          title="Add Holiday"
-          onClose={() => setIsOpen(false)}
+          title={IsEdit ? "Edit Holiday" : "Add Holiday"}
+          onClose={() => {
+            setIsOpen(false);
+            setIsEdit(null);
+          }}
           open={IsOpen}
         >
-          <Container maxWidth="sm">
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                mt: 2,
-                p: 1,
-              }}
-            >
-              <form onSubmit={formik.handleSubmit}>
-                <Grid container spacing={2}>
-                  <Grid sm={6} md={12} sx={{mt: 3}}>
-                    <TextField
-                      label="Name"
-                      fullWidth
-                      {...formik.getFieldProps("Name")}
-                      error={formik.touched.Name && Boolean(formik.errors.Name)}
-                      helperText={formik.touched.Name && formik.errors.Name}
-                    />
-                  </Grid>
-
-                  <Grid sm={6} md={12} sx={{mt: 3}}>
-                    <TextField
-                      label="Date"
-                      type="date"
-                      fullWidth
-                      InputLabelProps={{shrink: true}}
-                      {...formik.getFieldProps("date")}
-                      error={formik.touched.date && Boolean(formik.errors.date)}
-                      helperText={formik.touched.date && formik.errors.date}
-                    />
-                  </Grid>
-
-                  <Grid sm={6} md={12}>
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                      sx={{
-                        background: "#6560f0",
-                        width: "100%",
-                        padding: "8px 10px",
-                        margin: "10px 0px",
-                        color: "white",
-                      }}
-                    >
-                      Submit
-                    </Button>
-                  </Grid>
-                </Grid>
-              </form>
-            </Box>
-          </Container>
+          <AddHoliday IsEdit={IsEdit} setIsEdit={setIsEdit} handleSubmit={handleSubmit} />
         </TModal>
       )}
 

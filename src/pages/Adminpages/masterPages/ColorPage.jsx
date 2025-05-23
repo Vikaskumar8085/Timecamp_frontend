@@ -1,12 +1,11 @@
-import React, {useEffect, useState} from "react";
-import Layout from "../../../Layoutcomponents/Layout/Layout";
+import React, {useEffect, useCallback, useState} from "react";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import * as Yup from "yup";
 import AddIcons from "@mui/icons-material/Add";
+import Input from "../../../common/Input/Input";
 import {
   Button,
   Grid,
-  TextField,
   Container,
   Box,
   TableContainer,
@@ -32,14 +31,25 @@ import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 // validate
 const validationSchema = Yup.object({
-  Name: Yup.string().required("Name is required"),
+  Name: Yup.string().required("Color is required"),
+
   min_percentage: Yup.number()
     .typeError("Minimum percentage must be a number")
     .required("Minimum percentage is required")
-    .min(0, "Minimum must be at least 0"),
+    .min(0, "Minimum percentage cannot be negative")
+    .test(
+      "min-less-than-or-equal-max",
+      "Minimum must not be greater than Maximum",
+      function (value) {
+        const {max_percentage} = this.parent;
+        return value <= max_percentage;
+      }
+    ),
+
   max_percentage: Yup.number()
     .typeError("Maximum percentage must be a number")
     .required("Maximum percentage is required")
+    .min(0, "Maximum percentage cannot be negative")
     .moreThan(
       Yup.ref("min_percentage"),
       "Maximum must be greater than Minimum"
@@ -53,7 +63,7 @@ const ColorPage = () => {
 
   // fetch color
 
-  const fetchcolorfunc = async () => {
+  const fetchcolorfunc = useCallback(async () => {
     try {
       dispatch(setLoader(true));
       const response = await fetchcolorapicall();
@@ -66,10 +76,9 @@ const ColorPage = () => {
       }
     } catch (error) {
       dispatch(setLoader(false));
-
       toast.error(error?.response?.data?.message);
     }
-  };
+  }, []);
 
   // create color
   const formik = useFormik({
@@ -111,23 +120,23 @@ const ColorPage = () => {
       dispatch(setLoader(true));
       const response = await removecolorapicall(value);
       if (response.success) {
+        dispatch(setLoader(false));
         fetchcolorfunc();
         toast.success(response?.message);
-        dispatch(setLoader(false));
       } else {
-        fetchcolorfunc();
         dispatch(setLoader(false));
         toast.error(response?.message);
+        fetchcolorfunc();
       }
     } catch (error) {
       dispatch(setLoader(false));
-
+      fetchcolorfunc();
       toast.error(error?.response?.data?.message);
     }
   };
   useEffect(() => {
     fetchcolorfunc();
-  }, [0]);
+  }, [fetchcolorfunc]);
   return (
     <LayoutDesign>
       <BreadCrumb pageName="Color" />
@@ -162,47 +171,49 @@ const ColorPage = () => {
               <form onSubmit={formik.handleSubmit}>
                 <Grid container spacing={2}>
                   <Grid sm={6} md={12} sx={{mt: 3}}>
-                    <TextField
-                      label="Name"
+                    <Input
+                      labelText="Name"
+                      style={{padding: "2px"}}
                       type="color"
-                      fullWidth
+                      value={formik.values.Name}
                       {...formik.getFieldProps("Name")}
-                      error={formik.touched.Name && Boolean(formik.errors.Name)}
-                      helperText={formik.touched.Name && formik.errors.Name}
                     />
+                    {formik.touched.Name && formik.errors.Name && (
+                      <div style={{color: "red", fontSize: "14px"}}>
+                        {formik.errors.Name}
+                      </div>
+                    )}
                   </Grid>
 
                   <Grid sm={6} md={12} sx={{mt: 3}}>
-                    <TextField
-                      label="Min values"
+                    <Input
+                      labelText="Min values"
                       type="number"
-                      fullWidth
+                      placeholder="Min values"
+                      value={formik.values.min_percentage}
                       {...formik.getFieldProps("min_percentage")}
-                      error={
-                        formik.touched.min_percentage &&
-                        Boolean(formik.errors.min_percentage)
-                      }
-                      helperText={
-                        formik.touched.min_percentage &&
-                        formik.errors.min_percentage
-                      }
                     />
+                    {formik.touched.min_percentage &&
+                      formik.errors.min_percentage && (
+                        <div style={{color: "red", fontSize: "14px"}}>
+                          {formik.errors.min_percentage}
+                        </div>
+                      )}
                   </Grid>
                   <Grid sm={6} md={12} sx={{mt: 3}}>
-                    <TextField
-                      label="Min values"
-                      fullWidth
+                    <Input
+                      labelText="Max values"
+                      value={formik.values.max_percentage}
+                      placeholder="Max values"
                       type="number"
                       {...formik.getFieldProps("max_percentage")}
-                      error={
-                        formik.touched.max_percentage &&
-                        Boolean(formik.errors.max_percentage)
-                      }
-                      helperText={
-                        formik.touched.max_percentage &&
-                        formik.errors.max_percentage
-                      }
                     />
+                    {formik.touched.max_percentage &&
+                      formik.errors.max_percentage && (
+                        <div style={{color: "red", fontSize: "14px"}}>
+                          {formik.errors.max_percentage}
+                        </div>
+                      )}
                   </Grid>
 
                   <Grid sm={6} md={12}>
@@ -246,11 +257,11 @@ const ColorPage = () => {
                     <TableRow key={index}>
                       <TableCell>{index + 1}</TableCell>
                       <TableCell>
-                        <TextField
+                        <Input
                           disabled
                           type="color"
+                          style={{height: "50px", padding: "10px"}}
                           value={item?.Name}
-                          fullWidth
                         />
                       </TableCell>
                       <TableCell>{item?.min_percentage}</TableCell>
