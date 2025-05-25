@@ -1,6 +1,6 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import {Button} from "@mui/material";
+import { Button } from "@mui/material";
 import TModal from "../../../common/Modal/TModal";
 import {
   createadminapicall,
@@ -9,8 +9,8 @@ import {
 } from "../../../ApiServices/AdminApiServices/Admin";
 import AddIcon from "@mui/icons-material/Add";
 import UserList from "../../../Component/AdminComponents/Admin/UserList";
-import {useDispatch} from "react-redux";
-import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
+import { useDispatch } from "react-redux";
+import { setLoader } from "../../../redux/LoaderSlices/LoaderSlices";
 import toast from "react-hot-toast";
 import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 import AdminForm from "../../../Component/AdminComponents/Admin/AdminForm";
@@ -71,10 +71,17 @@ const Admin = () => {
         id: IsEdit?.user_id,
         payload: values,
       };
-      console.log(val);
       dispatch(setLoader(true));
       const response = await editadminapicall(val);
-      console.log(response,"response")
+      if (response?.success) {
+        dispatch(setLoader(false));
+        setIsModalOpen(false);
+        fetchadmin();
+        toast.success(response?.message);
+      } else {
+        toast.error(response?.message);
+      }
+      console.log(response, "response");
       dispatch(setLoader(false));
     } catch (error) {}
   };

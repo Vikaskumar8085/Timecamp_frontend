@@ -100,3 +100,11 @@ export const fetchemployeestaffapicall = async () => {
   const response = await apiInstance.get("/v2/employee/fetch-employee-staff");
   return response?.data;
 };
+
+export const fillmultiemployeetimesheetapicall = async (value) => {
+  const response = await apiInstance.post(
+    "/v2/employee/fill-multi-employee-timesheet",
+    value
+  );
+  return response?.data;
+};

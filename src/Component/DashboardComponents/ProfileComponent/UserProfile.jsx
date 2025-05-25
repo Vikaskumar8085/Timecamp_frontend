@@ -9,10 +9,17 @@ import Input from "../../../common/Input/Input";
 import { useFormik } from "formik";
 import InputImageUpload from "../../../common/InputImageUpload/InputImageUpload";
 import PhoneInput from "react-phone-input-2";
+import { useDispatch } from "react-redux";
+
+import { setLoader } from "../../../redux/LoaderSlices/LoaderSlices";
+import { updateprofileapicall } from "../../../ApiServices/AdminApiServices/Admin";
+import { setAddprofile } from "../../../redux/User/UserSlice";
+import toast from "react-hot-toast";
+
 const UserProfile = ({ user }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [IsEdit, setIsEdit] = useState(user);
-  console.log(IsEdit, "isedit");
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       FirstName: IsEdit?.FirstName,
@@ -23,9 +30,31 @@ const UserProfile = ({ user }) => {
     },
     onSubmit: async (values) => {
       try {
-        console.log(values, "values");
+        const formdata = new FormData();
+        Object.entries(values).forEach(([key, value]) => {
+          formdata.append(key, value);
+        });
+
+        dispatch(setLoader(true));
+        const val = {
+          id: IsEdit.user_id,
+          payload: formdata,
+        };
+        const response = await updateprofileapicall(val);
+        if (response?.success) {
+          dispatch(setLoader(false));
+          setIsOpen(false);
+          toast.success(response?.message);
+          window.location.href="/profile"
+          dispatch(setAddprofile(response?.result));
+        } else {
+          setIsOpen(false);
+          toast.success(response?.message);
+          dispatch(setLoader(false));
+        }
       } catch (error) {
         console.log(error?.message);
+        toast.error(error?.response?.data?.message);
       }
     },
   });
@@ -114,10 +143,10 @@ const UserProfile = ({ user }) => {
         >
           <Container maxWidth="md">
             <Grid2 container spacing={2}>
-              <form>
+              <form onSubmit={formik.handleSubmit}>
                 <Grid2 size={{ md: 12, sm: 12 }}>
                   <InputImageUpload
-                    name={"Upload Profile Pic"}
+                    name={"Photo"}
                     value={formik.values.Photo}
                     onChange={formik.setFieldValue}
                   />
@@ -129,10 +158,9 @@ const UserProfile = ({ user }) => {
                     labelText={"FirstName"}
                     {...formik.getFieldProps("FirstName")}
                   />
-                  {formik.touched.FirstName &&
-                    formik.errors.FirstName(
-                      <div>{formik.errors.FirstName}</div>
-                    )}
+                  {formik.touched.FirstName && formik.errors.FirstName && (
+                    <div>{formik.errors.FirstName}</div>
+                  )}
                 </Grid2>
                 <Grid2 size={{ md: 12, sm: 12, lg: 12 }}>
                   <Input
@@ -141,8 +169,9 @@ const UserProfile = ({ user }) => {
                     labelText={"LastName"}
                     {...formik.getFieldProps("LastName")}
                   />
-                  {formik.touched.LastName &&
-                    formik.errors.LastName(<div>{formik.errors.LastName}</div>)}
+                  {formik.touched.LastName && formik.errors.LastName && (
+                    <div>{formik.errors.LastName}</div>
+                  )}
                 </Grid2>
                 <Grid2 size={{ md: 12, sm: 12, lg: 12 }}>
                   <Input
@@ -151,8 +180,9 @@ const UserProfile = ({ user }) => {
                     labelText={"Email"}
                     {...formik.getFieldProps("Email")}
                   />
-                  {formik.touched.Email &&
-                    formik.errors.Email(<div>{formik.errors.Email}</div>)}
+                  {formik.touched.Email && formik.errors.Email && (
+                    <div>{formik.errors.Email}</div>
+                  )}
                 </Grid2>
                 {IsEdit.Phone && (
                   <Grid2 size={{ md: 12, sm: 12 }}>

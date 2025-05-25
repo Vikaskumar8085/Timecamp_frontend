@@ -1,5 +1,5 @@
 import React from "react";
-import {useFormik} from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
   Container,
@@ -17,7 +17,7 @@ import Input from "../../../common/Input/Input";
 import InputFileupload from "../../../common/InputFileupload/InputFileupload";
 import InputSelect from "../../../common/InputSelect/InputSelect";
 
-const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
+const TaskCreationForm = ({ Isprojectmilestonedata, TaskHandlesubmit }) => {
   console.log("TaskCreationForm", Isprojectmilestonedata);
   const formik = useFormik({
     initialValues: {
@@ -57,13 +57,15 @@ const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
     formik.setFieldValue("Attachment", file);
   };
 
+  const data = "0";
+  console.log(data, "this is the data");
   return (
     <>
       <Container maxWidth="md">
-        <Box sx={{p: 2, mt: 4}}>
+        <Box sx={{ p: 2, mt: 4 }}>
           <form onSubmit={formik.handleSubmit}>
             <Grid2 container spacing={2}>
-              <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
+              <Grid2 size={{ md: 6, lg: 6, sm: 12, xs: 12 }}>
                 <InputSelect
                   name="ProjectId"
                   labelText="Select Project"
@@ -71,7 +73,6 @@ const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
                   value={formik.values.ProjectId}
                   onChange={formik.handleChange} // Correct: pass the handler
                   onBlur={formik.handleBlur} // Optional but recommended
-                  error={formik.touched.ProjectId && formik.errors.ProjectId}
                   options={Isprojectmilestonedata.map((item) => ({
                     value: item.ProjectId,
                     label: item.Project_Name,
@@ -79,7 +80,7 @@ const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
                 />
               </Grid2>
 
-              <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
+              <Grid2 size={{ md: 6, lg: 6, sm: 12, xs: 12 }}>
                 <InputSelect
                   name="MilestoneId"
                   labelText="Select MileStone"
@@ -87,19 +88,25 @@ const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
                   value={formik.values.MilestoneId}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  error={
-                    formik.touched.MilestoneId && formik.errors.MilestoneId
-                  }
-                  options={Isprojectmilestonedata.filter(
-                    (item) => item.ProjectId === formik.values.ProjectId
-                  ).map((item) => ({
-                    value: item.MilestoneId,
-                    label: item.milestoneName,
-                  }))}
+                  options={Isprojectmilestonedata.map((item) => {
+                    return item?.mileStonedata
+                      ?.filter((item) => {
+                        return item?.MilestoneId !== formik.values.ProjectId;
+                      })
+                      .map((milestone) => ({
+                        label: milestone?.milestoneName,
+                        value: milestone?.milestoneId,
+                      }));
+                  })}
                 />
+                {formik.touched.MilestoneId && formik.errors.MilestoneId && (
+                  <div style={{ color: "red", fontSize: "14px" }}>
+                    {formik.errors.MilestoneId}
+                  </div>
+                )}
               </Grid2>
 
-              <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
+              <Grid2 size={{ md: 6, lg: 6, sm: 12, xs: 12 }}>
                 <InputSelect
                   name="MilestoneId"
                   labelText="Select Resources"
@@ -120,7 +127,7 @@ const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
                   })}
                 />
               </Grid2>
-              <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
+              <Grid2 size={{ md: 6, lg: 6, sm: 12, xs: 12 }}>
                 <Input
                   fullWidth
                   labelText={"Task Name"}
@@ -138,14 +145,14 @@ const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
                 />
               </Grid2>
 
-              <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
+              <Grid2 size={{ md: 6, lg: 6, sm: 12, xs: 12 }}>
                 <Input
                   fullWidth
                   labelText="Start Date"
                   placeholder={"Please Enter start Date"}
                   name="StartDate"
                   type="date"
-                  InputLabelProps={{shrink: true}}
+                  InputLabelProps={{ shrink: true }}
                   value={formik.values.StartDate}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -158,13 +165,13 @@ const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
                 />
               </Grid2>
 
-              <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
+              <Grid2 size={{ md: 6, lg: 6, sm: 12, xs: 12 }}>
                 <Input
                   fullWidth
                   labelText="Expected End Date"
                   name="EndDate"
                   type="date"
-                  InputLabelProps={{shrink: true}}
+                  InputLabelProps={{ shrink: true }}
                   value={formik.values.EndDate}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -175,7 +182,7 @@ const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
                 />
               </Grid2>
 
-              <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
+              <Grid2 size={{ md: 6, lg: 6, sm: 12, xs: 12 }}>
                 <Input
                   fullWidth
                   labelText="Estimate Time (Hours)"
@@ -196,7 +203,7 @@ const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
                 />
               </Grid2>
 
-              <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}} sx={{mt: 1}}>
+              <Grid2 size={{ md: 6, lg: 6, sm: 12, xs: 12 }} sx={{ mt: 1 }}>
                 <InputSelect
                   name="Priority"
                   labelText="Priority Mode"
@@ -206,14 +213,14 @@ const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
                   onBlur={formik.handleBlur}
                   error={formik.touched.Priority && formik.errors.Priority}
                   options={[
-                    {value: "HIGH", label: "high"},
-                    {value: "MEDIUM", label: "medium"},
-                    {value: "LOW", label: "low"},
+                    { value: "HIGH", label: "high" },
+                    { value: "MEDIUM", label: "medium" },
+                    { value: "LOW", label: "low" },
                   ]}
                 />
               </Grid2>
 
-              <Grid2 size={{md: 12, lg: 12, sm: 12, xs: 12}}>
+              <Grid2 size={{ md: 12, lg: 12, sm: 12, xs: 12 }}>
                 <TextField
                   fullWidth
                   label="Task Description"
@@ -234,10 +241,10 @@ const TaskCreationForm = ({Isprojectmilestonedata, TaskHandlesubmit}) => {
                 />
               </Grid2>
 
-              <Grid2 size={{md: 12, lg: 12, sm: 12, xs: 12}}>
+              <Grid2 size={{ md: 12, lg: 12, sm: 12, xs: 12 }}>
                 <InputFileupload
                   type="file"
-                  inputProps={{accept: ".csv"}}
+                  inputProps={{ accept: ".csv" }}
                   onChange={handleFileChange}
                 />
               </Grid2>

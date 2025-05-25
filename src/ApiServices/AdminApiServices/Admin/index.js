@@ -5,6 +5,14 @@ export const createadminapicall = async (value) => {
   return response.data;
 };
 
+export const updateprofileapicall = async (value) => {
+  const response = await apiInstance.put(
+    `/v1/admin/update-admin-profile/${value.id}`,
+    value.payload
+  );
+  return response.data;
+};
+
 export const editadminapicall = async (value) => {
   const response = await apiInstance.put(
     `/v1/admin/update-admin/${value.id}`,

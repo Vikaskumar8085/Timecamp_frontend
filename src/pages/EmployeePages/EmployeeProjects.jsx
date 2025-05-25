@@ -93,14 +93,17 @@ const EmployeeProjects = () => {
         dispatch(setLoader(false));
         setIsOpen(false);
         toast.success(response?.message);
+        fetchemployeeproject();
       } else {
         dispatch(setLoader(false));
         setIsOpen(false);
         toast.success(response?.message);
+        fetchemployeeproject();
       }
     } catch (error) {
       dispatch(setLoader(false));
       setIsOpen(false);
+      fetchemployeeproject();
       toast.error(error?.response?.data?.message);
     }
   }, []);
