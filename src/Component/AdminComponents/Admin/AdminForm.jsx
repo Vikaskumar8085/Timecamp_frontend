@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { Container, Button, Grid2, Box } from "@mui/material";
+import React, {useState} from "react";
+import {Container, Button, Grid2, Box} from "@mui/material";
 import PhoneInput from "react-phone-input-2";
-import { useFormik } from "formik";
+import {useFormik} from "formik";
 import Input from "../../../common/Input/Input";
 import InputPassword from "../../../common/InputPassword/InputPassword";
 import InputImageUpload from "../../../common/InputImageUpload/InputImageUpload";
 import * as Yup from "yup";
 
-const AdminForm = ({ handleSubmit, IsEdit, setIsEdit, updatehandle }) => {
+const AdminForm = ({handleSubmit, IsEdit, setIsEdit, updatehandle}) => {
   // const [image, setImage] = useState(null);
   // const [preview, setPreview] = useState(null);
 
@@ -40,7 +40,6 @@ const AdminForm = ({ handleSubmit, IsEdit, setIsEdit, updatehandle }) => {
       LastName: IsEdit ? IsEdit?.LastName || "" : "",
       Email: IsEdit ? IsEdit?.Email || "" : "",
       Password: "",
-      ConfirmPassword: "",
       Photo: IsEdit ? IsEdit?.Photo || "" : null,
       Phone: IsEdit ? IsEdit?.Phone || "" : "",
     },
@@ -79,21 +78,21 @@ const AdminForm = ({ handleSubmit, IsEdit, setIsEdit, updatehandle }) => {
       <Box>
         <form onSubmit={formik.handleSubmit}>
           <Grid2 Container spacing={4}>
-            <Grid2 size={{ sm: 12, xs: 12, md: 6 }} sx={{ mt: 3 }}>
+            <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
               <InputImageUpload
                 name={"Photo"}
                 value={formik.values.Photo}
                 onChange={formik.setFieldValue}
               />
               {formik.touched.Photo && formik.errors.Photo && (
-                <div style={{ color: "red", font: "14px" }}>
+                <div style={{color: "red", font: "14px"}}>
                   {formik.errors.Photo}
                 </div>
               )}
             </Grid2>
-            <Grid2 size={{ sm: 12, md: 6, xs: 12 }} sx={{ mt: 3 }}>
+            <Grid2 size={{sm: 12, md: 6, xs: 12}} sx={{mt: 3}}>
               <Input
-                style={{ width: "100%" }}
+                style={{width: "100%"}}
                 placeholder={"Please Enter Your First Name"}
                 labelText={"First Name"}
                 name={"FirstName"}
@@ -101,65 +100,65 @@ const AdminForm = ({ handleSubmit, IsEdit, setIsEdit, updatehandle }) => {
               />
 
               {formik.touched.FirstName && formik.errors.FirstName && (
-                <div style={{ color: "red" }}>{formik.errors.FirstName}</div>
+                <div style={{color: "red"}}>{formik.errors.FirstName}</div>
               )}
             </Grid2>
-            <Grid2 size={{ sm: 12, xs: 12, md: 6 }} sx={{ mt: 3 }}>
+            <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
               <Input
-                style={{ width: "100%" }}
+                style={{width: "100%"}}
                 placeholder={"please Enter Your Last Name"}
                 labelText={"LastName"}
                 {...formik.getFieldProps("LastName")}
               />
               {formik.touched.LastName && formik.errors.LastName && (
-                <div style={{ color: "red" }}>{formik.errors.LastName}</div>
+                <div style={{color: "red"}}>{formik.errors.LastName}</div>
               )}
             </Grid2>
-            <Grid2 size={{ sm: 12, xs: 12, md: 6 }} sx={{ mt: 3 }}>
+            <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
               <Input
-                style={{ width: "100%" }}
+                style={{width: "100%"}}
                 type={"Email"}
                 placeholder={"please Enter Your Last Name"}
                 labelText={"Email"}
                 {...formik.getFieldProps("Email")}
               />
               {formik.touched.Email && formik.errors.Email && (
-                <div style={{ color: "red" }}>{formik.errors.Email}</div>
+                <div style={{color: "red"}}>{formik.errors.Email}</div>
               )}
             </Grid2>
             {IsEdit === null && (
-              <Grid2 size={{ sm: 12, xs: 12, md: 6 }} sx={{ mt: 3 }}>
+              <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
                 <InputPassword
                   type={"password"}
                   placeholder="Please Enter your password"
                   labelText={"Password"}
                   {...formik.getFieldProps("Password")}
-                  style={{ width: "100%" }}
+                  style={{width: "100%"}}
                 />
                 {formik.touched.Password && formik.errors.Password && (
-                  <div style={{ color: "red" }}>{formik.errors.Password}</div>
+                  <div style={{color: "red"}}>{formik.errors.Password}</div>
                 )}
               </Grid2>
             )}
 
             {IsEdit === null && (
-              <Grid2 size={{ sm: 12, xs: 12, md: 6 }} sx={{ mt: 3 }}>
+              <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
                 <InputPassword
                   type={"password"}
                   placeholder="Please Enter Confirm password"
                   labelText={"Confirm Password"}
                   {...formik.getFieldProps("ConfirmPassword")}
-                  style={{ width: "100%" }}
+                  style={{width: "100%"}}
                 />
                 {formik.touched.ConfirmPassword &&
                   formik.errors.ConfirmPassword && (
-                    <div style={{ color: "red" }}>
+                    <div style={{color: "red"}}>
                       {formik.errors.ConfirmPassword}
                     </div>
                   )}
               </Grid2>
             )}
-            <Grid2 size={{ sm: 12, xs: 12, md: 6 }} sx={{ mt: 3 }}>
+            <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
               <label
                 htmlFor="phone-input"
                 style={{
@@ -173,22 +172,22 @@ const AdminForm = ({ handleSubmit, IsEdit, setIsEdit, updatehandle }) => {
               </label>
 
               <PhoneInput
-                inputStyle={{ width: "100%" }}
+                inputStyle={{width: "100%"}}
                 country={"in"}
-                style={{ width: "100%" }}
+                style={{width: "100%"}}
                 value={formik.values.Phone}
                 onChange={(value) => formik.setFieldValue("Phone", value)}
                 onBlur={() => formik.setFieldTouched("Phone", true)}
               />
 
               {formik.touched.Phone && formik.errors.Phone && (
-                <div style={{ color: "red", font: "14px" }}>
+                <div style={{color: "red", font: "14px"}}>
                   {formik.errors.Phone}
                 </div>
               )}
             </Grid2>
 
-            <Grid2 size={{ sm: 12, xs: 12, md: 6 }} sx={{ mt: 3 }}>
+            <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
               <Button
                 type="submit"
                 sx={{

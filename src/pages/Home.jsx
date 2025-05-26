@@ -10,12 +10,14 @@ import {FiSearch} from "react-icons/fi";
 import InputImageUpload from "../common/InputImageUpload/InputImageUpload";
 
 import ProfileForm from "../common/SelectInput/SelectInput";
-import DashboardCounter from "./DashboardCounter";
+import DashboardCounter from "../common/DashboardCounter/DashboardCounter";
 import InputSelect from "../common/InputSelect/InputSelect";
 import InputMultiSelect from "../common/InputMultiSelect/InputCheckboxMulti";
 import InputCheckboxMulti from "../common/InputMultiSelect/InputCheckboxMulti";
 
 import ClientStatusChart from "./ClientStatusChart";
+import Pagination from "../common/Pagination/Pagination";
+import Table from "../common/Table/Table";
 
 const Home = () => {
   const [show, setShow] = React.useState(false);
@@ -76,6 +78,27 @@ const Home = () => {
     },
   ];
   // / Sample static data
+  // Dummy data
+  const dummyData = Array.from({length: 42}, (_, i) => ({
+    id: i + 1,
+    name: `Item #${i + 1}`,
+    status: i % 2 === 0 ? "Active" : "Inactive",
+  }));
+
+  const itemsPerPage = 5;
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(dummyData.length / itemsPerPage);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = dummyData.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handleJumpInputChange = (e) => {
+    const input = parseInt(e.target.value);
+    if (!isNaN(input) && input >= 1 && input <= totalPages) {
+      setCurrentPage(input);
+    }
+  };
 
   return (
     <>
@@ -263,6 +286,40 @@ const Home = () => {
             />
 
             <ClientStatusChart />
+
+            <DashboardCounter />
+
+            <div
+              style={{maxWidth: "800px", margin: "2rem auto", padding: "1rem"}}
+            >
+              <h1 style={{textAlign: "center"}}>Paginated Dummy Table</h1>
+
+              <Table
+                data={currentItems}
+                columns={[
+                  {header: "ID", accessor: "id"},
+                  {header: "Name", accessor: "name"},
+                  {header: "Status", accessor: "status"},
+                ]}
+              />
+
+              <div style={{margin: "1rem 0", textAlign: "center"}}>
+                <input
+                  type="number"
+                  min="1"
+                  max={totalPages}
+                  placeholder="Jump to page"
+                  onChange={handleJumpInputChange}
+                  style={{padding: "0.5rem", width: "120px"}}
+                />
+              </div>
+
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+              />
+            </div>
           </div>
         </div>
       </div>

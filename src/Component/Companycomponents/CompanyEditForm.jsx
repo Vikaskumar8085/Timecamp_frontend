@@ -1,5 +1,5 @@
 import React from "react";
-import { useFormik } from "formik";
+import {useFormik} from "formik";
 import {
   TextField,
   Button,
@@ -10,12 +10,12 @@ import {
 } from "@mui/material";
 import apiInstance from "../../ApiInstance/apiInstance";
 import toast from "react-hot-toast";
-import { setLoader } from "../../redux/LoaderSlices/LoaderSlices";
-import { useDispatch } from "react-redux";
+import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
+import {useDispatch} from "react-redux";
 import InputImageUpload from "../../common/InputImageUpload/InputImageUpload";
 import Input from "../../common/Input/Input";
 
-const CompanyEditForm = ({ isEdit, isId, setIsOpen, getcompany }) => {
+const CompanyEditForm = ({isEdit, isId, setIsOpen, getcompany}) => {
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
@@ -27,33 +27,57 @@ const CompanyEditForm = ({ isEdit, isId, setIsOpen, getcompany }) => {
       Company_Logo: isEdit?.Company_Logo || null,
       Employee_No: isEdit?.Employee_No || "",
       Established_date: isEdit?.Established_date || "",
-      CompanyWesite: isEdit?.CompanyWesite || "", // Fixed typo
-      Tex_Number: isEdit?.Tex_Number || "", // Fixed key name
+      CompanyWesite: isEdit?.CompanyWesite || "",
+      Tex_Number: isEdit?.Tex_Number || "",
     },
     onSubmit: async (values) => {
       try {
-        const formdata = new FormData();
-        Object.entries(values).forEach(([key, value]) => {
-          formdata.append(key, value);
-        });
+        const formData = new FormData();
+
+        // Add file if available
+        if (values.Company_Logo) {
+          formData.append("Company_Logo", values.Company_Logo);
+        }
+
+        // Append the rest of the fields
+        formData.append("Company_Name", values.Company_Name);
+        formData.append("Company_Email", values.Company_Email);
+        formData.append("Address", values.Address);
+        formData.append("Postal_Code", values.Postal_Code);
+        formData.append("Phone", values.Phone);
+        formData.append("Employee_No", values.Employee_No);
+        formData.append("Established_date", values.Established_date);
+        formData.append("CompanyWesite", values.CompanyWesite);
+        formData.append("Tex_Number", values.Tex_Number);
+        formData.append("Person_Name", values.Person_Name);
+        formData.append("Person_Email", values.Person_Email);
+        formData.append("Person_Phones", values.Person_Phones);
+
         dispatch(setLoader(true));
         const response = await apiInstance.put(
           `/v1/user/update-company/${isEdit?.Company_Id}`,
-          formdata
+          formData
         );
         if (response?.data.success) {
           setIsOpen(false);
           dispatch(setLoader(false));
+          setIsEdit(null);
           getcompany();
+          formik.resetForm();
           toast.success(response?.data?.message);
         } else {
+          setIsEdit(null);
+
           dispatch(setLoader(false));
           getcompany();
+          formik.resetForm();
+
           setIsOpen(false);
           toast.error(response?.data?.message);
         }
       } catch (error) {
         dispatch(setLoader(false));
+        setIsEdit(null);
         getcompany();
         setIsOpen(false);
         toast.error(response?.data?.message);
@@ -63,17 +87,17 @@ const CompanyEditForm = ({ isEdit, isId, setIsOpen, getcompany }) => {
 
   return (
     <Container maxWidth="md">
-      <Box sx={{ p: 2 }}>
+      <Box sx={{p: 2}}>
         <form onSubmit={formik.handleSubmit}>
           <Grid2 container spacing={2}>
-            <Grid2 size={{ md: 12, lg: 12, sm: 12 }}>
+            <Grid2 size={{md: 12, lg: 12, sm: 12}}>
               <InputImageUpload
                 name="Company_Logo"
                 value={formik.values.Company_Logo}
                 onChange={formik.setFieldValue}
               />
             </Grid2>
-            <Grid2 size={{ md: 6, lg: 6, sm: 12 }}>
+            <Grid2 size={{md: 6, lg: 6, sm: 12}}>
               <Input
                 labelText="Company Name"
                 placeholder={"Please enter Company Name"}
@@ -87,7 +111,7 @@ const CompanyEditForm = ({ isEdit, isId, setIsOpen, getcompany }) => {
                 }
               />
             </Grid2>
-            <Grid2 size={{ md: 6, lg: 6, sm: 12 }}>
+            <Grid2 size={{md: 6, lg: 6, sm: 12}}>
               <Input
                 labelText="Company Email"
                 placeholder="Please Enter Address"
@@ -101,14 +125,14 @@ const CompanyEditForm = ({ isEdit, isId, setIsOpen, getcompany }) => {
                 }
               />
             </Grid2>
-            <Grid2 size={{ md: 6, lg: 6, sm: 12 }}>
+            <Grid2 size={{md: 6, lg: 6, sm: 12}}>
               <Input
                 labelText="Address"
                 placeholder="Please Enter Address"
                 {...formik.getFieldProps("Address")}
               />
             </Grid2>
-            <Grid2 size={{ md: 6, lg: 6, sm: 12 }}>
+            <Grid2 size={{md: 6, lg: 6, sm: 12}}>
               <Input
                 labelText="Postal Code"
                 placeholder={"Please Enter Your Postal Code"}
@@ -122,7 +146,7 @@ const CompanyEditForm = ({ isEdit, isId, setIsOpen, getcompany }) => {
                 }
               />
             </Grid2>
-            <Grid2 size={{ md: 6, lg: 6, sm: 12 }}>
+            <Grid2 size={{md: 6, lg: 6, sm: 12}}>
               <Input
                 labelText="Phone"
                 placeholder={"Please Enter Your Phone"}
@@ -133,7 +157,7 @@ const CompanyEditForm = ({ isEdit, isId, setIsOpen, getcompany }) => {
               />
             </Grid2>
 
-            <Grid2 size={{ md: 6, lg: 6, sm: 12 }}>
+            <Grid2 size={{md: 6, lg: 6, sm: 12}}>
               <Input
                 labelText="Employee Number"
                 placeholder={"Please Enter Your Employee Number"}
@@ -141,14 +165,14 @@ const CompanyEditForm = ({ isEdit, isId, setIsOpen, getcompany }) => {
                 {...formik.getFieldProps("Employee_No")}
               />
             </Grid2>
-            <Grid2 size={{ md: 6, lg: 6, sm: 12 }}>
+            <Grid2 size={{md: 6, lg: 6, sm: 12}}>
               <Input
                 labelText="Established Date"
                 type="date"
                 {...formik.getFieldProps("Established_date")}
               />
             </Grid2>
-            <Grid2 size={{ md: 6, lg: 6, sm: 12 }}>
+            <Grid2 size={{md: 6, lg: 6, sm: 12}}>
               <Input
                 labelText="Company Website"
                 placeholder="Please Enter Your Company webiste link"
@@ -162,7 +186,7 @@ const CompanyEditForm = ({ isEdit, isId, setIsOpen, getcompany }) => {
                 }
               />
             </Grid2>
-            <Grid2 size={{ md: 6, lg: 6, sm: 12 }}>
+            <Grid2 size={{md: 6, lg: 6, sm: 12}}>
               <Input
                 labelText="Tax Number"
                 placeholder={"Please Enter your Tax Number"}
@@ -175,7 +199,7 @@ const CompanyEditForm = ({ isEdit, isId, setIsOpen, getcompany }) => {
                 }
               />
             </Grid2>
-            <Grid2 size={{ md: 12, lg: 12, sm: 12 }}>
+            <Grid2 size={{md: 12, lg: 12, sm: 12}}>
               <Button
                 type="submit"
                 variant="contained"

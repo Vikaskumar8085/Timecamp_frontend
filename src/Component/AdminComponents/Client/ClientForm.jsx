@@ -18,12 +18,17 @@ const validationSchema = Yup.object({
   Client_Name: Yup.string().required("Client name is required"),
   Client_Email: Yup.string().email().required("Client email is required"),
   Password: Yup.string().min(6).required("Password is required"),
-  Address: Yup.string().required("Address is required"),
+  Client_Address: Yup.string().required("Address is required"),
   Client_Postal_Code: Yup.string().required("Postal Code is required"),
-  phone: Yup.string().required("Phone number is required"),
-  GstNumber: Yup.string().required("GST number is required"),
+  Client_Phone: Yup.string().required("Phone number is required"),
+  GstNumber: Yup.string().optional(),
   profileImage: Yup.mixed().required("Image is required"),
-  System_Access: Yup.boolean(),
+  System_Access: Yup.boolean()
+    .optional()
+    .nullable()
+    .label("System Access")
+    .transform((value) => (value === "" ? null : value))
+    .default(false),
 });
 const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
   // const formik = useFormik({
@@ -65,6 +70,7 @@ const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
       profileImage: isEdit?.Client_Photo ?? null,
       System_Access: isEdit?.System_Access ?? false,
     },
+    validationSchema,
     onSubmit: (values) => {
       console.log(values, "values");
       const formData = new FormData();
@@ -196,8 +202,10 @@ const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
                   formik.setFieldValue("Client_Phone", value)
                 }
               />
-              {formik.touched.phone && formik.errors.phone && (
-                <div style={{color: "red"}}>{formik.errors.phone}</div>
+              {formik.touched.Client_Phone && formik.errors.Client_Phone && (
+                <div style={{color: "red", font: "14px"}}>
+                  {formik.errors.Client_Phone}
+                </div>
               )}
             </Grid2>
             <Grid2 size={{sm: 12, xs: 12, md: 6}}>
@@ -223,6 +231,9 @@ const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
                 }
                 label="System Access"
               />
+              {formik.touched.System_Access && formik.errors.System_Access && (
+                <div style={{color: "red"}}>{formik.errors.System_Access}</div>
+              )}
             </Grid2>
             <Grid2 size={{sm: 12, xs: 12, md: 12}}>
               <Button

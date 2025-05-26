@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, {useEffect} from "react";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import { Button } from "@mui/material";
+import {Button} from "@mui/material";
 import TModal from "../../../common/Modal/TModal";
 import {
   createadminapicall,
@@ -9,8 +9,8 @@ import {
 } from "../../../ApiServices/AdminApiServices/Admin";
 import AddIcon from "@mui/icons-material/Add";
 import UserList from "../../../Component/AdminComponents/Admin/UserList";
-import { useDispatch } from "react-redux";
-import { setLoader } from "../../../redux/LoaderSlices/LoaderSlices";
+import {useDispatch} from "react-redux";
+import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import toast from "react-hot-toast";
 import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 import AdminForm from "../../../Component/AdminComponents/Admin/AdminForm";
@@ -21,7 +21,7 @@ const Admin = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [isAdmindata, setIsAdmindata] = React.useState([]);
   const [IsEdit, setIsEdit] = React.useState(null);
-  console.log("isEdit ?????????????", IsEdit?.Email ?? "no data");
+  // console.log("isEdit ?????????????", IsEdit?.Email ?? "no data");
   const dispatch = useDispatch();
   // fetch admin
 
@@ -83,7 +83,11 @@ const Admin = () => {
       }
       console.log(response, "response");
       dispatch(setLoader(false));
-    } catch (error) {}
+    } catch (error) {
+      dispatch(setLoader(false));
+      toast.error(error?.response?.data?.message);
+      setIsModalOpen(false);
+    }
   };
   useEffect(() => {
     fetchadmin();
