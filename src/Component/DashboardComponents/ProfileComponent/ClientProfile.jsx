@@ -10,29 +10,51 @@ import TModal from "../../../common/Modal/TModal";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import {useFormik} from "formik";
 import PhoneInput from "react-phone-input-2";
+import apiInstance from "../../../ApiInstance/apiInstance";
+import {useDispatch} from "react-redux";
+import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 
 const ClientProfile = ({user}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(user);
+
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       Company_Name: isEdit?.Company_Name ?? "",
-        Client_Name: isEdit?.Client_Name ?? "",
-        Client_Email: isEdit?.Client_Email ?? "",
-        Password: "",
-        Client_Address: isEdit?.Client_Address ?? "",
-        Client_Postal_Code: isEdit?.Client_Postal_Code ?? "",
-        Client_Phone: isEdit?.Client_Phone ?? "",
-        GstNumber: isEdit?.GstNumber ?? "",
-        profileImage: isEdit?.Client_Photo ?? null,
+      Client_Name: isEdit?.Client_Name ?? "",
+      Client_Email: isEdit?.Client_Email ?? "",
+      Password: "",
+      Client_Address: isEdit?.Client_Address ?? "",
+      Client_Postal_Code: isEdit?.Client_Postal_Code ?? "",
+      Client_Phone: isEdit?.Client_Phone ?? "",
+      GstNumber: isEdit?.GstNumber ?? "",
+      profileImage: isEdit?.Client_Photo ?? null,
     },
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       console.log(values, "values");
       const formData = new FormData();
       Object.entries(values).forEach(([key, value]) => {
         formData.append(key, value);
       });
-      console.log(formData, "formData");
+
+      dispatch(setLoader(true));
+      const response = await apiInstance.put(
+        `/v2/client/update-client-profile/${isEdit?.Client_Id}`,
+        formData
+      );
+      window.location.reload();
+      console.log(response.data, "response");
+      if (response?.data?.success) {
+        dispatch(setLoader(false));
+        window.location.reload();
+
+        toast.success(response?.data?.message);
+      } else {
+        dispatch(setLoader(false));
+        window.location.reload();
+        toast.error(response?.data?.message);
+      }
     },
   });
   return (
@@ -171,7 +193,7 @@ const ClientProfile = ({user}) => {
                       {...formik.getFieldProps("Company_Name")}
                     />
                   </Grid2>
-                 <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
+                  <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
                     <Input
                       labelText={"Client Name"}
                       type="text"
@@ -201,7 +223,7 @@ const ClientProfile = ({user}) => {
                     <Input
                       labelText={"Address"}
                       placeholder={"Please Enter Client Address"}
-                      {...formik.getFieldProps( "Client_Address")}
+                      {...formik.getFieldProps("Client_Address")}
                     />
                   </Grid2>
                   <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
