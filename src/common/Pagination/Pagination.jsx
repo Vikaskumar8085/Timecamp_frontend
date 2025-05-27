@@ -1,11 +1,18 @@
 import React from "react";
 import "./Pagination.scss";
 
-const Pagination = ({currentPage, totalPages, onPageChange}) => {
+/**
+ * Reusable Pagination Component
+ * @param {number} currentPage - current page number
+ * @param {number} totalPages - total pages to paginate
+ * @param {function} onPageChange - callback for changing page
+ */
+const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   if (totalPages <= 1) return null;
 
   const pageNumbers = [];
   const maxButtons = 5;
+
   let start = Math.max(1, currentPage - Math.floor(maxButtons / 2));
   let end = Math.min(totalPages, start + maxButtons - 1);
 
@@ -24,7 +31,7 @@ const Pagination = ({currentPage, totalPages, onPageChange}) => {
         disabled={currentPage === 1}
         onClick={() => onPageChange(currentPage - 1)}
       >
-        {"  <  back"}
+        {"< Back"}
       </button>
 
       {start > 1 && (
@@ -57,13 +64,13 @@ const Pagination = ({currentPage, totalPages, onPageChange}) => {
           </button>
         </>
       )}
-    
+
       <button
         className="pagination-btn"
         disabled={currentPage === totalPages}
         onClick={() => onPageChange(currentPage + 1)}
       >
-        {"   Next  >"}
+        {"Next >"}
       </button>
     </div>
   );

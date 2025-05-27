@@ -1,44 +1,31 @@
-import React, {useEffect, useState} from "react";
-import {
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Paper,
-  TextField,
-  Typography,
-  TablePagination,
-  Chip,
-} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { TablePagination, Chip } from "@mui/material";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import {Button, Drawer} from "@mui/material";
+import { Button, Drawer } from "@mui/material";
 import AddIcons from "@mui/icons-material/Add";
-import Layout from "../../../Layoutcomponents/Layout/Layout";
 import TaskCreationForm from "../../../Component/AdminComponents/Task/TaskCreationForm";
 import apiInstance from "../../../ApiInstance/apiInstance";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-
 import {
   addTaskapicall,
   fetchProjectwithmilestonesapicall,
 } from "../../../ApiServices/TaskApiServices";
-import {useDispatch} from "react-redux";
-import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
-import {Link} from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setLoader } from "../../../redux/LoaderSlices/LoaderSlices";
+import { Link } from "react-router-dom";
 import TModal from "../../../common/Modal/TModal";
 import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
-
+import Empty from "../../../common/EmptyFolder/Empty";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import Pagination from "../../../common/Pagination/Pagination";
 const Task = () => {
   const [IsOpen, setIsOpen] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [Isprojectmilestonedata, setIsprojectmilestonedata] = useState([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const dispatch = useDispatch();
   const fetchprojectwithmilestonefunc = async () => {
@@ -52,15 +39,11 @@ const Task = () => {
     }
   };
 
-  const fetchTasks = async () => {
+  const fetchTasks = async (currentPage) => {
     try {
-      const response = await apiInstance.get("/v1/admin/fetch-tasks", {
-        params: {
-          search,
-          page: page + 1, // Backend expects 1-based indexing
-          limit: rowsPerPage,
-        },
-      });
+      const response = await apiInstance.get(
+        `/v1/admin/fetch-tasks?page=${currentPage}&limit=6`
+      );
       if (response?.data?.success) {
         setTasks(response.data.result);
         setTotalCount(response.data.totalCount);
@@ -86,9 +69,9 @@ const Task = () => {
     }
   };
   useEffect(() => {
-    fetchTasks();
+    fetchTasks(page);
     fetchprojectwithmilestonefunc();
-  }, [search, page, rowsPerPage]);
+  }, [page]);
 
   return (
     <LayoutDesign>
@@ -120,111 +103,92 @@ const Task = () => {
           </TModal>
         )}
 
-        {/* {IsUpload && (
-          <Drawer
-            open={IsUpload}
-            onClose={() => setIsUpload(false)}
-            anchor="right"
-          >
-            <UploadTask />
-          </Drawer>
-        )} */}
+        {tasks?.length > 0 ? (
+          <>
+            <table className="table_Container">
+              <thead className="table_head">
+                <tr className="head_row">
+                  <th className="table_head_data">Id</th>
+                  <th className="table_head_data">Task Name</th>
+                  <th className="table_head_data">Project Name </th>
+                  <th className="table_head_data">Milestone </th>
+                  <th className="table_head_data">Priority </th>
+                  <th className="table_head_data">Start Date </th>
+                  <th className="table_head_data">End Date </th>
+                  <th className="table_head_data">Resource Name </th>
+                  <th className="table_head_data">Status </th>
+                  <th className="table_head_data">Attachment </th>
+                  <th className="table_head_data">Action </th>
+                </tr>
+              </thead>
+              <tbody className="table_body">
+                {tasks?.map((item, index) => {
+                  return (
+                    <>
+                      <tr className="body_row" key={index}>
+                        <td className="table_data">{index + 1}</td>
+                        <td className="table_data">{item.Task_Name}</td>
+                        <td className="table_data">{item.ProjectName}</td>
+                        <td className="table_data">{item.MilestoneName}</td>
+                        <td className="table_data">
+                          {new Date(item.StartDate).toLocaleDateString()}
+                        </td>
+                        <td className="table_data">
+                          {new Date(item.EndDate).toLocaleDateString()}
+                        </td>
+                        <td className="table_data">{item.Priority}</td>
 
-        <TextField
-          label="Search Tasks"
-          fullWidth
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          sx={{mb: 2}}
-        />
-        <TableContainer component={Paper} sx={{mt: 3}}>
-          <Typography variant="h6" sx={{p: 2}}>
-            Task List
-          </Typography>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Id</TableCell>
-                <TableCell>Task Name</TableCell>
-                <TableCell>Project Name</TableCell>
-                <TableCell>Milestone</TableCell>
-                <TableCell>Priority</TableCell>
-                <TableCell>Start Date</TableCell>
-                <TableCell>End Date</TableCell>
-                <TableCell>Resource Name</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell>Attachment</TableCell>
-                <TableCell>Action</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {tasks.map((task, index) => (
-                <TableRow key={task._id}>
-                  <TableCell>{index + 1}</TableCell>
-                  <TableCell>{task.Task_Name}</TableCell>
-                  <TableCell>{task.ProjectName}</TableCell>
-                  <TableCell>{task.MilestoneName}</TableCell>
-                  <TableCell>{task.Priority}</TableCell>
-                  <TableCell>
-                    {new Date(task.StartDate).toLocaleDateString()}
-                  </TableCell>
-                  <TableCell>
-                    {new Date(task.EndDate).toLocaleDateString()}
-                  </TableCell>
-                  <TableCell>{task.ResourceName}</TableCell>
-                  <TableCell>
-                    <Chip
-                      label={task.Status || "Unknown"}
-                      color={
-                        task.Status === "COMPLETED"
-                          ? "success"
-                          : task.Status === "INPROGRESS"
-                          ? "primary"
-                          : task.Status === "P"
-                          ? "warning"
-                          : "default"
-                      }
-                    />
-                  </TableCell>
-                  <TableCell>
-                    {task.Attachment && (
-                      <a
-                        href={task.Attachment}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        attachment
-                      </a>
-                    )}
-                  </TableCell>
+                        <td className="table_data">{item.ResourceName}</td>
 
-                  <TableCell>
-                    <Link
-                      style={{textDecoration: "none", color: "#6560f0"}}
-                      to={`/task-view/${task.task_Id}`}
-                    >
-                      <VisibilityIcon />
-                    </Link>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-
-        <TablePagination
-          rowsPerPageOptions={[2, 5, 10, 25]}
-          component="div"
-          count={totalCount}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={(event, newPage) => setPage(newPage)}
-          onRowsPerPageChange={(event) => {
-            setRowsPerPage(parseInt(event.target.value, 10));
-            setPage(0); // Reset to page 0 when changing rows per page
-          }}
-        />
+                        <td className="table_data">
+                          {
+                            <Chip
+                              label={item.Status || "Unknown"}
+                              color={
+                                item.Status === "COMPLETED"
+                                  ? "success"
+                                  : item.Status === "INPROGRESS"
+                                  ? "primary"
+                                  : item.Status === "P"
+                                  ? "warning"
+                                  : "default"
+                              }
+                            />
+                          }
+                        </td>
+                        <td className="table_data">
+                          {item.Attachment && (
+                            <a
+                              href={item.Attachment}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              attachment
+                            </a>
+                          )}
+                        </td>
+                        <td className="table_data">
+                          <Link to={`/task-view/${item.task_Id}`}>
+                            <VisibilityIcon />
+                          </Link>
+                        </td>
+                      </tr>
+                    </>
+                  );
+                })}
+              </tbody>
+            </table>
+          </>
+        ) : (
+          <Empty />
+        )}
       </div>
+
+      <Pagination
+        currentPage={page}
+        totalPages={totalCount}
+        onPageChange={(newPage) => setPage(newPage)}
+      />
     </LayoutDesign>
   );
 };
