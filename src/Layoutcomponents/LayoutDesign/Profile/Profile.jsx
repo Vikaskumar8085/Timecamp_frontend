@@ -1,10 +1,51 @@
 import React from "react";
+import "./ProfileCard.scss";
 import {Link} from "react-router-dom";
+import {LogOut, User, Users, Key} from "lucide-react";
 
 const Profile = ({setShow, show}) => {
   return (
     <>
-      <div className="profile-wrapper" onClick={() => setShow(!show)}>
+      {/* <div className="profile-card" onClick={() => setShow(!show)}>
+        <div className="top-section">
+          <img
+            src="https://randomuser.me/api/portraits/men/32.jpg"
+            alt="Profile"
+            className="avatar"
+          />
+          <div className="info">
+            <h4 className="name">Ralph Edwards</h4>
+            <p className="email">ralphedwards@gmail.com</p>
+          </div>
+          <button className="logout-btn">
+            <LogOut
+              onClick={() => {
+                localStorage.clear();
+                window.location.href = "/login";
+              }}
+              size={18}
+            />
+          </button>
+        </div>
+        {show && (
+          <ul className="menu">
+            <li>
+              <User size={18} />
+              <span>Profile</span>
+            </li>
+            <li>
+              <Users size={18} />
+              <span>Members</span>
+            </li>
+            <li>
+              <Key size={18} />
+              <span>Change Password</span>
+            </li>
+          </ul>
+        )}
+      </div> */}
+
+      <div className="profile-wrapper">
         <div className="profile-info">
           <img
             src="https://i.pravatar.cc/48?img=12"
@@ -15,6 +56,15 @@ const Profile = ({setShow, show}) => {
             <span className="name">John Doe</span>
             <span className="role">Admin</span>
           </div>
+          <button className="logout-btn">
+            <LogOut
+              onClick={() => {
+                localStorage.clear();
+                window.location.href = "/login";
+              }}
+              size={18}
+            />
+          </button>
           <svg
             className={`chevron ${show ? "open" : ""}`}
             viewBox="0 0 20 20"
@@ -26,20 +76,23 @@ const Profile = ({setShow, show}) => {
               clipRule="evenodd"
             />
           </svg>
-        </div>
-
+        </div>{" "}
         {show && (
           <div className="dropdown-menu">
-            <Link to="/profile">👤 My Profile</Link>
-            <Link to="/change-password">&#x1F512; Change Password</Link>
-            <a
-              onClick={() => {
-                localStorage.clear();
-                window.location.href = "/login";
-              }}
-            >
-              🚪 Sign Out
-            </a>
+            <ul className="menu">
+              <li>
+                <User size={18} />
+                <Link to="/profile">Profile</Link>
+              </li>
+              <li>
+                <Users size={18} />
+                <span>Members</span>
+              </li>
+              <li>
+                <Key size={18} />
+                <Link to="/change-password"> Change Password</Link>
+              </li>
+            </ul>
           </div>
         )}
       </div>

@@ -91,6 +91,7 @@ import ForcastingPage from "./pages/Adminpages/ForeCasting/ForcastingPage";
 import Home from "./pages/Home";
 import ChangePassword from "./pages/Dashboard/ChangePassword";
 import ManagerTeamInfo from "./pages/ManagerPages/ManagerTeamPages/ManagerTeamInfo";
+import ClientTaskInfo from "./pages/ClientPages/ClientTaskinfo/ClientTaskInfo";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -189,6 +190,7 @@ const App = () => {
           path="/client/client-time-summary"
           element={<ClientTimeSummary />}
         />
+        <Route path="client/client-taskinfo/:id" element={<ClientTaskInfo />} />
         {/* client pages */}
 
         {/* employee Pages */}

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import TabComp from "../../common/TabComponent/TabComp";
@@ -16,12 +16,16 @@ import {toast} from "react-hot-toast";
 import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
 import {useDispatch} from "react-redux";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import apiInstance from "../../ApiInstance/apiInstance";
 
 const ClientPageinfo = () => {
   const {id} = useParams();
   const [isSubState, setisSubState] = useState(0);
   const [isClientprojectInfodata, setIsClientProjectInfodata] = useState([]);
   const [isclinettaskinfodata, setIsclienttaskinfodata] = useState([]);
+  const [istaskMembers, setIstaskMembers] = useState([]);
+
+  console.log(isClientprojectInfodata, "isClientprojectInfodata");
   const [isClientTimesheetdata, setIsClientTimesheetdata] = useState([]);
   const dispatch = useDispatch();
   const fetchclientsingleprojectfunc = async () => {
@@ -112,6 +116,21 @@ const ClientPageinfo = () => {
     }
   };
 
+  // fetch allotted task Memebers
+
+  const fetchclientprojectallotedTaskMemebsers = useCallback(async () => {
+    try {
+      const response = await apiInstance.get(
+        `/v2/client/allotted-task-memebers/${id}`
+      );
+      if (response?.data?.success) {
+        setIstaskMembers(response?.data?.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  }, []);
+
   const tabsheader = [
     {title: "Client Project Info"},
     {title: "Client Project TimeSheet"},
@@ -142,7 +161,10 @@ const ClientPageinfo = () => {
     {
       content: (
         <>
-          <ClientProjectTask isclinettaskinfodata={isclinettaskinfodata} />
+          <ClientProjectTask
+            isclinettaskinfodata={isclinettaskinfodata}
+            istaskMembers={istaskMembers}
+          />
         </>
       ),
     },
@@ -152,6 +174,7 @@ const ClientPageinfo = () => {
     fetchclientsingleprojectfunc();
     fetchclienttaskinformationfunc();
     fetchclienttimesheetinformationfunc();
+    fetchclientprojectallotedTaskMemebsers();
   }, [0]);
   return (
     <LayoutDesign>

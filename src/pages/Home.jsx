@@ -18,6 +18,8 @@ import InputCheckboxMulti from "../common/InputMultiSelect/InputCheckboxMulti";
 import ClientStatusChart from "./ClientStatusChart";
 import Pagination from "../common/Pagination/Pagination";
 import Table from "../common/Table/Table";
+import InputSearch from "../common/InputSearch/InputSearch";
+import StatCard from "./StatCard";
 
 const Home = () => {
   const [show, setShow] = React.useState(false);
@@ -285,10 +287,13 @@ const Home = () => {
               ]}
             />
 
-            <ClientStatusChart />
+            <InputSearch />
 
-            <DashboardCounter />
+            {/* <ClientStatusChart /> */}
 
+            {/* <DashboardCounter /> */}
+
+            <StatCard />
             <div
               style={{maxWidth: "800px", margin: "2rem auto", padding: "1rem"}}
             >

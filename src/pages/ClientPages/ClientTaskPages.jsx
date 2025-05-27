@@ -1,12 +1,5 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
   TablePagination,
   TextField,
   MenuItem,
@@ -15,215 +8,191 @@ import {
   FormControl,
   Box,
   Button,
-  Chip,
-  CircularProgress,
 } from "@mui/material";
-import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import {fetchclientprojectaskapicall} from "../../ApiServices/Cllientapiservices/Client";
 import {Link} from "react-router-dom";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import HeaderTab from "../../common/HeaderTab/HeaderTab";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import Empty from "../../common/EmptyFolder/Empty";
+import Pagination from "../../common/Pagination/Pagination";
+import InputSearch from "../../common/InputSearch/InputSearch";
 const ClientTaskPages = () => {
   const [IsClientTask, setIsClientTask] = useState([]);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [totalTasks, setTotalTasks] = useState(0);
-  const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
-  const [priorityFilter, setPriorityFilter] = useState("");
-  const [loading, setLoading] = useState(false);
 
-  console.log(IsClientTask, "task");
-  const fetchclienttaskfunc = async () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const limit = 10;
+  const fetchclienttaskfunc = useCallback(async () => {
     try {
-      setLoading(true);
       const response = await fetchclientprojectaskapicall({
         params: {
-          page: page + 1,
-          limit: rowsPerPage,
-          search: search,
-          status: statusFilter,
-          priority: priorityFilter,
+          page: currentPage,
+          limit: limit,
         },
       });
       if (response.success) {
         setIsClientTask(response.result);
-        setTotalTasks(response.totalTasks);
+        setTotalPages(Math.ceil(response.totalProjects / limit));
       }
-      setLoading(false);
     } catch (error) {
       if (error?.response?.data?.redirect) {
         window.location.href = error?.response?.data.redirect;
         localStorage.clear();
       }
-      setLoading(false);
     }
-  };
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0); // Reset to the first page
-  };
-
-  const handleSearchChange = (event) => {
-    setSearch(event.target.value);
-    setPage(0); // Reset to the first page when search changes
-  };
+  }, []);
 
   useEffect(() => {
     fetchclienttaskfunc();
-  }, [page, rowsPerPage, search, statusFilter, priorityFilter]);
+  }, [fetchclienttaskfunc]);
 
   return (
     <LayoutDesign>
       <BreadCrumb pageName="Client Task" />
-      <HeaderTab>
-        <Box display="flex" gap={2}>
-          <FormControl sx={{minWidth: 150}}>
-            <InputLabel>Status</InputLabel>
-            <Select
-              value={statusFilter}
-              label="Status"
-              onChange={(e) => setStatusFilter(e.target.value)}
-            >
-              <MenuItem value="">All</MenuItem>
-              <MenuItem value="open">Open</MenuItem>
-              <MenuItem value="completed">Completed</MenuItem>
-            </Select>
-          </FormControl>
 
-          <FormControl sx={{minWidth: 150}}>
-            <InputLabel>Priority</InputLabel>
-            <Select
-              value={priorityFilter}
-              label="Priority"
-              onChange={(e) => setPriorityFilter(e.target.value)}
-            >
-              <MenuItem value="">All</MenuItem>
-              <MenuItem value="low">Low</MenuItem>
-              <MenuItem value="medium">Medium</MenuItem>
-              <MenuItem value="high">High</MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
-      </HeaderTab>
+      <div
+        style={{
+          display: "block",
+          overflow: "hidden",
+          position: "relative",
+          margin: "10px 0px",
+        }}
+        className="client_header_container"
+      >
+        <div style={{display: "flex", justifyContent: "space-between"}}>
+          <div className="left_div">
+            <Button>Sort</Button>
+          </div>
+          <div className="right_div">
+            <InputSearch />
+          </div>
+        </div>
+      </div>
 
-      <TextField
-        label="Search Tasks"
-        variant="outlined"
-        fullWidth
-        value={search}
-        onChange={handleSearchChange}
-      />
+      {IsClientTask?.length > 0 ? (
+        <>
+          <table className="table_Container">
+            <thead className="table_head">
+              <tr className="head_row">
+                <th className="table_head_data">Id</th>
+                <th className="table_head_data">Task Name</th>
+                <th className="table_head_data">Task Description </th>
+                <th className="table_head_data">Priority </th>
+                <th className="table_head_data">Status </th>
+                <th className="table_head_data">Start Date </th>
+                <th className="table_head_data">End Date </th>
+                <th className="table_head_data">Estimated Time </th>
+                <th className="table_head_data">Completed Time </th>
+                <th className="table_head_data">Actions </th>
+              </tr>
+            </thead>
+            <tbody className="table_body">
+              {IsClientTask?.map((item, index) => {
+                return (
+                  <>
+                    <tr className="body_row" key={index}>
+                      <td className="table_data">{index + 1}</td>
+                      <td className="table_data">{item.Task_Name}</td>
+                      <td className="table_data">{item.Task_description}</td>
+                      <td className="table_data">{item.Priority}</td>
+                      <td className="table_data">{item.Status}</td>
+                      <td className="table_data">{item.StartDate}</td>
+                      <td className="table_data">{item.EndDate}</td>
+                      <td className="table_data">{item.Estimated_Time}</td>
+                      <td className="table_data">{item.Completed_time}</td>
 
-      {loading ? (
-        <Box display="flex" justifyContent="center" sx={{padding: 2}}>
-          <CircularProgress />
-        </Box>
+                      <td className="table_data">
+                        <Link to={`/client/client-taskinfo/${item.task_Id}`}>
+                          <VisibilityIcon />
+                        </Link>
+                      </td>
+                    </tr>
+                  </>
+                );
+              })}
+            </tbody>
+          </table>
+        </>
       ) : (
-        <TableContainer
-          component={Paper}
-          sx={{mt: 3, boxShadow: 3, borderRadius: 2}}
-        >
-          <Table>
-            <TableHead>
-              <TableRow sx={{backgroundColor: "#f5f5f5"}}>
-                <TableCell>
-                  <strong>Task ID</strong>
-                </TableCell>
-                {/* <TableCell>
-                <strong>Project ID</strong>
-              </TableCell> */}
-                <TableCell>
-                  <strong>Task Name</strong>
-                </TableCell>
-                <TableCell>
-                  <strong>Task Description</strong>
-                </TableCell>
-                <TableCell>
-                  <strong>Priority</strong>
-                </TableCell>
-                <TableCell>
-                  <strong>Status</strong>
-                </TableCell>
-                <TableCell>
-                  <strong>Start Date</strong>
-                </TableCell>
-                <TableCell>
-                  <strong>End Date</strong>
-                </TableCell>
-                <TableCell>
-                  <strong>Estimated Time</strong>
-                </TableCell>
-                <TableCell>
-                  <strong>Completed Time</strong>
-                </TableCell>
-                {/* <TableCell>
-                <strong>Milestone ID</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Resource ID</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Company ID</strong>
-              </TableCell> */}
-                <TableCell>
-                  <strong>Created At</strong>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {IsClientTask?.map((task, index) => (
-                <TableRow key={index}>
-                  <TableCell>{index + 1}</TableCell>
-                  {/* <TableCell>{task.ProjectId}</TableCell> */}
-                  <TableCell>{task.Task_Name}</TableCell>
-                  <TableCell>{task.Task_description}</TableCell>
-                  <TableCell>
-                    <Chip
-                      label={task.Priority}
-                      color={task.Priority === "HIGH" ? "error" : "primary"}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Chip
-                      label={task.Status}
-                      color={
-                        task.Status === "COMPLETED" ? "success" : "warning"
-                      }
-                    />
-                  </TableCell>
-                  <TableCell>{task.StartDate}</TableCell>
-                  <TableCell>{task.EndDate}</TableCell>
-                  <TableCell>{task.Estimated_Time} hrs</TableCell>
-                  <TableCell>{task.Completed_time} hrs</TableCell>
-                  {/* <TableCell>{task.MilestoneId}</TableCell>
-                <TableCell>{task.Resource_Id}</TableCell>
-                <TableCell>{task.Company_Id}</TableCell> */}
-                  <TableCell>
-                    {new Date(task.createdAt).toLocaleDateString()}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <Empty />
       )}
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
-        component="div"
-        count={totalTasks}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
+
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
       />
     </LayoutDesign>
   );
 };
 
 export default ClientTaskPages;
+// const Pagination = ({currentPage, totalPages, onPageChange}) => {
+//   if (totalPages <= 1) return null;
+
+//   const pageNumbers = [];
+//   const maxButtons = 5;
+//   let start = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+//   let end = Math.min(totalPages, start + maxButtons - 1);
+
+//   if (end - start < maxButtons - 1) {
+//     start = Math.max(1, end - maxButtons + 1);
+//   }
+
+//   for (let i = start; i <= end; i++) {
+//     pageNumbers.push(i);
+//   }
+
+//   return (
+//     <div className="pagination">
+//       <button
+//         className="pagination-btn"
+//         disabled={currentPage === 1}
+//         onClick={() => onPageChange(currentPage - 1)}
+//       >
+//         {"< Back"}
+//       </button>
+
+//       {start > 1 && (
+//         <>
+//           <button className="pagination-btn" onClick={() => onPageChange(1)}>
+//             1
+//           </button>
+//           {start > 2 && <span className="dots">...</span>}
+//         </>
+//       )}
+
+//       {pageNumbers.map((page) => (
+//         <button
+//           key={page}
+//           className={`pagination-btn ${page === currentPage ? "active" : ""}`}
+//           onClick={() => onPageChange(page)}
+//         >
+//           {page}
+//         </button>
+//       ))}
+
+//       {end < totalPages && (
+//         <>
+//           {end < totalPages - 1 && <span className="dots">...</span>}
+//           <button
+//             className="pagination-btn"
+//             onClick={() => onPageChange(totalPages)}
+//           >
+//             {totalPages}
+//           </button>
+//         </>
+//       )}
+
+//       <button
+//         className="pagination-btn"
+//         disabled={currentPage === totalPages}
+//         onClick={() => onPageChange(currentPage + 1)}
+//       >
+//         {"Next >"}
+//       </button>
+//     </div>
+//   );
+// };

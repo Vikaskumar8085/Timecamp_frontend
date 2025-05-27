@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import {AccessTime, List, Receipt, CheckCircle} from "@mui/icons-material";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import Empty from "../../common/EmptyFolder/Empty";
 
 const ClientProjectTime = () => {
   const [isclientprojectTimedata, setIsclientprojectTimedata] = useState([]);
@@ -136,41 +137,38 @@ const ClientProjectTime = () => {
         </Grid2>
       </Grid2>
 
-      <TableContainer component={Paper}>
-        <Table sx={{minWidth: 650}} aria-label="client table">
-          <TableHead>
-            <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>Project Name</TableCell>
-              <TableCell>Total Hour</TableCell>
-              <TableCell>Total Entries</TableCell>
-              <TableCell>Total Billed Hours</TableCell>
-              <TableCell>Total Ok Hours</TableCell>
-              <TableCell>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {isclientprojectTimedata.length > 0 ? (
-              isclientprojectTimedata.map((item, index) => (
-                <TableRow key={index}>
-                  <TableCell>{index + 1}</TableCell>
-                  <TableCell>{item.ProjectName}</TableCell>
-                  <TableCell>{item.TotalHours}</TableCell>
-                  <TableCell>{item.TotalEntries}</TableCell>
-                  <TableCell>{item.BilledHours}</TableCell>
-                  <TableCell>{item.OkHours}</TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={10} align="center">
-                  {/* <Empty /> */}
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {isclientprojectTimedata.length > 0 ? (
+        <table className="table_Container">
+          <thead className="table_head">
+            <tr className="head_row">
+              <th className="table_head_data">Id</th>
+              <th className="table_head_data">Project Name</th>
+              <th className="table_head_data">Total Hour </th>
+              <th className="table_head_data">Total Entries </th>
+              <th className="table_head_data">Total Billed Hours</th>
+              <th className="table_head_data">Total Ok Hours</th>
+            </tr>
+          </thead>
+          <tbody className="table_body">
+            {isclientprojectTimedata?.map((item, index) => {
+              return (
+                <>
+                  <tr className="body_row" key={index}>
+                    <td className="table_data">{index + 1}</td>
+                    <td className="table_data">{item.ProjectName}</td>
+                    <td className="table_data">{item.TotalHours}</td>
+                    <td className="table_data">{item.TotalEntries}</td>
+                    <td className="table_data">{item.BilledHours}</td>
+                    <td className="table_data">{item.OkHours}</td>
+                  </tr>
+                </>
+              );
+            })}
+          </tbody>
+        </table>
+      ) : (
+        <Empty />
+      )}
     </LayoutDesign>
   );
 };

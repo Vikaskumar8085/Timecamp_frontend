@@ -1,52 +1,35 @@
 import React, {useEffect, useState} from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  TablePagination,
-  TextField,
-  Box,
-  Button,
-  Grid,
-  Card,
-  CardContent,
-  CardActions,
-  Typography,
-  CircularProgress,
-} from "@mui/material";
-import GridViewIcon from "@mui/icons-material/GridView";
-import TableRowsIcon from "@mui/icons-material/TableRows";
-import Layout from "../../Layoutcomponents/Layout/Layout";
+import {Button} from "@mui/material";
+
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import {Link} from "react-router-dom";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import HeaderTab from "../../common/HeaderTab/HeaderTab";
+
 import {fetchclientactiveprojectapicall} from "../../ApiServices/Cllientapiservices/Client";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import Empty from "../../common/EmptyFolder/Empty";
+import InputSearch from "../../common/InputSearch/InputSearch";
+
 const ClientActiveProject = () => {
-  const [Isactiveclientprject, setisactiveclientproject] = useState([]);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [search, setSearch] = useState("");
-  const [totalProjects, setTotalProjects] = useState(0);
   const [view, setView] = useState("table");
   const [loading, setLoading] = useState(false); // State to manage loading
-  const fetchclientactiveproject = async () => {
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [Isactiveclientprject, setisactiveclientproject] = useState([]);
+  const pageSize = 10;
+
+  const fetchclientactiveproject = async (page) => {
     try {
       const response = await fetchclientactiveprojectapicall({
         params: {
-          page: page + 1,
-          limit: rowsPerPage,
-          search: search,
+          page,
+          limit: pageSize,
         },
       });
       if (response.success) {
         setisactiveclientproject(response.result);
-        setTotalProjects(response.totalProjects);
+        response.totalProjects;
       }
     } catch (error) {
       console.log(error?.message);
@@ -59,147 +42,79 @@ const ClientActiveProject = () => {
     }
   };
 
-  // Handle search input change
-  const handleSearchChange = (event) => {
-    setSearch(event.target.value);
-    setPage(0); // Reset to first page when search changes
-  };
-
-  // Handle page change in pagination
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  // Handle rows per page change
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0); // Reset to first page when rows per page changes
-  };
-
   const toggleView = () => {
     setView(view === "table" ? "grid" : "table");
   };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   useEffect(() => {
-    fetchclientactiveproject();
-  }, [page, rowsPerPage, search]);
+    fetchclientactiveproject(currentPage);
+  }, [currentPage]);
 
   return (
     <>
       <LayoutDesign>
         <BreadCrumb pageName="Client Active Project" />
-        <HeaderTab>
-          <Button
-            variant="contained"
-            onClick={toggleView}
-            sx={{backgroundColor: "#2c3e50"}}
-          >
-            {view === "table" ? <GridViewIcon /> : <TableRowsIcon />}
-          </Button>
-        </HeaderTab>
-        <TextField
-          label="Search Projects"
-          variant="outlined"
-          fullWidth
-          value={search}
-          onChange={handleSearchChange}
-        />
-        {loading ? (
-          // Loader to show while fetching data
-          <Box sx={{display: "flex", justifyContent: "center", marginTop: 5}}>
-            <CircularProgress />
-          </Box>
-        ) : view === "table" ? (
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell align="left">ID</TableCell>
-                  <TableCell align="left">Project Code</TableCell>
-                  <TableCell align="left">Project Name</TableCell>
-                  <TableCell align="left">Start Date</TableCell>
-                  <TableCell align="left">End Date</TableCell>
-                  <TableCell align="left">Project Hours</TableCell>
-                  <TableCell align="left">Action</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {Isactiveclientprject.length > 0
-                  ? Isactiveclientprject.map((item, index) => (
-                      <TableRow key={index}>
-                        <TableCell component="th" scope="row">
-                          {index + 1}
-                        </TableCell>
-                        <TableCell>{item.Project_Code}</TableCell>
-                        <TableCell>{item.Project_Name}</TableCell>
-                        <TableCell>{item.Start_Date}</TableCell>
-                        <TableCell>{item.End_Date}</TableCell>
-                        <TableCell>{item.Project_Hours}</TableCell>
-                        <TableCell>
-                          <Link
-                            to={`/client/client-pageinfo/${item?.ProjectId}`}
-                          >
-                            <VisibilityIcon />
-                          </Link>
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  : "null"}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        ) : (
-          <div>
-            {Isactiveclientprject.length > 0 ? (
-              <Grid container spacing={3}>
-                {Isactiveclientprject.map((item, index) => (
-                  <Grid item xs={12} sm={6} md={4} key={index}>
-                    <Card>
-                      <CardContent>
-                        <Typography variant="h6" component="div">
-                          Project {index + 1}: {item.Project_Name}
-                        </Typography>
-                        <Typography color="textSecondary">
-                          Project Code: {item.Project_Code}
-                        </Typography>
-                        <Typography color="textSecondary">
-                          Start Date: {item.Start_Date}
-                        </Typography>
-                        <Typography color="textSecondary">
-                          End Date: {item.End_Date}
-                        </Typography>
-                        <Typography color="textSecondary">
-                          Project Hours: {item.Project_Hours}
-                        </Typography>
-                      </CardContent>
-                      <CardActions>
-                        <Button size="small">
-                          <Link
-                            to={`/client/client-pageinfo/${item?.ProjectId}`}
-                          >
-                            <VisibilityIcon />
-                          </Link>
-                        </Button>
-                      </CardActions>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            ) : (
-              <Typography variant="h6" align="center">
-                No Projects Available
-              </Typography>
-            )}
+
+        <div
+          style={{
+            display: "block",
+            overflow: "hidden",
+            position: "relative",
+            margin: "10px 0px",
+          }}
+          className="client_header_container"
+        >
+          <div style={{display: "flex", justifyContent: "space-between"}}>
+            <div className="left_div">
+              <Button>Sort</Button>
+            </div>
+            <div className="right_div">
+              <InputSearch />
+            </div>
           </div>
-        )}{" "}
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={totalProjects}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+        </div>
+        {Isactiveclientprject.length > 0 ? (
+          <table className="table_Container">
+            <thead className="table_head">
+              <tr className="head_row">
+                <th className="table_head_data">Id</th>
+                <th className="table_head_data">Project Name</th>
+                <th className="table_head_data">Project Code </th>
+                <th className="table_head_data">State Date </th>
+                <th className="table_head_data">End Date</th>
+                <th className="table_head_data">Project Hours</th>
+                <th className="table_head_data">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="table_body">
+              {Isactiveclientprject?.map((item, index) => {
+                return (
+                  <>
+                    <tr className="body_row" key={index}>
+                      <td className="table_data">{index + 1}</td>
+                      <td className="table_data">{item.Project_Name}</td>
+                      <td className="table_data">{item.Project_Code}</td>
+                      <td className="table_data">{item.Start_Date}</td>
+                      <td className="table_data">{item.End_Date}</td>
+                      <td className="table_data">{item.Project_Hours}</td>
+                      <td className="table_data">
+                        <Link to={`/client/client-pageinfo/${item?.ProjectId}`}>
+                          <VisibilityIcon />
+                        </Link>
+                      </td>
+                    </tr>
+                  </>
+                );
+              })}
+            </tbody>
+          </table>
+        ) : (
+          <Empty />
+        )}
       </LayoutDesign>
     </>
   );

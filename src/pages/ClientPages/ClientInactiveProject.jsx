@@ -27,9 +27,11 @@ import {Link} from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import HeaderTab from "../../common/HeaderTab/HeaderTab";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import Empty from "../../common/EmptyFolder/Empty";
+import InputSearch from "../../common/InputSearch/InputSearch";
 
 const ClientInactiveProject = () => {
-  const [isclientactiveproject, setIsclientactiveproject] = useState([]);
+  const [isclientinactiveproject, setIsclientinactiveproject] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [search, setSearch] = useState("");
@@ -48,7 +50,7 @@ const ClientInactiveProject = () => {
         },
       });
       if (response.success) {
-        setIsclientactiveproject(response.result);
+        setIsclientinactiveproject(response.result);
         setTotalProjects(response.totalProjects);
       }
     } catch (error) {
@@ -101,112 +103,63 @@ const ClientInactiveProject = () => {
           </Button>
         </HeaderTab>
 
-        <TextField
-          label="Search Projects"
-          variant="outlined"
-          fullWidth
-          value={search}
-          onChange={handleSearchChange}
-        />
-
-        {loading ? (
-          // Loader to show while fetching data
-          <Box sx={{display: "flex", justifyContent: "center", marginTop: 5}}>
-            <CircularProgress />
-          </Box>
-        ) : view === "table" ? (
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell align="left">ID</TableCell>
-                  <TableCell align="left">Project Code</TableCell>
-                  <TableCell align="left">Project Name</TableCell>
-                  <TableCell align="left">Start Date</TableCell>
-                  <TableCell align="left">End Date</TableCell>
-                  <TableCell align="left">Project Hours</TableCell>
-                  <TableCell align="left">Action</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {isclientactiveproject.length > 0
-                  ? isclientactiveproject.map((item, index) => (
-                      <TableRow key={index}>
-                        <TableCell component="th" scope="row">
-                          {index + 1}
-                        </TableCell>
-                        <TableCell>{item.Project_Code}</TableCell>
-                        <TableCell>{item.Project_Name}</TableCell>
-                        <TableCell>{item.Start_Date}</TableCell>
-                        <TableCell>{item.End_Date}</TableCell>
-                        <TableCell>{item.Project_Hours}</TableCell>
-                        <TableCell>
-                          <Link
-                            to={`/client/client-pageinfo/${item?.ProjectId}`}
-                          >
-                            <VisibilityIcon />
-                          </Link>
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  : "null"}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        ) : (
-          <div>
-            {isclientactiveproject.length > 0 ? (
-              <Grid container spacing={3}>
-                {isclientactiveproject.map((item, index) => (
-                  <Grid item xs={12} sm={6} md={4} key={index}>
-                    <Card>
-                      <CardContent>
-                        <Typography variant="h6" component="div">
-                          Project {index + 1}: {item.Project_Name}
-                        </Typography>
-                        <Typography color="textSecondary">
-                          Project Code: {item.Project_Code}
-                        </Typography>
-                        <Typography color="textSecondary">
-                          Start Date: {item.Start_Date}
-                        </Typography>
-                        <Typography color="textSecondary">
-                          End Date: {item.End_Date}
-                        </Typography>
-                        <Typography color="textSecondary">
-                          Project Hours: {item.Project_Hours}
-                        </Typography>
-                      </CardContent>
-                      <CardActions>
-                        <Button size="small">
-                          <Link
-                            to={`/client/client-pageinfo/${item?.ProjectId}`}
-                          >
-                            <VisibilityIcon />
-                          </Link>
-                        </Button>
-                      </CardActions>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            ) : (
-              <Typography variant="h6" align="center">
-                No Projects Available
-              </Typography>
-            )}
+        <div
+          style={{
+            display: "block",
+            overflow: "hidden",
+            position: "relative",
+            margin: "10px 0px",
+          }}
+          className="client_header_container"
+        >
+          <div style={{display: "flex", justifyContent: "space-between"}}>
+            <div className="left_div">
+              <Button>Sort</Button>
+            </div>
+            <div className="right_div">
+              <InputSearch />
+            </div>
           </div>
-        )}
+        </div>
 
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={totalProjects}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+        {isclientinactiveproject.length ? (
+          <table className="table_Container">
+            <thead className="table_head">
+              <tr className="head_row">
+                <th className="table_head_data">Id</th>
+                <th className="table_head_data">Project Name</th>
+                <th className="table_head_data">Project Code </th>
+                <th className="table_head_data">State Date </th>
+                <th className="table_head_data">End Date</th>
+                <th className="table_head_data">Project Hours</th>
+                <th className="table_head_data">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="table_body">
+              {isclientinactiveproject?.map((item, index) => {
+                return (
+                  <>
+                    <tr className="body_row" key={index}>
+                      <td className="table_data">{index + 1}</td>
+                      <td className="table_data">{item.Project_Name}</td>
+                      <td className="table_data">{item.Project_Code}</td>
+                      <td className="table_data">{item.Start_Date}</td>
+                      <td className="table_data">{item.End_Date}</td>
+                      <td className="table_data">{item.Project_Hours}</td>
+                      <td className="table_data">
+                        <Link to={`/client/client-pageinfo/${item?.ProjectId}`}>
+                          <VisibilityIcon />
+                        </Link>
+                      </td>
+                    </tr>
+                  </>
+                );
+              })}
+            </tbody>
+          </table>
+        ) : (
+          <Empty />
+        )}
       </LayoutDesign>
     </div>
   );

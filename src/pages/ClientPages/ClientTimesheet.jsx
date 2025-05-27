@@ -11,15 +11,16 @@ import {
   Chip,
   Grid,
   Card,
+  Button,
 } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ListIcon from "@mui/icons-material/List";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import {fetchclientprojecttimesheetapicall} from "../../ApiServices/Cllientapiservices/Client";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import InputSearch from "../../common/InputSearch/InputSearch";
 
 const ClientTimesheet = () => {
   const [isClientTimesheetdata, setIsClientTimesheetdata] = useState([]);
@@ -80,7 +81,26 @@ const ClientTimesheet = () => {
   return (
     <LayoutDesign>
       <BreadCrumb pageName="Client Timesheet" />
-      <Grid container spacing={2} sx={{my: 1}}>
+
+      <div
+        style={{
+          display: "block",
+          overflow: "hidden",
+          position: "relative",
+          margin: "10px 0px",
+        }}
+        className="client_header_container"
+      >
+        <div style={{display: "flex", justifyContent: "space-between"}}>
+          <div className="left_div">
+            <Button>Sort</Button>
+          </div>
+          <div className="right_div">
+            <InputSearch />
+          </div>
+        </div>
+      </div>
+      {/* <Grid container spacing={2} sx={{my: 1}}>
         {stats.map((stat, index) => (
           <Grid item sm={12} md={3} lg={3} key={index}>
             <Card
@@ -101,9 +121,9 @@ const ClientTimesheet = () => {
             </Card>
           </Grid>
         ))}
-      </Grid>
+      </Grid> */}
 
-      <TableContainer
+      {/* <TableContainer
         component={Paper}
         sx={{mt: 3, boxShadow: 3, borderRadius: 2}}
       >
@@ -178,7 +198,7 @@ const ClientTimesheet = () => {
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
+      </TableContainer> */}
     </LayoutDesign>
   );
 };
