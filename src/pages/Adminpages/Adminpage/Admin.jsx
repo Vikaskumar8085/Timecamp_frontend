@@ -67,11 +67,13 @@ const Admin = () => {
 
   const updatehandle = async (values) => {
     try {
+      
       const val = {
         id: IsEdit?.user_id,
         payload: values,
       };
       dispatch(setLoader(true));
+      console.log(val,"vlu")
       const response = await editadminapicall(val);
       if (response?.success) {
         dispatch(setLoader(false));

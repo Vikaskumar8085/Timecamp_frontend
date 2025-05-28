@@ -8,7 +8,7 @@ import {
   Grid2,
 } from "@mui/material";
 import * as Yup from "yup";
-import {useFormik} from "formik";
+import { useFormik } from "formik";
 import Input from "../../../common/Input/Input";
 import InputPassword from "../../../common/InputPassword/InputPassword";
 import PhoneInput from "react-phone-input-2";
@@ -17,7 +17,7 @@ const validationSchema = Yup.object({
   Company_Name: Yup.string().required("Company name is required"),
   Client_Name: Yup.string().required("Client name is required"),
   Client_Email: Yup.string().email().required("Client email is required"),
-  Password: Yup.string().min(6).required("Password is required"),
+  Password: Yup.string().min(6).label("Password is required"),
   Client_Address: Yup.string().required("Address is required"),
   Client_Postal_Code: Yup.string().required("Postal Code is required"),
   Client_Phone: Yup.string().required("Phone number is required"),
@@ -30,7 +30,7 @@ const validationSchema = Yup.object({
     .transform((value) => (value === "" ? null : value))
     .default(false),
 });
-const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
+const ClientForm = ({ handleSubmit, isEdit, handleUpdate }) => {
   // const formik = useFormik({
   //   initialValues: {
   //     Company_Name: isEdit !== null ? isEdit?.Company_Name : "",
@@ -78,10 +78,12 @@ const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
         formData.append(key, value);
       });
 
+      console.log(values, "vlaues");
       if (isEdit === null) {
         handleSubmit(formData);
         formik.resetForm();
       } else {
+        console.log(values);
         handleUpdate(formData);
         formik.resetForm();
       }
@@ -97,17 +99,17 @@ const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
       >
         <form onSubmit={formik.handleSubmit}>
           <Grid2 container spacing={2}>
-            <Grid2 size={{md: 12, lg: 12, sm: 12, xs: 12}}>
+            <Grid2 size={{ md: 12, lg: 12, sm: 12, xs: 12 }}>
               <InputImageUpload
                 name="profileImage"
                 value={formik.values.profileImage}
                 onChange={formik.setFieldValue}
               />
               {formik.touched.profileImage && formik.errors.profileImage && (
-                <div style={{color: "red"}}>{formik.errors.profileImage}</div>
+                <div style={{ color: "red" }}>{formik.errors.profileImage}</div>
               )}
             </Grid2>
-            <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
+            <Grid2 size={{ md: 6, lg: 6, sm: 12, xs: 12 }}>
               <Input
                 labelText={"Comapny Name"}
                 type="text"
@@ -115,10 +117,10 @@ const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
                 {...formik.getFieldProps("Company_Name")}
               />{" "}
               {formik.touched.Company_Name && formik.errors.Company_Name && (
-                <div style={{color: "red"}}>{formik.errors.Company_Name}</div>
+                <div style={{ color: "red" }}>{formik.errors.Company_Name}</div>
               )}
             </Grid2>
-            <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
+            <Grid2 size={{ md: 6, lg: 6, sm: 12, xs: 12 }}>
               <Input
                 labelText={"Client Name"}
                 type="text"
@@ -126,10 +128,10 @@ const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
                 {...formik.getFieldProps("Client_Name")}
               />
               {formik.touched.Client_Name && formik.errors.Client_Name && (
-                <div style={{color: "red"}}>{formik.errors.Client_Name}</div>
+                <div style={{ color: "red" }}>{formik.errors.Client_Name}</div>
               )}
             </Grid2>
-            <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
+            <Grid2 size={{ md: 6, lg: 6, sm: 12, xs: 12 }}>
               <Input
                 type="Email"
                 labelText={"Client Email"}
@@ -137,23 +139,23 @@ const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
                 {...formik.getFieldProps("Client_Email")}
               />{" "}
               {formik.touched.Client_Email && formik.errors.Client_Email && (
-                <div style={{color: "red"}}>{formik.errors.Client_Email}</div>
+                <div style={{ color: "red" }}>{formik.errors.Client_Email}</div>
               )}
             </Grid2>
 
             {isEdit === null && (
-              <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
+              <Grid2 size={{ md: 6, lg: 6, sm: 12, xs: 12 }}>
                 <InputPassword
                   labelText={"Password"}
                   placeholder={"Please Enter Client Email"}
                   {...formik.getFieldProps("Password")}
                 />{" "}
                 {formik.touched.Password && formik.errors.Password && (
-                  <div style={{color: "red"}}>{formik.errors.Password}</div>
+                  <div style={{ color: "red" }}>{formik.errors.Password}</div>
                 )}
               </Grid2>
             )}
-            <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
+            <Grid2 size={{ md: 6, lg: 6, sm: 12, xs: 12 }}>
               <Input
                 labelText={"Address"}
                 placeholder={"Please Enter Client Address"}
@@ -161,12 +163,12 @@ const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
               />{" "}
               {formik.touched.Client_Address &&
                 formik.errors.Client_Address && (
-                  <div style={{color: "red"}}>
+                  <div style={{ color: "red" }}>
                     {formik.errors.Client_Address}
                   </div>
                 )}
             </Grid2>
-            <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
+            <Grid2 size={{ md: 6, lg: 6, sm: 12, xs: 12 }}>
               <Input
                 labelText={"Postal Code"}
                 type={"Number"}
@@ -175,12 +177,12 @@ const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
               />{" "}
               {formik.touched.Client_Postal_Code &&
                 formik.errors.Client_Postal_Code && (
-                  <div style={{color: "red"}}>
+                  <div style={{ color: "red" }}>
                     {formik.errors.Client_Postal_Code}
                   </div>
                 )}
             </Grid2>
-            <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 1.3}}>
+            <Grid2 size={{ sm: 12, xs: 12, md: 6 }} sx={{ mt: 1.3 }}>
               <label
                 htmlFor="phone-input"
                 style={{
@@ -194,7 +196,7 @@ const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
               </label>
 
               <PhoneInput
-                inputStyle={{width: "100%"}}
+                inputStyle={{ width: "100%" }}
                 country={"in"}
                 placeholder="Enter phone number"
                 value={formik.values.Client_Phone}
@@ -203,23 +205,23 @@ const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
                 }
               />
               {formik.touched.Client_Phone && formik.errors.Client_Phone && (
-                <div style={{color: "red", font: "14px"}}>
+                <div style={{ color: "red", font: "14px" }}>
                   {formik.errors.Client_Phone}
                 </div>
               )}
             </Grid2>
-            <Grid2 size={{sm: 12, xs: 12, md: 6}}>
+            <Grid2 size={{ sm: 12, xs: 12, md: 6 }}>
               <Input
                 labelText={"Gst Number"}
                 placeholder={"Please Enter your Gst Number"}
                 {...formik.getFieldProps("GstNumber")}
               />
               {formik.touched.GstNumber && formik.errors.GstNumber && (
-                <div style={{color: "red"}}>{formik.errors.GstNumber}</div>
+                <div style={{ color: "red" }}>{formik.errors.GstNumber}</div>
               )}
             </Grid2>
 
-            <Grid2 size={{sm: 12, xs: 12, md: 12}}>
+            <Grid2 size={{ sm: 12, xs: 12, md: 12 }}>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -232,10 +234,12 @@ const ClientForm = ({handleSubmit, isEdit, handleUpdate}) => {
                 label="System Access"
               />
               {formik.touched.System_Access && formik.errors.System_Access && (
-                <div style={{color: "red"}}>{formik.errors.System_Access}</div>
+                <div style={{ color: "red" }}>
+                  {formik.errors.System_Access}
+                </div>
               )}
             </Grid2>
-            <Grid2 size={{sm: 12, xs: 12, md: 12}}>
+            <Grid2 size={{ sm: 12, xs: 12, md: 12 }}>
               <Button
                 sx={{
                   background: "#6560f0",
