@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import {Container, Drawer, Button, Grid2} from "@mui/material";
+import { Container, Drawer, Button, Grid2 } from "@mui/material";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import ClientTable from "../../../Component/AdminComponents/Client/ClientTable";
 import ClientForm from "../../../Component/AdminComponents/Client/ClientForm";
@@ -12,9 +12,9 @@ import {
 } from "../../../ApiServices/AdminApiServices/Client";
 import AddIcon from "@mui/icons-material/Add";
 import ClientUploadForm from "../../../Component/AdminComponents/Client/ClientUploadForm";
-import {uploadclientcsvapicall} from "../../../ApiServices/Csvapiservices/csvapiservices";
-import {useDispatch} from "react-redux";
-import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
+import { uploadclientcsvapicall } from "../../../ApiServices/Csvapiservices/csvapiservices";
+import { useDispatch } from "react-redux";
+import { setLoader } from "../../../redux/LoaderSlices/LoaderSlices";
 import toast from "react-hot-toast";
 import TModal from "../../../common/Modal/TModal";
 import Input from "../../../common/Input/Input";
@@ -65,15 +65,17 @@ const Client = () => {
       if (response.success) {
         setIsOpen(false);
         fetchclientfucntion();
+        toast.success(response?.message);
         setIsEdit(null);
         dispatch(setLoader(false));
       } else {
-        console.log(response.message);
+        toast.error(response?.message)
         dispatch(setLoader(false));
       }
     } catch (error) {
       console.log(error?.message);
       dispatch(setLoader(false));
+      toast.success(error?.response?.data?.message);
     }
   };
 

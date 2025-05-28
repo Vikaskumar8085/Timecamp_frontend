@@ -45,15 +45,16 @@ const UserProfile = ({ user }) => {
           dispatch(setLoader(false));
           setIsOpen(false);
           toast.success(response?.message);
-          window.location.href="/profile"
+          window.location.reload();
           dispatch(setAddprofile(response?.result));
         } else {
           setIsOpen(false);
-          toast.success(response?.message);
+          toast.error(response?.message);
           dispatch(setLoader(false));
         }
       } catch (error) {
         console.log(error?.message);
+        dispatch(setLoader(false));
         toast.error(error?.response?.data?.message);
       }
     },
