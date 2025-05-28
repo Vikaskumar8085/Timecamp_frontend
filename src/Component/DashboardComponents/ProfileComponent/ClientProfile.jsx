@@ -67,7 +67,7 @@ const ClientProfile = ({user}) => {
             {/* header tags */}
             <div className="profile_header_tags">
               <img src={`${user?.Client_Photo}`} alt="" srcset="" />
-              <Button
+              {/* <Button
                 onClick={() => {
                   setIsOpen(true);
                   setIsEdit(user);
@@ -81,7 +81,7 @@ const ClientProfile = ({user}) => {
                 }}
               >
                 Edit Profile
-              </Button>
+              </Button> */}
             </div>
             {/* header tags */}
           </div>

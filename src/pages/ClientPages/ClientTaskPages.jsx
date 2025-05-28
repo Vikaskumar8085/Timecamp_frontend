@@ -1,29 +1,19 @@
 import React, {useCallback, useEffect, useState} from "react";
-import {
-  TablePagination,
-  TextField,
-  MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
-  Box,
-  Button,
-} from "@mui/material";
+import {Button} from "@mui/material";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import {fetchclientprojectaskapicall} from "../../ApiServices/Cllientapiservices/Client";
 import {Link} from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import HeaderTab from "../../common/HeaderTab/HeaderTab";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 import Empty from "../../common/EmptyFolder/Empty";
-import Pagination from "../../common/Pagination/Pagination";
-import InputSearch from "../../common/InputSearch/InputSearch";
-const ClientTaskPages = () => {
-  const [IsClientTask, setIsClientTask] = useState([]);
 
+import InputSearch from "../../common/InputSearch/InputSearch";
+import Pagination from "../../common/Pagination/Pagination";
+const ClientTaskPages = () => {
+  const [IsClientTask, setClientTasks] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
-  const limit = 10;
   const fetchclienttaskfunc = useCallback(async () => {
     try {
       const response = await fetchclientprojectaskapicall({
@@ -33,7 +23,7 @@ const ClientTaskPages = () => {
         },
       });
       if (response.success) {
-        setIsClientTask(response.result);
+        setClientTasks(response.result);
         setTotalPages(Math.ceil(response.totalProjects / limit));
       }
     } catch (error) {
@@ -42,7 +32,7 @@ const ClientTaskPages = () => {
         localStorage.clear();
       }
     }
-  }, []);
+  }, [currentPage]);
 
   useEffect(() => {
     fetchclienttaskfunc();
@@ -122,7 +112,12 @@ const ClientTaskPages = () => {
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
-        onPageChange={setCurrentPage}
+        onPageChange={(page) => setCurrentPage(page)}
+        pageSize={limit}
+        onPageSizeChange={(newLimit) => {
+          setLimit(newLimit);
+          setCurrentPage(1); // reset to first page when limit changes
+        }}
       />
     </LayoutDesign>
   );

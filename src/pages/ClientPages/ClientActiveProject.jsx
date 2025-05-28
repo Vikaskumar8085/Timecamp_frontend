@@ -9,6 +9,7 @@ import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Empty from "../../common/EmptyFolder/Empty";
 import InputSearch from "../../common/InputSearch/InputSearch";
+import Pagination from "../../common/Pagination/Pagination";
 
 const ClientActiveProject = () => {
   const [view, setView] = useState("table");
@@ -78,40 +79,46 @@ const ClientActiveProject = () => {
           </div>
         </div>
         {Isactiveclientprject.length > 0 ? (
-          <table className="table_Container">
-            <thead className="table_head">
-              <tr className="head_row">
-                <th className="table_head_data">Id</th>
-                <th className="table_head_data">Project Name</th>
-                <th className="table_head_data">Project Code </th>
-                <th className="table_head_data">State Date </th>
-                <th className="table_head_data">End Date</th>
-                <th className="table_head_data">Project Hours</th>
-                <th className="table_head_data">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="table_body">
-              {Isactiveclientprject?.map((item, index) => {
-                return (
-                  <>
-                    <tr className="body_row" key={index}>
-                      <td className="table_data">{index + 1}</td>
-                      <td className="table_data">{item.Project_Name}</td>
-                      <td className="table_data">{item.Project_Code}</td>
-                      <td className="table_data">{item.Start_Date}</td>
-                      <td className="table_data">{item.End_Date}</td>
-                      <td className="table_data">{item.Project_Hours}</td>
-                      <td className="table_data">
-                        <Link to={`/client/client-pageinfo/${item?.ProjectId}`}>
-                          <VisibilityIcon />
-                        </Link>
-                      </td>
-                    </tr>
-                  </>
-                );
-              })}
-            </tbody>
-          </table>
+          <>
+            <table className="table_Container">
+              <thead className="table_head">
+                <tr className="head_row">
+                  <th className="table_head_data">Id</th>
+                  <th className="table_head_data">Project Name</th>
+                  <th className="table_head_data">Project Code </th>
+                  <th className="table_head_data">State Date </th>
+                  <th className="table_head_data">End Date</th>
+                  <th className="table_head_data">Project Hours</th>
+                  <th className="table_head_data">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="table_body">
+                {Isactiveclientprject?.map((item, index) => {
+                  return (
+                    <>
+                      <tr className="body_row" key={index}>
+                        <td className="table_data">{index + 1}</td>
+                        <td className="table_data">{item.Project_Name}</td>
+                        <td className="table_data">{item.Project_Code}</td>
+                        <td className="table_data">{item.Start_Date}</td>
+                        <td className="table_data">{item.End_Date}</td>
+                        <td className="table_data">{item.Project_Hours}</td>
+                        <td className="table_data">
+                          <Link
+                            to={`/client/client-pageinfo/${item?.ProjectId}`}
+                          >
+                            <VisibilityIcon />
+                          </Link>
+                        </td>
+                      </tr>
+                    </>
+                  );
+                })}
+              </tbody>
+            </table>
+
+            <Pagination />
+          </>
         ) : (
           <Empty />
         )}

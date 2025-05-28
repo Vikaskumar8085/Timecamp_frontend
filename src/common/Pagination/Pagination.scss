@@ -1,44 +1,42 @@
-* {
-  margin: 0px;
-  padding: 0px;
-  box-sizing: border-box;
-}
-
-.pagination {
+.pagination-container {
   display: flex;
-  justify-content: center;
   align-items: center;
-  margin-top: 1rem;
-  gap: 0.5rem;
   flex-wrap: wrap;
-}
+  gap: 0.5rem;
+  padding: 1rem 0;
 
-.pagination-btn {
-  background-color: #f1f1f1;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
-
-  &:hover:not(:disabled) {
-    background-color: #ddd;
+  .nav-button,
+  .page-number,
+  .page-size-select {
+    padding: 0.5rem 0.9rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    color: #333;
   }
 
-  &.active {
-    background-color: #007bff;
-    color: white;
-    font-weight: bold;
+  .nav-button:hover,
+  .page-number:hover,
+  .page-size-select:hover {
+    background-color: #f3f4f6;
   }
 
-  &:disabled {
+  .nav-button:disabled {
     cursor: not-allowed;
-    opacity: 0.5;
+    opacity: 0.6;
   }
-}
 
-.dots {
-  padding: 8px;
-  color: #666;
+  .page-number.active {
+    background-color: #eef2ff;
+    border-color: #6366f1;
+    color: #4f46e5;
+    font-weight: 600;
+  }
+
+  .page-size-select {
+    font-size: 14px;
+  }
 }

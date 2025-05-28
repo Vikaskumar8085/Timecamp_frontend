@@ -1,20 +1,13 @@
 import React from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Typography,
-  Chip,
-  Grid2,
-} from "@mui/material";
+import {Grid2} from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import {Link} from "react-router-dom";
 import Empty from "../../../common/EmptyFolder/Empty";
+import Pagination from "../../../common/Pagination/Pagination";
+import RecentActivity from "../../../common/RecentActivity/RecentActivity";
+import TaskProgress from "../../TaskProgress";
+import InputSearch from "../../../common/InputSearch/InputSearch";
 const ClientProjectTask = ({isclinettaskinfodata, istaskMembers}) => {
   const formatDate = (excelDate) => {
     if (!excelDate) return "N/A";
@@ -23,12 +16,65 @@ const ClientProjectTask = ({isclinettaskinfodata, istaskMembers}) => {
     ).toLocaleDateString();
   };
 
+  const sampleData = [
+    {
+      avatar: "https://randomuser.me/api/portraits/men/1.jpg",
+      message: "Cameron Williamson has completed the task.",
+      timeAgo: "3 hours, 35 min ago",
+    },
+    {
+      initial: "A",
+      message: "Alfred Invited you to Project Infinity!",
+      timeAgo: "4 hours, 35 min ago",
+    },
+    {
+      initial: "M",
+      message: "Mike marked ‘Client Presentation’ task as completed.",
+      timeAgo: "5 hours, 12 min ago",
+    },
+    {
+      initial: "M",
+      message: "Mike marked ‘Client Presentation’ task as completed.",
+      timeAgo: "5 hours, 12 min ago",
+    },
+    {
+      initial: "M",
+      message: "Mike marked ‘Client Presentation’ task as completed.",
+      timeAgo: "5 hours, 12 min ago",
+    },
+    {
+      initial: "M",
+      message: "Mike marked ‘Client Presentation’ task as completed.",
+      timeAgo: "5 hours, 12 min ago",
+    },
+    {
+      initial: "M",
+      message: "Mike marked ‘Client Presentation’ task as completed.",
+      timeAgo: "5 hours, 12 min ago",
+    },
+    {
+      initial: "M",
+      message: "Mike marked ‘Client Presentation’ task as completed.",
+      timeAgo: "5 hours, 12 min ago",
+    },
+    {
+      initial: "M",
+      message: "Mike marked ‘Client Presentation’ task as completed.",
+      timeAgo: "5 hours, 12 min ago",
+    },
+  ];
   return (
     <div>
-      <BreadCrumb pageName="Client Project Task" />
+      {/* <BreadCrumb pageName="Client Project Task" /> */}
 
       <div className="client_project_task_wrapper">
         <Grid2 container spacing={2}>
+          <Grid2
+            size={{md: 4, lg: 4, sm: 12}}
+            className="client_project_task_header"
+          >
+            <RecentActivity activities={sampleData} />
+          </Grid2>
           <Grid2
             size={{md: 4, lg: 4, sm: 12}}
             className="client_project_task_header"
@@ -56,7 +102,16 @@ const ClientProjectTask = ({isclinettaskinfodata, istaskMembers}) => {
               </div>
             </div>
           </Grid2>
+          <Grid2>
+            <TaskProgress />
+          </Grid2>
         </Grid2>
+      </div>
+      <div style={{display: "flex", justifyContent: "space-between"}}>
+        <div className="left_div">{/* <Button>Sort</Button> */}</div>
+        <div className="right_div">
+          <InputSearch />
+        </div>
       </div>
 
       {isclinettaskinfodata?.length > 0 ? (
@@ -103,6 +158,7 @@ const ClientProjectTask = ({isclinettaskinfodata, istaskMembers}) => {
               })}
             </tbody>
           </table>
+          <Pagination />
         </>
       ) : (
         <Empty />

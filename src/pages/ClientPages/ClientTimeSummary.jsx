@@ -1,5 +1,4 @@
 import React from "react";
-import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import {Grid2} from "@mui/material";
 import ClientTotalHourByResources from "../../Component/ClientComponent/ClientTotalHourByResources";
@@ -10,12 +9,25 @@ import ClientProjectTimeutilization from "../../Component/ClientComponent/Client
 import ClinetDailyHours from "../../Component/ClientComponent/ClinetDailyHours";
 import ClientApprovelbilledOverTime from "../../Component/ClientComponent/ClientApprovelbilledOverTime";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import DateRangePicker from "../../common/DatePicker/DateRangePicker";
+import HeaderTab from "../../common/HeaderTab/HeaderTab";
 
 const ClientTimeSummary = () => {
   return (
     <>
       <LayoutDesign>
         <BreadCrumb pageName="Client TIme Summary" />
+        <div
+          style={{
+            width: "100%",
+            padding: "20px",
+            background: "white",
+            margin: "10px 0px",
+          }}
+        >
+          <DateRangePicker />
+        </div>
+
         <Grid2 container spacing={3}>
           <Grid2 size={{sm: 12}}>
             <ClientTotalHourByResources />

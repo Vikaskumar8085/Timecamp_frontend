@@ -24,6 +24,8 @@ import {
   TextField,
   MenuItem,
 } from "@mui/material";
+import InputSearch from "../../../common/InputSearch/InputSearch";
+import Pagination from "../../../common/Pagination/Pagination";
 const ManagerProjectTimesheet = ({
   IsManagerProjectTimesheetdata,
   IsManagerprojectinfo,
@@ -259,6 +261,24 @@ const ManagerProjectTimesheet = ({
         </>
       ) : null}
 
+      <div
+        style={{
+          display: "block",
+          overflow: "hidden",
+          position: "relative",
+          margin: "10px 0px",
+        }}
+        className="client_header_container"
+      >
+        <div style={{display: "flex", justifyContent: "space-between"}}>
+          <div className="left_div">
+            <Button>Sort</Button>
+          </div>
+          <div className="right_div">
+            <InputSearch />
+          </div>
+        </div>
+      </div>
       <Card>
         <CardHeader title="Project Timesheet " />
         <CardContent>
@@ -343,6 +363,7 @@ const ManagerProjectTimesheet = ({
           )}
         </CardContent>
       </Card>
+      <Pagination />
     </>
   );
 };

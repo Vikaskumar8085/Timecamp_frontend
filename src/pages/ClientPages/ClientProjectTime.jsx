@@ -18,6 +18,9 @@ import {
 import {AccessTime, List, Receipt, CheckCircle} from "@mui/icons-material";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 import Empty from "../../common/EmptyFolder/Empty";
+import StatCard from "../../common/StatCard/StatCard";
+import Pagination from "../../common/Pagination/Pagination";
+import InputSearch from "../../common/InputSearch/InputSearch";
 
 const ClientProjectTime = () => {
   const [isclientprojectTimedata, setIsclientprojectTimedata] = useState([]);
@@ -62,7 +65,7 @@ const ClientProjectTime = () => {
   return (
     <LayoutDesign>
       <BreadCrumb pageName="Client Project TIme" />
-      <Grid2 container spacing={2} sx={{my: 2}}>
+      {/* <Grid2 container spacing={2} sx={{my: 2}}>
         <Grid2 item sm={12} md={3} lg={3}>
           <Card
             sx={{
@@ -135,7 +138,24 @@ const ClientProjectTime = () => {
             </Typography>
           </Card>
         </Grid2>
+      </Grid2> */}
+
+      <Grid2 container spacing={2} sx={{my: 2}}>
+        <Grid2 size={{sm: 12, md: 3, lg: 3}}>
+          <StatCard />
+        </Grid2>
+        <Grid2 size={{sm: 12, md: 3, lg: 3}}>
+          <StatCard />
+        </Grid2>
+        <Grid2 size={{sm: 12, md: 3, lg: 3}}>
+          <StatCard />
+        </Grid2>
+        <Grid2 size={{sm: 12, md: 3, lg: 3}}>
+          <StatCard />
+        </Grid2>
       </Grid2>
+
+      <InputSearch />
 
       {isclientprojectTimedata.length > 0 ? (
         <table className="table_Container">
@@ -169,6 +189,8 @@ const ClientProjectTime = () => {
       ) : (
         <Empty />
       )}
+
+      <Pagination />
     </LayoutDesign>
   );
 };

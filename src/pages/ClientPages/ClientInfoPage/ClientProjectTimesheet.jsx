@@ -11,8 +11,12 @@ import {
   FormControlLabel,
   Checkbox,
   Button,
+  Grid2,
 } from "@mui/material";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
+import StatCard from "../../../common/StatCard/StatCard";
+import InputSearch from "../../../common/InputSearch/InputSearch";
+import Pagination from "../../../common/Pagination/Pagination";
 
 const ClientProjectTimesheet = ({
   isClientTimesheetdata,
@@ -41,6 +45,41 @@ const ClientProjectTimesheet = ({
     <>
       <div>
         <BreadCrumb pageName="Client Project Timesheet " />
+
+        <Grid2 container spacing={2} sx={{my: 2}}>
+          <Grid2 size={{sm: 12, md: 3, lg: 3}}>
+            <StatCard />
+          </Grid2>
+          <Grid2 size={{sm: 12, md: 3, lg: 3}}>
+            <StatCard />
+          </Grid2>
+          <Grid2 size={{sm: 12, md: 3, lg: 3}}>
+            <StatCard />
+          </Grid2>
+          <Grid2 size={{sm: 12, md: 3, lg: 3}}>
+            <StatCard />
+          </Grid2>
+        </Grid2>
+
+        <div
+          style={{
+            display: "block",
+            overflow: "hidden",
+            position: "relative",
+            margin: "10px 0px",
+          }}
+          className="client_header_container"
+        >
+          <div style={{display: "flex", justifyContent: "space-between"}}>
+            <div className="left_div">
+              <Button>Sort</Button>
+            </div>
+            <div className="right_div">
+              <InputSearch />
+            </div>
+          </div>
+        </div>
+
         {selectedItems.length > 0 ? (
           <div sx={{margin: "10px 0px"}}>
             <Button
@@ -172,6 +211,7 @@ const ClientProjectTimesheet = ({
             </TableBody>
           </Table>
         </TableContainer>
+        <Pagination />
       </div>
     </>
   );

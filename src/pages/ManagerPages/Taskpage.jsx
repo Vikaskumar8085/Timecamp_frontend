@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import AddIcon from "@mui/icons-material/Add";
-import { useFormik } from "formik";
+import {useFormik} from "formik";
 import TModal from "../../common/Modal/TModal";
 import Input from "../../common/Input/Input";
 import TextArea from "../../common/TextArea/TextArea";
@@ -25,12 +25,14 @@ import {
   TablePagination,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import { useDispatch } from "react-redux";
-import { setLoader } from "../../redux/LoaderSlices/LoaderSlices";
+import {useDispatch} from "react-redux";
+import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
 import apiInstance from "../../ApiInstance/apiInstance";
 import toast from "react-hot-toast";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 import InputSelect from "../../common/InputSelect/InputSelect";
+import Pagination from "../../common/Pagination/Pagination";
+import InputSearch from "../../common/InputSearch/InputSearch";
 const Taskpage = () => {
   const [IsOpen, setIsOpen] = useState(false);
   const [tasks, setTasks] = useState([]);
@@ -114,7 +116,7 @@ const Taskpage = () => {
   const fetchTasks = async () => {
     try {
       const response = await apiInstance.get("/v2/manager/fetch-manager-task", {
-        params: { search, page: page + 1, limit },
+        params: {search, page: page + 1, limit},
       });
       setTasks(response.data.result);
       setTotalPages(response.data.pagination.totalPages);
@@ -133,6 +135,7 @@ const Taskpage = () => {
   return (
     <LayoutDesign>
       <BreadCrumb pageName=" Manager Task" />
+
       <Button
         startIcon={<AddIcon />}
         sx={{
@@ -146,12 +149,31 @@ const Taskpage = () => {
         Create Task
       </Button>
 
+      <div
+        style={{
+          display: "block",
+          overflow: "hidden",
+          position: "relative",
+          margin: "10px 0px",
+        }}
+        className="client_header_container"
+      >
+        <div style={{display: "flex", justifyContent: "space-between"}}>
+          <div className="left_div">
+            <Button>Sort</Button>
+          </div>
+          <div className="right_div">
+            <InputSearch />
+          </div>
+        </div>
+      </div>
+
       {IsOpen && (
         <TModal open={IsOpen} title="Add Task" onClose={() => setIsOpen(false)}>
-          <Container maxWidth="md" sx={{ mt: 2 }}>
+          <Container maxWidth="md" sx={{mt: 2}}>
             <form onSubmit={formik.handleSubmit}>
               <Grid container spacing={2}>
-                <Grid size={{ md: 6, sm: 12 }}>
+                <Grid size={{md: 6, sm: 12}}>
                   <InputSelect
                     {...formik.getFieldProps("ProjectId")}
                     labelText="Select Project"
@@ -164,13 +186,13 @@ const Taskpage = () => {
                     }))}
                   />
                   {formik.touched.ProjectId && formik.errors.ProjectId && (
-                    <div style={{ font: "14px", color: "red" }}>
+                    <div style={{font: "14px", color: "red"}}>
                       {formik.errors.ProjectId}
                     </div>
                   )}
                 </Grid>
 
-                <Grid size={{ md: 6, sm: 12 }}>
+                <Grid size={{md: 6, sm: 12}}>
                   <InputSelect
                     {...formik.getFieldProps("MilestoneId")}
                     value={formik.values.MilestoneId}
@@ -187,13 +209,13 @@ const Taskpage = () => {
                     onChange={formik.handleChange}
                   />
                   {formik.touched.MilestoneId && formik.errors.MilestoneId && (
-                    <div style={{ color: "red", font: "14px" }}>
+                    <div style={{color: "red", font: "14px"}}>
                       {formik.errors.MilestoneId}
                     </div>
                   )}
                 </Grid>
 
-                <Grid size={{ md: 6, sm: 12 }}>
+                <Grid size={{md: 6, sm: 12}}>
                   <InputSelect
                     {...formik.getFieldProps("Resource_Id")}
                     labelText="Select Resource"
@@ -210,7 +232,7 @@ const Taskpage = () => {
                     })}
                   />
                 </Grid>
-                <Grid size={{ md: 6, sm: 12 }}>
+                <Grid size={{md: 6, sm: 12}}>
                   <Input
                     labelText="Task Name"
                     name="Task_Name"
@@ -220,13 +242,13 @@ const Taskpage = () => {
                     onBlur={formik.handleBlur}
                   />
                   {formik.touched.Task_Name && formik.errors.Task_Name && (
-                    <div style={{ color: "red", font: "14px" }}>
+                    <div style={{color: "red", font: "14px"}}>
                       {formik.errors.Task_Name}
                     </div>
                   )}
                 </Grid>
 
-                <Grid size={{ md: 6, sm: 12 }}>
+                <Grid size={{md: 6, sm: 12}}>
                   <Input
                     labelText="Start Date"
                     name="StartDate"
@@ -236,13 +258,13 @@ const Taskpage = () => {
                     onBlur={formik.handleBlur}
                   />
                   {formik.touched.StartDate && formik.errors.StartDate && (
-                    <div style={{ color: "red", font: "14px" }}>
+                    <div style={{color: "red", font: "14px"}}>
                       {formik?.errors?.StartDate}
                     </div>
                   )}
                 </Grid>
 
-                <Grid size={{ md: 6, sm: 12 }}>
+                <Grid size={{md: 6, sm: 12}}>
                   <Input
                     labelText="Expected End Date"
                     name="EndDate"
@@ -252,12 +274,12 @@ const Taskpage = () => {
                     onBlur={formik.handleBlur}
                   />
                   {formik.touched.EndDate && formik.errors.EndDate && (
-                    <div style={{ color: "red", font: "14px" }}>
+                    <div style={{color: "red", font: "14px"}}>
                       {formik.errors.EndDate}
                     </div>
                   )}
                 </Grid>
-                <Grid size={{ md: 6, sm: 12 }}>
+                <Grid size={{md: 6, sm: 12}}>
                   <Input
                     labelText="Estimate Time (Hours)"
                     name="Estimated_Time"
@@ -269,13 +291,13 @@ const Taskpage = () => {
                   />
                   {formik.touched.Estimated_Time &&
                     formik.errors.Estimated_Time && (
-                      <div style={{ color: "red", font: "14px" }}>
+                      <div style={{color: "red", font: "14px"}}>
                         {formik.errors.Estimated_Time}
                       </div>
                     )}
                 </Grid>
 
-                <Grid size={{ md: 6, sm: 12 }} sx={{ mt: 1 }}>
+                <Grid size={{md: 6, sm: 12}} sx={{mt: 1}}>
                   <InputSelect
                     labelText="Priority Mode"
                     placeholder="--- Please select Priority ---"
@@ -284,14 +306,14 @@ const Taskpage = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     options={[
-                      { value: "HIGH", label: "HIGH" },
-                      { value: "MEDIUM", label: "MEDIUM" },
-                      { value: "LOW", label: "LOW" },
+                      {value: "HIGH", label: "HIGH"},
+                      {value: "MEDIUM", label: "MEDIUM"},
+                      {value: "LOW", label: "LOW"},
                     ]}
                   />
                 </Grid>
 
-                <Grid size={{ md: 12, sm: 12 }}>
+                <Grid size={{md: 12, sm: 12}}>
                   <TextArea
                     labelText="Task Description"
                     placeholder="Please Write Task Description"
@@ -302,13 +324,13 @@ const Taskpage = () => {
                   />
                   {formik.touched.Task_Description &&
                     formik.errors.Task_Description && (
-                      <div style={{ color: "red", font: "14px" }}>
+                      <div style={{color: "red", font: "14px"}}>
                         {formik.errors.Task_Description}
                       </div>
                     )}
                 </Grid>
 
-                <Grid size={{ md: 12, sm: 12 }}>
+                <Grid size={{md: 12, sm: 12}}>
                   <InputFIleupload
                     type="file"
                     name="Attachment"
@@ -321,7 +343,7 @@ const Taskpage = () => {
                   />
                 </Grid>
 
-                <Grid size={{ md: 12, sm: 12 }}>
+                <Grid size={{md: 12, sm: 12}}>
                   <Button
                     type="submit"
                     fullWidth
@@ -350,7 +372,7 @@ const Taskpage = () => {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
-      <TableContainer component={Paper} sx={{ mt: 4, p: 2 }}>
+      <TableContainer component={Paper} sx={{mt: 4, p: 2}}>
         <Typography variant="h5" gutterBottom>
           Manager Tasks
         </Typography>
@@ -407,7 +429,7 @@ const Taskpage = () => {
           </Table>
         )}
       </TableContainer>
-      <TablePagination
+      {/* <TablePagination
         component="div"
         count={totalRecords}
         page={page}
@@ -417,7 +439,9 @@ const Taskpage = () => {
           setLimit(parseInt(event.target.value, 10));
           setPage(0);
         }}
-      />
+      /> */}
+
+      <Pagination />
     </LayoutDesign>
   );
 };

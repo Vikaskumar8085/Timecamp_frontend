@@ -18,6 +18,8 @@ import {
 } from "@mui/material";
 import Grid2 from "@mui/material/Grid2";
 import TModal from "../../../common/Modal/TModal";
+import InputSearch from "../../../common/InputSearch/InputSearch";
+import Pagination from "../../../common/Pagination/Pagination";
 
 const ManagerTask = ({
   handleaddtask,
@@ -144,6 +146,25 @@ const ManagerTask = ({
         </Grid2>
       </Grid2>
 
+      <div
+        style={{
+          display: "block",
+          overflow: "hidden",
+          position: "relative",
+          margin: "10px 0px",
+        }}
+        className="client_header_container"
+      >
+        <div style={{display: "flex", justifyContent: "space-between"}}>
+          <div className="left_div">
+            <Button>Sort</Button>
+          </div>
+          <div className="right_div">
+            <InputSearch />
+          </div>
+        </div>
+      </div>
+
       {isManagerprojecttask.length > 0 ? (
         <TableContainer component={Paper}>
           <Table>
@@ -199,6 +220,8 @@ const ManagerTask = ({
       ) : (
         <Typography align="center">No timesheet data found.</Typography>
       )}
+
+      <Pagination />
     </>
   );
 };

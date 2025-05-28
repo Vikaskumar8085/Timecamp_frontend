@@ -366,7 +366,7 @@ const EmployeeTimesheets = () => {
       ) : null}
 
       {/* timesheet data */}
-      <Grid container spacing={2} sx={{ my: 1 }}>
+      {/* <Grid container spacing={2} sx={{ my: 1 }}>
         {stats.map((stat, index) => (
           <Grid item sm={12} md={3} lg={3} key={index}>
             <Card
@@ -387,7 +387,7 @@ const EmployeeTimesheets = () => {
             </Card>
           </Grid>
         ))}
-      </Grid>
+      </Grid> */}
       {/* timesheet data */}
 
       <TableContainer component={Paper}>

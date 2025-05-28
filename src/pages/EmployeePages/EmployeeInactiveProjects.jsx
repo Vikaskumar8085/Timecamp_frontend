@@ -14,6 +14,8 @@ import {
 import {VisibilitySharp} from "@mui/icons-material";
 import {fetchemployeeinactiveprojectapicall} from "../../ApiServices/EmployeeApiservices/Employee";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import InputSearch from "../../common/InputSearch/InputSearch";
+import Pagination from "../../common/Pagination/Pagination";
 const EmployeeInactiveProjects = () => {
   const [isemployleeInactiveprojects, setIsemployeeInactiveprojects] = useState(
     []
@@ -36,6 +38,19 @@ const EmployeeInactiveProjects = () => {
   return (
     <LayoutDesign>
       <BreadCrumb pageName="Employee Inactive Project" />
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          margin: "10px 0px",
+        }}
+      >
+        <div className="left_div">{/* <Button>Sort</Button> */}</div>
+        <div className="right_div">
+          <InputSearch />
+        </div>
+      </div>
       <TableContainer component={Paper}>
         <Table sx={{minWidth: 650}} aria-label="simple table">
           <TableHead>
@@ -114,6 +129,8 @@ const EmployeeInactiveProjects = () => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <Pagination />
     </LayoutDesign>
   );
 };

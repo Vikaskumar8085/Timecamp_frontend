@@ -1,14 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {
-  Card,
-  CardContent,
-  Typography,
-  CircularProgress,
-  Chip,
-  Box,
-  Paper,
-  Grid2,
-} from "@mui/material";
+import {CircularProgress, Chip, Grid2} from "@mui/material";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import {fetchemployeeprojectinformationapicall} from "../../../ApiServices/EmployeeApiservices/Employee";
 import apiInstance from "../../../ApiInstance/apiInstance";
@@ -213,12 +204,21 @@ const EmployeeProjectInformation = ({id}) => {
   return (
     <>
       <BreadCrumb pageName="Employee Project Information" />
-      {content}
-      {loading ? (
-        <CircularProgress />
-      ) : (
-        <Chart options={options} series={series} type="rangeBar" height={200} />
-      )}
+      <Grid2 container spacing={2} sx={{my: 3}}>
+        <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>{content}</Grid2>
+        <Grid2 size={{md: 6, lg: 6, sm: 12, xs: 12}}>
+          {loading ? (
+            <CircularProgress />
+          ) : (
+            <Chart
+              options={options}
+              series={series}
+              type="rangeBar"
+              height={450}
+            />
+          )}
+        </Grid2>
+      </Grid2>
     </>
   );
 };

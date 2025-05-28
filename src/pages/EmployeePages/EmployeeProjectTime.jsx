@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {
-  Card,
-  Grid,
+  Grid2,
   TableContainer,
   Table,
   TableHead,
@@ -10,16 +9,16 @@ import {
   TableBody,
   TablePagination,
   CircularProgress,
-  Typography,
+  Button,
   Paper,
-  TextField,
 } from "@mui/material";
-import {AccessTime, List, Receipt, CheckCircle} from "@mui/icons-material";
 import Empty from "../../common/EmptyFolder/Empty";
-import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import apiInstance from "../../ApiInstance/apiInstance";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import StatCard from "../../common/StatCard/StatCard";
+import InputSearch from "../../common/InputSearch/InputSearch";
+import Pagination from "../../common/Pagination/Pagination";
 
 const EmployeeProjectTime = () => {
   const [iscontractorprojectdata, setiscontractorprojectdata] = useState([]);
@@ -75,7 +74,7 @@ const EmployeeProjectTime = () => {
   return (
     <LayoutDesign>
       <BreadCrumb pageName="Contractor Project Time" />
-      <Grid container spacing={2} sx={{my: 2}}>
+      {/* <Grid container spacing={2} sx={{my: 2}}>
         <Grid item sm={12} md={3}>
           <Card
             sx={{
@@ -142,16 +141,50 @@ const EmployeeProjectTime = () => {
             </Typography>
           </Card>
         </Grid>
-      </Grid>
+      </Grid> */}
 
-      <TextField
+      {/* <TextField
         label="Search by Project Name or Code"
         variant="outlined"
         fullWidth
         margin="normal"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-      />
+      /> */}
+
+      <Grid2 container spacing={2} sx={{my: 2}}>
+        <Grid2 size={{sm: 12, md: 3, lg: 3}}>
+          <StatCard />
+        </Grid2>
+        <Grid2 size={{sm: 12, md: 3, lg: 3}}>
+          <StatCard />
+        </Grid2>
+        <Grid2 size={{sm: 12, md: 3, lg: 3}}>
+          <StatCard />
+        </Grid2>
+        <Grid2 size={{sm: 12, md: 3, lg: 3}}>
+          <StatCard />
+        </Grid2>
+      </Grid2>
+
+      <div
+        style={{
+          display: "block",
+          overflow: "hidden",
+          position: "relative",
+          margin: "10px 0px",
+        }}
+        className="client_header_container"
+      >
+        <div style={{display: "flex", justifyContent: "space-between"}}>
+          <div className="left_div">
+            <Button>Sort</Button>
+          </div>
+          <div className="right_div">
+            <InputSearch />
+          </div>
+        </div>
+      </div>
 
       {/* Data Table */}
       {loading ? (
@@ -204,9 +237,10 @@ const EmployeeProjectTime = () => {
           </Table>
         </TableContainer>
       )}
+      <Pagination />
 
       {/* Pagination */}
-      <TablePagination
+      {/* <TablePagination
         component="div"
         count={totalRecords}
         page={page}
@@ -216,7 +250,7 @@ const EmployeeProjectTime = () => {
           setLimit(parseInt(event.target.value, 10));
           setPage(0);
         }}
-      />
+      /> */}
     </LayoutDesign>
   );
 };

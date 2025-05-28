@@ -1,76 +1,63 @@
 import React from "react";
 import "./Pagination.scss";
 
-/**
- * Reusable Pagination Component
- * @param {number} currentPage - current page number
- * @param {number} totalPages - total pages to paginate
- * @param {function} onPageChange - callback for changing page
- */
-const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-  if (totalPages <= 1) return null;
+const Pagination = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+  pageSize,
+  onPageSizeChange,
+}) => {
+  const renderPageNumbers = () => {
+    const pages = [];
 
-  const pageNumbers = [];
-  const maxButtons = 5;
-
-  let start = Math.max(1, currentPage - Math.floor(maxButtons / 2));
-  let end = Math.min(totalPages, start + maxButtons - 1);
-
-  if (end - start < maxButtons - 1) {
-    start = Math.max(1, end - maxButtons + 1);
-  }
-
-  for (let i = start; i <= end; i++) {
-    pageNumbers.push(i);
-  }
+    for (let i = 1; i <= totalPages; i++) {
+      pages.push(
+        <button
+          key={i}
+          className={`page-number ${currentPage === i ? "active" : ""}`}
+          onClick={() => onPageChange(i)}
+        >
+          {i}
+        </button>
+      );
+    }
+    return pages;
+  };
 
   return (
-    <div className="pagination">
+    <div className="pagination-container">
       <button
-        className="pagination-btn"
-        disabled={currentPage === 1}
+        className="nav-button"
         onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
       >
-        {"< Back"}
+        &lt; Back
       </button>
 
-      {start > 1 && (
-        <>
-          <button className="pagination-btn" onClick={() => onPageChange(1)}>
-            1
-          </button>
-          {start > 2 && <span className="dots">...</span>}
-        </>
-      )}
+      <select
+        className="page-size-select"
+        value={pageSize}
+        onChange={(e) => {
+          onPageSizeChange(Number(e.target.value));
+          onPageChange(1); // reset to page 1 when limit changes
+        }}
+      >
+        {[5, 10, 20, 50].map((size) => (
+          <option key={size} value={size}>
+            {size}
+          </option>
+        ))}
+      </select>
 
-      {pageNumbers.map((page) => (
-        <button
-          key={page}
-          className={`pagination-btn ${page === currentPage ? "active" : ""}`}
-          onClick={() => onPageChange(page)}
-        >
-          {page}
-        </button>
-      ))}
-
-      {end < totalPages && (
-        <>
-          {end < totalPages - 1 && <span className="dots">...</span>}
-          <button
-            className="pagination-btn"
-            onClick={() => onPageChange(totalPages)}
-          >
-            {totalPages}
-          </button>
-        </>
-      )}
+      {renderPageNumbers()}
 
       <button
-        className="pagination-btn"
-        disabled={currentPage === totalPages}
+        className="nav-button"
         onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
       >
-        {"Next >"}
+        Next &gt;
       </button>
     </div>
   );

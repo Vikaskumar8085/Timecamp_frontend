@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Layout from "../../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import TextArea from "../../../common/TextArea/TextArea";
@@ -24,21 +24,24 @@ import {
   Grid2,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { useFormik } from "formik";
+import {useFormik} from "formik";
 import * as Yup from "yup";
 import {
   fetchemployeeactiveprojectapicall,
   fetchemployeeprojecttimesheetapicall,
   fillemployeetimesheetapicall,
 } from "../../../ApiServices/EmployeeApiservices/Employee";
-import { setLoader } from "../../../redux/LoaderSlices/LoaderSlices";
+import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
 import apiInstance from "../../../ApiInstance/apiInstance";
-import { useDispatch } from "react-redux";
+import {useDispatch} from "react-redux";
 import TModal from "../../../common/Modal/TModal";
 import InputSelect from "../../../common/InputSelect/InputSelect";
 import Input from "../../../common/Input/Input";
+import StatCard from "../../../common/StatCard/StatCard";
+import InputSearch from "../../../common/InputSearch/InputSearch";
+import Pagination from "../../../common/Pagination/Pagination";
 
-const EmployeeProjectTimesheet = ({ id }) => {
+const EmployeeProjectTimesheet = ({id}) => {
   const [IsEmployeeProjectTimesheetdata, setIsEmployeeProjectTimesheetdata] =
     useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
@@ -169,6 +172,21 @@ const EmployeeProjectTimesheet = ({ id }) => {
   return (
     <>
       <BreadCrumb pageName="Employee Project Timesheet" />
+      <Grid2 container spacing={2}>
+        <Grid2 size={{md: 3, lg: 3, sm: 6, xs: 12}}>
+          <StatCard />
+        </Grid2>
+        <Grid2 size={{md: 3, lg: 3, sm: 6, xs: 12}}>
+          <StatCard />
+        </Grid2>
+        <Grid2 size={{md: 3, lg: 3, sm: 6, xs: 12}}>
+          <StatCard />
+        </Grid2>
+        <Grid2 size={{md: 3, lg: 3, sm: 6, xs: 12}}>
+          <StatCard />
+        </Grid2>
+      </Grid2>
+
       <Button
         onClick={() => setIsOpen(true)}
         startIcon={<AddIcon />}
@@ -181,6 +199,19 @@ const EmployeeProjectTimesheet = ({ id }) => {
       >
         Fill Timesheet
       </Button>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          margin: "10px 0px",
+        }}
+      >
+        <div className="left_div">{/* <Button>Sort</Button> */}</div>
+        <div className="right_div">
+          <InputSearch />
+        </div>
+      </div>
 
       {selectedItems.length > 0 ? (
         <Button
@@ -202,10 +233,10 @@ const EmployeeProjectTimesheet = ({ id }) => {
           title="Fill Timesheet"
           onClose={() => setIsOpen(false)}
         >
-          <Container maxWidth="lg" sx={{ p: 2 }}>
+          <Container maxWidth="lg" sx={{p: 2}}>
             <Grid2 container spacing={2}>
               <form onSubmit={formik.handleSubmit}>
-                <Grid2 size={{ md: 12, sm: 12 }}>
+                <Grid2 size={{md: 12, sm: 12}}>
                   <InputSelect
                     name={"project"}
                     labelText={"Select Project"}
@@ -218,7 +249,7 @@ const EmployeeProjectTimesheet = ({ id }) => {
                     onChange={formik.handleChange}
                   />
                   {formik.touched.project && formik.errors.project && (
-                    <div style={{ color: "red" }}>{formik.errors.project}</div>
+                    <div style={{color: "red"}}>{formik.errors.project}</div>
                   )}
                 </Grid2>
 
@@ -235,7 +266,7 @@ const EmployeeProjectTimesheet = ({ id }) => {
                     ))}
                   </Select>
                 </FormControl> */}
-                <Grid2 size={{ md: 12, sm: 12 }}>
+                <Grid2 size={{md: 12, sm: 12}}>
                   <Input
                     labelText="Hours"
                     name="hours"
@@ -244,13 +275,13 @@ const EmployeeProjectTimesheet = ({ id }) => {
                     onBlur={formik.handleBlur}
                   />
                   {formik.touched.hours && formik.errors.hours && (
-                    <div style={{ color: "red", font: "14px" }}>
+                    <div style={{color: "red", font: "14px"}}>
                       {" "}
                       {formik.errors.hours}
                     </div>
                   )}
                 </Grid2>
-                <Grid2 size={{ md: 12, sm: 12 }}>
+                <Grid2 size={{md: 12, sm: 12}}>
                   <Input
                     labeltext="Day"
                     name="day"
@@ -260,11 +291,11 @@ const EmployeeProjectTimesheet = ({ id }) => {
                     onBlur={formik.handleBlur}
                   />
                   {formik.touched.day && formik.errors.day && (
-                    <div style={{ color: "red" }}>{formik.errors.day}</div>
+                    <div style={{color: "red"}}>{formik.errors.day}</div>
                   )}
                 </Grid2>
 
-                <Grid2 size={{ md: 12, sm: 12 }}>
+                <Grid2 size={{md: 12, sm: 12}}>
                   <TextArea
                     labelText="Description"
                     name="Description"
@@ -275,13 +306,13 @@ const EmployeeProjectTimesheet = ({ id }) => {
                   />
 
                   {formik.touched.Description && formik.errors.Description && (
-                    <div style={{ color: "red", font: "14px" }}>
+                    <div style={{color: "red", font: "14px"}}>
                       {formik.errors.Description}
                     </div>
                   )}
                 </Grid2>
 
-                <Grid2 size={{ md: 12, sm: 12 }}>
+                <Grid2 size={{md: 12, sm: 12}}>
                   <TextArea
                     labelText="Task Description"
                     name="task_description"
@@ -292,12 +323,12 @@ const EmployeeProjectTimesheet = ({ id }) => {
 
                   {formik.touched.task_description &&
                     formik.errors.task_description && (
-                      <div style={{ color: "red", font: "14px" }}>
+                      <div style={{color: "red", font: "14px"}}>
                         {formik.errors.task_description}
                       </div>
                     )}
                 </Grid2>
-                <Grid2 size={{ md: 12, sm: 12 }}>
+                <Grid2 size={{md: 12, sm: 12}}>
                   <InputFileupload
                     type="file"
                     name="attachement"
@@ -310,7 +341,7 @@ const EmployeeProjectTimesheet = ({ id }) => {
                     onBlur={formik.handleBlur}
                   />
                   {formik.touched.attachement && formik.errors.attachement && (
-                    <div style={{ color: "red" }}>
+                    <div style={{color: "red"}}>
                       {formik.errors.attachement}
                     </div>
                   )}
@@ -320,7 +351,7 @@ const EmployeeProjectTimesheet = ({ id }) => {
                   type="submit"
                   variant="contained"
                   color="primary"
-                  style={{ marginTop: "15px" }}
+                  style={{marginTop: "15px"}}
                   fullWidth
                 >
                   Submit
@@ -331,8 +362,8 @@ const EmployeeProjectTimesheet = ({ id }) => {
         </TModal>
       )}
 
-      <TableContainer component={Paper} sx={{ maxHeight: 500 }}>
-        <Typography variant="h6" sx={{ m: 2 }}>
+      <TableContainer component={Paper} sx={{maxHeight: 500}}>
+        <Typography variant="h6" sx={{m: 2}}>
           Employee Timesheet
         </Typography>
         <Table stickyHeader>
@@ -389,6 +420,7 @@ const EmployeeProjectTimesheet = ({ id }) => {
           </TableBody>
         </Table>
       </TableContainer>
+      <Pagination />
     </>
   );
 };

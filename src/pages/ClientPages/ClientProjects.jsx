@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 import Empty from "../../common/EmptyFolder/Empty";
 import InputSearch from "../../common/InputSearch/InputSearch";
+import Pagination from "../../common/Pagination/Pagination";
 const ClientProjects = () => {
   const [Isclientdata, setisclientdata] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -123,6 +124,7 @@ const ClientProjects = () => {
               })}
             </tbody>
           </table>
+          <Pagination />
         </>
       ) : (
         <Empty />

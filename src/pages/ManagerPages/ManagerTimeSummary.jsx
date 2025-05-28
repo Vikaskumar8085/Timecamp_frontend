@@ -10,11 +10,22 @@ import ManagerProjectTimeUtilization from "../../Component/ManagerComponents/Tim
 import ManagerApprovelBillingStatus from "../../Component/ManagerComponents/TimesummaryComponent/ManagerApprovelBillingStatus";
 import ManagerDailyHours from "../../Component/ManagerComponents/TimesummaryComponent/ManagerDailyHours";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import DateRangePicker from "../../common/DatePicker/DateRangePicker";
 
 const ManagerTimeSummary = () => {
   return (
     <LayoutDesign>
       <BreadCrumb pageName=" Manager Timesummart" />
+      <div
+        style={{
+          width: "100%",
+          padding: "20px",
+          background: "white",
+          margin: "10px 0px",
+        }}
+      >
+        <DateRangePicker />
+      </div>
       <ManagerTotalHoursbyResources />
       <ManagerHourByProject />
       <ManagerHourByCompany />

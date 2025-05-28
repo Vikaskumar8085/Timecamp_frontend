@@ -32,6 +32,7 @@ import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 import TModal from "../../common/Modal/TModal";
 import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
 import apiInstance from "../../ApiInstance/apiInstance";
+import InputSearch from "../../common/InputSearch/InputSearch";
 
 const EmployeeProjects = () => {
   const userdata = useSelector((state) => state?.user.values);
@@ -140,14 +141,18 @@ const EmployeeProjects = () => {
           </TModal>
         )}
 
-        <TextField
-          label="Search Projects"
-          variant="outlined"
-          fullWidth
-          value={search}
-          onChange={handleSearchChange}
-          sx={{mb: 3}}
-        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: "10px",
+          }}
+        >
+          <div className="left_div">{/* <Button>Sort</Button> */}</div>
+          <div className="right_div">
+            <InputSearch />
+          </div>
+        </div>
         {loading ? (
           <CircularProgress />
         ) : (

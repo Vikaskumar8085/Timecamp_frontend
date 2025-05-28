@@ -12,11 +12,14 @@ import {
   TableHead,
   TableRow,
   CircularProgress,
+  Button,
 } from "@mui/material";
 
 import apiInstance from "../../ApiInstance/apiInstance";
 import {Link} from "react-router-dom";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import InputSearch from "../../common/InputSearch/InputSearch";
+import Pagination from "../../common/Pagination/Pagination";
 
 const ManagerInactiveProject = () => {
   const [data, setData] = useState([]);
@@ -59,6 +62,24 @@ const ManagerInactiveProject = () => {
     <LayoutDesign>
       <BreadCrumb pageName="Manager InActive project" />
 
+      <div
+        style={{
+          display: "block",
+          overflow: "hidden",
+          position: "relative",
+          margin: "10px 0px",
+        }}
+        className="client_header_container"
+      >
+        <div style={{display: "flex", justifyContent: "space-between"}}>
+          <div className="left_div">
+            <Button>Sort</Button>
+          </div>
+          <div className="right_div">
+            <InputSearch />
+          </div>
+        </div>
+      </div>
       <Paper sx={{width: "100%", overflow: "hidden", padding: 2}}>
         {/* Data Table */}
         <TableContainer sx={{mt: 3}}>
@@ -145,7 +166,7 @@ const ManagerInactiveProject = () => {
             </Table>
           )}
         </TableContainer>
-        <TablePagination
+        {/* <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={
@@ -158,7 +179,9 @@ const ManagerInactiveProject = () => {
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+        /> */}
+
+        <Pagination />
       </Paper>
     </LayoutDesign>
   );

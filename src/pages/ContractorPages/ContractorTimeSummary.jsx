@@ -14,6 +14,17 @@ const ContractorTimeSummary = () => {
   return (
     <LayoutDesign>
       <BreadCrumb pageName="Contractor Time Summary" />
+      <div
+        style={{
+          width: "100%",
+          padding: "20px",
+          background: "white",
+          margin: "10px 0px",
+        }}
+      >
+        <DateRangePicker />
+      </div>
+
       <ContractorTotalHoursByResources />
       <ContractorTotalHoursByProject />
       <ContractorTotalHoursByCompany />

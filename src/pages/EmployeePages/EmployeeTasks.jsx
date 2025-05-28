@@ -16,6 +16,8 @@ import {
   Link,
 } from "@mui/material";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import Pagination from "../../common/Pagination/Pagination";
+import InputSearch from "../../common/InputSearch/InputSearch";
 const EmployeeTasks = () => {
   const [IsEmployeeTaskdata, setIsEmployeeTaskdata] = useState([]);
   const [totalTasks, setTotalTasks] = useState(0);
@@ -66,14 +68,18 @@ const EmployeeTasks = () => {
     <LayoutDesign>
       <BreadCrumb pageName="Employee Task" />
       {/* Search bar */}
-      <TextField
-        label="Search Tasks"
-        variant="outlined"
-        fullWidth
-        value={search}
-        onChange={handleSearchChange}
-        sx={{marginBottom: 2}}
-      />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginTop: "10px",
+        }}
+      >
+        <div className="left_div">{/* <Button>Sort</Button> */}</div>
+        <div className="right_div">
+          <InputSearch />
+        </div>
+      </div>
       {/* Task List Table */}
       <TableContainer component={Paper} sx={{mt: 3}}>
         <Typography variant="h6" sx={{p: 2}}>
@@ -135,8 +141,10 @@ const EmployeeTasks = () => {
         </Table>
       </TableContainer>
 
+      <Pagination />
+
       {/* Pagination */}
-      <TablePagination
+      {/* <TablePagination
         rowsPerPageOptions={[10, 20, 50]}
         component="div"
         count={totalTasks}
@@ -144,7 +152,7 @@ const EmployeeTasks = () => {
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+      /> */}
     </LayoutDesign>
   );
 };

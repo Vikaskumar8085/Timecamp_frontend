@@ -1,18 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Typography,
-  Chip,
-  Grid,
-  Card,
-  Button,
-} from "@mui/material";
+import {Grid2, Button} from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ListIcon from "@mui/icons-material/List";
 import ReceiptIcon from "@mui/icons-material/Receipt";
@@ -21,6 +8,8 @@ import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import {fetchclientprojecttimesheetapicall} from "../../ApiServices/Cllientapiservices/Client";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 import InputSearch from "../../common/InputSearch/InputSearch";
+import StatCard from "../../common/StatCard/StatCard";
+import Pagination from "../../common/Pagination/Pagination";
 
 const ClientTimesheet = () => {
   const [isClientTimesheetdata, setIsClientTimesheetdata] = useState([]);
@@ -91,15 +80,29 @@ const ClientTimesheet = () => {
         }}
         className="client_header_container"
       >
+        <Grid2 container spacing={2} sx={{my: 2}}>
+          <Grid2 size={{sm: 12, md: 3, lg: 3}}>
+            <StatCard />
+          </Grid2>
+          <Grid2 size={{sm: 12, md: 3, lg: 3}}>
+            <StatCard />
+          </Grid2>
+          <Grid2 size={{sm: 12, md: 3, lg: 3}}>
+            <StatCard />
+          </Grid2>
+          <Grid2 size={{sm: 12, md: 3, lg: 3}}>
+            <StatCard />
+          </Grid2>
+        </Grid2>
+
         <div style={{display: "flex", justifyContent: "space-between"}}>
-          <div className="left_div">
-            <Button>Sort</Button>
-          </div>
+          <div className="left_div">{/* <Button>Sort</Button> */}</div>
           <div className="right_div">
             <InputSearch />
           </div>
         </div>
       </div>
+
       {/* <Grid container spacing={2} sx={{my: 1}}>
         {stats.map((stat, index) => (
           <Grid item sm={12} md={3} lg={3} key={index}>
@@ -199,6 +202,8 @@ const ClientTimesheet = () => {
           </TableBody>
         </Table>
       </TableContainer> */}
+
+      <Pagination />
     </LayoutDesign>
   );
 };

@@ -1,14 +1,15 @@
 import React from "react";
 import Chart from "react-apexcharts";
 import {Clock} from "lucide-react";
+import "./statcard.scss";
 
 const StatCard = ({
-  title = "Total Work Hours",
-  value = 400,
-  unit = "hrs",
-  percentage = 7,
-  trendDown = true,
-  chartData = [120, 200, 180, 220, 150, 350, 450],
+  title = "Monthly Sales",
+  value = "1200",
+  unit = "USD",
+  percentage = "5.4",
+  trendDown = false,
+  chartData = [10, 20, 15, 30, 25],
 }) => {
   const chartOptions = {
     chart: {
@@ -46,10 +47,12 @@ const StatCard = ({
   return (
     <div className="stat-card">
       <div className="left">
-        <div className="icon-wrapper">
-          <Clock size={20} color="#fff" />
+        <div className="left_wrapper">
+          <div className="icon-wrapper">
+            <Clock size={20} color="#fff" />
+          </div>
+          <h4 className="title">{title}</h4>
         </div>
-        <h4 className="title">{title}</h4>
         <div className="value">
           {value} <span>{unit}</span>
         </div>

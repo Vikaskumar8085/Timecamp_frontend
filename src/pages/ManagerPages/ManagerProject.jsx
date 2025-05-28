@@ -33,6 +33,8 @@ import {Link} from "react-router-dom";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 import TModal from "../../common/Modal/TModal";
 import toast from "react-hot-toast";
+import InputSearch from "../../common/InputSearch/InputSearch";
+import Pagination from "../../common/Pagination/Pagination";
 const ManagerProject = () => {
   const [IsOpen, setIsOpen] = useState(false);
   const [IsEdit, setIsEdit] = useState(null);
@@ -173,7 +175,24 @@ const ManagerProject = () => {
         /> */}
 
         {/* Data Table */}
-
+        <div
+          style={{
+            display: "block",
+            overflow: "hidden",
+            position: "relative",
+            margin: "10px 0px",
+          }}
+          className="client_header_container"
+        >
+          <div style={{display: "flex", justifyContent: "space-between"}}>
+            <div className="left_div">
+              <Button>Sort</Button>
+            </div>
+            <div className="right_div">
+              <InputSearch />
+            </div>
+          </div>
+        </div>
         <TableContainer sx={{mt: 3}}>
           <Typography variant="h6" sx={{p: 2}}>
             Project List
@@ -247,6 +266,8 @@ const ManagerProject = () => {
             </Table>
           )}
         </TableContainer>
+
+        <Pagination />
         {/* <TablePagination
           rowsPerPageOptions={[10, 25, 50]}
           component="div"

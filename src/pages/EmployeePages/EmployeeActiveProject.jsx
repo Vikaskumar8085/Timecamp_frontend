@@ -16,6 +16,8 @@ import {
 } from "@mui/material";
 import {VisibilitySharp} from "@mui/icons-material";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import InputSearch from "../../common/InputSearch/InputSearch";
+import Pagination from "../../common/Pagination/Pagination";
 
 const EmployeeActiveProject = () => {
   const [isemployeeActiveproject, setIsemployeeactiveproject] = useState([]);
@@ -58,14 +60,19 @@ const EmployeeActiveProject = () => {
       <LayoutDesign>
         <BreadCrumb pageName="Employee Active Project" />
         {/* text field */}
-        <TextField
-          label="Search Projects"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          value={search}
-          onChange={handleSearch}
-        />
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            margin: "10px 0px",
+          }}
+        >
+          <div className="left_div">{/* <Button>Sort</Button> */}</div>
+          <div className="right_div">
+            <InputSearch />
+          </div>
+        </div>
         {/* text fields */}
         <TableContainer component={Paper}>
           <Table sx={{minWidth: 650}} aria-label="simple table">
@@ -146,14 +153,15 @@ const EmployeeActiveProject = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
+        <Pagination />
+        {/* <TablePagination
           component="div"
           count={totalProjects}
           page={page}
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}
           onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+        /> */}
       </LayoutDesign>
     </>
   );

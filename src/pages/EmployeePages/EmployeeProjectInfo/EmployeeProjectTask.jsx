@@ -8,11 +8,15 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Grid2,
   Paper,
-  Typography,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import {Link} from "react-router-dom";
+import Pagination from "../../../common/Pagination/Pagination";
+import TaskProgress from "../../TaskProgress";
+import RecentActivity from "../../../common/RecentActivity/RecentActivity";
+import InputSearch from "../../../common/InputSearch/InputSearch";
 const EmployeeProjectTask = ({id}) => {
   const [IsEmployeeProjectTaskdata, setIsEmployeeProjectTaskdata] = useState(
     []
@@ -29,10 +33,53 @@ const EmployeeProjectTask = ({id}) => {
     }
   };
 
-
-
-  
-
+  const sampleData = [
+    {
+      avatar: "https://randomuser.me/api/portraits/men/1.jpg",
+      message: "Cameron Williamson has completed the task.",
+      timeAgo: "3 hours, 35 min ago",
+    },
+    {
+      initial: "A",
+      message: "Alfred Invited you to Project Infinity!",
+      timeAgo: "4 hours, 35 min ago",
+    },
+    {
+      initial: "M",
+      message: "Mike marked ‘Client Presentation’ task as completed.",
+      timeAgo: "5 hours, 12 min ago",
+    },
+    {
+      initial: "M",
+      message: "Mike marked ‘Client Presentation’ task as completed.",
+      timeAgo: "5 hours, 12 min ago",
+    },
+    {
+      initial: "M",
+      message: "Mike marked ‘Client Presentation’ task as completed.",
+      timeAgo: "5 hours, 12 min ago",
+    },
+    {
+      initial: "M",
+      message: "Mike marked ‘Client Presentation’ task as completed.",
+      timeAgo: "5 hours, 12 min ago",
+    },
+    {
+      initial: "M",
+      message: "Mike marked ‘Client Presentation’ task as completed.",
+      timeAgo: "5 hours, 12 min ago",
+    },
+    {
+      initial: "M",
+      message: "Mike marked ‘Client Presentation’ task as completed.",
+      timeAgo: "5 hours, 12 min ago",
+    },
+    {
+      initial: "M",
+      message: "Mike marked ‘Client Presentation’ task as completed.",
+      timeAgo: "5 hours, 12 min ago",
+    },
+  ];
   useEffect(() => {
     fetchEmployeeProjectTaskFunc();
   }, [0]);
@@ -40,6 +87,56 @@ const EmployeeProjectTask = ({id}) => {
     <div>
       <>
         <BreadCrumb pageName="Employee Task" />
+        <Grid2 container spacing={4} sx={{my: 3}}>
+          <Grid2
+            size={{md: 4, lg: 4, sm: 12}}
+            className="client_project_task_header"
+          >
+            <RecentActivity activities={sampleData} />
+          </Grid2>
+          <Grid2
+            size={{md: 4, lg: 4, sm: 12}}
+            className="client_project_task_header"
+          >
+            <div className="task-members-wrapper">
+              <h3 className="title">Allocated Task Members</h3>
+              <div className="task-members-scroll">
+                {/* {istaskMembers.map((item, index) => (
+                  <div className="task-member" key={index}>
+                    <img
+                      src={item?.Photos?.[0]}
+                      alt="Profile"
+                      className="profile-img"
+                    />
+                    <div className="member-info">
+                      <div className="name">
+                        {item.FirstName} {item.LastName}
+                      </div>
+                      <div className="designation">
+                        {item.Designation || "Role Unknown"}
+                      </div>
+                    </div>
+                  </div>
+                ))} */}
+              </div>
+            </div>
+          </Grid2>
+          <Grid2>
+            <TaskProgress />
+          </Grid2>
+        </Grid2>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            margin: "10px 0px",
+          }}
+        >
+          <div className="left_div">{/* <Button>Sort</Button> */}</div>
+          <div className="right_div">
+            <InputSearch />
+          </div>
+        </div>
         <TableContainer
           component={Paper}
           sx={{mt: 2, boxShadow: 3, borderRadius: 2}}
@@ -122,6 +219,8 @@ const EmployeeProjectTask = ({id}) => {
             </TableBody>
           </Table>
         </TableContainer>
+
+        <Pagination />
       </>
     </div>
   );
