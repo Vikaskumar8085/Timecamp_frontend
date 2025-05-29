@@ -1,27 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {fetchinactiveprojectsapicall} from "../../../ApiServices/ProjectApiServices";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Card,
-  CardContent,
-  Typography,
-  Button,
-  TextField,
-  TablePagination,
-} from "@mui/material";
-import Grid from "@mui/material/Grid";
-import GridViewIcon from "@mui/icons-material/GridView";
-import TableViewIcon from "@mui/icons-material/TableView";
 import Empty from "../../../common/EmptyFolder/Empty";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import Layout from "../../../Layoutcomponents/Layout/Layout";
-import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const Inactiveprojects = () => {
@@ -62,100 +42,48 @@ const Inactiveprojects = () => {
   return (
     <LayoutDesign>
       <BreadCrumb pageName="InActive Projects" />
-      <HeaderTab>
-        <Button
-          onClick={() => setViewMode(viewMode === "table" ? "grid" : "table")}
-          sx={{
-            background: "#2c3e50",
-            padding: "8px 10px",
-            margin: "0px 10px",
-            color: "white",
-          }}
-        >
-          {viewMode === "table" ? <GridViewIcon /> : <TableViewIcon />}
-        </Button>
-      </HeaderTab>
-      <TextField
-        label="Search Projects"
-        variant="outlined"
-        fullWidth
-        margin="normal"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />{" "}
-      {viewMode === "table" ? (
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TableContainer component={Paper}>
-              <Table sx={{minWidth: 650}} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="left">ID</TableCell>
-                    <TableCell align="left">Project Name</TableCell>
-                    <TableCell align="left">Project Code</TableCell>
-                    <TableCell align="left">Project Hours</TableCell>
-                    <TableCell align="left">Start Date</TableCell>
-                    <TableCell align="left">End Date</TableCell>
-                    <TableCell align="left">Action</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {projects.length > 0 ? (
-                    projects.map((item, index) => (
-                      <TableRow key={index}>
-                        <TableCell component="th" scope="row">
-                          {index + 1}
-                        </TableCell>
-                        <TableCell align="left">{item.Project_Name}</TableCell>
-                        <TableCell align="left">{item.Project_Code}</TableCell>
-                        <TableCell align="left">{item.Project_Hours}</TableCell>
-                        <TableCell align="left">{item.Start_Date}</TableCell>
-                        <TableCell align="left">{item.End_Date}</TableCell>
-                      </TableRow>
-                    ))
-                  ) : (
-                    <TableRow>
-                      <TableCell colSpan={7} align="center">
-                        <Empty />
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Grid>
-        </Grid>
+
+      {projects.length > 0 ? (
+        <table className="table_Container">
+          <thead className="table_head">
+            <tr className="head_row">
+              <th className="table_head_data">Id</th>
+              <th className="table_head_data">Project Name</th>
+              <th className="table_head_data">Project Code </th>
+              <th className="table_head_data">Project Hours </th>
+              <th className="table_head_data">Start Date</th>
+              <th className="table_head_data">End Date </th>
+              <th className="table_head_data">Project Type</th>
+              <th className="table_head_data">Action </th>
+            </tr>
+          </thead>
+          <tbody className="table_body">
+            {projects?.map((item, index) => {
+              return (
+                <>
+                  <tr className="body_row" key={index}>
+                    <td className="table_data">{index + 1}</td>
+                    <td className="table_data">{item.Project_Name}</td>
+                    <td className="table_data">{item.Project_Code}</td>
+                    <td className="table_data">{item.Project_Hours}</td>
+                    <td className="table_data">{item.Start_Date}</td>
+                    <td className="table_data">{item.End_Date}</td>
+                    <td className="table_data">{item.Project_Type}</td>
+
+                    <td className="table_data">
+                      <Link to={`/project-info/${item.ProjectId}`}>
+                        <VisibilityIcon />
+                      </Link>
+                    </td>
+                  </tr>
+                </>
+              );
+            })}
+          </tbody>
+        </table>
       ) : (
-        <Grid container spacing={2}>
-          {projects.length > 0 ? (
-            projects.map((item, index) => (
-              <Grid item xs={12} sm={12} md={6} key={index}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h6">{item.Project_Name}</Typography>
-                    <Typography>Code: {item.Project_Code}</Typography>
-                    <Typography>Hours: {item.Project_Hours}</Typography>
-                    <Typography>Start: {item.Start_Date}</Typography>
-                    <Typography>End: {item.End_Date}</Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))
-          ) : (
-            <Grid item xs={12} display="flex" justifyContent="center">
-              <Empty />
-            </Grid>
-          )}
-        </Grid>
+        <Empty />
       )}
-      <TablePagination
-        component="div"
-        count={totalProjects}
-        page={page}
-        onPageChange={handleChangePage}
-        rowsPerPage={rowsPerPage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
     </LayoutDesign>
   );
 };

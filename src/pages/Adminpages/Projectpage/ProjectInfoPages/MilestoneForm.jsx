@@ -6,7 +6,8 @@ import {Add, Remove} from "@mui/icons-material";
 import Grid from "@mui/material/Grid2";
 import Input from "../../../../common/Input/Input";
 import TextArea from "../../../../common/TextArea/TextArea";
-
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 const MilestoneForm = ({handleSubmit}) => {
   const formik = useFormik({
     initialValues: {
@@ -94,6 +95,14 @@ const MilestoneForm = ({handleSubmit}) => {
                     onBlur={formik.handleBlur}
                     placeholder="please write milestone Description"
                   />
+                  <ReactQuill
+                    name={`milestones[${index}].Description`}
+                    value={milestone.Description}
+                    onChange={(content) =>
+                      formik.setFieldValue("Description", content)
+                    }
+                  />
+
                   {formik.touched.milestones?.[index]?.Description &&
                     formik.errors.milestones?.[index]?.Description && (
                       <div

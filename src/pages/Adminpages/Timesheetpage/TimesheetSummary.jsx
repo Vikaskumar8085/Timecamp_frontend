@@ -14,6 +14,7 @@ import Hourbycompany from "../../../Component/TimeSummarycomponent/Hourbycompany
 import ProjectTimeUtilization from "../../../Component/TimeSummarycomponent/ProjectTimeUtilization";
 import ApprovelByBillingChart from "../../../Component/TimeSummarycomponent/ApprovelByBillingChart";
 import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import DateRangePicker from "../../../common/DatePicker/DateRangePicker";
 
 const TimesheetSummary = () => {
   const dispatch = useDispatch();
@@ -41,6 +42,16 @@ const TimesheetSummary = () => {
   return (
     <LayoutDesign>
       <BreadCrumb pageName="Time Summary" />
+      <div
+        style={{
+          width: "100%",
+          padding: "20px",
+          background: "white",
+          margin: "10px 0px",
+        }}
+      >
+        <DateRangePicker />
+      </div>
       <Grid2 container spacing={3}>
         <Grid2 size={{sm: 12}}>
           <Typography variant="h5">Total hours By Resourse</Typography>

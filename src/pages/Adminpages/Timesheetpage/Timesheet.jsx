@@ -4,20 +4,10 @@ import {
   Button,
   Drawer,
   Grid,
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Paper,
-  FormControlLabel,
+  Grid2,
   Card,
-  Checkbox,
   Typography,
-  TextField,
-  MenuItem,
-  TablePagination,
+
 } from "@mui/material";
 import moment from "moment";
 import UploadTimesheet from "../../../Component/AdminComponents/Timesheet/UploadTimesheet";
@@ -38,6 +28,8 @@ import ListIcon from "@mui/icons-material/List";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
+import Empty from "../../../common/EmptyFolder/Empty";
+import StatCard from "../../../common/StatCard/StatCard";
 const Timesheet = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [IsTimesheetdata, setIsTimesheetdata] = useState([]);
@@ -140,9 +132,6 @@ const Timesheet = () => {
     }
   };
 
-  const isAllSelected =
-    IsTimesheetdata?.length > 0 &&
-    selectedItems.length === IsTimesheetdata.length;
   // handlecheck box change all
 
   const approvetimesheetfunc = async (values) => {
@@ -226,9 +215,49 @@ const Timesheet = () => {
     fetchtimesheetfunc();
   }, [page, rowsPerPage, search, startDate, endDate, status]);
 
+  // selected
+
+  const [selected, setSelected] = useState([]);
+  console.log(selected, "selected");
+
+  var isAllSelected =
+    IsTimesheetdata.length > 0 && selected.length === IsTimesheetdata.length;
+  const isIndeterminate =
+    selected.length > 0 && selected.length < IsTimesheetdata.length;
+
+  const toggleSelectAll = () => {
+    if (isAllSelected) {
+      setSelected([]);
+    } else {
+      setSelected(IsTimesheetdata.map((item) => item.Timesheet_Id));
+    }
+  };
+
+  const toggleSelectRow = (id) => {
+    if (selected.includes(id)) {
+      setSelected(selected.filter((item) => item !== id));
+    } else {
+      setSelected([...selected, id]);
+    }
+  };
+  //selected
   return (
     <LayoutDesign>
       <BreadCrumb pageName="TimeSheet" />
+      <Grid2 container spacing={2} sx={{my: 2}}>
+        <Grid2 size={{md: 3, lg: 3, sm: 6, xs: 12}}>
+          <StatCard />
+        </Grid2>
+        <Grid2 size={{md: 3, lg: 3, sm: 6, xs: 12}}>
+          <StatCard />
+        </Grid2>
+        <Grid2 size={{md: 3, lg: 3, sm: 6, xs: 12}}>
+          <StatCard />
+        </Grid2>
+        <Grid2 size={{md: 3, lg: 3, sm: 6, xs: 12}}>
+          <StatCard />
+        </Grid2>
+      </Grid2>
       <Grid container spacing={2} sx={{my: 1}}>
         {stats.map((stat, index) => (
           <Grid item sm={12} md={3} lg={3} key={index}>
@@ -319,7 +348,71 @@ const Timesheet = () => {
         ) : null}
       </div>
 
-      <div style={{display: "flex", gap: "1rem", marginBottom: "1rem"}}>
+      {IsTimesheetdata.length > 0 ? (
+        <table className="table_Container">
+          <thead className="table_head">
+            <tr className="head_row">
+              <th className="table_head_data">
+                <input
+                  type="checkbox"
+                  checked={isAllSelected}
+                  ref={(input) => {
+                    if (input) input.indeterminate = isIndeterminate;
+                  }}
+                  onChange={toggleSelectAll}
+                />
+                select all
+              </th>
+              <th className="table_head_data">Id</th>
+              <th className="table_head_data">TimeSheet No.</th>
+              <th className="table_head_data">Day </th>
+              <th className="table_head_data">Project </th>
+              <th className="table_head_data">Resource</th>
+              <th className="table_head_data">Task Description </th>
+              <th className="table_head_data">Total Hours</th>
+              <th className="table_head_data">Billed Hours</th>
+              <th className="table_head_data">Blank Hours</th>
+              <th className="table_head_data">Ok Hours</th>
+              <th className="table_head_data">Approval Status</th>
+              <th className="table_head_data">Billing Status</th>
+              <th className="table_head_data">Remarks</th>
+              <th className="table_head_data">Attachment</th>
+            </tr>
+          </thead>
+          <tbody className="table_body">
+            {IsTimesheetdata?.map((item, index) => {
+              return (
+                <>
+                  <tr className="body_row" key={index}>
+                    <td className="table_data">
+                      <input
+                        type="checkbox"
+                        checked={selected.includes(item.Timesheet_Id)}
+                        onChange={() => toggleSelectRow(item.Timesheet_Id)}
+                      />
+                    </td>
+                    <td className="table_data">{item.Project_Name}</td>
+                    <td className="table_data">{item.Project_Code}</td>
+                    <td className="table_data">{item.Project_Hours}</td>
+                    <td className="table_data">{item.Start_Date}</td>
+                    <td className="table_data">{item.End_Date}</td>
+                    <td className="table_data">{item.Project_Type}</td>
+
+                    <td className="table_data">
+                      <Link to={`/project-info/${item.ProjectId}`}>
+                        <VisibilityIcon />
+                      </Link>
+                    </td>
+                  </tr>
+                </>
+              );
+            })}
+          </tbody>
+        </table>
+      ) : (
+        <Empty />
+      )}
+      {/* <div style={{display: "flex", gap: "1rem", marginBottom: "1rem"}}>
         <TextField
           label="Search"
           variant="outlined"
@@ -360,111 +453,7 @@ const Timesheet = () => {
         <Button variant="contained" onClick={fetchtimesheetfunc}>
           Apply Filters
         </Button>
-      </div>
-      <TableContainer component={Paper}>
-        <Table sx={{minWidth: 650}} aria-label="client table">
-          <TableHead>
-            <TableRow>
-              <TableCell>
-                select{" "}
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={isAllSelected}
-                      onChange={handleSelectAllChange}
-                      indeterminate={
-                        selectedItems.length > 0 &&
-                        selectedItems.length < IsTimesheetdata?.length
-                      }
-                    />
-                  }
-                  label="Select All"
-                />
-                ;
-              </TableCell>
-              <TableCell>ID</TableCell>
-              <TableCell>Timesheet No.</TableCell>
-              <TableCell>Day</TableCell>
-              <TableCell>Project</TableCell>
-              <TableCell>Resource</TableCell>
-              <TableCell>Task Description</TableCell>
-              <TableCell>Total Hours</TableCell>
-              <TableCell>Billed Hours</TableCell>
-              <TableCell>Ok Hours</TableCell>
-              <TableCell>Blank Hours</TableCell>
-              <TableCell>Approval Status</TableCell>
-              <TableCell>Billing Status</TableCell>
-              <TableCell>Remarks</TableCell>
-              <TableCell>Attachement</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {IsTimesheetdata?.length > 0 ? (
-              IsTimesheetdata?.map((item, index) => (
-                <TableRow key={index}>
-                  <TableCell>
-                    <FormControlLabel
-                      key={item.Timesheet_Id}
-                      control={
-                        <Checkbox
-                          checked={selectedItems.includes(item.Timesheet_Id)}
-                          onChange={() => {
-                            handleCheckboxChange(item.Timesheet_Id);
-                            setProjectid(item.project);
-                          }}
-                        />
-                      }
-                      label={item.name}
-                    />
-                  </TableCell>
-                  <TableCell>{index + 1}</TableCell>
-                  <TableCell>{item.ts_code}</TableCell>
-                  <TableCell>
-                    {moment(item.created_at).format("DD/MM/YYYY")}
-                  </TableCell>
-                  <TableCell>{item.ProjectName}</TableCell>
-                  <TableCell>{item.StaffName}</TableCell>
-                  <TableCell>{item.Description}</TableCell>
-                  <TableCell>{item.hours}</TableCell>
-                  <TableCell>{item.billed_hours}</TableCell>
-                  <TableCell>{item.ok_hours}</TableCell>
-                  <TableCell>{item.blank_hours}</TableCell>
-                  <TableCell>{item.approval_status}</TableCell>
-                  <TableCell>{item.billing_status}</TableCell>
-                  <TableCell>{item.remarks}</TableCell>
-                  <TableCell>
-                    {item.attachement ? (
-                      <a
-                        href={item.attachement}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        View
-                      </a>
-                    ) : (
-                      "No Attachment"
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={10} align="center">
-                  {/* <Empty /> */}
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        component="div"
-        count={totalPages * rowsPerPage}
-        page={page}
-        onPageChange={handlePageChange}
-        rowsPerPage={rowsPerPage}
-        onRowsPerPageChange={handleRowsPerPageChange}
-      />
+      </div> */}
     </LayoutDesign>
   );
 };

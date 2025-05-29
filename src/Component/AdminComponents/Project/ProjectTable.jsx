@@ -40,139 +40,59 @@ const ProjectTable = ({
 
   return (
     <>
-      <HeaderTab>
-        <Button
-          onClick={() => setViewMode(viewMode === "table" ? "grid" : "table")}
-          sx={{
-            background: "#2c3e50",
-            padding: "8px 10px",
-            margin: "0px 10px",
-            color: "white",
-          }}
-        >
-          {viewMode === "table" ? <GridViewIcon /> : <TableViewIcon />}
-        </Button>
-      </HeaderTab>
+      {isProjectdata.length > 0 ? (
+        <table className="table_Container">
+          <thead className="table_head">
+            <tr className="head_row">
+              <th className="table_head_data">Id</th>
+              <th className="table_head_data">Project Name</th>
+              <th className="table_head_data">Project Code </th>
+              <th className="table_head_data">Project Hours </th>
+              <th className="table_head_data">Start Date</th>
+              <th className="table_head_data">End Date </th>
+              <th className="table_head_data">Project Type</th>
+              <th className="table_head_data">Action </th>
+            </tr>
+          </thead>
+          <tbody className="table_body">
+            {isProjectdata?.map((item, index) => {
+              return (
+                <>
+                  <tr className="body_row" key={index}>
+                    <td className="table_data">{index + 1}</td>
+                    <td className="table_data">{item.Project_Name}</td>
+                    <td className="table_data">{item.Project_Code}</td>
+                    <td className="table_data">{item.Project_Hours}</td>
+                    <td className="table_data">{item.Start_Date}</td>
+                    <td className="table_data">{item.End_Date}</td>
+                    <td className="table_data">{item.Project_Type}</td>
 
-      <TextField
-        label="Search Projects"
-        variant="outlined"
-        fullWidth
-        margin="normal"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
+                    <td className="table_data">
+                      <Link to={`/project-info/${item.ProjectId}`}>
+                        <VisibilityIcon />
+                      </Link>
+                      <Button
+                        onClick={() => {
+                          setIsEdit(item);
+                          setIsModalOpen(true);
+                        }}
+                      >
+                        <EditIcon />
+                      </Button>
 
-      {viewMode === "table" ? (
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TableContainer component={Paper}>
-              <Table sx={{minWidth: 650}} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="left">ID</TableCell>
-                    <TableCell align="left">Project Name</TableCell>
-                    <TableCell align="left">Project Code</TableCell>
-                    <TableCell align="left">Project Hours</TableCell>
-                    <TableCell align="left">Start Date</TableCell>
-                    <TableCell align="left">End Date</TableCell>
-                    <TableCell align="left">Project Type</TableCell>
-                    <TableCell align="left">Action</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {isProjectdata.length > 0 ? (
-                    isProjectdata.map((item, index) => (
-                      <TableRow key={index}>
-                        <TableCell component="th" scope="row">
-                          {index + 1}
-                        </TableCell>
-                        <TableCell align="left">{item.Project_Name}</TableCell>
-                        <TableCell align="left">{item.Project_Code}</TableCell>
-                        <TableCell align="left">{item.Project_Hours}</TableCell>
-                        <TableCell align="left">{item.Start_Date}</TableCell>
-                        <TableCell align="left">{item.End_Date}</TableCell>
-                        <TableCell align="left">{item.Project_Type}</TableCell>
-                        <TableCell align="left">
-                          <Link to={`/project-info/${item.ProjectId}`}>
-                            <VisibilityIcon />
-                          </Link>
-                          <Button
-                            onClick={() => {
-                              setIsEdit(item);
-                              setIsModalOpen(true);
-                            }}
-                          >
-                            <EditIcon />
-                          </Button>
-
-                          <Button onClick={() => handleDelete(item.ProjectId)}>
-                            Delete
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  ) : (
-                    <TableRow>
-                      <TableCell colSpan={7} align="center">
-                        <Empty />
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Grid>
-        </Grid>
+                      <Button onClick={() => handleDelete(item.ProjectId)}>
+                        Delete
+                      </Button>
+                    </td>
+                  </tr>
+                </>
+              );
+            })}
+          </tbody>
+        </table>
       ) : (
-        <Grid container spacing={2}>
-          {isProjectdata.length > 0 ? (
-            isProjectdata.map((item, index) => (
-              <Grid item xs={12} sm={12} md={6} key={index}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h6">{item.Project_Name}</Typography>
-                    <Typography>Code: {item.Project_Code}</Typography>
-                    <Typography>Hours: {item.Project_Hours}</Typography>
-                    <Typography>Start: {item.Start_Date}</Typography>
-                    <Typography>End: {item.End_Date}</Typography>
-                    <Link to={`/project-info/${item.ProjectId}`}>
-                      <VisibilityIcon />
-                    </Link>
-                    <Button
-                      onClick={() => {
-                        setIsEdit(item);
-                        setIsModalOpen(true);
-                      }}
-                    >
-                      <EditIcon />
-                    </Button>
-                    <Button onClick={() => handleDelete(item.ProjectId)}>
-                      Delete
-                    </Button>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))
-          ) : (
-            <Grid item xs={12} display="flex" justifyContent="center">
-              <Empty />
-            </Grid>
-          )}
-        </Grid>
+        <Empty />
       )}
-
-      <TablePagination
-        component="div"
-        count={totalPages * limit}
-        page={page - 1}
-        onPageChange={(_, newPage) => setPage(newPage + 1)}
-        rowsPerPage={limit}
-        onRowsPerPageChange={(e) => {
-          setLimit(parseInt(e.target.value, 10));
-          setPage(0);
-        }}
-      />
     </>
   );
 };

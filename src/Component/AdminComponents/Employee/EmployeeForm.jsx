@@ -2,15 +2,7 @@ import {
   Box,
   Checkbox,
   Container,
-  FormControl,
   FormControlLabel,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-  OutlinedInput,
-  ListItemText,
   Button,
   Grid2,
 } from "@mui/material";
@@ -20,7 +12,6 @@ import React, {useEffect, useState} from "react";
 import {fetchdesignationapicall} from "../../../ApiServices/MasterApiServices/Designation";
 import toast from "react-hot-toast";
 import {fetchstaffmemberapicall} from "../../../ApiServices/AdminApiServices/Admin";
-import InputFileupload from "../../../common/InputFileupload/InputFileupload";
 import InputImageUpload from "../../../common/InputImageUpload/InputImageUpload";
 import Input from "../../../common/Input/Input";
 import PhoneInput from "react-phone-input-2";

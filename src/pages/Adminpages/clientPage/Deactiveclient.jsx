@@ -95,111 +95,69 @@ const Deactiveclient = () => {
         sx={{mb: 2}}
       />
 
-      {loading ? (
-        <Box display="flex" justifyContent="center">
-          <CircularProgress />
-        </Box>
-      ) : viewMode === "table" ? (
-        <TableContainer component={Paper}>
-          <Table aria-label="client table">
-            <TableHead>
-              <TableRow>
-                <TableCell>ID</TableCell>
-                <TableCell>Company Name</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Phone</TableCell>
-                <TableCell>Address</TableCell>
-                <TableCell>Postal Code</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell>Action</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {isInactiveclientdata.length > 0 ? (
-                isInactiveclientdata.map((item, index) => (
-                  <TableRow key={item.Client_Id}>
-                    <TableCell>{index + 1}</TableCell>
-                    <TableCell>{item.Company_Name}</TableCell>
-                    <TableCell>{item.Client_Name}</TableCell>
-                    <TableCell>{item.Client_Email}</TableCell>
-                    <TableCell>{item.Client_Phone}</TableCell>
-                    <TableCell>{item.Client_Address}</TableCell>
-                    <TableCell>{item.Client_Postal_Code}</TableCell>
-                    <TableCell>
-                      <Chip
-                        label={item.Client_Status}
-                        color={
-                          item.Client_Status === "Active"
-                            ? "success"
-                            : item.Client_Status === "InActive"
-                            ? "warning"
-                            : "error"
-                        }
-                      />
-                    </TableCell>
-                    <Link
-                      style={{textDecoration: "none"}}
-                      to={`/client-info/${item.Client_Id}`}
-                    >
-                      <VisibilityIcon />
-                    </Link>
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={9} align="center">
-                    <Empty />
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
+      {isInactiveclientdata.length > 0 ? (
+        <table className="table_Container">
+          <thead className="table_head">
+            <tr className="head_row">
+              <th className="table_head_data">Id</th>
+              <th className="table_head_data">Company Name</th>
+              <th className="table_head_data">Client Name </th>
+              <th className="table_head_data">Client Email </th>
+              <th className="table_head_data">Client Address</th>
+              <th className="table_head_data">Client Postal Code </th>
+              <th className="table_head_data">Gst Numar</th>
+              <th className="table_head_data">Status </th>
+              <th className="table_head_data">Action </th>
+            </tr>
+          </thead>
+          <tbody className="table_body">
+            {isInactiveclientdata?.map((item, index) => {
+              return (
+                <>
+                  <tr className="body_row" key={index}>
+                    <td className="table_data">{index + 1}</td>
+                    <td className="table_data">{item.Company_Name}</td>
+                    <td className="table_data">{item.Client_Name}</td>
+                    <td className="table_data">{item.Client_Phone}</td>
+                    <td className="table_data">{item.Client_Address}</td>
+                    <td className="table_data">{item.Client_Postal_Code}</td>
+                    <td className="table_data">{item.GstNumber}</td>
+                    <td className="table_data">
+                      {
+                        <Chip
+                          label={item.Client_Status || "Unknown"}
+                          color={
+                            item.Client_Status === "COMPLETED"
+                              ? "success"
+                              : item.Client_Status === "INPROGRESS"
+                              ? "primary"
+                              : item.Client_Status === "P"
+                              ? "warning"
+                              : "default"
+                          }
+                        />
+                      }
+                    </td>
+
+                    <td className="table_data">
+                      <Link
+                        style={{textDecoration: "none"}}
+                        to={`/client-info/${item.Client_Id}`}
+                      >
+                        <VisibilityIcon />
+                      </Link>
+                    </td>
+                  </tr>
+                </>
+              );
+            })}
+          </tbody>
+        </table>
       ) : (
-        <Grid container spacing={2} sx={{p: 2}}>
-          {isInactiveclientdata.length > 0 ? (
-            isInactiveclientdata.map((item) => (
-              <Grid item xs={12} sm={6} md={4} key={item.Client_Id}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h6">{item.Company_Name}</Typography>
-                    <Typography>Name: {item.Client_Name}</Typography>
-                    <Typography>Email: {item.Client_Email}</Typography>
-                    <Typography>Phone: {item.Client_Phone}</Typography>
-                    <Typography>Address: {item.Client_Address}</Typography>
-                    <Typography>
-                      Postal Code: {item.Client_Postal_Code}
-                    </Typography>
-                    <Typography>
-                      Status:{" "}
-                      <Chip
-                        label={item.Client_Status}
-                        color={
-                          item.Client_Status === "Active"
-                            ? "success"
-                            : item.Client_Status === "InActive"
-                            ? "warning"
-                            : "error"
-                        }
-                      />
-                    </Typography>
-                    <Link to={`/client-info/${item.Client_Id}`}>
-                      View Details
-                    </Link>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))
-          ) : (
-            <Grid item xs={12} display="flex" justifyContent="center">
-              <Empty />
-            </Grid>
-          )}
-        </Grid>
+        <Empty />
       )}
 
-      <TablePagination
+      {/* <TablePagination
         component="div"
         count={totalClients}
         page={page}
@@ -208,7 +166,7 @@ const Deactiveclient = () => {
         onRowsPerPageChange={(event) =>
           setRowsPerPage(parseInt(event.target.value, 10))
         }
-      />
+      /> */}
     </LayoutDesign>
   );
 };

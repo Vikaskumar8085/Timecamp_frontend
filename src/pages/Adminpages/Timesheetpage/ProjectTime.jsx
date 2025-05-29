@@ -21,6 +21,7 @@ import {AccessTime, List, Receipt, CheckCircle} from "@mui/icons-material";
 import {Link} from "react-router-dom";
 import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import StatCard from "../../../common/StatCard/StatCard";
 
 const ProjectTime = () => {
   const [Isprojecttimedata, setIsprojectTimedata] = useState([]);
@@ -77,6 +78,22 @@ const ProjectTime = () => {
   return (
     <LayoutDesign>
       <BreadCrumb pageName="Project Time" />
+
+      <Grid2 container spacing={2} sx={{my:2}}>
+        <Grid2 size={{md: 3, lg: 3, sm: 6, xs: 12}}>
+          <StatCard />
+        </Grid2>
+        <Grid2 size={{md: 3, lg: 3, sm: 6, xs: 12}}>
+          <StatCard />
+        </Grid2>
+        <Grid2 size={{md: 3, lg: 3, sm: 6, xs: 12}}>
+          <StatCard />
+        </Grid2>
+        <Grid2 size={{md: 3, lg: 3, sm: 6, xs: 12}}>
+          <StatCard />
+        </Grid2>
+      </Grid2>
+
       <Grid2 container spacing={2} sx={{my: 2}}>
         <Grid2 item sm={12} md={3} lg={3}>
           <Card

@@ -427,7 +427,7 @@ const Home = () => {
         isOpen={isFilterOpen}
         onClose={() => setIsFilterOpen(false)}
       /> */}
-      {/* <table className="select-table">
+      <table className="select-table">
         <thead>
           <tr>
             <th>
@@ -460,7 +460,7 @@ const Home = () => {
             </tr>
           ))}
         </tbody>
-      </table> */}
+      </table>
 
       <ProjectCard />
     </div>

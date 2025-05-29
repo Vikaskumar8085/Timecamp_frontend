@@ -63,111 +63,65 @@ const EmployeeTable = ({
         onChange={(e) => setSearch(e.target.value)}
         sx={{mb: 2}}
       />
-      {viewMode === "table" ? (
-        <Grid container spacing={2}>
-          <Grid size={{sm: 12}}>
-            <TableContainer component={Paper}>
-              <Table sx={{minWidth: 650}} aria-label="employee table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>ID</TableCell>
-                    <TableCell>Employee FirstName</TableCell>
-                    <TableCell>Employee LastName</TableCell>
-                    <TableCell>Employee Username</TableCell>
-                    <TableCell>Employee Email</TableCell>
-                    <TableCell>Employee Phone</TableCell>
-                    <TableCell>Manager</TableCell>
-                    <TableCell>Employee Address</TableCell>
-                    <TableCell>Action</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {IsEmployeeData.length > 0 ? (
-                    IsEmployeeData.map((item, index) => (
-                      <TableRow key={index}>
-                        <TableCell>{index + 1}</TableCell>
-                        <TableCell>{item.FirstName}</TableCell>
-                        <TableCell>{item.LastName}</TableCell>
-                        <TableCell>{item.UserName}</TableCell>
-                        <TableCell>{item.Email}</TableCell>
-                        <TableCell>{item.Phone}</TableCell>
-                        <TableCell>
-                          <Chip
-                            label={item.Manager || "NA"}
-                            color={item.Manager ? "success" : "error"}
-                          />
-                        </TableCell>
 
-                        <TableCell>{item.Address}</TableCell>
-                        <TableCell>
-                          <Link to={`/employee-info/${item.staff_Id}`}>
-                            <VisibilityIcon />
-                          </Link>
+      {IsEmployeeData.length > 0 ? (
+        <table className="table_Container">
+          <thead className="table_head">
+            <tr className="head_row">
+              <th className="table_head_data">Id</th>
+              <th className="table_head_data">FirstName</th>
+              <th className="table_head_data">LastName </th>
+              <th className="table_head_data">UserName </th>
+              <th className="table_head_data">Email</th>
+              <th className="table_head_data">Phone </th>
+              <th className="table_head_data">Manager</th>
+              <th className="table_head_data">Address </th>
+              <th className="table_head_data">Action </th>
+            </tr>
+          </thead>
+          <tbody className="table_body">
+            {IsEmployeeData?.map((item, index) => {
+              return (
+                <>
+                  <tr className="body_row" key={index}>
+                    <td className="table_data">{index + 1}</td>
+                    <td className="table_data">{item.FirstName}</td>
+                    <td className="table_data">{item.LastName}</td>
+                    <td className="table_data">{item.UserName}</td>
+                    <td className="table_data">{item.Email}</td>
+                    <td className="table_data">{item.Phone}</td>
+                    <td className="table_data">
+                      {
+                        <Chip
+                          label={item.Manager || "NA"}
+                          color={item.Manager ? "success" : "error"}
+                        />
+                      }
+                    </td>
+                    <td className="table_data">{item.Address}</td>
 
-                          <Button
-                            onClick={() => {
-                              setIsEdit(item);
-                              setisOpen(true);
-                            }}
-                          >
-                            <EditIcon />
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  ) : (
-                    <TableRow>
-                      <TableCell colSpan={7} align="center">
-                        <Empty />
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Grid>
-        </Grid>
+                    <td className="table_data">
+                      <Link to={`/contractor-info/${item.staff_Id}`}>
+                        <VisibilityIcon />
+                      </Link>
+                      <Button
+                        onClick={() => {
+                          setIsEdit(item);
+                          setisOpen(true);
+                        }}
+                      >
+                        <EditIcon />
+                      </Button>
+                      ;
+                    </td>
+                  </tr>
+                </>
+              );
+            })}
+          </tbody>
+        </table>
       ) : (
-        <Grid container spacing={2}>
-          {IsEmployeeData.length > 0 ? (
-            IsEmployeeData.map((item, index) => (
-              <Grid size={{xs: 12, sm: 12, md: 12, lg: 6}} key={index}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h6">
-                      {item.FirstName} {item.LastName}
-                    </Typography>
-                    <Typography>Email: {item.Email}</Typography>
-                    <Typography>Phone: {item.Phone}</Typography>
-                    <Typography>
-                      Manager:
-                      <Chip
-                        label={item.Manager || "NA"}
-                        color={item.Manager ? "success" : "error"}
-                      />
-                    </Typography>
-                    <Typography>Address: {item.Address}</Typography>
-                    <Link to={`/employee-info/${item.staff_Id}`}>
-                      <VisibilityIcon />
-                    </Link>
-
-                    <Button
-                      onClick={() => {
-                        setIsEdit(item);
-                      }}
-                    >
-                      <EditIcon />
-                    </Button>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))
-          ) : (
-            <Grid size={{sm: 12}} display="flex" justifyContent="center">
-              <Empty />
-            </Grid>
-          )}
-        </Grid>
+        <Empty />
       )}
       <TablePagination
         rowsPerPageOptions={[5, 10, 25, 50, 100]}

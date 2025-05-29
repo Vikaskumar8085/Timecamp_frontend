@@ -1,32 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Paper,
-  Button,
-  Card,
-  CardContent,
-  Typography,
-  TextField,
-  CircularProgress,
-  TablePagination,
-  Chip,
-} from "@mui/material";
+import {Button, TextField, TablePagination, Chip} from "@mui/material";
 import {fetchinactiveemployeeapicall} from "../../../ApiServices/AdminApiServices/Employee";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import Layout from "../../../Layoutcomponents/Layout/Layout";
 import Empty from "../../../common/EmptyFolder/Empty";
 import {Link} from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import Grid from "@mui/material/Grid2";
 import GridViewIcon from "@mui/icons-material/GridView";
 import TableViewIcon from "@mui/icons-material/TableView";
-import EditIcon from "@mui/icons-material/Edit";
-import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 const DeactiveEmployee = () => {
   const [viewMode, setViewMode] = useState("table");
@@ -64,112 +44,58 @@ const DeactiveEmployee = () => {
     <>
       <LayoutDesign>
         <BreadCrumb pageName="InActive Employee" />
-        <HeaderTab>
-          <TextField
-            label="Search"
-            fullWidth
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            sx={{mb: 2}}
-          />
-          <Button
-            onClick={() => setViewMode(viewMode === "table" ? "grid" : "table")}
-            sx={{background: "#2c3e50", padding: "8px 10px", color: "white"}}
-          >
-            {viewMode === "table" ? <GridViewIcon /> : <TableViewIcon />}
-          </Button>
-        </HeaderTab>
-        {loading ? (
-          <CircularProgress />
-        ) : viewMode === "table" ? (
-          <TableContainer component={Paper}>
-            <Table sx={{minWidth: 650}} aria-label="Active Employees Table">
-              <TableHead>
-                <TableRow>
-                  <TableCell align="left">ID</TableCell>
-                  <TableCell align="left">First Name</TableCell>
-                  <TableCell align="left">Last Name</TableCell>
-                  <TableCell align="left">Username</TableCell>
-                  <TableCell align="left">Email</TableCell>
-                  <TableCell align="left">Phone</TableCell>
-                  <TableCell align="left">Manager</TableCell>
-                  <TableCell align="left">Address</TableCell>
-                  <TableCell align="left">Action</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {IsInactiveEmployeedata.length > 0 ? (
-                  IsInactiveEmployeedata.map((item, index) => (
-                    <TableRow key={index}>
-                      <TableCell>{index + 1 + page * rowsPerPage}</TableCell>
-                      <TableCell>{item.FirstName}</TableCell>
-                      <TableCell>{item.LastName}</TableCell>
-                      <TableCell>{item.UserName}</TableCell>
-                      <TableCell>{item.Email}</TableCell>
-                      <TableCell>{item.Phone}</TableCell>
-                      <TableCell>
-                        <Chip
-                          label={item.Manager || "NA"}
-                          color={item.Manager ? "warning" : "error"}
-                        />
-                      </TableCell>
-                      <TableCell>{item.Address}</TableCell>
-                      <TableCell>
+
+        {IsInactiveEmployeedata.length > 0 ? (
+          <table className="table_Container">
+            <thead className="table_head">
+              <tr className="head_row">
+                <th className="table_head_data">Id</th>
+                <th className="table_head_data">FirstName</th>
+                <th className="table_head_data">LastName </th>
+                <th className="table_head_data">UserName </th>
+                <th className="table_head_data">Email</th>
+                <th className="table_head_data">Phone </th>
+                <th className="table_head_data">Manager</th>
+                <th className="table_head_data">Address </th>
+                <th className="table_head_data">Action </th>
+              </tr>
+            </thead>
+            <tbody className="table_body">
+              {IsInactiveEmployeedata?.map((item, index) => {
+                return (
+                  <>
+                    <tr className="body_row" key={index}>
+                      <td className="table_data">{index + 1}</td>
+                      <td className="table_data">{item.FirstName}</td>
+                      <td className="table_data">{item.LastName}</td>
+                      <td className="table_data">{item.UserName}</td>
+                      <td className="table_data">{item.Email}</td>
+                      <td className="table_data">{item.Phone}</td>
+                      <td className="table_data">
+                        {
+                          <Chip
+                            label={item.Manager || "NA"}
+                            color={item.Manager ? "success" : "error"}
+                          />
+                        }
+                      </td>
+                      <td className="table_data">{item.Address}</td>
+
+                      <td className="table_data">
                         <Link to={`/contractor-info/${item.staff_Id}`}>
                           <VisibilityIcon />
                         </Link>
-                        <Button>
-                          <EditIcon />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={8} align="center">
-                      <Empty />
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                      </td>
+                    </tr>
+                  </>
+                );
+              })}
+            </tbody>
+          </table>
         ) : (
-          <Grid container spacing={2}>
-            {IsInactiveEmployeedata.length > 0 ? (
-              IsInactiveEmployeedata.map((item, index) => (
-                <Grid size={{xs: 12, sm: 12, md: 12, lg: 6}} key={index}>
-                  <Card>
-                    <CardContent>
-                      <Typography variant="h6">
-                        {item.FirstName} {item.LastName}
-                      </Typography>
-                      <Typography variant="body2">{item.Email}</Typography>
-                      <Typography variant="body2">{item.Phone}</Typography>
-                      <Typography variant="body2">
-                        <Chip
-                          label={item.Manager || "NA"}
-                          color={item.Manager ? "danger" : "error"}
-                        />
-                      </Typography>
-                      <Typography variant="body2">{item.Address}</Typography>
-                      <Button>
-                        <VisibilityIcon />
-                      </Button>
-                      <Button>
-                        <EditIcon />
-                      </Button>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))
-            ) : (
-              <Typography variant="h6" align="center" sx={{width: "100%"}}>
-                <Empty />
-              </Typography>
-            )}
-          </Grid>
+          <Empty />
         )}
+
         <TablePagination
           rowsPerPageOptions={[5, 10, 25, 50, 100]}
           component="div"

@@ -1,27 +1,24 @@
-import { Box, Button, Card, Drawer, Grid2 } from "@mui/material";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  CardContent,
-  Typography,
-} from "@mui/material";
-import React, { useState } from "react";
+import {Chip, Button, Drawer, Grid2} from "@mui/material";
+import {Link} from "react-router-dom";
+import {CheckCircle} from "lucide-react";
+import React, {useCallback, useEffect, useState} from "react";
 import MilestoneForm from "./MilestoneForm";
 import apiInstance from "../../../../ApiInstance/apiInstance";
 import UploadTask from "../../../../Component/AdminComponents/Task/UploadTask";
 import AddProjectTask from "../../../../Component/AdminComponents/Project/AddProjectTask";
 import MilestoneList from "../../../../Component/AdminComponents/Project/ProjecTaskComponent/MilestoneList";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { setLoader } from "../../../../redux/LoaderSlices/LoaderSlices";
+import {useDispatch} from "react-redux";
+import {setLoader} from "../../../../redux/LoaderSlices/LoaderSlices";
 import TModal from "../../../../common/Modal/TModal";
+import Empty from "../../../../common/EmptyFolder/Empty";
+import moment from "moment";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import Pagination from "../../../../common/Pagination/Pagination";
+import InputSearch from "../../../../common/InputSearch/InputSearch";
 
-const ProjectTask = ({ id }) => {
+const ProjectTask = ({id}) => {
+  let dispatch = useDispatch();
   const [IsTaskOpen, setIsTaskOpen] = useState(false);
   const [IsMilestoneOpen, setIsMieStoneOpen] = useState(false);
   const [IsUploadTaskOpen, setIsUploadTaskOpen] = useState(false);
@@ -29,19 +26,70 @@ const ProjectTask = ({ id }) => {
   const [isMilestonoeresourcesdata, setIsMilestonoeresourcesdata] = useState(
     []
   );
+  const [isrecenteTaskdata, setIsRecentTask] = useState([]);
   const [isAllotedMemberdata, setIsallotedMemberdata] = useState([]);
-  let dispatch = useDispatch();
+  // for pagination and searching
+
   const [tasks, setTasks] = useState([]);
-  const fetchTasks = async () => {
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [limit] = useState(pageSize);
+  const [search, setSearch] = useState("");
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [debouncedSearch, setDebouncedSearch] = useState(search);
+
+  // for pagination and searching
+  useEffect(() => {
+    const handler = setTimeout(() => setDebouncedSearch(search), 500);
+    return () => clearTimeout(handler);
+  }, [search]);
+
+  // searching
+  const fetchTasks = useCallback(async () => {
+    setLoading(true);
     try {
+      const params = new URLSearchParams({
+        page,
+        limit: pageSize,
+        search: debouncedSearch,
+      });
       const response = await apiInstance.get(
-        `/v1/admin/fetch-project-task/${id}`
+        `/v1/admin/fetch-project-task/${id}?${params.toString()}`
       );
-      setTasks(response.data.result);
+      if (response?.data?.success) {
+        setTasks(response.data.result);
+        setTotalPages(response?.data.totalPages);
+      } else {
+        setTasks([]);
+        setTotalPages(1);
+      }
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }
-  };
+    setLoading(false);
+  }, [page, limit, debouncedSearch, id]);
+
+  useEffect(() => {
+    fetchTasks();
+  }, [fetchTasks]);
+
+  const handleSearchChange = useCallback((e) => {
+    setSearch(e.target.value);
+    setPage(1); // reset page on search
+  }, []);
+
+  const handlePageChange = useCallback((newPage) => {
+    setPage(newPage);
+  }, []);
+
+  const handlePageSizeChange = useCallback((newPageSize) => {
+    setPageSize(newPageSize);
+    setPage(1); // reset to first page on page size change
+  }, []);
+
+  // task functions
+
   const fetchmilestonewithresourcesfunc = async () => {
     try {
       const response = await apiInstance.get(
@@ -151,12 +199,25 @@ const ProjectTask = ({ id }) => {
       setIsUploadTaskOpen(false);
     }
   };
+
+  const fetchrecentactivityfunc = async () => {
+    try {
+      const response = await apiInstance.get(
+        `/v1/admin/fetch-recent-activities/${id}`
+      );
+      setIsRecentTask(response?.data?.result);
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
+  };
   React.useEffect(() => {
     fetchallotedtaskmemebersfunc();
     fetchmilestonefunc();
     fetchmilestonewithresourcesfunc();
-    fetchTasks();
+
+    fetchrecentactivityfunc();
   }, [0]);
+
   return (
     <>
       <Button
@@ -230,82 +291,168 @@ const ProjectTask = ({ id }) => {
       )}
 
       <div>
-        <Grid2 container spacing={2}>
-          <Grid2 size={{ sm: 12, md: 6 }}>
-            <Typography component={Paper}>Milstones Name</Typography>
-            <Box sx={{ height: "300px", overflow: "auto" }}>
-              <MilestoneList milestones={Ismilestonedata} />
-            </Box>
+        <Grid2 container spacing={2} sx={{my: 2}}>
+          <Grid2
+            size={{sm: 6, xs: 12, md: 4, lg: 4}}
+            sx={{height: "300px", overflow: "auto"}}
+          >
+            <MilestoneList milestones={Ismilestonedata} />
           </Grid2>
-
-          <Grid2 size={{ sm: 12, md: 6 }}>
-            <Box sx={{ height: "300px", overflow: "auto" }}>
-              <Typography component={Paper}>Alloted Task Member</Typography>
-
-              {isAllotedMemberdata.length > 0 ? (
-                isAllotedMemberdata.map((item, index) => (
-                  <Card key={index} sx={{ mb: 1, p: 1, position: "relative" }}>
-                    <Box
-                      sx={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        width: "100%",
-                      }}
-                    ></Box>
-                    <CardContent>
-                      <Typography variant="h6" gutterBottom>
-                        {item.FirstName}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                ))
-              ) : (
-                <Typography color="textSecondary">
-                  No milestones available
-                </Typography>
-              )}
-            </Box>
+          <Grid2
+            size={{sm: 6, xs: 12, md: 4, lg: 4}}
+            sx={{height: "300px", overflow: "auto"}}
+          >
+            <div className="recent-activity">
+              <h3 className="title">Recent Activity</h3>
+              <div className="activity-list">
+                {isrecenteTaskdata.map((activity, index) => (
+                  <div className="activity-item" key={index}>
+                    <div className="avatar">
+                      {activity.Photos?.[0] ? (
+                        <img src={activity.Photos?.[0]} alt="avatar" />
+                      ) : (
+                        <span className="initial">{activity.Task_Name}</span>
+                      )}
+                    </div>
+                    <div className="activity-content">
+                      <div className="message">{activity.Message}</div>
+                      <div className="time">
+                        {moment(activity.Completed_time).fromNow()}
+                      </div>
+                    </div>
+                    <CheckCircle className="icon" size={20} color="#00C49F" />
+                  </div>
+                ))}
+                {!isrecenteTaskdata.length && <Empty />}
+              </div>
+            </div>
+          </Grid2>
+          <Grid2
+            size={{sm: 12, md: 4, xs: 12, lg: 4}}
+            sx={{height: "300px", overflow: "auto"}}
+          >
+            <div className="task-members-wrapper" style={{background: "white"}}>
+              <h3 className="title">Allocated Task Members</h3>
+              <div className="task-members-scroll">
+                {isAllotedMemberdata.map((item, index) => (
+                  <div className="task-member" key={index}>
+                    <img
+                      src={item?.Photos?.[0]}
+                      alt="Profile"
+                      className="profile-img"
+                    />
+                    <div className="member-info">
+                      <div className="name">
+                        {item.FirstName} {item.LastName}
+                      </div>
+                      <div className="designation">
+                        {item.DesignationName || "Role Unknown"}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                <div style={{background: "white"}}>
+                  {!isAllotedMemberdata.length && <Empty />}
+                </div>
+              </div>
+            </div>
           </Grid2>
         </Grid2>
 
-        <TableContainer component={Paper} sx={{ mt: 3 }}>
-          <Typography variant="h6" sx={{ p: 2 }}>
-            Task List
-          </Typography>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Task Name</TableCell>
-                <TableCell>Project Name</TableCell>
-                <TableCell>Milestone</TableCell>
-                <TableCell>Priority</TableCell>
-                <TableCell>Start Date</TableCell>
-                <TableCell>End Date</TableCell>
-                <TableCell>Resource Name</TableCell>
-                <TableCell>Status</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {tasks.map((task) => (
-                <TableRow key={task._id}>
-                  <TableCell>{task.Task_Name}</TableCell>
-                  <TableCell>{task.ProjectName?.join(", ")}</TableCell>
-                  <TableCell>{task.MilestoneName?.join(", ")}</TableCell>
-                  <TableCell>{task.Priority}</TableCell>
-                  <TableCell>
-                    {new Date(task.StartDate).toLocaleDateString()}
-                  </TableCell>
-                  <TableCell>
-                    {new Date(task.EndDate).toLocaleDateString()}
-                  </TableCell>
-                  <TableCell>{task.ResourceName?.join(", ")}</TableCell>
-                  <TableCell>{task.Status}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <h1>Assigned Task</h1>
+        {/* searching  */}
+        <div style={{display: "flex", justifyContent: "space-between"}}>
+          <div className="left_div">{/* <Button>Sort</Button> */}</div>
+          <div className="right_div">
+            <InputSearch value={search} onChange={handleSearchChange} />
+          </div>
+        </div>
+        {/* searching */}
+        {/* task  table */}
+        {loading ? (
+          <div>Loading...</div>
+        ) : tasks.length > 0 ? (
+          <>
+            <table className="table_Container">
+              <thead className="table_head">
+                <tr className="head_row">
+                  {/* Table headers */}
+                  <th className="table_head_data">Id</th>
+                  <th className="table_head_data">Task Name</th>
+                  <th className="table_head_data">Project Name</th>
+                  <th className="table_head_data">Milestone</th>
+                  <th className="table_head_data">Priority</th>
+                  <th className="table_head_data">Start Date</th>
+                  <th className="table_head_data">End Date</th>
+                  <th className="table_head_data">Resource Name</th>
+                  <th className="table_head_data">Status</th>
+                  <th className="table_head_data">Attachment</th>
+                  <th className="table_head_data">Action</th>
+                </tr>
+              </thead>
+              <tbody className="table_body">
+                {tasks.map((item, index) => (
+                  <tr className="body_row" key={item._id || index}>
+                    <td className="table_data">{`T${
+                      (page - 1) * pageSize + index + 1
+                    }`}</td>
+                    <td className="table_data">{item.Task_Name}</td>
+                    <td className="table_data">{item.ProjectName}</td>
+                    <td className="table_data">{item.MilestoneName}</td>
+                    <td className="table_data">{item.Priority}</td>
+                    <td className="table_data">
+                      {new Date(item.StartDate).toLocaleDateString()}
+                    </td>
+                    <td className="table_data">
+                      {new Date(item.EndDate).toLocaleDateString()}
+                    </td>
+                    <td className="table_data">{item.ResourceName}</td>
+                    <td className="table_data">
+                      <Chip
+                        label={item.Status || "Unknown"}
+                        color={
+                          item.Status === "COMPLETED"
+                            ? "success"
+                            : item.Status === "INPROGRESS"
+                            ? "primary"
+                            : item.Status === "P"
+                            ? "warning"
+                            : "default"
+                        }
+                      />
+                    </td>
+                    <td className="table_data">
+                      {item.Attachment && (
+                        <a
+                          href={item.Attachment}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          attachment
+                        </a>
+                      )}
+                    </td>
+                    <td className="table_data">
+                      <Link to={`/task-view/${item.task_Id}`}>
+                        <VisibilityIcon />
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <Pagination
+              currentPage={page}
+              totalPages={totalPages}
+              pageSize={pageSize}
+              onPageChange={handlePageChange}
+              onPageSizeChange={handlePageSizeChange}
+            />
+          </>
+        ) : (
+          <Empty />
+        )}
       </div>
     </>
   );

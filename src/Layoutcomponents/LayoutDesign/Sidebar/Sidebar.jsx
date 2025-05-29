@@ -222,6 +222,17 @@ const Sidebar = ({toggleDropdown, openDropdown, Role}) => {
                       <span>InActive Client</span>
                     </NavLink>
                   </li>
+                  <li>
+                    <NavLink
+                      to="/dead-client"
+                      style={({isActive}) => ({
+                        color: isActive ? "black" : "black",
+                      })}
+                      className="dropdown_link"
+                    >
+                      <span>Dead Client</span>
+                    </NavLink>
+                  </li>
                 </ul>
               </li>
               {/* contractor */}

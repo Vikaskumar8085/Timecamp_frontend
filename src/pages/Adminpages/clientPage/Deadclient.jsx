@@ -1,28 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {fetchdeadclientapicall} from "../../../ApiServices/AdminApiServices/Client";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import Layout from "../../../Layoutcomponents/Layout/Layout";
-import TableViewIcon from "@mui/icons-material/TableView";
-import GridViewIcon from "@mui/icons-material/GridView";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Card,
-  CardContent,
-  Typography,
-  Chip,
-  Button,
-  TextField,
-  TablePagination,
-  CircularProgress,
-  Box,
-} from "@mui/material";
-import Grid from "@mui/material/Grid2";
+import {Chip, Button, TextField} from "@mui/material";
 import HeaderTab from "../../../common/HeaderTab/HeaderTab";
 import Empty from "../../../common/EmptyFolder/Empty";
 import {Link} from "react-router-dom";
@@ -65,141 +44,96 @@ const Deadclient = () => {
   return (
     <LayoutDesign>
       <BreadCrumb pageName="Dead Client" />
-      <div>
-        <HeaderTab>
-          <Button
-            onClick={() => setViewMode(viewMode === "table" ? "grid" : "table")}
-            sx={{
-              background: "#2c3e50",
-              padding: "8px 10px",
-              margin: "0px 10px",
-              color: "white",
-            }}
-          >
-            {viewMode === "table" ? <GridViewIcon /> : <TableViewIcon />}
-          </Button>
-        </HeaderTab>
 
-        <TextField
-          label="Search Clients"
-          variant="outlined"
-          fullWidth
-          value={search}
-          onChange={(e) => {
-            setSearch(e.target.value);
-            setPage(0);
+      {/* <HeaderTab> */}
+      {/* <Button
+          onClick={() => setViewMode(viewMode === "table" ? "grid" : "table")}
+          sx={{
+            background: "#2c3e50",
+            padding: "8px 10px",
+            margin: "0px 10px",
+            color: "white",
           }}
-          sx={{mb: 2}}
-        />
+        > */}
+      {/* {viewMode === "table" ? <GridViewIcon /> : <TableViewIcon />} */}
+      {/* </Button> */}
+      {/* </HeaderTab> */}
 
-        {loading ? (
-          <Box display="flex" justifyContent="center">
-            <CircularProgress />
-          </Box>
-        ) : viewMode === "table" ? (
-          <TableContainer component={Paper}>
-            <Table sx={{minWidth: 650}} aria-label="client table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>ID</TableCell>
-                  <TableCell>Company Name</TableCell>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Phone</TableCell>
-                  <TableCell>Address</TableCell>
-                  <TableCell>Postal Code</TableCell>
-                  <TableCell>Status</TableCell>
-                  <TableCell>Action</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {isdeadclientdata.length > 0 ? (
-                  isdeadclientdata.map((item, index) => (
-                    <TableRow key={item.Client_Id}>
-                      <TableCell>{index + 1}</TableCell>
-                      <TableCell>{item.Company_Name}</TableCell>
-                      <TableCell>{item.Client_Name}</TableCell>
-                      <TableCell>{item.Client_Email}</TableCell>
-                      <TableCell>{item.Client_Phone}</TableCell>
-                      <TableCell>{item.Client_Address}</TableCell>
-                      <TableCell>{item.Client_Postal_Code}</TableCell>
-                      <TableCell>
+      <TextField
+        label="Search Clients"
+        variant="outlined"
+        fullWidth
+        value={search}
+        onChange={(e) => {
+          setSearch(e.target.value);
+          setPage(0);
+        }}
+        sx={{mb: 2}}
+      />
+
+      {isdeadclientdata.length > 0 ? (
+        <table className="table_Container">
+          <thead className="table_head">
+            <tr className="head_row">
+              <th className="table_head_data">Id</th>
+              <th className="table_head_data">Company Name</th>
+              <th className="table_head_data">Client Name </th>
+              <th className="table_head_data">Client Email </th>
+              <th className="table_head_data">Client Address</th>
+              <th className="table_head_data">Client Postal Code </th>
+              <th className="table_head_data">Gst Numar</th>
+              <th className="table_head_data">Status </th>
+              <th className="table_head_data">Action </th>
+            </tr>
+          </thead>
+          <tbody className="table_body">
+            {isdeadclientdata?.map((item, index) => {
+              return (
+                <>
+                  <tr className="body_row" key={index}>
+                    <td className="table_data">{index + 1}</td>
+                    <td className="table_data">{item.Company_Name}</td>
+                    <td className="table_data">{item.Client_Name}</td>
+                    <td className="table_data">{item.Client_Phone}</td>
+                    <td className="table_data">{item.Client_Address}</td>
+                    <td className="table_data">{item.Client_Postal_Code}</td>
+                    <td className="table_data">{item.GstNumber}</td>
+                    <td className="table_data">
+                      {
                         <Chip
-                          label={item.Client_Status}
+                          label={item.Client_Status || "Unknown"}
                           color={
-                            item.Client_Status === "Active"
+                            item.Client_Status === "COMPLETED"
                               ? "success"
-                              : item.Client_Status === "InActive"
+                              : item.Client_Status === "INPROGRESS"
+                              ? "primary"
+                              : item.Client_Status === "P"
                               ? "warning"
-                              : "error"
+                              : "default"
                           }
                         />
-                      </TableCell>
-                      <TableCell>
-                        <Link
-                          style={{textDecoration: "none"}}
-                          to={`/client-info/${item.Client_Id}`}
-                        >
-                          <VisibilityIcon />
-                        </Link>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={8} align="center">
-                      <Empty />
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        ) : (
-          <Grid container spacing={2} sx={{p: 2}}>
-            {isdeadclientdata.length > 0 ? (
-              isdeadclientdata.map((item) => (
-                <Grid item xs={12} sm={6} md={4} key={item.Client_Id}>
-                  <Card>
-                    <CardContent>
-                      <Typography variant="h6">{item.Company_Name}</Typography>
-                      <Typography>Name: {item.Client_Name}</Typography>
-                      <Typography>Email: {item.Client_Email}</Typography>
-                      <Typography>Phone: {item.Client_Phone}</Typography>
-                      <Typography>Address: {item.Client_Address}</Typography>
-                      <Typography>
-                        Postal Code: {item.Client_Postal_Code}
-                      </Typography>
-                      <Typography>
-                        Status:
-                        <Chip
-                          label={item.Client_Status}
-                          color={
-                            item.Client_Status === "Active"
-                              ? "success"
-                              : item.Client_Status === "InActive"
-                              ? "warning"
-                              : "error"
-                          }
-                        />
-                      </Typography>
-                      <Link to={`/client-info/${item.Client_Id}`}>
-                        View Details
+                      }
+                    </td>
+
+                    <td className="table_data">
+                      <Link
+                        style={{textDecoration: "none"}}
+                        to={`/client-info/${item.Client_Id}`}
+                      >
+                        <VisibilityIcon />
                       </Link>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))
-            ) : (
-              <Grid item xs={12} display="flex" justifyContent="center">
-                <Empty />
-              </Grid>
-            )}
-          </Grid>
-        )}
-      </div>
+                    </td>
+                  </tr>
+                </>
+              );
+            })}
+          </tbody>
+        </table>
+      ) : (
+        <Empty />
+      )}
 
-      <TablePagination
+      {/* <TablePagination
         component="div"
         count={totalClients}
         page={page}
@@ -207,8 +141,8 @@ const Deadclient = () => {
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={(event) =>
           setRowsPerPage(parseInt(event.target.value, 10))
-        }
-      />
+        } */}
+      {/* /> */}
     </LayoutDesign>
   );
 };
