@@ -73,17 +73,35 @@ const Profile = ({ setShow, show }) => {
             />
           )}
 
+          {userdata?.Role === "Manager" && (
+            <img
+              src={userdata?.Photos?.[0] || "https://i.pravatar.cc/48?img=1"}
+              alt="Admin Avatar"
+              className="avatar"
+            />
+          )}
+          {userdata?.Role === "Contractor" && (
+            <img
+              src={userdata?.Photos?.[0] || "https://i.pravatar.cc/48?img=1"}
+              alt="Admin Avatar"
+              className="avatar"
+            />
+          )}
           <div className="details">
             <span className="name">
               {userdata?.Role === "Client" && userdata?.Client_Name}
               {userdata?.Role === "Admin" && userdata?.FirstName}
               {userdata?.Role === "Employee" && userdata?.FirstName}
+              {userdata?.Role === "Contractor" && userdata?.FirstName}
+              {userdata?.Role === "Manager" && userdata?.FirstName}
             </span>
             <span className="role">
               {" "}
               {userdata?.Role === "Client" && userdata?.Role}
               {userdata?.Role === "Admin" && userdata?.Role}
               {userdata?.Role === "Employee" && userdata?.Role}
+              {userdata?.Role === "Manager" && userdata?.Role}
+              {userdata?.Role === "Contractor" && userdata?.Role}
             </span>
           </div>
           <button className="logout-btn">
