@@ -1,9 +1,13 @@
 import React from "react";
 import "./ProfileCard.scss";
-import {Link} from "react-router-dom";
-import {LogOut, User, Users, Key} from "lucide-react";
+import { Link } from "react-router-dom";
+import { LogOut, User, Users, Key } from "lucide-react";
+import { useSelector } from "react-redux";
 
-const Profile = ({setShow, show}) => {
+const Profile = ({ setShow, show }) => {
+  const userdata = useSelector((state) => {
+    return state.user.values;
+  });
   return (
     <>
       {/* <div className="profile-card" onClick={() => setShow(!show)}>
@@ -47,14 +51,40 @@ const Profile = ({setShow, show}) => {
 
       <div className="profile-wrapper">
         <div className="profile-info">
-          <img
-            src="https://i.pravatar.cc/48?img=12"
-            alt="Admin Avatar"
-            className="avatar"
-          />
+          {userdata?.Role === "Client" && (
+            <img
+              src={userdata?.Client_Photo || "https://i.pravatar.cc/48?img=12"}
+              alt="Admin Avatar"
+              className="avatar"
+            />
+          )}
+          {userdata?.Role === "Admin" && (
+            <img
+              src={userdata?.Photo || "https://i.pravatar.cc/48?img=1"}
+              alt="Admin Avatar"
+              className="avatar"
+            />
+          )}
+          {userdata?.Role === "Employee" && (
+            <img
+              src={userdata?.Photos?.[0] || "https://i.pravatar.cc/48?img=1"}
+              alt="Admin Avatar"
+              className="avatar"
+            />
+          )}
+
           <div className="details">
-            <span className="name">John Doe</span>
-            <span className="role">Admin</span>
+            <span className="name">
+              {userdata?.Role === "Client" && userdata?.Client_Name}
+              {userdata?.Role === "Admin" && userdata?.FirstName}
+              {userdata?.Role === "Employee" && userdata?.FirstName}
+            </span>
+            <span className="role">
+              {" "}
+              {userdata?.Role === "Client" && userdata?.Role}
+              {userdata?.Role === "Admin" && userdata?.Role}
+              {userdata?.Role === "Employee" && userdata?.Role}
+            </span>
           </div>
           <button className="logout-btn">
             <LogOut

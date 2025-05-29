@@ -1,14 +1,14 @@
 import React from "react";
-import {Grid2} from "@mui/material";
+import { Grid2 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import Empty from "../../../common/EmptyFolder/Empty";
 import Pagination from "../../../common/Pagination/Pagination";
 import RecentActivity from "../../../common/RecentActivity/RecentActivity";
 import TaskProgress from "../../TaskProgress";
 import InputSearch from "../../../common/InputSearch/InputSearch";
-const ClientProjectTask = ({isclinettaskinfodata, istaskMembers}) => {
+const ClientProjectTask = ({ isclinettaskinfodata, istaskMembers }) => {
   const formatDate = (excelDate) => {
     if (!excelDate) return "N/A";
     return new Date(
@@ -70,13 +70,13 @@ const ClientProjectTask = ({isclinettaskinfodata, istaskMembers}) => {
       <div className="client_project_task_wrapper">
         <Grid2 container spacing={2}>
           <Grid2
-            size={{md: 4, lg: 4, sm: 12}}
+            size={{ md: 4, lg: 4, sm: 12 }}
             className="client_project_task_header"
           >
             <RecentActivity activities={sampleData} />
           </Grid2>
           <Grid2
-            size={{md: 4, lg: 4, sm: 12}}
+            size={{ md: 4, lg: 4, sm: 12 }}
             className="client_project_task_header"
           >
             <div className="task-members-wrapper">
@@ -94,7 +94,7 @@ const ClientProjectTask = ({isclinettaskinfodata, istaskMembers}) => {
                         {item.FirstName} {item.LastName}
                       </div>
                       <div className="designation">
-                        {item.Designation || "Role Unknown"}
+                        {item.DesignationName || "Role Unknown"}
                       </div>
                     </div>
                   </div>
@@ -102,12 +102,10 @@ const ClientProjectTask = ({isclinettaskinfodata, istaskMembers}) => {
               </div>
             </div>
           </Grid2>
-          <Grid2>
-            <TaskProgress />
-          </Grid2>
+          <Grid2></Grid2>
         </Grid2>
       </div>
-      <div style={{display: "flex", justifyContent: "space-between"}}>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div className="left_div">{/* <Button>Sort</Button> */}</div>
         <div className="right_div">
           <InputSearch />
