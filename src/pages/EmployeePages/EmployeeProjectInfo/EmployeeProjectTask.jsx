@@ -1,6 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
+import {CheckCircle} from "lucide-react";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import {fetchemployeeprojecttaskapicall} from "../../../ApiServices/EmployeeApiservices/Employee";
+import moment from "moment";
 import {
   Table,
   TableBody,
@@ -17,12 +19,19 @@ import Pagination from "../../../common/Pagination/Pagination";
 import TaskProgress from "../../TaskProgress";
 import RecentActivity from "../../../common/RecentActivity/RecentActivity";
 import InputSearch from "../../../common/InputSearch/InputSearch";
+import apiInstance from "../../../ApiInstance/apiInstance";
+import Employeemilestone from "../../../Component/EmployeeComponents/EmployeeMilestone/Employeemilestone";
+import Empty from "../../../common/EmptyFolder/Empty";
 const EmployeeProjectTask = ({id}) => {
   const [IsEmployeeProjectTaskdata, setIsEmployeeProjectTaskdata] = useState(
     []
   );
 
-  const fetchEmployeeProjectTaskFunc = async () => {
+  const [Isemployeeallotedtask, setemployeeallotedtask] = useState([]);
+  const [isemployeeRecentActivity, setEmployeeRecentActivity] = useState([]);
+  const [isemployeemilestonedata, setEmployeemilestonedata] = useState([]);
+  console.log(Isemployeeallotedtask);
+  const fetchEmployeeProjectTaskFunc = useCallback(async () => {
     try {
       const response = await fetchemployeeprojecttaskapicall(id);
       if (response.success) {
@@ -31,58 +40,105 @@ const EmployeeProjectTask = ({id}) => {
     } catch (error) {
       console.log(error?.message);
     }
-  };
+  }, []);
 
-  const sampleData = [
-    {
-      avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-      message: "Cameron Williamson has completed the task.",
-      timeAgo: "3 hours, 35 min ago",
-    },
-    {
-      initial: "A",
-      message: "Alfred Invited you to Project Infinity!",
-      timeAgo: "4 hours, 35 min ago",
-    },
-    {
-      initial: "M",
-      message: "Mike marked ‘Client Presentation’ task as completed.",
-      timeAgo: "5 hours, 12 min ago",
-    },
-    {
-      initial: "M",
-      message: "Mike marked ‘Client Presentation’ task as completed.",
-      timeAgo: "5 hours, 12 min ago",
-    },
-    {
-      initial: "M",
-      message: "Mike marked ‘Client Presentation’ task as completed.",
-      timeAgo: "5 hours, 12 min ago",
-    },
-    {
-      initial: "M",
-      message: "Mike marked ‘Client Presentation’ task as completed.",
-      timeAgo: "5 hours, 12 min ago",
-    },
-    {
-      initial: "M",
-      message: "Mike marked ‘Client Presentation’ task as completed.",
-      timeAgo: "5 hours, 12 min ago",
-    },
-    {
-      initial: "M",
-      message: "Mike marked ‘Client Presentation’ task as completed.",
-      timeAgo: "5 hours, 12 min ago",
-    },
-    {
-      initial: "M",
-      message: "Mike marked ‘Client Presentation’ task as completed.",
-      timeAgo: "5 hours, 12 min ago",
-    },
-  ];
+  const fetchemployeetaskallotedfunc = useCallback(async () => {
+    try {
+      const response = await apiInstance.get(
+        `/v2/employee/fetch-employee-alloted-task/${id}`
+      );
+      if (response?.data?.success) {
+        setemployeeallotedtask(response?.data?.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  }, []);
+
+  const fetchEmployeeRecentActivitiesfunc = useCallback(async () => {
+    try {
+      const response = await apiInstance.get(
+        `/v2/employee/fetch-employee-recent-activities/${id}`
+      );
+      if (response?.data?.success) {
+        setEmployeeRecentActivity(response?.data?.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  }, []);
+
+  const fetchEmployeeTaskProjecss = useCallback(async () => {
+    try {
+      const response = await apiInstance.get(
+        `/v2/employee/fetch-employee-milestone-project/${id}`
+      );
+      if (response?.data?.success) {
+        setEmployeemilestonedata(response?.data?.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  }, []);
+  // const sampleData = [
+  //   {
+  //     avatar: "https://randomuser.me/api/portraits/men/1.jpg",
+  //     message: "Cameron Williamson has completed the task.",
+  //     timeAgo: "3 hours, 35 min ago",
+  //   },
+  //   {
+  //     initial: "A",
+  //     message: "Alfred Invited you to Project Infinity!",
+  //     timeAgo: "4 hours, 35 min ago",
+  //   },
+  //   {
+  //     initial: "M",
+  //     message: "Mike marked ‘Client Presentation’ task as completed.",
+  //     timeAgo: "5 hours, 12 min ago",
+  //   },
+  //   {
+  //     initial: "M",
+  //     message: "Mike marked ‘Client Presentation’ task as completed.",
+  //     timeAgo: "5 hours, 12 min ago",
+  //   },
+  //   {
+  //     initial: "M",
+  //     message: "Mike marked ‘Client Presentation’ task as completed.",
+  //     timeAgo: "5 hours, 12 min ago",
+  //   },
+  //   {
+  //     initial: "M",
+  //     message: "Mike marked ‘Client Presentation’ task as completed.",
+  //     timeAgo: "5 hours, 12 min ago",
+  //   },
+  //   {
+  //     initial: "M",
+  //     message: "Mike marked ‘Client Presentation’ task as completed.",
+  //     timeAgo: "5 hours, 12 min ago",
+  //   },
+  //   {
+  //     initial: "M",
+  //     message: "Mike marked ‘Client Presentation’ task as completed.",
+  //     timeAgo: "5 hours, 12 min ago",
+  //   },
+  //   {
+  //     initial: "M",
+  //     message: "Mike marked ‘Client Presentation’ task as completed.",
+  //     timeAgo: "5 hours, 12 min ago",
+  //   },
+  // ];
   useEffect(() => {
     fetchEmployeeProjectTaskFunc();
-  }, [0]);
+    fetchemployeetaskallotedfunc();
+    fetchEmployeeRecentActivitiesfunc();
+    fetchEmployeeTaskProjecss();
+  }, [
+    fetchEmployeeProjectTaskFunc,
+    fetchemployeetaskallotedfunc,
+    fetchEmployeeRecentActivitiesfunc,
+    fetchEmployeeTaskProjecss,
+  ]);
+
   return (
     <div>
       <>
@@ -90,39 +146,77 @@ const EmployeeProjectTask = ({id}) => {
         <Grid2 container spacing={4} sx={{my: 3}}>
           <Grid2
             size={{md: 4, lg: 4, sm: 12}}
+            sx={{height: "320px", overflow: "auto"}}
             className="client_project_task_header"
           >
-            <RecentActivity activities={sampleData} />
+            {!isemployeeRecentActivity.length ? (
+              <Empty />
+            ) : (
+              <div className="recent-activity">
+                <h3 className="title">Recent Activity</h3>
+                <div className="activity-list">
+                  {isemployeeRecentActivity.map((activity, index) => (
+                    <div className="activity-item" key={index}>
+                      <div className="avatar">
+                        {activity.Photos?.[0] ? (
+                          <img src={activity.Photos?.[0]} alt="avatar" />
+                        ) : (
+                          <span className="initial">
+                            {/* {activity.DesignationName} */}
+                          </span>
+                        )}
+                      </div>
+                      <div className="activity-content">
+                        <div className="message">{activity.Message}</div>
+                        <div className="time">
+                          {moment(activity.updatedAt).fromNow()}
+                        </div>
+                      </div>
+                      <CheckCircle className="icon" size={20} color="#00C49F" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </Grid2>
           <Grid2
             size={{md: 4, lg: 4, sm: 12}}
+            sx={{height: "320px", overflow: "auto"}}
             className="client_project_task_header"
           >
-            <div className="task-members-wrapper">
-              <h3 className="title">Allocated Task Members</h3>
-              <div className="task-members-scroll">
-                {/* {istaskMembers.map((item, index) => (
-                  <div className="task-member" key={index}>
-                    <img
-                      src={item?.Photos?.[0]}
-                      alt="Profile"
-                      className="profile-img"
-                    />
-                    <div className="member-info">
-                      <div className="name">
-                        {item.FirstName} {item.LastName}
-                      </div>
-                      <div className="designation">
-                        {item.Designation || "Role Unknown"}
+            {!Isemployeeallotedtask.length ? (
+              <Empty />
+            ) : (
+              <div className="task-members-wrapper">
+                <h3 className="title">Allocated Task Members</h3>
+                <div className="task-members-scroll">
+                  {Isemployeeallotedtask.map((item, index) => (
+                    <div className="task-member" key={index}>
+                      <img
+                        src={item?.Photos?.[0]}
+                        alt="Profile"
+                        className="profile-img"
+                      />
+                      <div className="member-info">
+                        <div className="name">
+                          {item.FirstName} {item.LastName}
+                        </div>
+                        <div className="designation">
+                          {item.DesignationName || "designation Unknown"}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))} */}
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </Grid2>
-          <Grid2>
-            <TaskProgress />
+          <Grid2
+            size={{md: 4, lg: 4, sm: 12}}
+            sx={{height: "320px", overflow: "auto"}}
+          >
+            <Employeemilestone milestones={isemployeemilestonedata} />
+            {!isemployeemilestonedata.length && <Empty />}
           </Grid2>
         </Grid2>
         <div

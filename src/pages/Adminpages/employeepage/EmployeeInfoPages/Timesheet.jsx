@@ -16,6 +16,7 @@ import {
   Button,
 } from "@mui/material";
 import {AccessTime, List, Receipt, CheckCircle} from "@mui/icons-material";
+import StatCard from "../../../../common/StatCard/StatCard";
 const Timesheet = ({
   data,
   approveEmployeetimesheet,
@@ -62,7 +63,22 @@ const Timesheet = ({
 
   return (
     <>
-      <Grid2 container spacing={2} sx={{my: 2}}>
+      <Grid2 container spacing={3} sx={{my: 1}}>
+        <Grid2 size={{md: 3, lg: 3, sm: 6, xs: 12}}>
+          <StatCard />
+        </Grid2>
+        <Grid2 size={{md: 3, lg: 3, sm: 6, xs: 12}}>
+          <StatCard />
+        </Grid2>
+        <Grid2 size={{md: 3, lg: 3, sm: 6, xs: 12}}>
+          <StatCard />
+        </Grid2>
+        <Grid2 size={{md: 3, lg: 3, sm: 6, xs: 12}}>
+          <StatCard />
+        </Grid2>
+      </Grid2>
+
+      {/* <Grid2 container spacing={2} sx={{my: 2}}>
         <Grid2 item sm={12} md={3} lg={3}>
           <Card
             sx={{
@@ -133,7 +149,7 @@ const Timesheet = ({
             </Typography>
           </Card>
         </Grid2>
-      </Grid2>
+      </Grid2> */}
       <TableContainer component={Paper} sx={{padding: "20px"}}>
         <Typography variant="h6" sx={{marginBottom: "10px"}}>
           Timesheets

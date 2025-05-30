@@ -317,7 +317,7 @@ const ProjectTask = ({id}) => {
                     <div className="activity-content">
                       <div className="message">{activity.Message}</div>
                       <div className="time">
-                        {moment(activity.Completed_time).fromNow()}
+                        {moment(activity.updatedAt).fromNow()}
                       </div>
                     </div>
                     <CheckCircle className="icon" size={20} color="#00C49F" />

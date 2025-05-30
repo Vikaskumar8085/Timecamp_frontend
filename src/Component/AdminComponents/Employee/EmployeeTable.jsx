@@ -101,7 +101,7 @@ const EmployeeTable = ({
                     <td className="table_data">{item.Address}</td>
 
                     <td className="table_data">
-                      <Link to={`/contractor-info/${item.staff_Id}`}>
+                      <Link to={`/employee-info/${item.staff_Id}`}>
                         <VisibilityIcon />
                       </Link>
                       <Button

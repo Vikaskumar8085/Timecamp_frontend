@@ -27,6 +27,7 @@ const Client = () => {
   const [IsOpen, setIsOpen] = useState(false);
   const [isUpload, setIsUpload] = useState(false);
   const [Isclientdata, setIsclientdata] = useState([]);
+
   const [isEdit, setIsEdit] = useState(null);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
@@ -197,100 +198,7 @@ const Client = () => {
           />
         </TModal>
       )}
-      {/* {IsOpen && (
-        <TModal
-          title={isEdit !== null ? "Edit Client " : " Add Client"}
-          open={IsOpen}
-          onClose={() => {
-            setIsEdit(null);
-            setIsOpen(false);
-          }}
-        >
-          <Container maxWidth="sm">
-            <form style={{minWidth: "320px", maxWidth: "500px", width: "100%"}}>
-              <Grid2 Container>
-                <Grid2 size={{sm: 6, md: 6, lg: 6, xs: 6}} sx={{mt: 3}}>
-                  <Input
-                    placeholder={"Please Enter Your Company Name"}
-                    labelText={"Company Name"}
-                    // style={{minWidth: "100%"}}
-                  />
-                </Grid2>
-                <Grid2 size={{sm: 6, md: 6, lg: 6, xs: 6}} sx={{mt: 3}}>
-                  <Input
-                    placeholder={"Please Enter Your Client Name"}
-                    labelText={"Client Name"}
-                    // style={{width: "100%"}}
-                  />
-                </Grid2>
-                <Grid2 size={{sm: 6, md: 6, xs: 6}} sx={{mt: 3}}>
-                  <Input
-                    placeholder={"Please Enter Your Client Name"}
-                    labelText={"Client Email"}
-                    style={{width: "100%"}}
-                  />
-                </Grid2>
-                <Grid2 size={{sm: 12, md: 6, xs: 12}} sx={{mt: 3}}>
-                  <InputPassword
-                    type={"password"}
-                    labelText={"Password"}
-                    style={{width: "100%"}}
-                  />
-                </Grid2>
-                <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
-                  <label
-                    htmlFor="phone-input"
-                    style={{
-                      display: "block",
-                      marginBottom: "6px",
-                      color: "#86919b",
-                      fontWeight: "500",
-                    }}
-                  >
-                    Phone Number
-                  </label>
 
-                  <PhoneInput
-                    inputStyle={{width: "100%"}}
-                    country={"in"}
-                    style={{width: "100%"}}
-                  />
-                </Grid2>
-                <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
-                  <Input
-                    type={"text"}
-                    labelText={"Company Address"}
-                    placeholder={"Please Enter Your Address"}
-                  />
-                </Grid2>
-                <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
-                  <Input
-                    labelText={"Postal Code"}
-                    type={"number"}
-                    placeholder={"Please Enter Your Postal Code"}
-                  />
-                </Grid2>
-                <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
-                  <Input
-                    labelText={"Gst Number"}
-                    type={"text"}
-                    placeholder={"Please Enter Your State"}
-                  />
-                </Grid2>
-                <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
-                  <input type={"checkbox"} /> &nbsp;
-                  <label htmlFor="">System Access</label>
-                </Grid2>
-                <Grid2 size={{sm: 12, xs: 12, md: 6}} sx={{mt: 3}}>
-                  <Button style={{width: "100%", background: "skyblue"}}>
-                    Submit
-                  </Button>
-                </Grid2>
-              </Grid2>
-            </form>
-          </Container>
-        </TModal>
-      )} */}
       {isUpload && (
         <Drawer
           open={isUpload}

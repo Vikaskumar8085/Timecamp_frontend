@@ -17,8 +17,8 @@ const RecentActivity = ({activities = []}) => {
               )}
             </div>
             <div className="activity-content">
-              <div className="message">{activity.message}</div>
-              <div className="time">{activity.timeAgo}</div>
+              <div className="message">{activity.Message}</div>
+              <div className="time">{moment(activity.updatedAt).fromNow()}</div>
             </div>
             <CheckCircle className="icon" size={20} color="#00C49F" />
           </div>

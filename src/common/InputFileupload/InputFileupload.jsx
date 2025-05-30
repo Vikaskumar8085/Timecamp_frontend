@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-const InputFileupload = ({ paragraph, title, ...rest }) => {
+import React, {useState} from "react";
+const InputFileupload = ({paragraph, title, ...rest}) => {
   const [filename, setfilename] = useState("");
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
@@ -35,7 +35,7 @@ const InputFileupload = ({ paragraph, title, ...rest }) => {
                 <div className="text-paragraph">Select File</div>
                 <input
                   type="file"
-                  accept="image/*"
+                  accept="*"
                   hidden
                   {...rest}
                   onChange={handleFileChange}

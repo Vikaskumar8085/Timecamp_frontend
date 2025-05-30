@@ -24,9 +24,11 @@ const ClientPageinfo = () => {
   const [isClientprojectInfodata, setIsClientProjectInfodata] = useState([]);
   const [isclinettaskinfodata, setIsclienttaskinfodata] = useState([]);
   const [istaskMembers, setIstaskMembers] = useState([]);
-
-  console.log(isClientprojectInfodata, "isClientprojectInfodata");
+  const [isRecentactivity, setIsRecentActivity] = useState([]);
   const [isClientTimesheetdata, setIsClientTimesheetdata] = useState([]);
+
+  const [ismilestonelist, setmilestonelist] = useState([]);
+
   const dispatch = useDispatch();
   const fetchclientsingleprojectfunc = async () => {
     try {
@@ -131,6 +133,34 @@ const ClientPageinfo = () => {
     }
   }, []);
 
+  //fetch client task Recenter activity
+
+  const fetchclientTaskRecentActivityfunc = useCallback(async () => {
+    try {
+      const response = await apiInstance.get(
+        `/v2/client/fetch-recent-task-activity/${id}`
+      );
+      if (response?.data?.success) {
+        setIsRecentActivity(response?.data?.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  }, []);
+
+  const fetchclienttaskmilestonefunc = useCallback(async () => {
+    try {
+      const response = await apiInstance.get(
+        `/v2/client/fetch-task-milestones/${id}`
+      );
+      if (response?.data?.success) {
+        setmilestonelist(response?.data?.result);
+      }
+    } catch (error) {
+      console.log(error?.response);
+    }
+  });
+
   const tabsheader = [
     {title: "Client Project Info"},
     {title: "Client Project TimeSheet"},
@@ -164,6 +194,8 @@ const ClientPageinfo = () => {
           <ClientProjectTask
             isclinettaskinfodata={isclinettaskinfodata}
             istaskMembers={istaskMembers}
+            isRecentactivity={isRecentactivity}
+            ismilestonelist={ismilestonelist}
           />
         </>
       ),
@@ -175,6 +207,8 @@ const ClientPageinfo = () => {
     fetchclienttaskinformationfunc();
     fetchclienttimesheetinformationfunc();
     fetchclientprojectallotedTaskMemebsers();
+    fetchclientTaskRecentActivityfunc();
+    fetchclienttaskmilestonefunc();
   }, [0]);
   return (
     <LayoutDesign>

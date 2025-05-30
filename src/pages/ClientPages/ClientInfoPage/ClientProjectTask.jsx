@@ -1,68 +1,19 @@
 import React from "react";
-import { Grid2 } from "@mui/material";
+import {Grid2} from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import Empty from "../../../common/EmptyFolder/Empty";
 import Pagination from "../../../common/Pagination/Pagination";
-import RecentActivity from "../../../common/RecentActivity/RecentActivity";
-import TaskProgress from "../../TaskProgress";
+import {CheckCircle} from "lucide-react";
 import InputSearch from "../../../common/InputSearch/InputSearch";
-const ClientProjectTask = ({ isclinettaskinfodata, istaskMembers }) => {
-  const formatDate = (excelDate) => {
-    if (!excelDate) return "N/A";
-    return new Date(
-      (parseFloat(excelDate) - 25569) * 86400000
-    ).toLocaleDateString();
-  };
-
-  const sampleData = [
-    {
-      avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-      message: "Cameron Williamson has completed the task.",
-      timeAgo: "3 hours, 35 min ago",
-    },
-    {
-      initial: "A",
-      message: "Alfred Invited you to Project Infinity!",
-      timeAgo: "4 hours, 35 min ago",
-    },
-    {
-      initial: "M",
-      message: "Mike marked ‘Client Presentation’ task as completed.",
-      timeAgo: "5 hours, 12 min ago",
-    },
-    {
-      initial: "M",
-      message: "Mike marked ‘Client Presentation’ task as completed.",
-      timeAgo: "5 hours, 12 min ago",
-    },
-    {
-      initial: "M",
-      message: "Mike marked ‘Client Presentation’ task as completed.",
-      timeAgo: "5 hours, 12 min ago",
-    },
-    {
-      initial: "M",
-      message: "Mike marked ‘Client Presentation’ task as completed.",
-      timeAgo: "5 hours, 12 min ago",
-    },
-    {
-      initial: "M",
-      message: "Mike marked ‘Client Presentation’ task as completed.",
-      timeAgo: "5 hours, 12 min ago",
-    },
-    {
-      initial: "M",
-      message: "Mike marked ‘Client Presentation’ task as completed.",
-      timeAgo: "5 hours, 12 min ago",
-    },
-    {
-      initial: "M",
-      message: "Mike marked ‘Client Presentation’ task as completed.",
-      timeAgo: "5 hours, 12 min ago",
-    },
-  ];
+import moment from "moment";
+import Milestone from "../../../Component/ClientComponent/milestone/Milestone";
+const ClientProjectTask = ({
+  isRecentactivity,
+  isclinettaskinfodata,
+  istaskMembers,
+  ismilestonelist,
+}) => {
   return (
     <div>
       {/* <BreadCrumb pageName="Client Project Task" /> */}
@@ -70,14 +21,47 @@ const ClientProjectTask = ({ isclinettaskinfodata, istaskMembers }) => {
       <div className="client_project_task_wrapper">
         <Grid2 container spacing={2}>
           <Grid2
-            size={{ md: 4, lg: 4, sm: 12 }}
+            size={{md: 4, lg: 4, sm: 12}}
+            sx={{height: "350px", overflow: "auto"}}
             className="client_project_task_header"
           >
-            <RecentActivity activities={sampleData} />
+            <Milestone milestones={ismilestonelist} />
+            {!ismilestonelist.length && <Empty />}
           </Grid2>
           <Grid2
-            size={{ md: 4, lg: 4, sm: 12 }}
+            size={{md: 4, lg: 4, sm: 12}}
+            sx={{height: "350px", overflow: "auto"}}
             className="client_project_task_header"
+          >
+            <div className="recent-activity">
+              <h3 className="title">Recent Activity</h3>
+              <div className="activity-list">
+                {isRecentactivity.map((activity, index) => (
+                  <div className="activity-item" key={index}>
+                    <div className="avatar">
+                      {activity.Photos?.[0] ? (
+                        <img src={activity.Photos?.[0]} alt="avatar" />
+                      ) : (
+                        <span className="initial">{activity.initial}</span>
+                      )}
+                    </div>
+                    <div className="activity-content">
+                      <div className="message">{activity.Message}</div>
+                      <div className="time">
+                        {moment(activity.updatedAt).fromNow()}
+                      </div>
+                    </div>
+                    <CheckCircle className="icon" size={20} color="#00C49F" />
+                  </div>
+                ))}
+                {!isRecentactivity.length && <Empty />}
+              </div>
+            </div>
+          </Grid2>
+          <Grid2
+            size={{md: 4, lg: 4, sm: 12}}
+            className="client_project_task_header"
+            sx={{height: "350px", overflow: "auto"}}
           >
             <div className="task-members-wrapper">
               <h3 className="title">Allocated Task Members</h3>
@@ -102,10 +86,9 @@ const ClientProjectTask = ({ isclinettaskinfodata, istaskMembers }) => {
               </div>
             </div>
           </Grid2>
-          <Grid2></Grid2>
         </Grid2>
       </div>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div style={{display: "flex", justifyContent: "space-between"}}>
         <div className="left_div">{/* <Button>Sort</Button> */}</div>
         <div className="right_div">
           <InputSearch />
@@ -156,11 +139,11 @@ const ClientProjectTask = ({ isclinettaskinfodata, istaskMembers }) => {
               })}
             </tbody>
           </table>
-          <Pagination />
         </>
       ) : (
         <Empty />
       )}
+      <Pagination />
     </div>
   );
 };

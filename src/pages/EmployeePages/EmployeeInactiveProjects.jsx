@@ -67,7 +67,7 @@ const EmployeeInactiveProjects = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {isemployleeInactiveprojects?.response?.map((item, index) => {
+            {isemployleeInactiveprojects?.map((item, index) => {
               return (
                 <>
                   <TableRow key={index}>
@@ -96,40 +96,9 @@ const EmployeeInactiveProjects = () => {
                 </>
               );
             })}
-            {isemployleeInactiveprojects?.employeeProjects?.map(
-              (item, index) => {
-                return (
-                  <>
-                    <TableRow key={item._id}>
-                      <TableCell>{item.Project_Name}</TableCell>
-                      <TableCell>{item.Project_Code}</TableCell>
-                      <TableCell>{item.Project_Hours}</TableCell>
-                      <TableCell>
-                        {item.Project_Status === true ? "Active" : "InActive"}
-                      </TableCell>
-                      <TableCell>{item.Project_Type}</TableCell>
-                      <TableCell>
-                        {new Date(item.Start_Date).toLocaleDateString()}
-                      </TableCell>
-                      <TableCell>
-                        {new Date(item.End_Date).toLocaleDateString()}
-                      </TableCell>
-                      <TableCell>
-                        <Link
-                          to={`/employee/employee-project-info/${item.ProjectId}`}
-                        >
-                          <VisibilitySharp />
-                        </Link>
-                      </TableCell>
-                    </TableRow>
-                  </>
-                );
-              }
-            )}
           </TableBody>
         </Table>
       </TableContainer>
-
       <Pagination />
     </LayoutDesign>
   );

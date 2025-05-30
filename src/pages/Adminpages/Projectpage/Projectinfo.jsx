@@ -241,7 +241,6 @@ const Projectinfo = () => {
 
   return (
     <LayoutDesign>
-      <BreadCrumb pageName="Project Info" />
       <TabComp
         Tabsheader={tabsheader}
         TabsBody={Tabsbody}

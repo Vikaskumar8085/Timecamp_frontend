@@ -103,10 +103,10 @@ const EmployeeProjectTimesheet = ({id}) => {
       attachement: Yup.mixed().required("Attachment is required"),
     }),
     onSubmit: async (values) => {
+      console.log(values, "dalksdflk");
       const formdata = new FormData();
-      formdata.append("Staff_Id", values.Staff_Id);
       formdata.append("hours", values.hours);
-      formdata.append("project", 10);
+      formdata.append("project", values.project);
       formdata.append("day", values.day);
       formdata.append("Description", values.Description);
       formdata.append("task_description", values.task_description);
@@ -382,41 +382,39 @@ const EmployeeProjectTimesheet = ({id}) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {IsEmployeeProjectTimesheetdata?.flatMap((item) =>
-              item.findtimesheet.map((rowdata) => (
-                <TableRow key={rowdata._id}>
-                  <TableCell>
-                    <FormControlLabel
-                      key={rowdata.Timesheet_Id}
-                      control={
-                        <Checkbox
-                          checked={selectedItems.includes(rowdata.Timesheet_Id)}
-                          onChange={() =>
-                            handleCheckboxChange(rowdata.Timesheet_Id)
-                          }
-                        />
-                      }
-                      label={rowdata.name}
-                    />
-                  </TableCell>
-                  <TableCell>{rowdata.ts_code}</TableCell>
-                  <TableCell>{rowdata.hours}</TableCell>
-                  <TableCell>{rowdata.Description}</TableCell>
-                  <TableCell>{rowdata.task_description}</TableCell>
-                  <TableCell>{rowdata.remarks}</TableCell>
-                  <TableCell>{rowdata.approval_status}</TableCell>
-                  <TableCell>{rowdata.billing_status}</TableCell>
-                  <TableCell>{rowdata.day}</TableCell>
-                  <TableCell>
-                    <Button
-                      onClick={() => RemoveTimesheetFunc(rowdata?.Timesheet_Id)}
-                    >
-                      Delete
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))
-            )}
+            {IsEmployeeProjectTimesheetdata?.map((rowdata) => (
+              <TableRow key={rowdata._id}>
+                <TableCell>
+                  <FormControlLabel
+                    key={rowdata.Timesheet_Id}
+                    control={
+                      <Checkbox
+                        checked={selectedItems.includes(rowdata.Timesheet_Id)}
+                        onChange={() =>
+                          handleCheckboxChange(rowdata.Timesheet_Id)
+                        }
+                      />
+                    }
+                    label={rowdata.name}
+                  />
+                </TableCell>
+                <TableCell>{rowdata.ts_code}</TableCell>
+                <TableCell>{rowdata.hours}</TableCell>
+                <TableCell>{rowdata.Description}</TableCell>
+                <TableCell>{rowdata.task_description}</TableCell>
+                <TableCell>{rowdata.remarks}</TableCell>
+                <TableCell>{rowdata.approval_status}</TableCell>
+                <TableCell>{rowdata.billing_status}</TableCell>
+                <TableCell>{rowdata.day}</TableCell>
+                <TableCell>
+                  <Button
+                    onClick={() => RemoveTimesheetFunc(rowdata?.Timesheet_Id)}
+                  >
+                    Delete
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {
   fetchemployeeprojectsapicall,
   fetchemployeetimesheetapicall,
@@ -6,7 +6,7 @@ import {
 } from "../../ApiServices/EmployeeApiservices/Employee";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import moment from "moment";
-import { FieldArray, FormikProvider, useFormik } from "formik";
+import {FieldArray, FormikProvider, useFormik} from "formik";
 import {
   Table,
   TableCell,
@@ -40,8 +40,8 @@ import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 import TModal from "../../common/Modal/TModal";
 
 const isprojectinfodata = [
-  { ProjectId: "P001", Project_Name: "Project One" },
-  { ProjectId: "P002", Project_Name: "Project Two" },
+  {ProjectId: "P001", Project_Name: "Project One"},
+  {ProjectId: "P002", Project_Name: "Project Two"},
 ];
 
 const validationSchema = Yup.object().shape({
@@ -94,7 +94,7 @@ const EmployeeTimesheets = () => {
   const fetchemployeetimesheetfunc = async () => {
     try {
       const response = await fetchemployeetimesheetapicall({
-        params: { page: page + 1, limit: rowsPerPage, search },
+        params: {page: page + 1, limit: rowsPerPage, search},
       });
       if (response.success) {
         setIsEmployeeTimesheetData(response.result);
@@ -181,11 +181,10 @@ const EmployeeTimesheets = () => {
         });
 
         const response = await fillmultiemployeetimesheetapicall(formData);
-        if(response?.success){
+        if (response?.success) {
           fetchemployeetimesheetfunc();
-          setIsOpen(false)
-        }else{
-          
+          setIsOpen(false);
+        } else {
         }
       } catch (error) {
         console.error("API Error:", error);
@@ -214,7 +213,7 @@ const EmployeeTimesheets = () => {
       <BreadCrumb pageName="Employee Timesheet" />
       {/* modal */}
       <Button
-        sx={{ background: "skyblue", margin: "5px 0px", padding: "10px " }}
+        sx={{background: "skyblue", margin: "5px 0px", padding: "10px "}}
         onClick={() => setIsOpen(true)}
       >
         Fill TimeSheet
@@ -227,7 +226,7 @@ const EmployeeTimesheets = () => {
             onClose={() => setIsOpen(false)}
             title={"fill Timesheet"}
           >
-            <Container maxWidth="sm" sx={{ p: 2 }}>
+            <Container maxWidth="sm" sx={{p: 2}}>
               <form onSubmit={formik.handleSubmit}>
                 <FormikProvider value={formik}>
                   <FieldArray
@@ -243,7 +242,7 @@ const EmployeeTimesheets = () => {
                               padding: 10,
                             }}
                           >
-                            <FormControl fullWidth sx={{ mb: 2 }}>
+                            <FormControl fullWidth sx={{mb: 2}}>
                               <InputLabel>Select Project</InputLabel>
                               <Select
                                 name={`entries[${index}].project`}
@@ -391,7 +390,7 @@ const EmployeeTimesheets = () => {
       {/* timesheet data */}
 
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="client table">
+        <Table sx={{minWidth: 650}} aria-label="client table">
           <TableHead>
             <TableRow>
               <TableCell>

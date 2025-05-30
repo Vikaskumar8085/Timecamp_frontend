@@ -1,30 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useParams, Link} from "react-router-dom";
 import {
   fetchclientprojectsapicall,
   fetchclientTimesheetapicall,
   fetchsignleclientapicall,
 } from "../../../ApiServices/AdminApiServices/Client";
-import Card from "../../../common/Card/Card";
-
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  Box,
-  TableHead,
-  TableRow,
-  CardContent,
-  Typography,
-  Divider,
-  Paper,
-  Grid,
-  Button,
-  Grid2,
-} from "@mui/material";
+import {Button, Grid2} from "@mui/material";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import Layout from "../../../Layoutcomponents/Layout/Layout";
 import TimesheetList from "./ClientTImesheet/TimesheetList";
 import {useDispatch} from "react-redux";
 import toast from "react-hot-toast";
@@ -34,9 +16,13 @@ import {
   disapprovetimesheetbyadminapicall,
 } from "../../../ApiServices/AdminApiServices/Admin";
 import {setLoader} from "../../../redux/LoaderSlices/LoaderSlices";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 import bgimage from "../../../assets/commonIcon/profilepic.png";
 import CardOne from "../../../common/cardOne/CardOne";
+import TabComp from "../../../common/TabComponent/TabComp";
+import Empty from "../../../common/EmptyFolder/Empty";
+import StatCard from "../../../common/StatCard/StatCard";
 
 const Clientinfo = () => {
   const {id} = useParams();
@@ -44,6 +30,7 @@ const Clientinfo = () => {
   const [IsClientprojectsdata, setIsclientprojectsdata] = useState([]);
   const [isClientTimesheet, setIsClientTimesheets] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
+  const [isSubState, setisSubState] = useState(0);
 
   const dispatch = useDispatch();
   const getClientInfo = async () => {
@@ -159,184 +146,170 @@ const Clientinfo = () => {
     getclientTimesheet();
     getclientsprojects();
   }, [0]);
-  return (
-    <LayoutDesign>
-      <BreadCrumb pageName="Client Information" />
-      {/* <Card>
-        <CardContent sx={{p: 3}}>
-          <Typography
-            variant="h5"
-            sx={{
-              fontWeight: "bold",
-              textAlign: "Start",
-              mb: 2,
-            }}
-          >
-            Client Information
-          </Typography>
-          <Divider sx={{mb: 2}} />
 
-          <Grid container spacing={2}>
-            {[
-              {label: "Client Name", value: IsClientdata?.Client_Name},
-              {label: "Client Email", value: IsClientdata?.Client_Email},
-              {label: "Company Name", value: IsClientdata?.Company_Name},
-              {label: "Client Phone", value: IsClientdata?.Client_Phone},
-              {label: "Client Status", value: IsClientdata?.Client_Status},
-              {label: "Postal Code", value: IsClientdata?.Client_Postal_Code},
-              {
-                label: "System Access",
-                value: (
-                  <span
-                    style={{
-                      color: IsClientdata?.System_Access ? "green" : "red",
-                    }}
-                  >
-                    {IsClientdata?.System_Access ? "Yes" : "No"}
-                  </span>
-                ),
-              },
-              {label: "GST Number", value: IsClientdata?.GstNumber},
-            ].map((item, index) => (
-              <Grid item xs={12} sm={6} key={index}>
-                <Box
-                  sx={{
-                    p: 1.5,
-                    borderRadius: 2,
-                    backgroundColor: "#f9f9f9",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography
-                    variant="body1"
-                    sx={{fontWeight: 600, color: "#333"}}
-                  >
-                    {item.label}:
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    sx={{color: "#555", fontWeight: 500}}
-                  >
-                    {item.value || "N/A"}
-                  </Typography>
-                </Box>
-              </Grid>
-            ))}
-          </Grid>
-        </CardContent>
-      </Card> */}
-
-      {/* client profile design */}
-
-      <div className="client_card_wrapper">
-        <div className="client_card_wrapper_box">
-          <div className="client_card_header">
-            <img src={bgimage} alt="" srcset="" />
-            <div className="client_header_tags">
-              <img
-                src={
-                  IsClientdata?.Client_Photo ||
-                  "https://i.ibb.co/4pDNDk1/avatar.png"
-                }
-                alt="User avatar"
-                loading="lazy"
-              />
-              <h1>{IsClientdata.Client_Name}</h1>
-              <p>{IsClientdata?.Client_Address}</p>
+  const tabsheader = [
+    {title: "ClientInfo"},
+    {title: "Client Project"},
+    {title: "TimeSheet"},
+  ];
+  const Tabsbody = [
+    {
+      content: (
+        <>
+          <div className="client_card_wrapper">
+            <div className="client_card_wrapper_box">
+              <div className="client_card_header">
+                <img src={bgimage} alt="" srcset="" />
+                <div className="client_header_tags">
+                  <img
+                    src={
+                      IsClientdata?.Client_Photo ||
+                      "https://i.ibb.co/4pDNDk1/avatar.png"
+                    }
+                    alt="User avatar"
+                    loading="lazy"
+                  />
+                  <h1>{IsClientdata.Client_Name}</h1>
+                  <p>{IsClientdata?.Client_Address}</p>
+                </div>
+              </div>
+              <div className="client_body">
+                <Grid2 container spacing={2}>
+                  <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                    <CardOne
+                      title={"Username"}
+                      paragraph={IsClientdata?.Username}
+                    />
+                  </Grid2>
+                  <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                    <CardOne
+                      title={"Email"}
+                      paragraph={IsClientdata?.Client_Email}
+                    />
+                  </Grid2>
+                  <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                    <CardOne
+                      title={"Phone"}
+                      paragraph={IsClientdata?.Client_Phone}
+                    />
+                  </Grid2>
+                  <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                    <CardOne
+                      title={"Postal Code"}
+                      paragraph={IsClientdata?.Client_Postal_Code}
+                    />
+                  </Grid2>
+                  <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                    <CardOne
+                      title={"Gst Number"}
+                      paragraph={IsClientdata?.GstNumber}
+                    />
+                  </Grid2>
+                  <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                    <CardOne
+                      title={"Client Status "}
+                      paragraph={IsClientdata?.Client_Status}
+                    />
+                  </Grid2>
+                  <Grid2 size={{md: 6, lg: 6, sm: 12}}>
+                    <CardOne
+                      title={"system Access"}
+                      paragraph={IsClientdata?.System_Access ? "yes" : "no"}
+                    />
+                  </Grid2>
+                </Grid2>
+              </div>
             </div>
           </div>
-          <div className="client_body">
-            <Grid2 container spacing={2}>
-              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
-                <CardOne
-                  title={"Username"}
-                  paragraph={IsClientdata?.Username}
-                />
-              </Grid2>
-              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
-                <CardOne
-                  title={"Email"}
-                  paragraph={IsClientdata?.Client_Email}
-                />
-              </Grid2>
-              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
-                <CardOne
-                  title={"Phone"}
-                  paragraph={IsClientdata?.Client_Phone}
-                />
-              </Grid2>
-              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
-                <CardOne
-                  title={"Postal Code"}
-                  paragraph={IsClientdata?.Client_Postal_Code}
-                />
-              </Grid2>
-              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
-                <CardOne
-                  title={"Gst Number"}
-                  paragraph={IsClientdata?.GstNumber}
-                />
-              </Grid2>
-              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
-                <CardOne
-                  title={"Client Status "}
-                  paragraph={IsClientdata?.Client_Status}
-                />
-              </Grid2>
-              <Grid2 size={{md: 6, lg: 6, sm: 12}}>
-                <CardOne
-                  title={"system Access"}
-                  paragraph={IsClientdata?.System_Access ? "yes" : "no"}
-                />
-              </Grid2>
-            </Grid2>
-          </div>
-        </div>
-      </div>
-      {/* client info Page design */}
-      <Box>
-        <TableContainer component={Paper}>
-          <Table sx={{minWidth: 650}} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="left">ID</TableCell>
-                <TableCell align="left">Project Code</TableCell>
-                <TableCell align="left">Project Name</TableCell>
-                <TableCell align="left">start Date</TableCell>
-                <TableCell align="left">End Date</TableCell>
-                <TableCell align="left">Project Hours</TableCell>
-                <TableCell align="left">Action</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {IsClientprojectsdata.length > 0
-                ? IsClientprojectsdata.map((item, index) => (
-                    <TableRow key={index}>
-                      <TableCell component="th" scope="row">
-                        {index + 1}
-                      </TableCell>
-                      <TableCell>{item.Project_Code}</TableCell>
-                      <TableCell>{item.Project_Name}</TableCell>
-                      <TableCell>{item.Start_Date}</TableCell>
-                      <TableCell>{item.End_Date}</TableCell>
-                      <TableCell>{item.Project_Hours}</TableCell>
-                    </TableRow>
-                  ))
-                : "null"}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Box>
+        </>
+      ),
+    },
+    {
+      content: (
+        <>
+          {" "}
+          {IsClientprojectsdata.length > 0 ? (
+            <table className="table_Container">
+              <thead className="table_head">
+                <tr className="head_row">
+                  <th className="table_head_data">Id</th>
+                  <th className="table_head_data">Project Name</th>
+                  <th className="table_head_data">Project Code </th>
+                  <th className="table_head_data">Project Hours </th>
+                  <th className="table_head_data">Start Date</th>
+                  <th className="table_head_data">End Date </th>
+                  <th className="table_head_data">Project Type</th>
+                  <th className="table_head_data">Action </th>
+                </tr>
+              </thead>
+              <tbody className="table_body">
+                {IsClientprojectsdata?.map((item, index) => {
+                  return (
+                    <>
+                      <tr className="body_row" key={index}>
+                        <td className="table_data">{index + 1}</td>
+                        <td className="table_data">{item.Project_Name}</td>
+                        <td className="table_data">{item.Project_Code}</td>
+                        <td className="table_data">{item.Project_Hours}</td>
+                        <td className="table_data">{item.Start_Date}</td>
+                        <td className="table_data">{item.End_Date}</td>
+                        <td className="table_data">{item.Project_Type}</td>
 
-      <TimesheetList
-        approvecontractortimesheet={approvecontractortimesheet}
-        disapprovecontractortimesheet={disapprovecontractortimesheet}
-        biiledclienttimesheet={biiledclienttimesheet}
-        data={isClientTimesheet}
-        setSelectedItems={setSelectedItems}
-        selectedItems={selectedItems}
+                        <td className="table_data">
+                          <Link to={`/project-info/${item.ProjectId}`}>
+                            <VisibilityIcon />
+                          </Link>
+                        </td>
+                      </tr>
+                    </>
+                  );
+                })}
+              </tbody>
+            </table>
+          ) : (
+            <Empty />
+          )}
+        </>
+      ),
+    },
+    {
+      content: (
+        <>
+          <Grid2 container spacing={3} sx={{my: 1}}>
+            <Grid2 size={{md: 3, lg: 3, sm: 6, xs: 12}}>
+              <StatCard />
+            </Grid2>
+            <Grid2 size={{md: 3, lg: 3, sm: 6, xs: 12}}>
+              <StatCard />
+            </Grid2>
+            <Grid2 size={{md: 3, lg: 3, sm: 6, xs: 12}}>
+              <StatCard />
+            </Grid2>
+            <Grid2 size={{md: 3, lg: 3, sm: 6, xs: 12}}>
+              <StatCard />
+            </Grid2>
+          </Grid2>
+          <TimesheetList
+            approvecontractortimesheet={approvecontractortimesheet}
+            disapprovecontractortimesheet={disapprovecontractortimesheet}
+            biiledclienttimesheet={biiledclienttimesheet}
+            data={isClientTimesheet}
+            setSelectedItems={setSelectedItems}
+            selectedItems={selectedItems}
+          />
+        </>
+      ),
+    },
+  ];
+  return (
+    <LayoutDesign>
+      {/* <BreadCrumb pageName="Client Information" /> */}
+
+      <TabComp
+        isSubState={isSubState}
+        setisSubState={setisSubState}
+        Tabsheader={tabsheader}
+        TabsBody={Tabsbody}
       />
     </LayoutDesign>
   );
