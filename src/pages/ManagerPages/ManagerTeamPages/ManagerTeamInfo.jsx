@@ -1,5 +1,5 @@
-import React, {useCallback, useState, useEffect} from "react";
-import {useParams} from "react-router-dom";
+import React, { useCallback, useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import LayoutDesign from "../../../Layoutcomponents/LayoutDesign/LayoutDesign";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import toast from "react-hot-toast";
@@ -9,13 +9,13 @@ import {
 } from "../../../ApiServices/ManagerApiServices";
 import TeamInfo from "../../../Component/ManagerComponents/ManageTeamComponent/TeamInfo";
 import Teamproject from "../../../Component/ManagerComponents/ManageTeamComponent/Teamproject";
+import Empty from "../../../common/EmptyFolder/Empty";
 
 const ManagerTeamInfo = () => {
   const [isteamInfo, setTeamInfo] = useState(null);
   const [isProjectInfo, setProjectInfo] = useState(null);
 
-
-  const {id} = useParams();
+  const { id } = useParams();
 
   const fetchmanagerteaminfoFunc = useCallback(async () => {
     try {
@@ -66,6 +66,7 @@ const ManagerTeamInfo = () => {
       <LayoutDesign>
         <BreadCrumb pageName="Team Information" />
         <TeamInfo isteamInfo={isteamInfo} />
+
         <Teamproject isProjectInfo={isProjectInfo} />
       </LayoutDesign>
     </>

@@ -1,7 +1,7 @@
-import React, {useCallback, useEffect, useState} from "react";
-import {CheckCircle} from "lucide-react";
+import React, { useCallback, useEffect, useState } from "react";
+import { CheckCircle } from "lucide-react";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import {fetchemployeeprojecttaskapicall} from "../../../ApiServices/EmployeeApiservices/Employee";
+import { fetchemployeeprojecttaskapicall } from "../../../ApiServices/EmployeeApiservices/Employee";
 import moment from "moment";
 import {
   Table,
@@ -14,7 +14,7 @@ import {
   Paper,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import Pagination from "../../../common/Pagination/Pagination";
 import TaskProgress from "../../TaskProgress";
 import RecentActivity from "../../../common/RecentActivity/RecentActivity";
@@ -22,7 +22,7 @@ import InputSearch from "../../../common/InputSearch/InputSearch";
 import apiInstance from "../../../ApiInstance/apiInstance";
 import Employeemilestone from "../../../Component/EmployeeComponents/EmployeeMilestone/Employeemilestone";
 import Empty from "../../../common/EmptyFolder/Empty";
-const EmployeeProjectTask = ({id}) => {
+const EmployeeProjectTask = ({ id }) => {
   const [IsEmployeeProjectTaskdata, setIsEmployeeProjectTaskdata] = useState(
     []
   );
@@ -80,53 +80,9 @@ const EmployeeProjectTask = ({id}) => {
       console.log(error?.message);
     }
   }, []);
-  // const sampleData = [
-  //   {
-  //     avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-  //     message: "Cameron Williamson has completed the task.",
-  //     timeAgo: "3 hours, 35 min ago",
-  //   },
-  //   {
-  //     initial: "A",
-  //     message: "Alfred Invited you to Project Infinity!",
-  //     timeAgo: "4 hours, 35 min ago",
-  //   },
-  //   {
-  //     initial: "M",
-  //     message: "Mike marked ‘Client Presentation’ task as completed.",
-  //     timeAgo: "5 hours, 12 min ago",
-  //   },
-  //   {
-  //     initial: "M",
-  //     message: "Mike marked ‘Client Presentation’ task as completed.",
-  //     timeAgo: "5 hours, 12 min ago",
-  //   },
-  //   {
-  //     initial: "M",
-  //     message: "Mike marked ‘Client Presentation’ task as completed.",
-  //     timeAgo: "5 hours, 12 min ago",
-  //   },
-  //   {
-  //     initial: "M",
-  //     message: "Mike marked ‘Client Presentation’ task as completed.",
-  //     timeAgo: "5 hours, 12 min ago",
-  //   },
-  //   {
-  //     initial: "M",
-  //     message: "Mike marked ‘Client Presentation’ task as completed.",
-  //     timeAgo: "5 hours, 12 min ago",
-  //   },
-  //   {
-  //     initial: "M",
-  //     message: "Mike marked ‘Client Presentation’ task as completed.",
-  //     timeAgo: "5 hours, 12 min ago",
-  //   },
-  //   {
-  //     initial: "M",
-  //     message: "Mike marked ‘Client Presentation’ task as completed.",
-  //     timeAgo: "5 hours, 12 min ago",
-  //   },
-  // ];
+
+
+  
   useEffect(() => {
     fetchEmployeeProjectTaskFunc();
     fetchemployeetaskallotedfunc();
@@ -143,10 +99,10 @@ const EmployeeProjectTask = ({id}) => {
     <div>
       <>
         <BreadCrumb pageName="Employee Task" />
-        <Grid2 container spacing={4} sx={{my: 3}}>
+        <Grid2 container spacing={4} sx={{ my: 3 }}>
           <Grid2
-            size={{md: 4, lg: 4, sm: 12}}
-            sx={{height: "320px", overflow: "auto"}}
+            size={{ md: 4, lg: 4, sm: 12 }}
+            sx={{ height: "320px", overflow: "auto" }}
             className="client_project_task_header"
           >
             {!isemployeeRecentActivity.length ? (
@@ -180,8 +136,8 @@ const EmployeeProjectTask = ({id}) => {
             )}
           </Grid2>
           <Grid2
-            size={{md: 4, lg: 4, sm: 12}}
-            sx={{height: "320px", overflow: "auto"}}
+            size={{ md: 4, lg: 4, sm: 12 }}
+            sx={{ height: "320px", overflow: "auto" }}
             className="client_project_task_header"
           >
             {!Isemployeeallotedtask.length ? (
@@ -212,8 +168,8 @@ const EmployeeProjectTask = ({id}) => {
             )}
           </Grid2>
           <Grid2
-            size={{md: 4, lg: 4, sm: 12}}
-            sx={{height: "320px", overflow: "auto"}}
+            size={{ md: 4, lg: 4, sm: 12 }}
+            sx={{ height: "320px", overflow: "auto" }}
           >
             <Employeemilestone milestones={isemployeemilestonedata} />
             {!isemployeemilestonedata.length && <Empty />}
@@ -233,10 +189,10 @@ const EmployeeProjectTask = ({id}) => {
         </div>
         <TableContainer
           component={Paper}
-          sx={{mt: 2, boxShadow: 3, borderRadius: 2}}
+          sx={{ mt: 2, boxShadow: 3, borderRadius: 2 }}
         >
           <Table>
-            <TableHead sx={{backgroundColor: "#e0e0e0"}}>
+            <TableHead sx={{ backgroundColor: "#e0e0e0" }}>
               <TableRow>
                 <TableCell>
                   <strong>Task Name</strong>
@@ -301,7 +257,7 @@ const EmployeeProjectTask = ({id}) => {
                     </TableCell>
                     <TableCell>
                       <Link
-                        style={{textDecoration: "none", color: "#2c3e50"}}
+                        style={{ textDecoration: "none", color: "#2c3e50" }}
                         to={`/employee/taskinfo/${task.task_Id}`}
                       >
                         <VisibilityIcon />

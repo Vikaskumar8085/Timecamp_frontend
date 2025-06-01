@@ -1,30 +1,34 @@
-import React, {useEffect, useState} from "react";
-import Layout from "../../../Layoutcomponents/Layout/Layout";
+import React, { useEffect, useCallback, useState } from "react";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Typography,
-  CardContent,
   Card,
   Box,
-  Grid2,
+  Paper,
+  Table,
+  TableCell,
+  TableHead,
   TablePagination,
-  CircularProgress,
+  TableContainer,
+  TableBody,
   TextField,
+  TableRow,
+  Grid2,
+  CircularProgress,
 } from "@mui/material";
 import apiInstance from "../../../ApiInstance/apiInstance";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import Empty from "../../../common/EmptyFolder/Empty";
+import Contractormilestone from "../../../Component/ContractorComponents/Contractormilestone/Contractormilestone";
+import { CheckCircle } from "lucide-react";
 
-const ContractorProjectTask = ({id}) => {
+const ContractorProjectTask = ({ id }) => {
   const [isContractorData, setIsContractorData] = useState([]);
   const [iscontractormilestonedata, setiscontractormilestonedata] = useState(
+    []
+  );
+  const [Iscontractorallotedtask, setcontractorallotedtask] = useState([]);
+  const [iscontractorRecentActivity, setcontractorRecentActivity] = useState(
     []
   );
   const [loading, setLoading] = useState(false);
@@ -35,9 +39,7 @@ const ContractorProjectTask = ({id}) => {
 
   // const
 
-  const [isteamdata, setIsteamdata] = useState([]);
-
-  const fetchcontractorprojecttaskfunc = async () => {
+  const fetchcontractorprojecttaskfunc = useCallback(async () => {
     try {
       setLoading(true);
       const response = await apiInstance.get(
@@ -63,11 +65,11 @@ const ContractorProjectTask = ({id}) => {
       console.log(error?.message);
     }
     setLoading(false);
-  };
+  }, [page, rowsPerPage, search]);
 
   // milestone
 
-  const fetchcontractorprojectmilestonesfunc = async () => {
+  const fetchcontractorprojectmilestonesfunc = useCallback(async () => {
     try {
       const response = await apiInstance.get(
         `/v2/contractor/fetch-contractor-milestone/${id}`
@@ -78,10 +80,10 @@ const ContractorProjectTask = ({id}) => {
     } catch (error) {
       console.log(error?.message);
     }
-  };
+  }, []);
 
   // fetch recent team
-  const fetchcontractorrecentprojectTeamfunc = async () => {
+  const fetchcontractorrecentprojectTeamfunc = useCallback(async () => {
     try {
       const response = await apiInstance.get(
         `/v2/contractor/fetch-contractor-team/${id}`
@@ -92,24 +94,71 @@ const ContractorProjectTask = ({id}) => {
     } catch (error) {
       console.log(error?.message);
     }
-  };
+  }, []);
 
+  const fetchContractortaskallotedfunc = useCallback(async () => {
+    try {
+      const response = await apiInstance.get(
+        `/v2/contractor/fetch-contractor-alloted-task/${id}`
+      );
+      if (response?.data?.success) {
+        setcontractorallotedtask(response?.data?.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  }, []);
+
+  const fetchContractorRecentActivitiesfunc = useCallback(async () => {
+    try {
+      const response = await apiInstance.get(
+        `/v2/contractor/fetch-contractor-recent-activities/${id}`
+      );
+      if (response?.data?.success) {
+        setcontractorRecentActivity(response?.data?.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  }, []);
+
+  const fetchContreactorTaskProjecss = useCallback(async () => {
+    try {
+      const response = await apiInstance.get(
+        `/v2/contractor/fetch-contractor-milestone-project/${id}`
+      );
+      if (response?.data?.success) {
+        setiscontractormilestonedata(response?.data?.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  }, []);
   useEffect(() => {
+    fetchContreactorTaskProjecss();
+    fetchContractortaskallotedfunc();
+    fetchContractorRecentActivitiesfunc();
     fetchcontractorprojectmilestonesfunc();
     fetchcontractorrecentprojectTeamfunc();
-  }, [0]);
-  useEffect(() => {
     fetchcontractorprojecttaskfunc();
-  }, [page, rowsPerPage, search]);
+  }, [
+    fetchContractorRecentActivitiesfunc,
+    fetchContractortaskallotedfunc,
+    fetchContreactorTaskProjecss,
+    fetchcontractorrecentprojectTeamfunc,
+    fetchcontractorprojectmilestonesfunc,
+    fetchcontractorprojecttaskfunc,
+  ]);
+
   return (
     <>
       <BreadCrumb pageName="Contractor Project Task" />
-      <Grid2 container spacing={2}>
-        <Grid2 size={{sm: 12, md: 6}}>
-          <Box sx={{height: "300px", overflow: "auto"}}>
+      {/* <Grid2 container spacing={2}>
+        <Grid2 size={{ sm: 12, md: 6 }}>
+          <Box sx={{ height: "300px", overflow: "auto" }}>
             {iscontractormilestonedata.length > 0 ? (
               iscontractormilestonedata.map((item, index) => (
-                <Card key={index} sx={{mb: 1, p: 1, position: "relative"}}>
+                <Card key={index} sx={{ mb: 1, p: 1, position: "relative" }}>
                   <Box
                     sx={{
                       position: "absolute",
@@ -135,7 +184,7 @@ const ContractorProjectTask = ({id}) => {
             )}
           </Box>
         </Grid2>
-        <Grid2 size={{sm: 12, md: 6}}>
+        <Grid2 size={{ sm: 12, md: 6 }}>
           <Grid2 xs={12}>
             <Typography variant="h6" gutterBottom>
               Alloted Task Memeber
@@ -145,7 +194,7 @@ const ContractorProjectTask = ({id}) => {
             <Grid2 key={index} xs={12} sm={6} md={6}>
               <Paper
                 elevation={3}
-                sx={{p: 2, display: "flex", alignItems: "center"}}
+                sx={{ p: 2, display: "flex", alignItems: "center" }}
               >
                 <Typography variant="body1" fontWeight="bold">
                   {item}
@@ -154,8 +203,87 @@ const ContractorProjectTask = ({id}) => {
             </Grid2>
           ))}
         </Grid2>
+      </Grid2> */}
+      {/* alloted task */}
+      <Grid2 container spacing={4} sx={{ my: 3 }}>
+        <Grid2
+          size={{ md: 4, lg: 4, sm: 12 }}
+          sx={{ height: "320px", overflow: "auto" }}
+          className="client_project_task_header"
+        >
+          {!iscontractorRecentActivity.length ? (
+            <Empty />
+          ) : (
+            <div className="recent-activity">
+              <h3 className="title">Recent Activity</h3>
+              <div className="activity-list">
+                {iscontractorRecentActivity.map((activity, index) => (
+                  <div className="activity-item" key={index}>
+                    <div className="avatar">
+                      {activity.Photos?.[0] ? (
+                        <img src={activity.Photos?.[0]} alt="avatar" />
+                      ) : (
+                        <span className="initial">
+                          {activity.DesignationName}
+                        </span>
+                      )}
+                    </div>
+                    <div className="activity-content">
+                      <div className="message">{activity.Message}</div>
+                      <div className="time">
+                        {moment(activity.updatedAt).fromNow()}
+                      </div>
+                    </div>
+                    <CheckCircle className="icon" size={20} color="#00C49F" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </Grid2>
+        <Grid2
+          size={{ md: 4, lg: 4, sm: 12 }}
+          sx={{ height: "320px", overflow: "auto" }}
+          className="client_project_task_header"
+        >
+          {!Iscontractorallotedtask.length ? (
+            <Empty />
+          ) : (
+            <div className="task-members-wrapper">
+              <h3 className="title">Allocated Task Members</h3>
+              <div className="task-members-scroll">
+                {Iscontractorallotedtask.map((item, index) => (
+                  <div className="task-member" key={index}>
+                    <img
+                      src={item?.Photos?.[0]}
+                      alt="Profile"
+                      className="profile-img"
+                    />
+                    <div className="member-info">
+                      <div className="name">
+                        {item.FirstName} {item.LastName}
+                      </div>
+                      <div className="designation">
+                        {item.DesignationName || "designation Unknown"}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </Grid2>
+        <Grid2
+          size={{ md: 4, lg: 4, sm: 12 }}
+          sx={{ height: "320px", overflow: "auto" }}
+        >
+          <Contractormilestone milestones={iscontractormilestonedata} />
+          {!iscontractormilestonedata.length && <Empty />}
+        </Grid2>
       </Grid2>
-      <Paper sx={{p: 2, boxShadow: 3, borderRadius: 2}}>
+
+      {/* alloted task */}
+      <Paper sx={{ p: 2, boxShadow: 3, borderRadius: 2 }}>
         <TextField
           label="Search Tasks"
           variant="outlined"
@@ -172,7 +300,7 @@ const ContractorProjectTask = ({id}) => {
         ) : (
           <TableContainer>
             <Table>
-              <TableHead sx={{backgroundColor: "#e0e0e0"}}>
+              <TableHead sx={{ backgroundColor: "#e0e0e0" }}>
                 <TableRow>
                   <TableCell>
                     <strong>Id</strong>
@@ -235,7 +363,7 @@ const ContractorProjectTask = ({id}) => {
                       </TableCell>
                       <TableCell>
                         <Link
-                          style={{textDecoration: "none", color: "#2c3e50"}}
+                          style={{ textDecoration: "none", color: "#2c3e50" }}
                           to={`/contractor/taskinfo/${task.task_Id}`}
                         >
                           <VisibilityIcon />

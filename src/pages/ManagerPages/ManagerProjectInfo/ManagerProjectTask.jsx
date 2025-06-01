@@ -1,6 +1,6 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import {Box, Button, Drawer} from "@mui/material";
+import { Box, Button, Drawer } from "@mui/material";
 import ManagerProjectMilestoneForm from "../../../Component/ManagerComponents/ManagerProjectinfoComponent/ManagerProjectMilestoneForm";
 import ManagerProjectTaskForm from "../../../Component/ManagerComponents/ManagerProjectinfoComponent/ManagerProjectTaskForm";
 import ManagerProjectTaskUploadForm from "../../../Component/ManagerComponents/ManagerProjectinfoComponent/ManagerProjectTaskUploadForm";
@@ -20,8 +20,15 @@ import Grid2 from "@mui/material/Grid2";
 import TModal from "../../../common/Modal/TModal";
 import InputSearch from "../../../common/InputSearch/InputSearch";
 import Pagination from "../../../common/Pagination/Pagination";
+import Empty from "../../../common/EmptyFolder/Empty";
+import Employeemilestone from "../../../Component/EmployeeComponents/EmployeeMilestone/Employeemilestone";
+import Managermilestone from "../../../Component/ManagerComponents/Managermilestone/Managermilestone";
+import { CheckCircle } from "lucide-react";
 
 const ManagerTask = ({
+  isrecentactivity,
+  ismilestonedata,
+  isallotedtask,
   handleaddtask,
   isManagerprojecttask,
   handleSubmitmilestone,
@@ -113,7 +120,7 @@ const ManagerTask = ({
         </TModal>
       )}
 
-      <Grid2 container spacing={2}>
+      {/* <Grid2 container spacing={2}>
         <Grid2 size={{sm: 12, md: 6}}>
           <Box sx={{height: "300px", overflow: "auto"}}>
             {Ismilestone.length > 0 ? (
@@ -144,6 +151,82 @@ const ManagerTask = ({
             )}
           </Box>
         </Grid2>
+      </Grid2> */}
+      <Grid2 container spacing={4} sx={{ my: 3 }}>
+        <Grid2
+          size={{ md: 4, lg: 4, sm: 12 }}
+          sx={{ height: "320px", overflow: "auto" }}
+          className="client_project_task_header"
+        >
+          {!isrecentactivity.length ? (
+            <Empty />
+          ) : (
+            <div className="recent-activity">
+              <h3 className="title">Recent Activity</h3>
+              <div className="activity-list">
+                {isrecentactivity.map((activity, index) => (
+                  <div className="activity-item" key={index}>
+                    <div className="avatar">
+                      {activity.Photos?.[0] ? (
+                        <img src={activity.Photos?.[0]} alt="avatar" />
+                      ) : (
+                        <span className="initial">
+                          {activity.DesignationName}
+                        </span>
+                      )}
+                    </div>
+                    <div className="activity-content">
+                      <div className="message">{activity.Message}</div>
+                      <div className="time">
+                        {moment(activity.updatedAt).fromNow()}
+                      </div>
+                    </div>
+                    <CheckCircle className="icon" size={20} color="#00C49F" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </Grid2>
+        <Grid2
+          size={{ md: 4, lg: 4, sm: 12 }}
+          sx={{ height: "320px", overflow: "auto" }}
+          className="client_project_task_header"
+        >
+          {!isallotedtask.length ? (
+            <Empty />
+          ) : (
+            <div className="task-members-wrapper">
+              <h3 className="title">Allocated Task Members</h3>
+              <div className="task-members-scroll">
+                {Isemployeeallotedtask.map((item, index) => (
+                  <div className="task-member" key={index}>
+                    <img
+                      src={item?.Photos?.[0]}
+                      alt="Profile"
+                      className="profile-img"
+                    />
+                    <div className="member-info">
+                      <div className="name">
+                        {item.FirstName} {item.LastName}
+                      </div>
+                      <div className="designation">
+                        {item.DesignationName || "designation Unknown"}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </Grid2>
+        <Grid2
+          size={{ md: 4, lg: 4, sm: 12 }}
+          sx={{ height: "320px", overflow: "auto" }}
+        >
+          <Managermilestone milestones={ismilestonedata} />
+          {!ismilestonedata.length && <Empty />}
+        </Grid2>
       </Grid2>
 
       <div
@@ -155,7 +238,7 @@ const ManagerTask = ({
         }}
         className="client_header_container"
       >
-        <div style={{display: "flex", justifyContent: "space-between"}}>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
           <div className="left_div">
             <Button>Sort</Button>
           </div>

@@ -1,5 +1,3 @@
-import React from "react";
-import Layout from "../../Layoutcomponents/Layout/Layout";
 import BreadCrumb from "../../common/BreadCrumb/BreadCrumb";
 import ContractorTotalHoursByResources from "../../Component/DashboardComponents/Contractor/ContractorTotalHoursByResources";
 import ContractorTotalHoursByProject from "../../Component/DashboardComponents/Contractor/ContractorTotalHoursByProject";
@@ -22,7 +20,7 @@ const ContractorTimeSummary = () => {
           margin: "10px 0px",
         }}
       >
-        <DateRangePicker />
+        {/* <DateRangePicker /> */}
       </div>
 
       <ContractorTotalHoursByResources />

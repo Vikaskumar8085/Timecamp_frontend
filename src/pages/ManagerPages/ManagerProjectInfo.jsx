@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Layout from "../../Layoutcomponents/Layout/Layout";
 import TabComp from "../../common/TabComponent/TabComp";
 import ManagerTask from "./ManagerProjectInfo/ManagerProjectTask";
@@ -7,8 +7,8 @@ import ManagerProjectInformation from "./ManagerProjectInfo/ManagerProjectInform
 import ManagerProjectTimesheet from "./ManagerProjectInfo/ManagerProjectTimesheet";
 import apiInstance from "../../ApiInstance/apiInstance";
 import toast from "react-hot-toast";
-import {useDispatch} from "react-redux";
-import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
+import { useDispatch } from "react-redux";
+import { setLoader } from "../../redux/LoaderSlices/LoaderSlices";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 
 const ManagerProjectInfo = () => {
@@ -26,7 +26,7 @@ const ManagerProjectInfo = () => {
   const [Ismilestone, setIsmilestone] = useState([]);
   const [IsFillTimesheet, setIsFillTimesheet] = useState(false);
 
-  const {id} = useParams();
+  const { id } = useParams();
   console.log(id);
 
   // fetch manager milestone with resource func
@@ -267,11 +267,55 @@ const ManagerProjectInfo = () => {
       toast.error(error?.response?.data?.message);
     }
   };
+  const [isallotedtask, setallotedtask] = useState([]);
 
+  // fetch manager alloted task
+  const fetchmanagerallotedtaskfunc = async () => {
+    try {
+      const response = await apiInstance.get(
+        `/v2/manager/fetch-manager-project-alloted-task/${id}`
+      );
+      if (response.data?.success) {
+        setallotedtask(response?.data?.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
+
+  const [ismilestonedata, setmilestonedata] = useState([]);
+
+  const fetchmanagerprojectmilestonefunc = async () => {
+    try {
+      const response = await apiInstance.get(
+        `/v2/manager/fetch-manager-project-milestones/${id}`
+      );
+      if (response?.data?.success) {
+        setmilestonedata(response?.data?.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
+
+  const [isrecentactivity, setisrecentactivity] = useState([]);
+
+  const fetchrecentactivityfunc = async () => {
+    try {
+      const response = await apiInstance.get(
+        `/v2/manager/fetch-manager-recent-activity/${id}`
+      );
+      if (response?.data?.success) {
+        setisrecentactivity(response?.data?.result);
+      }
+    } catch (error) {
+      console.log(error?.message);
+    }
+  };
   const tabsheader = [
-    {title: "Project Info"},
-    {title: "TimeSheet Info"},
-    {title: "Task"},
+    { title: "Project Info" },
+    { title: "TimeSheet Info" },
+    { title: "Task" },
   ];
   const Tabsbody = [
     {
@@ -306,7 +350,10 @@ const ManagerProjectInfo = () => {
       content: (
         <>
           <ManagerTask
+            isrecentactivity={isrecentactivity}
+            ismilestonedata={ismilestonedata}
             handleSubmitmilestone={handleSubmitmilestone}
+            isallotedtask={isallotedtask}
             handleaddtask={handleaddtask}
             Ismilestone={Ismilestone}
             isManagerprojecttask={isManagerprojecttask}
@@ -322,6 +369,9 @@ const ManagerProjectInfo = () => {
   ];
 
   useEffect(() => {
+    fetchrecentactivityfunc();
+    fetchmanagerprojectmilestonefunc();
+    fetchmanagerallotedtaskfunc();
     fetchmanagerprojectfunc();
     fetchmanagerprojecttimesheetfunc();
     fetchmanagerprojecttaskfunc();
