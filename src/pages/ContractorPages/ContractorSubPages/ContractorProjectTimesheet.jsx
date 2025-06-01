@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import BreadCrumb from "../../../common/BreadCrumb/BreadCrumb";
-import {useFormik} from "formik";
+import { useFormik } from "formik";
 import {
   Button,
   Checkbox,
@@ -48,7 +48,7 @@ const validationSchema = Yup.object().shape({
   ),
 });
 
-const ContractorProjectTimesheet = ({id}) => {
+const ContractorProjectTimesheet = ({ id }) => {
   const [isContractoractiveproject, setIsContractoractiveproject] = useState(
     []
   );
@@ -76,8 +76,8 @@ const ContractorProjectTimesheet = ({id}) => {
             search: search.trim()
               ? {
                   $or: [
-                    {task_description: {$regex: search, $options: "i"}},
-                    {task_Name: {$regex: search, $options: "i"}},
+                    { task_description: { $regex: search, $options: "i" } },
+                    { task_Name: { $regex: search, $options: "i" } },
                   ],
                 }
               : undefined,
@@ -122,21 +122,30 @@ const ContractorProjectTimesheet = ({id}) => {
     },
     validationSchema,
     onSubmit: async (values) => {
-      const formdata = new FormData();
+      const formData = new FormData();
+      console.log(values, "values");
 
-      formdata.append("Staff_Id", values.Staff_Id);
-      formdata.append("hours", values.hours);
-      formdata.append("project", values.project);
-      formdata.append("day", values.day);
-      formdata.append("Description", values.Description);
-      formdata.append("task_description", values.task_description);
-      formdata.append("file", values.attachement);
-      console.log("Form Data:", formdata);
-
+      // formdata.append("Staff_Id", values.Staff_Id);
+      // formdata.append("hours", values.hours);
+      // formdata.append("project", values.project);
+      // formdata.append("day", values.day);
+      // formdata.append("Description", values.Description);
+      // formdata.append("task_description", values.task_description);
+      // formdata.append("file", values.attachement);
+      // console.log("Form Data:", formdata);
+      values.entries.forEach((entry, index) => {
+        for (let key in entry) {
+          if (key === "attachment" && entry.attachment) {
+            formData.append(`entries[${index}][${key}]`, entry.attachement);
+          } else {
+            formData.append(`entries[${index}][${key}]`, entry[key]);
+          }
+        }
+      });
       try {
         const response = await apiInstance.post(
           "/v2/contractor/contractor-v1-fill-timesheet",
-          formdata
+          formData
         );
         console.log(response, "?....................?");
         if (response.data.success) {
@@ -206,7 +215,7 @@ const ContractorProjectTimesheet = ({id}) => {
 
       {IsOpen && (
         <Drawer open={IsOpen} anchor="right" onClose={() => setIsOpen(false)}>
-          <Container maxWidth="sm" sx={{p: 2}}>
+          <Container maxWidth="sm" sx={{ p: 2 }}>
             <form onSubmit={formik.handleSubmit}>
               {formik.values.entries.map((entry, index) => (
                 <Box
@@ -218,7 +227,7 @@ const ContractorProjectTimesheet = ({id}) => {
                     borderRadius: 2,
                   }}
                 >
-                  <FormControl fullWidth sx={{mb: 2}}>
+                  <FormControl fullWidth sx={{ mb: 2 }}>
                     <InputLabel>Select Project</InputLabel>
                     <Select
                       name={`entries[${index}].project`}
@@ -261,7 +270,7 @@ const ContractorProjectTimesheet = ({id}) => {
                     label="Day"
                     name={`entries[${index}].day`}
                     type="date"
-                    InputLabelProps={{shrink: true}}
+                    InputLabelProps={{ shrink: true }}
                     value={entry.day}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -322,11 +331,11 @@ const ContractorProjectTimesheet = ({id}) => {
                       )
                     }
                     onBlur={formik.handleBlur}
-                    style={{marginTop: "10px"}}
+                    style={{ marginTop: "10px" }}
                   />
                   {formik.touched.entries?.[index]?.attachement &&
                     formik.errors.entries?.[index]?.attachement && (
-                      <div style={{color: "red"}}>
+                      <div style={{ color: "red" }}>
                         {formik.errors.entries[index].attachement}
                       </div>
                     )}
@@ -339,7 +348,7 @@ const ContractorProjectTimesheet = ({id}) => {
                       updated.splice(index, 1);
                       formik.setFieldValue("entries", updated);
                     }}
-                    sx={{mt: 2}}
+                    sx={{ mt: 2 }}
                     disabled={formik.values.entries.length === 1}
                   >
                     Remove
@@ -363,7 +372,7 @@ const ContractorProjectTimesheet = ({id}) => {
                     },
                   ])
                 }
-                sx={{mb: 2}}
+                sx={{ mb: 2 }}
               >
                 Add Entry
               </Button>
