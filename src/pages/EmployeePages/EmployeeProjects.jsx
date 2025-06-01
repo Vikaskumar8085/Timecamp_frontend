@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   createemployeeprojectapicall,
   fetchemployeeprojectsapicall,
@@ -23,14 +23,14 @@ import {
   Grid2,
   Container,
 } from "@mui/material";
-import {Link} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import EmpProjectForm from "../../Component/EmployeeComponents/EmpProjectForm";
 import Empty from "../../common/EmptyFolder/Empty";
-import {VisibilitySharp} from "@mui/icons-material";
+import { VisibilitySharp } from "@mui/icons-material";
 import LayoutDesign from "../../Layoutcomponents/LayoutDesign/LayoutDesign";
 import TModal from "../../common/Modal/TModal";
-import {setLoader} from "../../redux/LoaderSlices/LoaderSlices";
+import { setLoader } from "../../redux/LoaderSlices/LoaderSlices";
 import apiInstance from "../../ApiInstance/apiInstance";
 import InputSearch from "../../common/InputSearch/InputSearch";
 
@@ -39,7 +39,7 @@ const EmployeeProjects = () => {
   const dispatch = useDispatch();
   const [Isemployeeprojectdata, setIsemployeeprojectdata] = useState([]);
   // states
-
+  console.log(Isemployeeprojectdata, "Isemployeeprojectdata");
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0); // 0-based index
@@ -157,7 +157,7 @@ const EmployeeProjects = () => {
           <CircularProgress />
         ) : (
           <>
-            <TableContainer component={Paper} sx={{mt: 3}}>
+            <TableContainer component={Paper} sx={{ mt: 3 }}>
               <Table>
                 <TableHead>
                   <TableRow>
